@@ -10,8 +10,8 @@ def index(request):
 def principal(request):
     return render(request, 'reclamos/base.html', {})
 
-def carga_reclamo(request):
-    return render(request, 'reclamos/carga_reclamo.html', {})
+def nuevo_reclamo(request):
+    return render(request, 'reclamos/nuevo_reclamo.html', {})
 
 
 def carga_inspeccion(request):
