@@ -7,8 +7,7 @@ from django.template import loader
 def index(request):
     return render(request, 'reclamos/index.html', {})
 
-
-def base(request):
+def principal(request):
     return render(request, 'reclamos/base.html', {})
 
 def carga_reclamo(request):
