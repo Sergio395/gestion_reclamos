@@ -2,17 +2,18 @@
 {% block contenido %}
 
 <div>
-    <h1>Reclamos:{{nombre}}</h1>
-    <h2>FechaSeguimiento:{{fechaActual.day}}/ {{fechaActual.month}} / {{fechaActual.year}}   </h2>
-    <h3>N° de novedades:{{lista|length}} </h3>
-<ul>
-    {% for elemento in lista %}
-     <li>         
-        {{elemento}}
-     </li>
-    {% endfor %}
-</ul>
+    <h1>Reclamos: {{nombre}}</h1>
+    <h2>FechaSeguimiento: {{fechaActual.day}}/ {{fechaActual.month}} / {{fechaActual.year}} </h2>
+    <h3>N° de novedades: {{lista|length}} </h3>
+    <ul>
+        {% for elemento in lista %}
+        <li>
+            {{elemento}}
+        </li>
+        {% endfor %}
+    </ul>
 </div>
 
 {% endblock contenido %}
+
 </html>
