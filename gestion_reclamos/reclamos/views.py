@@ -25,5 +25,10 @@ def carga_certificado(request):
 def seguimiento(request):
     fechaActual= datetime.datetime.now()
     nombre= "Area geográfica norte"
-    lista = ['Arbol caido = 1', 'Arbol enfermo=2', 'Arbol poda=5', 'Arbol no identificado=2']
-    return render(request,'reclamos/seguimiento.html',{'fechaActual': fechaActual, 'nombre': nombre, 'lista':lista})
+    lista = ['Arbol caido = 1', 'Arbol enfermo = 2', 'Arbol poda = 5', 'Arbol no identificado = 2']
+    return render(request, 'reclamos/seguimiento.html', {'fechaActual': fechaActual, 'nombre': nombre, 'lista': lista})
+
+
+def seguimiento_reclamo(request, nro_reclamo):
+    lista = ['Arbol caido = 1', 'Arbol enfermo = 2', 'Arbol poda = 5', 'Arbol no identificado = 2']
+    return render(request, 'reclamos/ver_reclamo.html', {'lista': lista[nro_reclamo]})
