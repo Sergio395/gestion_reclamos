@@ -2547,6 +2547,7 @@ section {
 .footer {
   position: fixed;
   bottom: 0;
+
   font-size: 14px;
   background-color: var(--color-primary);
   padding: 10px 0;
