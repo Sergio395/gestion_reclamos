@@ -31,4 +31,4 @@ def seguimiento(request):
 
 def seguimiento_reclamo(request, nro_reclamo):
     lista = ['Arbol caido = 1', 'Arbol enfermo = 2', 'Arbol poda = 5', 'Arbol no identificado = 2']
-    return render(request, 'reclamos/ver_reclamo.html', {'lista': lista[nro_reclamo]})
+    return render(request, 'reclamos/ver_reclamo.html', {'lista': lista[nro_reclamo-1], 'nro': nro_reclamo})
