@@ -1,6 +1,23 @@
 {% extends 'reclamos/base.html' %}
 {% block contenido %}
-
+<div class="breadcrumbs">
+   <div class="page-header d-flex align-items-center" style="background-image: url('');">
+     <div class="container position-relative">
+       <div class="row d-flex justify-content-center">
+         <div class="col-lg-6 text-center">
+           <h2>Ver reclamo</h2>
+         </div>
+       </div>
+     </div>
+   </div>
+   <nav>
+     <div class="container">
+       <ol>
+         <li><a href="{% url 'index' %}">Home</a></li>
+         <li>Ver reclamo</li>
+       </ol>
+     </div>
+   </nav>
 <div>
     <h1>Reclamo: {{lista}}</h1>
 </div>
