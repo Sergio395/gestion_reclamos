@@ -14,6 +14,7 @@ Grupo 8
 - colorama==0.4.6
 - dill==0.3.6
 - Django==3.2.14
+- django-environ==0.10.0
 - isort==5.12.0
 - lazy-object-proxy==1.9.0
 - mccabe==0.7.0
