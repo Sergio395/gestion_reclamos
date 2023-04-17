@@ -38,7 +38,7 @@ Sistema de gestión de reclamos de arbolado público.
 ![Formularios de reclamos](https://github.com/Sergio395/PIG_django_gestion_reclamos/blob/main/Gestión_reclamos-Formularios.png)
 
 ## DER
-![DER](https://github.com/Sergio395/PIG_django_gestion_reclamos/blob/main/Gestión reclamos-DER_DB.png)
+![DER](https://github.com/Sergio395/PIG_django_gestion_reclamos/blob/main/Gestión_reclamos-DER_DB.png)
 
 ## Requirements
 
