@@ -22,13 +22,71 @@
     </nav>
 </div><!-- End Breadcrumbs -->
 
+<section id="contact" class="contact">
+    <div class="container" data-aos="fade-up">
+      <div class="row gx-lg-0 gy-4">
+        <div class="col-lg-2"></div>
+          <div class="col-lg-8">
+            <form action="" method="post" role="form" class="php-email-form">
+                <h4>Datos del vecino</h4>
+                <hr>
+
+                <div class="row">
+                    <div class="col-md-6 form-group mt-3 mt-md-0"> 
+                        <label><b>Nombre</b></label>                                     
+                        <input type="text" name="name" class="form-control" id="name" value={{lista.0}} disabled>
+                    </div>
+                
+
+                    <div class="col-md-6 form-group mt-3 mt-md-0">
+                        <label><b>Apellido</b></label> 
+                        <input type="text" class="form-control" name="email" id="email" value={{lista.1}} disabled>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 form-group mt-3 mt-md-0">
+                        <label><b>DNI</b></label>
+                        <input type="number" name="name" class="form-control" id="name" value={{lista.2}} disabled>
+                    </div>
+
+                    <div class="col-md-6 form-group mt-3 mt-md-0">
+                        <label><b>Celular</b></label>
+                        <input type="number" class="form-control" name="email" id="email" value={{lista.3}} disabled>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-6 form-group mt-3 mt-md-0">
+                        <label><b>Fijo</b></label>
+                        <input type="number" name="name" class="form-control" id="name" value={{lista.4}} disabled>
+                    </div>
+
+                    <div class="col-md-6 form-group mt-3 mt-md-0">
+                    <label><b>Correo</b></label>
+                    <input type="email" class="form-control" name="email" id="email" value={{lista.5}} disabled>
+                    </div>
+                </div>
+                <br>
+
+              
+</form>
+</div><!-- End Contact Form -->
+
+</div>
+
+</div>
+</section><!-- End Contact Section -->
+
+
     <div class="container" data-aos="fade-up">
         <br>
         <h1>{{ nombre }}</h1>
         <h2>Fecha de seguimiento: {{ fechaActual|date:'d / m / y' }}</h2> <!-- 16 / 04 / 23 -->
-        <h3>N° de novedades: {{ lista|length }} </h3>
+        <h3>N° de novedades: {{ lista2|length }} </h3>
         <ul>
-            {% for elemento in lista %}
+            {% for elemento in lista2 %}
             <li>
                 <a href="{% url 'seguimiento-reclamo' forloop.counter %}">{{ elemento }}</a>
             </li>

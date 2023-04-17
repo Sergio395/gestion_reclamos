@@ -23,14 +23,14 @@ def carga_inspeccion(request):
 def carga_certificado(request):
     return render(request, 'reclamos/carga_certificaciones.html', {})
 
-
-lista = ['Arbol caido = 1', 'Arbol enfermo = 2', 'Arbol poda = 5', 'Arbol no identificado = 2']
+lista=['Carlos','Garcia', 30333256, 15995687,42974589, 'pepe@nocorreo.com']
+lista2 = ['Arbol caido = 1', 'Arbol enfermo = 2', 'Arbol poda = 5', 'Arbol no identificado = 2']
 
 def seguimiento(request):
     fechaActual= datetime.datetime.now()
-    nombre= "Area geográfica norte"
-    return render(request, 'reclamos/seguimiento.html', {'fechaActual': fechaActual, 'nombre': nombre, 'lista': lista})
+    nombre= lista[0] + " " + lista[1]
+    return render(request, 'reclamos/seguimiento.html', {'fechaActual': fechaActual, 'nombre': nombre, 'lista2': lista2, 'lista':lista})
 
 
 def seguimiento_reclamo(request, nro_reclamo):
-    return render(request, 'reclamos/ver_reclamo.html', {'lista': lista[nro_reclamo-1], 'nro': nro_reclamo})
+    return render(request, 'reclamos/ver_reclamo.html', {'lista2': lista2[nro_reclamo-1], 'nro': nro_reclamo})
