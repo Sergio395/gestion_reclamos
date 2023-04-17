@@ -25,6 +25,7 @@ def carga_certificado(request):
 
 lista=['Carlos','Garcia', 30333256, 15995687,42974589, 'pepe@nocorreo.com']
 lista2 = ['Arbol caido = 1', 'Arbol enfermo = 2', 'Arbol poda = 5', 'Arbol no identificado = 2']
+# lista2 = []
 
 def seguimiento(request):
     fechaActual= datetime.datetime.now()

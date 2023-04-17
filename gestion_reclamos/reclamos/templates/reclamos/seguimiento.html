@@ -84,7 +84,7 @@
         <br>
         <h1>{{ nombre }}</h1>
         <h2>Fecha de seguimiento: {{ fechaActual|date:'d / m / y' }}</h2> <!-- 16 / 04 / 23 -->
-        <h3>N° de novedades: {{ lista2|length }} </h3>
+        <h3>N° de novedades: {{ lista2|length|default:"No hay novedades" }} </h3>
         <ul>
             {% for elemento in lista2 %}
             <li>
