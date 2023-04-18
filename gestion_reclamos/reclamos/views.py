@@ -34,4 +34,4 @@ def seguimiento(request):
 
 
 def seguimiento_reclamo(request, nro_reclamo):
-    return render(request, 'reclamos/ver_reclamo.html', {'lista2': lista2[nro_reclamo-1], 'nro': nro_reclamo})
+    return render(request, 'reclamos/ver_reclamo.html', {'lista2': lista2[nro_reclamo-1], 'nro': nro_reclamo,'lista':lista})
