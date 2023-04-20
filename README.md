@@ -29,16 +29,16 @@ Sistema de gestión de reclamos de arbolado público.
 - [ ] Alta contratistas
 
 ## UX-UI (preliminar)
-![Imagen de UX-UI preliminar](/gestion_reclamos/diagrams/Gestión_reclamos-UX-UI_Preliminar.png)
+![Imagen de UX-UI preliminar](/diagrams/Gestión_reclamos-UX-UI_Preliminar.png)
 
 ## Flujo de funcionamiento
-![Flujo de funcionamiento](/gestion_reclamos/diagrams/Gestión_reclamos-Flujo.png)
+![Flujo de funcionamiento](/diagrams/Gestión_reclamos-Flujo.png)
 
 ## Formularios de reclamos
-![Formularios de reclamos](/gestion_reclamos/diagrams/Gestión_reclamos-Formularios.png)
+![Formularios de reclamos](/diagrams/Gestión_reclamos-Formularios.png)
 
 ## DER
-![DER](/gestion_reclamos/diagrams/Gestión_reclamos-DER_DB.png)
+![DER](/diagrams/Gestión_reclamos-DER_DB.png)
 
 ## Requirements
 
