@@ -23,7 +23,7 @@ def carga_certificado(request):
     return render(request, 'reclamos/carga_certificaciones.html', {})
 
 
-lista = ['Carlos', 'Garcia', 30333256, 15995687, 42974589, 'pepe@nocorreo.com']
+lista = ['Area Geográfica', 'Norte', 30333256, 15995687, 42974589, 'pepe@nocorreo.com']
 lista2 = ['Arbol caido = 1', 'Arbol enfermo = 2', 'Arbol poda = 5', 'Arbol no identificado = 2']
 # lista2 = []
 
