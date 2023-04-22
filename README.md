@@ -51,16 +51,17 @@ Sistema de gestión de reclamos de arbolado público.
 
 - asgiref==3.6.0
 - astroid==2.15.2
+- autopep8==2.0.2
 - colorama==0.4.6
 - dill==0.3.6
 - Django==3.2.14
-- django-environ==0.10.0
 - isort==5.12.0
 - lazy-object-proxy==1.9.0
 - mccabe==0.7.0
 - platformdirs==3.2.0
 - pycodestyle==2.10.0
 - pylint==2.17.2
+- python-decouple==3.8
 - pytz==2023.3
 - sqlparse==0.4.3
 - tomli==2.0.1
