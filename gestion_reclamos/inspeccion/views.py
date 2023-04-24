@@ -1,13 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.template import loader
-
 from inspeccion.forms import ContactoForm, NuevaInspeccion
-
 from datetime import datetime
 
 
-# Create your views here.
 
 def inspector (request):
     mensaje = None
@@ -20,31 +17,8 @@ def inspector (request):
     else:
         return HttpResponseNotAllowed(f"Método {request.method} no soportado")
 
-    # listado_cursos = [
-    #     {
-    #         'nombre': 'Fullstack Java',
-    #         'descripcion': 'Curso de Fullstack',
-    #         'categoria': 'Programación',
-    #     },
-    #     {
-    #         'nombre': 'Diseño UX/UI',
-    #         'descripcion': '🖌🎨',
-    #         'categoria': 'Diseño',
-    #     },
-    #     {
-    #         'nombre': 'Big Data',
-    #         'descripcion': 'test',
-    #         'categoria': 'Análisis de Datos',
-    #     },
-    #     {
-    #         'nombre': 'Big Data Avanzado',
-    #         'descripcion': 'test',
-    #         'categoria': 'Análisis de Datos',
-    #     },
-    # ]
-
     context = {
-        # 'cursos': listado_cursos,
+
         'mensaje': mensaje,
         'contacto_form': contacto_form
     }

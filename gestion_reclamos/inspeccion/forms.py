@@ -21,30 +21,18 @@ class NuevaInspeccion(forms.Form):
     #---------------------------------------------------------------------------------------------------------------
     seleccion=((1,'No'),(2,'si'))
     
-    numero_reclamo = forms.ChoiceField(label='Selecciona el ID del reclamo',widget=forms.Select(attrs={'class':'form-control  mx-auto','style': 'height: 2em;'}),choices=reclamos)
-    
-    reclamo_valido = forms.ChoiceField (label='Reclamo valido?',widget=forms.RadioSelect(attrs={'class':'col'}), choices=seleccion) 
-    
-    fecha_inspeccion = forms.DateField(widget=forms.DateInput(attrs={'type':'date','class':'form-control'}))
-    
+    numero_reclamo = forms.ChoiceField(label='Selecciona el ID del reclamo',widget=forms.Select(attrs={'class':'form-control  mx-auto','style': 'height: 2em;'}),choices=reclamos)    
+    reclamo_valido = forms.ChoiceField (label='Reclamo valido?',widget=forms.RadioSelect(attrs={'class':'col'}), choices=seleccion)    
+    fecha_inspeccion = forms.DateField(widget=forms.DateInput(attrs={'type':'date','class':'form-control'}))    
     trabajo =forms.ChoiceField(label='Seleccione trbajo a realizar',widget=forms.Select(attrs={'class':'form-control','style': 'height: 2.5em;'}),choices=trabajos)
-
-    especie =forms.ChoiceField(label='Seleccione especie',widget=forms.Select(attrs={'class':'form-control','style': 'height: 2.5em;'}),choices=especies)
-    
-    altura = forms.CharField(label='Ingrese altura (m)',widget=forms.TextInput(attrs={'placeholder': 'Ingrese altura en metros','class':'form-control','style': 'height: 2.5em;'})) 
-    
-    dap = forms.CharField(label='Ingrese DAP (cm)',widget=forms.TextInput(attrs={'placeholder': 'Ingrese DAP en centrimetro s/decimales','class':'form-control','style': 'height: 2.5em;'})) 
-    
-    cableado = forms.CharField(label='Cableado cercano',widget=forms.Textarea(attrs={'placeholder': 'Indique si existe cableado y tipo','class':'form-control','style': 'height: 5em;'}),required=False) 
-    
-    construccion = forms.CharField(label='Construcciones cercanas',widget=forms.Textarea(attrs={'placeholder': 'Indique tipo de construcción cercana','class':'form-control','style': 'height: 5em;'}),required=False) 
-    
-    observaciones = forms.CharField(label='Observaciones',widget=forms.Textarea(attrs={'placeholder': 'Ingrese observaciones relevantes','class':'form-control','style': 'height: 10em;'}),required=False) 
-    
-    urgencia =forms.ChoiceField(label='Selecciones urgencia',widget=forms.Select(attrs={'class':'form-control','style': 'height: 2.5em;'}),choices=urgencias) 
-    
-    justificacion = forms.CharField(label='Justifique urgencia',widget=forms.Textarea(attrs={'placeholder': 'Justifique brevemente la urgencia','class':'form-control','style': 'height: 5em;'}),required=False) 
-    
+    especie =forms.ChoiceField(label='Seleccione especie',widget=forms.Select(attrs={'class':'form-control','style': 'height: 2.5em;'}),choices=especies)    
+    altura = forms.CharField(label='Ingrese altura (m)',widget=forms.TextInput(attrs={'placeholder': 'Ingrese altura en metros','class':'form-control','style': 'height: 2.5em;'}))    
+    dap = forms.CharField(label='Ingrese DAP (cm)',widget=forms.TextInput(attrs={'placeholder': 'Ingrese DAP en centrimetro s/decimales','class':'form-control','style': 'height: 2.5em;'}))    
+    cableado = forms.CharField(label='Cableado cercano',widget=forms.Textarea(attrs={'placeholder': 'Indique si existe cableado y tipo','class':'form-control','style': 'height: 5em;'}),required=False)     
+    construccion = forms.CharField(label='Construcciones cercanas',widget=forms.Textarea(attrs={'placeholder': 'Indique tipo de construcción cercana','class':'form-control','style': 'height: 5em;'}),required=False)    
+    observaciones = forms.CharField(label='Observaciones',widget=forms.Textarea(attrs={'placeholder': 'Ingrese observaciones relevantes','class':'form-control','style': 'height: 10em;'}),required=False)     
+    urgencia =forms.ChoiceField(label='Selecciones urgencia',widget=forms.Select(attrs={'class':'form-control','style': 'height: 2.5em;'}),choices=urgencias)     
+    justificacion = forms.CharField(label='Justifique urgencia',widget=forms.Textarea(attrs={'placeholder': 'Justifique brevemente la urgencia','class':'form-control','style': 'height: 5em;'}),required=False)    
     inspector =forms.ChoiceField(label='inspector',widget=forms.Select(attrs={'class':'form-control','style': 'height: 2.5em;'}),choices=inspectores) 
     
     
