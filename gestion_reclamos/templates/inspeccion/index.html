@@ -1,6 +1,7 @@
 
 {% extends 'reclamos/base.html' %}
 {% block titulo %}Sistema de Gestión de Reclamos{% endblock titulo %}
+
 {% block contenido %}
 
 <section id="hero" class="hero">
@@ -14,19 +15,19 @@
 
   <form id="contact-form" name="contact-form" action="{% url 'inicio' %}" method="POST">
     {% csrf_token %}
-    {% comment %} {{ contacto_form }} {% endcomment %}
+  
     
     <table>
         {{ contacto_form.as_table }}
     </table>
 
-    {% comment %} <ul>
-        {{ contacto_form.as_ul }}
-    </ul> {% endcomment %}
-
-    {% comment %} {{ contacto_form.as_p }} {% endcomment %}
     <div class="text-center text-md-left mt-3">
         <button class="btn btn-primary" type="submit">Generar planilla de inspección</button>
     </div>
 </form>
+
+<div class="text-center text-md-left mt-3">
+    <a href="{% url 'carga' %}"><button class="btn btn-primary" type="submit">Cargar inspección</button></a>
+</div>
+
 {% endblock contenido %}
