@@ -10,7 +10,7 @@
       <div class="container position-relative">
         <div class="row d-flex justify-content-center">
           <div class="col-lg-6 text-center">
-            <h2>Nueva inspección</h2>
+            <h2>Carga de inspección</h2>
           </div>
         </div>
       </div>
@@ -19,7 +19,7 @@
       <div class="container">
         <ol>
           <li><a href="{% url 'index' %}">Home</a></li>
-          <li>Nueva inspección</li>
+          <li>Carga de inspección</li>
         </ol>
       </div>
     </nav>
@@ -35,10 +35,10 @@
     <form id="" name="" action="{% url 'carga' %}" method="POST">
         {% csrf_token %}      
 
-        <table>
+        <table class="table" >
             {{ nueva_inspeccion.as_table }}
         </table>
-        <div class="text-center text-md-left mt-3">
+        <div class="mt-5">
             <button class="btn btn-primary" type="submit">Cargar</button>
         </div>
     </form>
