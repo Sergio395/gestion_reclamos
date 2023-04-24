@@ -9,7 +9,8 @@ class ContactoForm(forms.Form):
     reclamo = forms.ChoiceField(label='Decide el reclamo ID',choices=reclamo)    
     nota = forms.CharField(label='Observaciones',widget=forms.Textarea(attrs={'row':1,'cols':23}),required=False)
     
-   
+    
+    
 class NuevaInspeccion(forms.Form):
     
     # esta informacion deberia venir de la BBDD --------------------------------------------------------------------
