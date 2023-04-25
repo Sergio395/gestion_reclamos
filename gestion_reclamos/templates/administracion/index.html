@@ -1,17 +1,31 @@
-
-
-{% extends 'reclamos/base.html' %}
+{% extends 'base.html' %}
 {% block titulo %}Sistema de Gestión de Reclamos{% endblock titulo %}
 {% block contenido %}
 
-<section id="hero" class="hero">
-  <div class="container position-relative">
-    <div class="row gy-5" data-aos="fade-in">
-      <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center text-center text-lg-start">
-        <h2><span>Administración</span></h2>
-      </div>
-    </div>
-  </div>
+    <main id="main">
+
+        <!-- ======= Breadcrumbs ======= -->
+        <div class="breadcrumbs">
+            <div class="page-header d-flex align-items-center" style="background-image: url('');">
+                <div class="container position-relative">
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-lg-6 text-center">
+                            <h2>Administración</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <nav>
+                <div class="container">
+                    <ol>
+                        <li><a href="{% url 'index' %}">Home</a></li>
+                        <li>Administración</li>
+                    </ol>
+                </div>
+            </nav>
+        </div><!-- End Breadcrumbs -->
+
+    </main><!-- End #main -->
 
 {% endblock contenido %}
 
@@ -38,21 +52,26 @@
 
 
 
-    
- {% comment %} {% load static %} {% endcomment %}
- {% comment %} <link rel="stylesheet" href="{% static '\css\bootstrap.min.css'%}"> {% endcomment %}
- {% comment %} <link rel="stylesheet" href="{% static '\css\style.css'%}"> {% endcomment %}
-{% comment %}     {% endcomment %}
+
+{% comment %} {% load static %} {% endcomment %}
+{% comment %}
+<link rel="stylesheet" href="{% static '\css\bootstrap.min.css'%}"> {% endcomment %}
+{% comment %}
+<link rel="stylesheet" href="{% static '\css\style.css'%}"> {% endcomment %}
+{% comment %} {% endcomment %}
 {% comment %} </head> {% endcomment %}
 
-{% comment %} <body> {% endcomment %}
+{% comment %}
+
+<body> {% endcomment %}
     {% comment %} <nav class="navbar navbar-expand-lg navbar-dark bg-primary"> {% endcomment %}
         {% comment %} <div class="container-fluid"> {% endcomment %}
             {% comment %} <a class="navbar-brand" href="#">Sistema de gestión de reclamos</a> {% endcomment %}
-            {% comment %} <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" {% endcomment %}
-                {% comment %} aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation"> {% endcomment %}
+            {% comment %} <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarColor01" {% endcomment %} {% comment %} aria-controls="navbarColor01"
+                aria-expanded="false" aria-label="Toggle navigation"> {% endcomment %}
                 {% comment %} <span class="navbar-toggler-icon"></span> {% endcomment %}
-            {% comment %} </button> {% endcomment %}
+                {% comment %} </button> {% endcomment %}
             {% comment %} <div class="collapse navbar-collapse" id="navbarColor01"> {% endcomment %}
                 {% comment %} <ul class="navbar-nav me-auto"> {% endcomment %}
                     {% comment %} <!-- <li class="nav-item"> {% endcomment %}
@@ -80,14 +99,14 @@
                             {% comment %} <a class="dropdown-item" href="#">Separated link</a> {% endcomment %}
                         {% comment %} </div> {% endcomment %}
                     {% comment %} </li> --> {% endcomment %}
-                {% comment %} </ul> {% endcomment %}
+                    {% comment %} </ul> {% endcomment %}
                 {% comment %} <!-- <form class="d-flex"> {% endcomment %}
                     {% comment %} <input class="form-control me-sm-2" type="search" placeholder="Search"> {% endcomment %}
                     {% comment %} <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button> {% endcomment %}
                 {% comment %} </form> --> {% endcomment %}
+                {% comment %} </div> {% endcomment %}
             {% comment %} </div> {% endcomment %}
-        {% comment %} </div> {% endcomment %}
-    {% comment %} </nav> {% endcomment %}
+        {% comment %} </nav> {% endcomment %}
     {% comment %} <div class="container"> {% endcomment %}
         {% comment %} <h1>Gestión de Reclamos - Grupo 8</h1> {% endcomment %}
         {% comment %} <br> {% endcomment %}
@@ -103,27 +122,32 @@
                 {% comment %} </div> --> {% endcomment %}
                 {% comment %} <div class="form-group"> {% endcomment %}
                     {% comment %} <div class="form-floating mb-3"> {% endcomment %}
-                        {% comment %} <input type="text" class="form-control" id="User" placeholder="Usuario" {% endcomment %}
-                            {% comment %} _mstplaceholder="299455"> {% endcomment %}
+                        {% comment %} <input type="text" class="form-control" id="User" placeholder="Usuario" {%
+                            endcomment %} {% comment %} _mstplaceholder="299455"> {% endcomment %}
                         {% comment %} <label for="User">Usuario</label> {% endcomment %}
-                    {% comment %} </div> {% endcomment %}
+                        {% comment %} </div> {% endcomment %}
                     {% comment %} <div class="form-floating"> {% endcomment %}
-                        {% comment %} <input type="user" class="form-control" id="Password" placeholder="Contraseña" {% endcomment %}
-                            {% comment %} _mstplaceholder="117572"> {% endcomment %}
+                        {% comment %} <input type="user" class="form-control" id="Password" placeholder="Contraseña" {%
+                            endcomment %} {% comment %} _mstplaceholder="117572"> {% endcomment %}
                         {% comment %} <label for="Password">Contraseña</label> {% endcomment %}
-                    {% comment %} </div> {% endcomment %}
-            {% comment %} </fieldset> {% endcomment %}
+                        {% comment %} </div> {% endcomment %}
+                    {% comment %} </fieldset> {% endcomment %}
             {% comment %} <fieldset class="form-group"> {% endcomment %}
                 {% comment %} <div class="form-check form-switch"> {% endcomment %}
-                    {% comment %} <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault"> {% endcomment %}
-                    {% comment %} <label class="form-check-label" for="flexSwitchCheckDefault">Mantener sesión iniciada</label> {% endcomment %}
-                {% comment %} </div> {% endcomment %}
-            {% comment %} </fieldset> {% endcomment %}
+                    {% comment %} <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault"> {%
+                    endcomment %}
+                    {% comment %} <label class="form-check-label" for="flexSwitchCheckDefault">Mantener sesión
+                        iniciada</label> {% endcomment %}
+                    {% comment %} </div> {% endcomment %}
+                {% comment %} </fieldset> {% endcomment %}
             {% comment %} <button type="button" class="btn btn-primary">Iniciar sesión</button> {% endcomment %}
-        {% comment %} </form> {% endcomment %}
+            {% comment %} </form> {% endcomment %}
         {% comment %} <br> {% endcomment %}
-        {% comment %} <a class="text-muted text-decoration-none" href="">Olvidaste la contraseña?</a> {% endcomment %}
-    {% comment %} </div> {% endcomment %}
-{% comment %} </body> {% endcomment %}
+        {% comment %} <a class="text-muted text-decoration-none" href="">Olvidaste la contraseña?</a> {% endcomment
+        %}
+        {% comment %} </div> {% endcomment %}
+    {% comment %} </body> {% endcomment %}
 
-{% comment %} </html> {% endcomment %}
+{% comment %}
+
+</html> {% endcomment %}

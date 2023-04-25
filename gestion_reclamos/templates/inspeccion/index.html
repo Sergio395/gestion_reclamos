@@ -1,33 +1,56 @@
-
-{% extends 'reclamos/base.html' %}
-{% block titulo %}Sistema de Gestión de Reclamos{% endblock titulo %}
+{% extends 'base.html' %}
+{% block titulo %}Inspección{% endblock titulo %}
 
 {% block contenido %}
 
-<section id="hero" class="hero">
-  <div class="container position-relative">
-    <div class="row gy-5" data-aos="fade-in">
-      <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center text-center text-lg-start">
-        <h2><span>Inspección</span></h2>
+<main id="main">
+
+  <!-- ======= Breadcrumbs ======= -->
+  <div class="breadcrumbs">
+    <div class="page-header d-flex align-items-center" style="background-image: url('');">
+      <div class="container position-relative">
+        <div class="row d-flex justify-content-center">
+          <div class="col-lg-6 text-center">
+            <h2>Inspección</h2>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
+    <nav>
+      <div class="container">
+        <ol>
+          <li><a href="{% url 'index' %}">Home</a></li>
+          <li>Inspección</li>
+        </ol>
+      </div>
+    </nav>
+  </div><!-- End Breadcrumbs -->
 
-  <form id="contact-form" name="contact-form" action="{% url 'inicio' %}" method="POST">
-    {% csrf_token %}
-  
-    
-    <table>
-        {{ contacto_form.as_table }}
-    </table>
+  <section id="contact" class="contact">
+    <div class="container" data-aos="fade-up">
+      <div class="row gx-lg-0 gy-4">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8">
 
-    <div class="text-center text-md-left mt-3">
-        <button class="btn btn-primary" type="submit">Generar planilla de inspección</button>
+          <form id="contact-form" name="contact-form" action="{% url 'inicio' %}" method="POST">
+            {% csrf_token %}
+
+            <table>
+              {{ contacto_form.as_table }}
+            </table>
+
+            <div class="text-center text-md-left mt-3">
+              <button class="btn btn-primary" type="submit">Generar planilla de inspección</button>
+            </div>
+          </form>
+
+          <div class="text-center text-md-left mt-3">
+            <a href="{% url 'carga' %}"><button class="btn btn-primary" type="submit">Cargar inspección</button></a>
+          </div>
+        </div>
+      </div>
     </div>
-</form>
-
-<div class="text-center text-md-left mt-3">
-    <a href="{% url 'carga' %}"><button class="btn btn-primary" type="submit">Cargar inspección</button></a>
-</div>
+  </section><!-- End Claim Section -->
+</main><!-- End #main -->
 
 {% endblock contenido %}

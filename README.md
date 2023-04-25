@@ -1,5 +1,13 @@
 # SISTEMA DE GESTIÓN DE RECLAMOS
-Grupo 8
+
+## Grupo 8
+##### Integrantes:
+* Emiliano Salvadeo
+* Ezequiel Mazzini
+* Humberto Sbertoli
+* Sergio Tolaba
+* Cristian Lahoz
+
 
 ## Descripción
 Sistema de gestión de reclamos de arbolado público.
