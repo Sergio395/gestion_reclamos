@@ -84,3 +84,6 @@ class NuevaInspeccion(forms.Form):
         attrs={'placeholder': 'Justifique brevemente la urgencia', 'class': 'form-control', 'style': 'height: 5em;'}), required=False)
     inspector = forms.ChoiceField(label='inspector', widget=forms.Select(
         attrs={'class': 'form-control', 'style': 'height: 2.5em;'}), choices=inspectores)
+    
+class NuevaCertificacion(forms.Form):
+    nombre = forms.CharField(label='')

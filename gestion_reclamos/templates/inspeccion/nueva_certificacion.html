@@ -1,16 +1,10 @@
 {% extends 'base.html' %}
-{% block titulo %}Sistema de Gestión de Reclamos{% endblock titulo %}
-
-
-<main id="main"></main>
-
+{% block titulo %}Certificaciones{% endblock titulo %}
 
 <!-- ======= Breadcrumbs ======= -->
-{% block etiqueta  %}Carga de inspección{% endblock etiqueta  %}
-{% block tag  %}Carga de inspección{% endblock tag  %}
-{% block link %}
-        <li><a href="{% url 'inicio' %}">Inspecciones</a></li>      
-{% endblock link %}
+{% block etiqueta  %}Certificaciones{% endblock etiqueta  %}
+{% block tag  %}Certificaciones{% endblock tag  %}
+{% block link %}{% endblock link %}
 <!-- End Breadcrumbs -->
 
 {% block contenido %}
@@ -20,11 +14,11 @@
         <div class="col-lg-2"></div>
           <div class="col-lg-8">
 
-            <form class="php-email-form" id="" name="" action="{% url 'carga' %}" method="POST">
+            <form class="php-email-form" id="" name="" action="{% url 'nueva_certificacion' %}" method="POST">
               {% csrf_token %}
 
               <table class="table">
-                {{ nueva_inspeccion.as_table }}
+                {{ nueva_certificacion.as_table }}
               </table>
 
               <div class="row">
@@ -44,3 +38,11 @@
   </main>
 
 {% endblock contenido %}
+
+
+
+
+
+
+
+

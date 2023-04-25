@@ -3,7 +3,7 @@
 
 <!-- ======= Breadcrumbs ======= -->
 {% block etiqueta  %}Inspecciones{% endblock etiqueta  %}
-{% block tag  %}Inspeccione{% endblock tag  %}
+{% block tag  %}Inspecciones{% endblock tag  %}
 {% block link %}{% endblock link %}
 <!-- End Breadcrumbs -->
 
@@ -12,27 +12,6 @@
 {% block contenido %}
 
 <main id="main">
-
-  <!-- ======= Breadcrumbs ======= -->
-  <div class="breadcrumbs">
-    <div class="page-header d-flex align-items-center" style="background-image: url('');">
-      <div class="container position-relative">
-        <div class="row d-flex justify-content-center">
-          <div class="col-lg-6 text-center">
-            <h2>Inspección</h2>
-          </div>
-        </div>
-      </div>
-    </div>
-    <nav>
-      <div class="container">
-        <ol>
-          <li><a href="{% url 'index' %}">Home</a></li>
-          <li>Inspección</li>
-        </ol>
-      </div>
-    </nav>
-  </div><!-- End Breadcrumbs -->
 
   <section id="contact" class="contact">
     <div class="container" data-aos="fade-up">
@@ -54,6 +33,7 @@
 
           <div class="text-center text-md-left mt-3">
             <a href="{% url 'carga' %}"><button class="btn btn-primary" type="submit">Cargar inspección</button></a>
+            <a href="{% url 'nueva_certificacion' %}"><button class="btn btn-primary" type="submit">Cargar certificacion</button></a>
           </div>
         </div>
       </div>
