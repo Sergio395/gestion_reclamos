@@ -5,7 +5,7 @@ from inspeccion.forms import ContactoForm, NuevaInspeccion,  NuevaCertificacion
 from datetime import datetime
 
 
-def inspector (request):
+def inspeccion (request):
     mensaje = None
     if request.method == 'POST':
         contacto_form = ContactoForm(request.POST)
@@ -21,7 +21,7 @@ def inspector (request):
         'contacto_form': contacto_form
     }
 
-    return render(request, 'inspeccion/index.html', context)
+    return render(request, 'inspeccion/inspeccion_index.html', context)
 
 
 def carga_inspeccion(request):
@@ -42,7 +42,6 @@ def carga_inspeccion(request):
     }
 
     return render(request, 'inspeccion/nueva_inspeccion.html', context)
-
 
 
 def carga_certificacion(request):
