@@ -1,4 +1,4 @@
-{% extends 'reclamos/base.html' %}
+{% extends 'base.html' %}
 {% block titulo %}Nuevo reclamo{% endblock titulo %}
 
 
@@ -6,8 +6,22 @@
 
 <!-- ======= Breadcrumbs ======= -->
 {% block etiqueta  %}Nuevo reclamo{% endblock etiqueta  %}
-{% block tag  %}Nuevo reclamo{% endblock tag  %}
-{% block link %}{% endblock link %}
+{% block nav %}
+<nav>
+    <div class="container">      
+    <ol>     
+      <li><a href="{% url 'index' %}">Home</a></li>
+      <li>Nuevo reclamo</li>
+    </ol>      
+  </div>
+</nav>
+{% endblock nav %}
+
+
+
+
+
+
 <!-- End Breadcrumbs -->
 
 
@@ -123,9 +137,8 @@
               
             </form>
           </div>
-
+        </div>
       </div>
-
     </div>
   </section><!-- End Claim Section -->
 

@@ -4,23 +4,11 @@ from django.shortcuts import render
 
 # Create your views here.
 def index(request):
-    return render(request, 'reclamos/index.html', {})
-
-
-def principal(request):
-    return render(request, 'reclamos/base.html', {})
-
+    tag="pagina_index"
+    return render(request, 'index.html', {'tag': tag})
 
 def nuevo_reclamo(request):
     return render(request, 'reclamos/nuevo_reclamo.html', {})
-
-
-def carga_inspeccion(request):
-    return render(request, 'reclamos/carga_inspecciones.html', {})
-
-
-def carga_certificado(request):
-    return render(request, 'reclamos/carga_certificaciones.html', {})
 
 
 lista = ['Area Geográfica', 'Norte', 30333256, 15995687, 42974589, 'pepe@nocorreo.com']

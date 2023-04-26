@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block titulo %}Inspección{% endblock titulo %}
+
+<!-- ======= Breadcrumbs ======= -->
+{% block etiqueta  %}Inspecciones{% endblock etiqueta  %}
+{% block nav %}
+<nav>
+    <div class="container">      
+    <ol>     
+      <li><a href="{% url 'index' %}">Home</a></li>
+      <li>Inspecciones</li>
+      <li></li>
+    </ol>      
+  </div>
+</nav>
+{% endblock nav %}
+
+
+<!-- End Breadcrumbs -->
+
+
+
+{% block contenido %}
+
+<main id="main">
+
+  <section id="contact" class="contact">
+    <div class="container" data-aos="fade-up">
+      <div class="row gx-lg-0 gy-4">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8">
+
+          <form id="contact-form" name="contact-form" action="{% url 'inspeccion' %}" method="POST">
+            {% csrf_token %}
+
+            <table>
+              {{ contacto_form.as_table }}
+            </table>
+
+            <div class="text-center text-md-left mt-3">
+              <button class="btn btn-primary" type="submit">Generar planilla de inspección</button>
+            </div>
+          </form>
+
+          <div class="text-center text-md-left mt-3">
+            <a href="{% url 'carga_inspeccion' %}"><button class="btn btn-primary" type="submit">Cargar inspección</button></a>
+            <a href="{% url 'carga_certificacion' %}"><button class="btn btn-primary" type="submit">Cargar certificacion</button></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section><!-- End Claim Section -->
+</main><!-- End #main -->
+
+{% endblock contenido %}
