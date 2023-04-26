@@ -3,8 +3,19 @@
 
 <!-- ======= Breadcrumbs ======= -->
 {% block etiqueta  %}Inspecciones{% endblock etiqueta  %}
-{% block tag  %}Inspecciones{% endblock tag  %}
-{% block link %}{% endblock link %}
+{% block nav %}
+<nav>
+    <div class="container">      
+    <ol>     
+      <li><a href="{% url 'index' %}">Home</a></li>
+      <li>Inspecciones</li>
+      <li></li>
+    </ol>      
+  </div>
+</nav>
+{% endblock nav %}
+
+
 <!-- End Breadcrumbs -->
 
 

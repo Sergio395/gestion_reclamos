@@ -3,10 +3,21 @@
 
 <!-- ======= Breadcrumbs ======= -->
 {% block etiqueta  %}Carga de inspección{% endblock etiqueta  %}
-{% block tag  %}Carga de inspección{% endblock tag  %}
-{% block link %}
-  <li><a href="{% url 'inspeccion' %}">Inspecciones</a></li>      
-{% endblock link %}
+{% block nav %}
+<nav>
+    <div class="container">      
+    <ol>     
+      <li><a href="{% url 'index' %}">Home</a></li>
+      <li><a href="{% url 'inspeccion' %}">Inspecciones</a></li>
+      <li>Carga de inspección</li>
+      <li></li>
+    </ol>      
+  </div>
+</nav>
+{% endblock nav %}
+
+ 
+
 <!-- End Breadcrumbs -->
 
 {% block contenido %}

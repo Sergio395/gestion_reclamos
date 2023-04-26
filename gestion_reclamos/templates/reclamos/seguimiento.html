@@ -4,13 +4,21 @@
 
 <!-- ======= Breadcrumbs ======= -->
 {% block etiqueta  %}Seguimiento{% endblock etiqueta  %}
-{% block tag  %}Seguimiento{% endblock tag  %}
-{% block link %}{% endblock link %}
+{% block nav %}
+<nav>
+    <div class="container">      
+    <ol>     
+      <li><a href="{% url 'index' %}">Home</a></li>
+      <li>Seguimiento</li>
+    </ol>      
+  </div>
+</nav>
+{% endblock nav %}
 <!-- End Breadcrumbs -->
+
+
+
 {% block contenido %}
-
-
-
 
 <div class="container" data-aos="fade-up">
   <br />

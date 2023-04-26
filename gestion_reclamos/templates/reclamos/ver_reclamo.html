@@ -1,12 +1,20 @@
 {% extends 'base.html' %}
 {% block titulo %}Reclamo N° {{ nro }}{% endblock titulo %}
 
+
 <!-- ======= Breadcrumbs ======= -->
 {% block etiqueta  %}Ver reclamo{% endblock etiqueta  %}
-{% block tag  %}Ver reclamo{% endblock tag  %}
-{% block link %}
-<li><a href="{% url 'seguimiento' %}">Seguimiento</a></li>
-{% endblock link %}
+{% block nav %}
+<nav>
+    <div class="container">      
+    <ol>     
+      <li><a href="{% url 'index' %}">Home</a></li>
+      <li><a href="{% url 'seguimiento' %}">Seguimiento</a></li>
+      <li>Ver reclamo</li>             
+    </ol>      
+  </div>
+</nav>
+{% endblock nav %}
 <!-- End Breadcrumbs -->
 
 

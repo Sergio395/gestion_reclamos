@@ -4,7 +4,8 @@ from django.shortcuts import render
 
 # Create your views here.
 def index(request):
-    return render(request, 'index.html', {})
+    tag="pagina_index"
+    return render(request, 'index.html', {'tag': tag})
 
 def nuevo_reclamo(request):
     return render(request, 'reclamos/nuevo_reclamo.html', {})
