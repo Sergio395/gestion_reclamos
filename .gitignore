@@ -3,3 +3,4 @@ __pycache__
 .vscode
 .env
 BBDD.txt
+BBDD.py
