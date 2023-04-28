@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% block titulo %}Gestión{% endblock titulo %}
+
+  <!-- ======= Breadcrumbs ======= -->
+  {% block etiqueta  %}Gestión{% endblock etiqueta  %}
+  {% block nav %}
+<nav>
+    <div class="container">      
+    <ol>     
+      <li><a href="{% url 'index' %}">Home</a></li>
+      <li>Gestión</li>
+      <li></li>
+    </ol>      
+  </div>
+</nav>
+{% endblock nav %}
+  
+  <!-- End Breadcrumbs -->
+    
+  {% block contenido %}
+  
+    <section id="contact" class="contact">
+      <div class="container" data-aos="fade-up">
+        <div class="row gx-lg-0 gy-4">
+          
+          <!--- Tabla con los datos-->
+            <div class="table-responsive table">
+              <table class="table">
+                <thead>
+                  <tr>
+                    {% for titulo in titulos %}
+                      <th scope="col">{{ titulo }}</th>  
+                    {% endfor %}
+                  </tr>
+                </thead>
+                <tbody>
+                  
+                    {% for reclamo in reclamos %}
+                      <tr>
+                          <td >{{ reclamo.Reclamo }}</td>
+                          <td >{{ reclamo.Medio }}</td>
+                          <td >{{ reclamo.Fuente }}</td>
+                          <td >{{ reclamo.Fechadereclamo }}</td>
+                          <td >{{ reclamo.NombreyApellido }}</td>
+                          <td >{{ reclamo.DNI }}</td>
+                          <td >{{ reclamo.Celular }}</td>
+                          <td >{{ reclamo.Telefono }}</td>
+                          <td >{{ reclamo.Mail }}</td>
+                          <td >{{ reclamo.Calle }}</td>
+                          <td >{{ reclamo.Altura }}</td>
+                          <td >{{ reclamo.Edificio }}</td>
+                          <td >{{ reclamo.Depto }}</td>
+                          <td >{{ reclamo.Entrecalle1 }}</td>
+                          <td >{{ reclamo.Entrecalle2 }}</td>
+                          <td >{{ reclamo.Localidad }}</td>
+                          <td >{{ reclamo.ReclamoB }}</td>
+                          <td >{{ reclamo.Urgencia }}</td>
+                          <td >{{ reclamo.Detalledelreclamo }}</td>
+                          <td >{{ reclamo.FechadeCarga }}</td>
+                          <td >{{ reclamo.ID }}</td>
+                          <td >{{ reclamo.Norequiereinspeccion }}</td>
+                          <td >{{ reclamo.Fechadeinspeccion }}</td>
+                          <td >{{ reclamo.Trabajoarealizar }}</td>
+                          <td >{{ reclamo.Especie }}</td>
+                          <td >{{ reclamo.Altura }}</td>
+                          <td >{{ reclamo.Dap }}</td>
+                          <td >{{ reclamo.Cableadocercano }}</td>
+                          <td >{{ reclamo.Construccioncercana }}</td>
+                          <td >{{ reclamo.Observacionesdelsitio }}</td>
+                          <td >{{ reclamo.Urgenciadetrabajo }}</td>
+                          <td >{{ reclamo.Justificacion }}</td>
+                          <td >{{ reclamo.Inspector }}</td>
+                          <td >{{ reclamo.Fechadecargadeinspeccion }}</td>
+                          <td >{{ reclamo.Codigotrabajo }}</td>
+                          <td >{{ reclamo.Lote }}</td>
+                          <td >{{ reclamo.Estado }}</td>
+                          <td >{{ reclamo.Gestion }}</td>
+                          <td >{{ reclamo.DetalledeGestion }}</td>
+                          <td >{{ reclamo.EquipodeTrabajo }}</td>
+                          <td >{{ reclamo.FechaProgramada }}</td>
+                          <td >{{ reclamo.FechadeSolucion }}</td>
+                          <td >{{ reclamo.OrdendeTrabajo }}</td>
+                      </tr>
+                    {% endfor %} 
+                  
+                </tbody>
+              
+              </table>
+            </div>
+            
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+  
+{% endblock contenido %}
