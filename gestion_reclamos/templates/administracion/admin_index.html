@@ -1,116 +1,12 @@
-{% extends 'base.html' %}
-{% block titulo %}Administración{% endblock titulo %}
+{%extends 'base_admin.html'%}
+{% block titulo %}Sistema de Gestión de Reclamos{% endblock titulo %}
+{%block contenido%} 
 
-<!-- ======= Breadcrumbs ======= -->
-{% block etiqueta %}Administración{% endblock etiqueta %}
-{% block nav %}
-<nav>
-    <div class="container">      
-    <ol>     
-      <li><a href="{% url 'index' %}">Home</a></li>
-      <li>Administración</li>
-      <li></li>
-    </ol>      
-  </div>
-</nav>
-{% endblock nav %}
 
-<!-- End Breadcrumbs -->
+<h6 class="form-control">Aca va el filtro de reclamos para poder editar los campos (permite eliminar egistros)</h6>
 
-{% block contenido %}{% endblock contenido %}
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+{%endblock contenido%}

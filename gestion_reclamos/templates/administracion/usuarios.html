@@ -1,0 +1,104 @@
+{%extends 'base_admin.html'%}
+{% block titulo %}Sistema de Gestión de Reclamos{% endblock titulo %}
+
+
+
+
+{% block contenido %}
+
+  <section id="contact" class="contact">
+      <div class="container" data-aos="fade-up">
+        <div class="row gx-lg-0 gy-4">
+          <div class="col-lg-2"></div>
+            <div class="col-lg-8">
+
+              <form class="php-email-form" id="" name="" action="{% url 'carga_inspeccion' %}" method="POST">
+                {% csrf_token %}
+
+                <table class="table">
+                    <div class ="container mt-5 ">
+    
+                        <table class="table  table-hover  ">
+                            <thead class="thead-light  ">
+                                <tr>
+                                    <th>Usuario</th>
+                                    <th>Contraseña</th>
+                                    <th>Permiso</th>
+                                    <th>Legajo</th> 
+                                    <th class="text-center" >Acciones</th>                              
+                                </tr>
+                            </thead>
+                        
+                            <tbody>
+                                {% for data in users %}
+                                <tr>
+                                    <td>{{data.0}}</td>
+                                    <td>{{data.1}}</td>
+                                    <td>{{data.2}}</td>
+                                    <td>{{data.3}}</td>                              
+                                
+                                    <td class="text-center">
+                                        <a class="btn btn-warning "   href="">Editar</a> |
+                                        <a class="btn btn-danger " onclick = "return alert()" href="">Eliminar</a>
+                                    </td>        
+                                </tr>        
+                                {% endfor %}
+                </table>
+                <div class="row">
+                    <div class="d-grid gap-2 col-3 mx-auto mb-2 mt-5"><button type="button" class="btn btn-primary">Nuevo</button></div>
+
+               
+                    <div class="d-grid gap-2 col-3 mx-auto mb-2 mt-5"><button type="button" class="btn btn-primary">Volver</button></div>
+                </div>
+              </form>
+            </div>
+
+          </div>
+        </div>
+      </section>
+    </main>
+
+{% endblock contenido %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
