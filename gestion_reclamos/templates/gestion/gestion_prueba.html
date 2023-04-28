@@ -25,8 +25,8 @@
           
           <!--- Tabla con los datos-->
             <div class="table-responsive table">
-              <table class="table">
-                <thead>
+              <table class="table  table-hover ">
+                <thead  class="thead-light">
                   <tr>
                     {% for titulo in titulos %}
                       <th scope="col">{{ titulo }}</th>  
@@ -35,53 +35,60 @@
                 </thead>
                 <tbody>
                   
-                    {% for reclamo in reclamos %}
+                  
+                  
+                  
+                  
+                    {% for registro in registros %}
+                  
                       <tr>
-                          <td >{{ reclamo.Reclamo }}</td>
-                          <td >{{ reclamo.Medio }}</td>
-                          <td >{{ reclamo.Fuente }}</td>
-                          <td >{{ reclamo.Fechadereclamo }}</td>
-                          <td >{{ reclamo.NombreyApellido }}</td>
-                          <td >{{ reclamo.DNI }}</td>
-                          <td >{{ reclamo.Celular }}</td>
-                          <td >{{ reclamo.Telefono }}</td>
-                          <td >{{ reclamo.Mail }}</td>
-                          <td >{{ reclamo.Calle }}</td>
-                          <td >{{ reclamo.Altura }}</td>
-                          <td >{{ reclamo.Edificio }}</td>
-                          <td >{{ reclamo.Depto }}</td>
-                          <td >{{ reclamo.Entrecalle1 }}</td>
-                          <td >{{ reclamo.Entrecalle2 }}</td>
-                          <td >{{ reclamo.Localidad }}</td>
-                          <td >{{ reclamo.ReclamoB }}</td>
-                          <td >{{ reclamo.Urgencia }}</td>
-                          <td >{{ reclamo.Detalledelreclamo }}</td>
-                          <td >{{ reclamo.FechadeCarga }}</td>
-                          <td >{{ reclamo.ID }}</td>
-                          <td >{{ reclamo.Norequiereinspeccion }}</td>
-                          <td >{{ reclamo.Fechadeinspeccion }}</td>
-                          <td >{{ reclamo.Trabajoarealizar }}</td>
-                          <td >{{ reclamo.Especie }}</td>
-                          <td >{{ reclamo.Altura }}</td>
-                          <td >{{ reclamo.Dap }}</td>
-                          <td >{{ reclamo.Cableadocercano }}</td>
-                          <td >{{ reclamo.Construccioncercana }}</td>
-                          <td >{{ reclamo.Observacionesdelsitio }}</td>
-                          <td >{{ reclamo.Urgenciadetrabajo }}</td>
-                          <td >{{ reclamo.Justificacion }}</td>
-                          <td >{{ reclamo.Inspector }}</td>
-                          <td >{{ reclamo.Fechadecargadeinspeccion }}</td>
-                          <td >{{ reclamo.Codigotrabajo }}</td>
-                          <td >{{ reclamo.Lote }}</td>
-                          <td >{{ reclamo.Estado }}</td>
-                          <td >{{ reclamo.Gestion }}</td>
-                          <td >{{ reclamo.DetalledeGestion }}</td>
-                          <td >{{ reclamo.EquipodeTrabajo }}</td>
-                          <td >{{ reclamo.FechaProgramada }}</td>
-                          <td >{{ reclamo.FechadeSolucion }}</td>
-                          <td >{{ reclamo.OrdendeTrabajo }}</td>
+                          <td >{{ registro.reclamo }}</td>
+                          <td >{{ registro.medio }}</td>
+                          <td >{{ registro.fuente }}</td>
+                          <td >{{ registro.fecha_de_reclamo }}</td>
+                          <td >{{ registro.nombre_y_apellido}}</td>
+                          <td >{{ registro.dni }}</td>
+                          <td >{{ registro.celular }}</td>
+                          <td >{{ registro.telefono }}</td>
+                          <td >{{ registro.mail }}</td>
+                          <td >{{ registro.calle }}</td>
+                          <td >{{ registro.altura }}</td>
+                          <td >{{ registro.edificio }}</td>
+                          <td >{{ registro.depto }}</td>
+                          <td >{{ registro.entrecalle1 }}</td>
+                          <td >{{ registro.entrecalle2 }}</td>
+                          <td >{{ registro.localidad }}</td>
+                          <td >{{ registro.reclamo }}</td>
+                          <td >{{ registro.urgencia_carga }}</td>
+                          <td >{{ registro.detalle }}</td>
+                          <td >{{ registro.fecha_carga }}</td>
+                          <td >{{ registro.ID }}</td>                          
+                          <td >{{ registro.no_requiere }}</td>
+                          <td >{{ registro.Fecha_inspeccion }}</td>
+
+                          <td >{{ registro.trabajo_realizar }}</td>
+                          <td >{{ registro.especie }}</td>
+                          <td >{{ registro.altura_arbol }}</td>
+                          <td >{{ registro.dap }}</td>
+                          <td >{{ registro.cableado_cercano }}</td>
+                          <td >{{ registro.construccion_cercana }}</td>
+                          <td >{{ registro.observaciones }}</td>
+                          <td >{{ registro.urgencia_trabajo }}</td>
+                          <td >{{ registro.justificacion }}</td>
+                          <td >{{ registro.inspector }}</td>
+                          <td >{{ registro.fecha_carga_inspeccion }}</td>
+                          <td >{{ registro.codigo_trabajo }}</td>
+                          <td >{{ registro.Lote }}</td>
+                          <td >{{ registro.Estado }}</td>
+                          <td >{{ registro.Gestion }}</td>
+                          <td >{{ registro.DetalledeGestion }}</td>
+                          <td >{{ registro.EquipodeTrabajo }}</td>
+                          <td >{{ registro.FechaProgramada }}</td>
+                          <td >{{ registro.FechadeSolucion }}</td>
+                          <td >{{ registro.OrdendeTrabajo }}</td>
                       </tr>
                     {% endfor %} 
+                   
                   
                 </tbody>
               

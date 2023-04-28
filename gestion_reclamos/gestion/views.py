@@ -6,7 +6,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotAllowed, JsonResponse
 from django.template import loader
 from gestion.forms import GestionForm
-
+from bbdd_nueva import bbdd
 
 # import json
 
@@ -524,6 +524,7 @@ def gestion_ver_reclamos (request):
     mensaje = None
     # datos_reclamos = json.loads(datos_JSON)
     context = {
+        'registros' :bbdd,
         'titulos' : lista_titulos,
         #'reclamos': datos_reclamos,
 		'reclamos': lista_reclamos,
