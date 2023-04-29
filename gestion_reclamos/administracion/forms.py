@@ -15,7 +15,9 @@ class Userform(forms.Form):
     # permisos= forms.CharField (label='Inspector designado',
         # attrs={'class': 'form-control  mx-auto', 'style': 'height: 2em;'})
 
-
+class Empresaform(forms.Form):
+    
+      pass 
 
 
 

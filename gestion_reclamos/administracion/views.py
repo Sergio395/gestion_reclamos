@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.template import loader
-from administracion.forms import Userform
+from administracion.forms import Userform, AdminForm, Empresaform
 from datetime import datetime
 
 
@@ -29,3 +29,34 @@ def usuario(request):
         'Userform': User_form
     }
     return render(request, 'administracion/usuarios.html', context)
+
+
+
+
+def empresa(request):
+    proveedores=[("La podadora","La podadora S.A.","1456","20303406022","lapodadora@gmail.com","155202636"),
+                 ("La podadora","La podadora S.A.","1456","20303406022","lapodadora@gmail.com","155202636"),
+                 ("La podadora","La podadora S.A.","1456","20303406022","lapodadora@gmail.com","155202636"),
+                 ("La podadora","La podadora S.A.","1456","20303406022","lapodadora@gmail.com","155202636"),
+                 ("La podadora","La podadora S.A.","1456","20303406022","lapodadora@gmail.com","155202636"),
+                 ("La podadora","La podadora S.A.","1456","20303406022","lapodadora@gmail.com","155202636")]
+    mensaje = None
+    if request.method == 'POST':
+        empresa_form = Empresaform(request.POST)
+        mensaje = 'Hemos recibido tus datos'
+
+    elif request.method == 'GET':
+        empresa_form = Userform()
+    else:
+        return HttpResponseNotAllowed(f"Método {request.method} no soportado")
+    
+    context = {
+        'proveedores': proveedores,
+        'mensaje': mensaje,
+        'empresaform': empresa_form
+    }
+    return render(request, 'administracion/empresas.html', context)
+
+
+
+
