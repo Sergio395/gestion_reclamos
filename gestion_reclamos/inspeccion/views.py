@@ -3,13 +3,19 @@ from django.http import HttpResponse, HttpResponseNotAllowed
 from django.template import loader
 from inspeccion.forms import ContactoForm, NuevaInspeccion,  NuevaCertificacion
 from datetime import datetime
-
+from django.contrib import messages
 
 def inspeccion (request):
-    mensaje = None
+    #mensaje = None
     if request.method == 'POST':
         contacto_form = ContactoForm(request.POST)
-        mensaje = 'Hemos recibido tus datos'
+        #mensaje = 'Hemos recibido tus datos'
+        if contacto_form.is_valid():
+            messages.success(request, "Tus datos son válidos")
+           
+        else:
+            messages.error(request, "Completar el formulario nuevamente, hay errores")
+      
     # acción para tomar los datos del formulario
     elif request.method == 'GET':
         contacto_form = ContactoForm()
@@ -17,7 +23,7 @@ def inspeccion (request):
         return HttpResponseNotAllowed(f"Método {request.method} no soportado")
 
     context = {
-        'mensaje': mensaje,
+        'messages': messages,
         'contacto_form': contacto_form
     }
 
