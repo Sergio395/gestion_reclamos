@@ -22,14 +22,38 @@
     <section id="contact" class="contact">
       <div class="container" data-aos="fade-up">
         <div class="row gx-lg-0 gy-4">
+          <!--filtros-->
+          <div class="input-group mb-3">
+            <h2>Buscar</h2>
+          </div>
+          <!--caja de busqueda -->
+          <div class="input-group mb-3">
+            <div class="input-group">
+              <input type="text" class="form-control" aria-label="Text input with dropdown button Default" aria-describedby="inputGroup-sizing-default">
+              <select class="custom-select" id="inputGroupSelect02">
+                {% for titulo in titulos %}
+                <option selected> {{ titulo }}</option>
+                {% endfor  %}
+              </select>
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button">Buscar</button>
+              </div>           
+              
+            </div>
+          </div>
+          <!--fin filtros-->
           
           <!--- Tabla con los datos-->
+          <div class="input-group mb-3">
+            <h2>Resultados</h2>
+          </div>
             <div class="table-responsive table">
-              <table class="table">
+              
+              <table class="table table-striped table-sm table-hover">
                 <thead>
                   <tr>
                     {% for titulo in titulos %}
-                      <th scope="col">{{ titulo }}</th>  
+                      <th>{{ titulo }}</th>  
                     {% endfor %}
                   </tr>
                 </thead>
@@ -92,6 +116,24 @@
 
         </div>
       </div>
+
+      <!-- pagination -->
+
+      <nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center">
+    <li class="page-item disabled">
+      <a class="page-link" href="#" tabindex="-1">Anterior</a>
+    </li>
+    <li class="page-item"><a class="page-link" href="#">1</a></li>
+    <li class="page-item"><a class="page-link" href="#">2</a></li>
+    <li class="page-item"><a class="page-link" href="#">3</a></li>
+    <li class="page-item">
+      <a class="page-link" href="#">Próximo</a>
+    </li>
+  </ul>
+</nav>
+
+      <!--fin pagination-->
     </section>
   </main>
   
