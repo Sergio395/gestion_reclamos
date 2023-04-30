@@ -27,17 +27,14 @@
 
             <form id="gestion-form" name="gestion-form" action="{% url 'gestion' %}" method="POST">
               {% csrf_token %}
-              {% comment %} {{ contacto_form }} {% endcomment %}
+              
 
               <table>
                 {{ gestion_form.as_table }}
               </table>
 
-              {% comment %} <ul>
-                {{ contacto_form.as_ul }}
-              </ul> {% endcomment %}
 
-              {% comment %} {{ contacto_form.as_p }} {% endcomment %}
+             
               <div class="text-center text-md-left mt-3">
                 <button class="btn btn-primary" type="submit">Opciones? sólo sé que no sé nada</button>
               </div>
