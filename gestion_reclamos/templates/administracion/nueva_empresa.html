@@ -12,7 +12,7 @@
         <div class="row gx-lg-6 gy-10">
           <div class="col-lg-2"></div>
           <div class="col-lg-8">
-                    <form id="contact-form" name="contact-form" action="{% url 'empresa' %}" method="POST">
+                    <form id="contact-form" name="contact-form" action="" method="POST">
                         {% csrf_token %}
                         <table class="table">
                           {{ nueva_form.as_table }}

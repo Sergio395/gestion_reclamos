@@ -61,6 +61,29 @@ class Newuserform(forms.Form):
     legajo= forms.EmailField(label='Legajo',widget=forms.TextInput(
      attrs={'class': 'form-control  mx-auto', 'style': 'height: 2em;'}))
     
+
+
+class Edituserform(forms.Form):  
+    
+   
+    usuario = forms.CharField (label='Usuario', max_length=20 ,widget=forms.TextInput(
+    attrs={'class': 'form-control  mx-auto', 'style': 'height: 2em;'}))
+    
+    nombre = forms.CharField (label='Nombre', max_length=20 ,widget=forms.TextInput(
+        attrs={'class': 'form-control  mx-auto', 'style': 'height: 2em;'}))
+    
+    apellido= forms.CharField (label='Apellido',  max_length=30, widget=forms.TextInput(
+        attrs={'class': 'form-control  mx-auto', 'style': 'height: 2em;'}))
+    
+    contra= forms.IntegerField (label='Contraseña', widget=forms.TextInput(
+        attrs={'class': 'form-control  mx-auto', 'style': 'height: 2em;'}))
+    
+    permiso= forms.CharField (label='Permisos',max_length=9, min_length=9,widget=forms.TextInput(
+     attrs={'class': 'form-control  mx-auto', 'style': 'height: 2em;'}))
+    
+    legajo= forms.EmailField(label='Legajo',widget=forms.TextInput(
+     attrs={'class': 'form-control  mx-auto', 'style': 'height: 2em;'}))
+    
     
     
 

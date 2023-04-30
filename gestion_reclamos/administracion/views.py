@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.template import loader
-from administracion.forms import Userform, AdminForm, Empresaform, Nuevaform, Newuserform
+from administracion.forms import Userform, AdminForm, Empresaform, Nuevaform, Newuserform, Edituserform
 from datetime import datetime
 
 
@@ -98,3 +98,25 @@ def nueva_empresa(request):
     }
     return render(request, 'administracion/nueva_empresa.html', context)   
 
+#--------------------------------------------------------------------------------------------------------------------------
+def edit_usuario(request,usuario_num):
+    users=[("Chavodelocho","Chavo","delocho",8888,"Admin",14000),("kiko","Federdo","Garcia",3333,"Inspector",14001),("candelaylamoto?","Candela","Moto",2222,"Gestor",14002),("chilindrina","Chili","Peppers",1111,"basico",14003)]
+    lista = users[usuario_num -1]
+    mensaje = None
+    if request.method == 'POST':
+        edit_usuario_form = Edituserform(request.POST)
+        mensaje = 'Hemos recibido tus datos'
+
+    elif request.method == 'GET':
+        edit_usuario_form = Edituserform()
+    else:
+        return HttpResponseNotAllowed(f"Método {request.method} no soportado")
+    
+    context = {
+        'usuario' : lista,
+        'mensaje': mensaje,
+        'edit_usuario':edit_usuario_form
+    }
+    return render(request, 'administracion/edit_usuario.html', context)
+
+#-----------------------------------------------------------------------------------------------------------------------------
