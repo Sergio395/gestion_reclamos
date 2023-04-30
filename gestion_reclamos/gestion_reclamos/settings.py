@@ -130,3 +130,8 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# para campos del yipo correo
+
+DEFAULT_FROM_EMAIL  =  " sogtackk22@hotmail.com" 
+EMAIL_BACKEND  =  "django.core.mail.backends.console.EmailBackend"
