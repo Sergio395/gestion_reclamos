@@ -664,4 +664,4 @@ class NuevoReclamo(forms.Form):
     localidad = forms.ChoiceField(widget=forms.Select(attrs={'class': 'form-control', 'placeholder': 'Localidad', 'style': 'height: 35px;', 'required': True}), choices=localidadd)
     reclamo = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Reclamo', 'required': True}))
     urgencia = forms.ChoiceField(widget=forms.Select(attrs={'class': 'form-control', 'placeholder': 'Urgencia', 'style': 'height: 35px;'}), choices=urgencias)
-    detalle = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Detalle', 'class': 'form-control', 'style': 'height: 10em;'}), required=False)
+    detalle = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Detalles', 'class': 'form-control', 'style': 'height: 10em;'}), required=False)
