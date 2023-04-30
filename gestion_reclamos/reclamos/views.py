@@ -1,5 +1,13 @@
 import datetime
 from django.shortcuts import render
+from django.http import HttpResponse, HttpResponseNotAllowed
+from reclamos.forms import NuevoReclamo
+import datetime
+
+
+
+
+
 
 
 # Create your views here.
@@ -7,8 +15,33 @@ def index(request):
     tag="pagina_index"
     return render(request, 'index.html', {'tag': tag})
 
+
+
+# Nuevo Reclamo---------------------------------------------------
+
 def nuevo_reclamo(request):
-    return render(request, 'reclamos/nuevo_reclamo.html', {})
+    mensaje = None
+    if request.method == 'POST':
+        nuevo_reclamo = NuevoReclamo(request.POST)
+        mensaje = 'Hemos recibido tus datos'
+        # acción para tomar los datos del formulario
+    elif request.method == 'GET':
+        nuevo_reclamo = NuevoReclamo()
+    else:
+        return HttpResponseNotAllowed(f"Método {request.method} no soportado")
+
+    context = {
+        'mensaje': mensaje,
+        'nuevo_reclamo': nuevo_reclamo
+    }
+
+    return render(request, 'reclamos/nuevo_reclamo.html', context)
+
+
+
+
+# Fin Nuevo Reclamo-----------------------------------------------
+
 
 
 lista = ['Area Geográfica', 'Norte', 30333256, 15995687, 42974589, 'pepe@nocorreo.com']
