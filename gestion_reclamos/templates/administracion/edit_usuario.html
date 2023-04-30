@@ -4,17 +4,18 @@
 
 {% block contenido %}
 
-  <!-- ======= Claim Section ======= -->
+
+<div class="container mt-5 col-lg-8">
+    <hr><div class="titulo_tabla" >Update usuarios</div><hr>
+</div>
   <section id="contact" class="contact">
     <div class="container" data-aos="fade-up">
-
       <div class="row gx-lg-0 gy-4">
-
         <div class="col-lg-2"></div>
-
           <div class="col-lg-8">
 
             <form action="" method="post" role="form" class="php-email-form">
+                {% csrf_token %}
                 <hr>
                 <div class="row form-group mb-2">
                     <label class="col-2 col form-label"><b>Usuario:</b></label>
@@ -57,8 +58,7 @@
                     <div class="text-center col-md-4 mt-5 mt-md-0"><button type="submit" class="btn btn-success">Grabar</button></div>
                     <div class="text-center col-md-4 mt-5 mt-md-0"><a href="{%url 'usuario'%}"><button type="button"
                     class="btn btn-primary">Volver</button></a></div>
-                </div>
-           
+                </div>           
                      
             </form>
           </div>
@@ -67,7 +67,8 @@
     </div>
   </section><!-- End Claim Section -->
 
-</main><!-- End #main -->
+
+
 
 {% endblock contenido %}
 
