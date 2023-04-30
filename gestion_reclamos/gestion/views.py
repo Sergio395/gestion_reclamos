@@ -248,26 +248,24 @@ def gestion_inicio (request):
 
     return render(request, 'gestion/gestion_inicio.html', context)
 
-# def gestion_editar_reclamo (request):
-#     mensaje = None
-
-#     if request.method == 'POST':
-#         gestion_form = GestionForm(request.POST)
-#         mensaje = 'Hemos recibido tus datos'
-#     # acción para tomar los datos del formulario
-#     elif request.method == 'GET':
-#         gestion_form = GestionForm()
-#     else:
-#         return HttpResponseNotAllowed(f"Método {request.method} no soportado")
-
-#     context = {
-#         'mensaje': mensaje,
-#         'gestion_form': gestion_form
-#     }
-
-#     return render(request, 'gestion/gestion_index.html', context)
-
-def gestion_editar_reclamo(request, nro_reclamo):
-    return render(request, 'gestion/gestion_ver_reclamo.html', {
-        'reclamo': lista_reclamos[nro_reclamo-1],
+def gestion_editar_reclamo (request, nro_reclamo):
+    return render(request, 'gestion/gestion_editar_reclamo.html', {
+        'reclamo': lista_reclamos[nro_reclamo-1]
     })
+
+def gestion_guardar_reclamo (request):
+    mensaje = "Estoy en construcción"
+    if request.method == 'POST':
+        gestion_form = GestionForm(request.POST)
+        mensaje = 'Hemos recibido tus datos'
+    # acción para tomar los datos del formulario
+    elif request.method == 'GET':
+    	gestion_form = GestionForm()
+    else:
+        return HttpResponseNotAllowed(f"Método {request.method} no soportado")
+    context = {
+	    'mensaje': mensaje,
+        'gestion_form': gestion_form
+    }
+
+    return render(request, 'gestion/gestion_editar_reclamo.html', context)
