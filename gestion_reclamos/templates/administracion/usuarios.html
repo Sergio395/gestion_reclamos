@@ -33,16 +33,15 @@
                               <td>{{data.5}}</td>                                
                               
                               <td class="text-center ">
-                                <a class="btn btn-warning " href="{% url 'editar_usuario' forloop.counter %}"
-                                >Editar</a> |
-                                <a class="btn btn-danger " onclick = "" href="{% url 'eliminar_usuario' forloop.counter %}">Eliminar</a>
+                                <a href="{% url 'editar_usuario' forloop.counter %}"><span class="	fas fa-edit"></span></a> |
+                                <a onclick = "" href="{% url 'eliminar_usuario' forloop.counter %}"><span class="far fa-trash-alt" ></span></a>
                               </td>        
                             </tr>        
                           {% endfor %}
                         </tbody>  
                     </table> 
                     <div class="row mt-5 ">
-                      <div class="text-center col-1 form-group"><a href="{%url 'nuevo_usuario'%}"><button type="button"
+                      <div class="text-center col-1 form-group"><a  href="{%url 'nuevo_usuario'%}"><button type="button"
                           class="btn btn-success">Nuevo</button></a></div>
                       <div class="text-center col-2 form-group"><a href="{%url 'admin'%}"><button type="button"
                           class="btn btn-primary">Volver</button></a></div>
