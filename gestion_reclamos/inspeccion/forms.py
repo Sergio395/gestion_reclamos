@@ -11,10 +11,12 @@ class ContactoForm(forms.Form):
     )
     nombre = forms.CharField(label='Inspector Designado',min_length=2,max_length=25,widget=forms.TextInput(
         attrs={'placeholder': 'Ingrese su Apellido', 'class': 'form-control', 'style': 'height: 2.5em;'}))
-    lugar = forms.CharField(label='Lugar de inspección', max_length=20)
+    lugar = forms.CharField(label='Lugar de inspección', max_length=25,widget=forms.TextInput(
+        attrs={'placeholder': '¿Qué lugar inspecciona?', 'class': 'form-control', 'style': 'height: 2.5em;'}))
     reclamo = forms.ChoiceField(label='Decide el reclamo ID', choices=reclamo)
     nota = forms.CharField(label='Observaciones', widget=forms.Textarea(
-        attrs={'row': 1, 'cols': 23}), required=False)
+        attrs={'placeholder': 'Ingrese comentarios si son necesarios', 'class': 'form-control', 'style': 'height: 5em;'}), required=False)
+    imagen_max_2MB= forms.ImageField(required=False)
     
 class NuevaInspeccion(forms.Form):
     # esta informacion deberia venir de la BBDD ---------------------------

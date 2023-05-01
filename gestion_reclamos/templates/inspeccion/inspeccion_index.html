@@ -59,9 +59,9 @@
               <button class="btn btn-primary" type="submit">Generar planilla de inspección</button>
             </div>
           </form>
-          {% for mensaje in messenges%}
+         
           {{mensaje}}
-          {% endfor %}
+          
           <div class="text-center text-md-left mt-3">
             <a href="{% url 'carga_inspeccion' %}"><button class="btn btn-primary" type="submit">Cargar inspección</button></a>
             <a href="{% url 'carga_certificacion' %}"><button class="btn btn-primary" type="submit">Cargar certificacion</button></a>
