@@ -6,13 +6,19 @@ from datetime import datetime
 
 
 
+
+
+
 # Create your views here.
 def admin(request):
     return render(request, 'administracion/admin_index.html', {})
 
 
 def usuario(request):
-    users=[("Chavodelocho","Chavo","delocho",8888,"Admin",14000),("kiko","Federdo","Garcia",3333,"Inspector",14001),("candelaylamoto?","Candela","Moto",2222,"Gestor",14002),("chilindrina","Chili","Peppers",1111,"basico",14003)]
+    users=[("Chavodelocho","Chavo","delocho",8888,"Admin",14000),
+    ("kiko","Federdo","Garcia",3333,"Inspector",14001),
+    ("candelaylamoto?","Candela","Moto",2222,"Gestor",14002),
+    ("chilindrina","Chili","Peppers",1111,"basico",14003)]
     mensaje = None
     if request.method == 'POST':
         User_form = Userform(request.POST)
@@ -98,9 +104,12 @@ def nueva_empresa(request):
     }
     return render(request, 'administracion/nueva_empresa.html', context)   
 
-#--------------------------------------------------------------------------------------------------------------------------
+
 def edit_usuario(request,usuario_num):
-    users=[("Chavodelocho","Chavo","delocho",8888,"Admin",14000),("kiko","Federdo","Garcia",3333,"Inspector",14001),("candelaylamoto?","Candela","Moto",2222,"Gestor",14002),("chilindrina","Chili","Peppers",1111,"basico",14003)]
+    users=[("Chavodelocho","Chavo","delocho",8888,"Admin",14000),
+           ("kiko","Federdo","Garcia",3333,"Inspector",14001),
+           ("candelaylamoto?","Candela","Moto",2222,"Gestor",14002),
+           ("chilindrina","Chili","Peppers",1111,"basico",14003)]
     lista = users[usuario_num -1]
     mensaje = None
     if request.method == 'POST':
@@ -120,3 +129,41 @@ def edit_usuario(request,usuario_num):
     return render(request, 'administracion/edit_usuario.html', context)
 
 #-----------------------------------------------------------------------------------------------------------------------------
+
+def delete_usuario(request,usuario_num):
+    users=[("Chavodelocho","Chavo","delocho",8888,"Admin",14000),
+    ("kiko","Federdo","Garcia",3333,"Inspector",14001),
+    ("candelaylamoto?","Candela","Moto",2222,"Gestor",14002),
+    ("chilindrina","Chili","Peppers",1111,"basico",14003)]                
+    del users[usuario_num-1]
+    
+    mensaje = None
+    if request.method == 'POST':
+        User_form = Userform(request.POST)
+        mensaje = 'Hemos recibido tus datos'
+    elif request.method == 'GET':
+        User_form = Userform()
+    else:
+        return HttpResponseNotAllowed(f"Método {request.method} no soportado")
+    
+    context = {
+        'users': users,
+        'mensaje': mensaje,
+        'Userform': User_form
+    }
+    return render(request, 'administracion/usuarios.html', context)
+        
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+#--------------------------------------------------------------------------------------------------------------------------

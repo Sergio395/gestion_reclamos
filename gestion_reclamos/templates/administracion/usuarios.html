@@ -35,7 +35,7 @@
                               <td class="text-center ">
                                 <a class="btn btn-warning " href="{% url 'editar_usuario' forloop.counter %}"
                                 >Editar</a> |
-                                <a class="btn btn-danger " onclick = "return alert()" href="">Eliminar</a>
+                                <a class="btn btn-danger " onclick = "" href="{% url 'eliminar_usuario' forloop.counter %}">Eliminar</a>
                               </td>        
                             </tr>        
                           {% endfor %}
