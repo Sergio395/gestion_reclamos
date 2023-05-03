@@ -5,6 +5,9 @@ from inspeccion.forms import ContactoForm, NuevaInspeccion,  NuevaCertificacion
 from datetime import datetime
 from django.contrib import messages
 from django.forms import ValidationError
+
+
+
 def inspeccion (request):
     mensaje = None
     if request.method == 'POST':
@@ -24,6 +27,15 @@ def inspeccion (request):
     }
 
     return render(request, 'inspeccion/inspeccion_index.html', context)
+
+
+
+
+
+
+
+
+
 
 
 def carga_inspeccion(request):

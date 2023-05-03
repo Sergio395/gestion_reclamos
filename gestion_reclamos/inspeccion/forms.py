@@ -2,6 +2,21 @@ from django import forms
 from django.contrib.admin import widgets
 from django.forms import ValidationError
 import datetime
+
+
+class FotoPesoMaxValido:
+    def __init__(self, foto_max_peso=5):
+        self.foto_max_peso = foto_max_peso
+        
+    def __call__(self,value):
+        peso=value.peso_max_peso * 1048576
+        max_peso=self.foto_max_peso
+        
+        if peso > max_peso:
+            raise ValidationError(f"El peso máximo de la foto es de {self.foto_max_peso}MB")
+        return value
+    
+
 class ContactoForm(forms.Form):
     
     reclamo = (
@@ -16,7 +31,7 @@ class ContactoForm(forms.Form):
     reclamo = forms.ChoiceField(label='Decide el reclamo ID', choices=reclamo)
     nota = forms.CharField(label='Observaciones', widget=forms.Textarea(
         attrs={'placeholder': 'Ingrese comentarios si son necesarios', 'class': 'form-control', 'style': 'height: 5em;'}), required=False)
-    foto_Max_2Mb= forms.ImageField(required=False)
+    foto_max_2MB= forms.ImageField(validators=[FotoPesoMaxValido(foto_max_peso=2)], required=False)
     
 class NuevaInspeccion(forms.Form):
     # esta informacion deberia venir de la BBDD ---------------------------
