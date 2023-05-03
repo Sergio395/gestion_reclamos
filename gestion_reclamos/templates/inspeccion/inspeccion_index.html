@@ -28,20 +28,43 @@
     <div class="container" data-aos="fade-up">
       <div class="row gx-lg-0 gy-4">
         <div class="col-lg-2"></div>
-        <div class="col-lg-8">
+        <div class="col-lg-2">
 
-          <form id="contact-form" name="contact-form" action="{% url 'inspeccion' %}" method="POST">
+          <form id="formi" name="formi" action="{% url 'inspeccion' %}" method="POST">
             {% csrf_token %}
 
             <table>
               {{ contacto_form.as_table }}
             </table>
-
+            {% comment %} <div class="row">
+              {% for campo in contacto_form %}
+                  <!--Grid column-->
+                  <div class="col-md-12">
+                      <div class="md-form mb-0">
+                          <label for="name" class="form-label">{{ campo.label }}</label>
+                          {{campo}} {% endcomment %}
+                          {% comment %} {% if campo.field.widget.input_type == 'checkbox' %}
+                              {{campo}} 
+                              <label for="name" class="">{{ campo.label }}</label>
+                          {% else %}
+                              <label for="name" class="">{{ campo.label }}</label>
+                              {{campo}}
+                          {% endif %} 
+                      </div>
+                      <div >{{campo.errors}}</div>
+                  </div>
+                  <!--Grid column-->
+              {% endfor %}  {%endcomment %} 
             <div class="text-center text-md-left mt-3">
+              <label ><em> <b>N° de cuadrícula</b> </em>
+              <input  type="text" name="txtName" id="txtName" placeholder="Si queda vacío - Alert JS" >
+              </label>
               <button class="btn btn-primary" type="submit">Generar planilla de inspección</button>
             </div>
           </form>
-
+         
+          {{mensaje}}
+          
           <div class="text-center text-md-left mt-3">
             <a href="{% url 'carga_inspeccion' %}"><button class="btn btn-primary" type="submit">Cargar inspección</button></a>
             <a href="{% url 'carga_certificacion' %}"><button class="btn btn-primary" type="submit">Cargar certificacion</button></a>
@@ -50,6 +73,7 @@
       </div>
     </div>
   </section><!-- End Claim Section -->
+
 </main><!-- End #main -->
 
 {% endblock contenido %}

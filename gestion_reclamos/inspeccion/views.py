@@ -3,13 +3,18 @@ from django.http import HttpResponse, HttpResponseNotAllowed
 from django.template import loader
 from inspeccion.forms import ContactoForm, NuevaInspeccion,  NuevaCertificacion
 from datetime import datetime
+from django.contrib import messages
+from django.forms import ValidationError
+
 
 
 def inspeccion (request):
     mensaje = None
     if request.method == 'POST':
         contacto_form = ContactoForm(request.POST)
-        mensaje = 'Hemos recibido tus datos'
+        mensaje = 'Tus datos están Ok'
+
+      
     # acción para tomar los datos del formulario
     elif request.method == 'GET':
         contacto_form = ContactoForm()
@@ -22,6 +27,15 @@ def inspeccion (request):
     }
 
     return render(request, 'inspeccion/inspeccion_index.html', context)
+
+
+
+
+
+
+
+
+
 
 
 def carga_inspeccion(request):
