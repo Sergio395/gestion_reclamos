@@ -16,7 +16,7 @@ class ContactoForm(forms.Form):
     reclamo = forms.ChoiceField(label='Decide el reclamo ID', choices=reclamo)
     nota = forms.CharField(label='Observaciones', widget=forms.Textarea(
         attrs={'placeholder': 'Ingrese comentarios si son necesarios', 'class': 'form-control', 'style': 'height: 5em;'}), required=False)
-    imagen_max_2MB= forms.ImageField(required=False)
+    foto_Max_2Mb= forms.ImageField(required=False)
     
 class NuevaInspeccion(forms.Form):
     # esta informacion deberia venir de la BBDD ---------------------------
