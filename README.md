@@ -72,6 +72,7 @@ gestion_reclamos
 │   │   ├── __init__.py
 │   │   ├── admin.py
 │   │   ├── apps.py
+│   │   ├── forms.py
 │   │   ├── models.py
 │   │   ├── tests.py
 │   │   ├── urls.py
@@ -92,8 +93,10 @@ gestion_reclamos
 │   │   ├── __init__.py
 │   │   ├── admin.py
 │   │   ├── apps.py
+│   │   ├── datos_reclamos.json
 │   │   ├── forms.py
 │   │   ├── models.py
+│   │   ├── pruebas.py
 │   │   ├── tests.py
 │   │   ├── urls.py
 │   │   └── views.py
@@ -114,16 +117,13 @@ gestion_reclamos
 │   │   ├── __init__.py
 │   │   ├── admin.py
 │   │   ├── apps.py
+│   │   ├── forms.py
 │   │   ├── models.py
 │   │   ├── tests.py
 │   │   ├── urls.py
 │   │   └── views.py
 │   └── __init__.py
 ├── diagrams
-│   ├── Gestión_reclamos-DER_DB.png
-│   ├── Gestión_reclamos-Flujo.png
-│   ├── Gestión_reclamos-Formularios.png
-│   └── Gestión_reclamos-UX-UI_Preliminar.png
 ├── gestion_reclamos
 │   ├── __init__.py
 │   ├── .env
@@ -132,6 +132,12 @@ gestion_reclamos
 │   ├── urls.py
 │   └── wsgi.py
 ├── static
+│   ├── administracion
+│   │   ├── css
+│   │   │   └── styles.css
+│   │   └── js
+│   │       ├── datatables-simple-demo.js
+│   │       └── scripts.js
 │   └── assets
 │       ├── css
 │       │   └── main.css
@@ -139,17 +145,36 @@ gestion_reclamos
 │       │   ├── favicon
 │       │   └── SGR.png
 │       ├── js
+│       │   ├── inspeccion_index.js
 │       │   └── main.js
 │       └── vendor
+│           ├── aos
+│           ├── bootstrap
+│           ├── bootstrap-icons
+│           ├── glightbox
+│           ├── isotope-layout
+│           ├── php-email-form
+│           ├── purecounter
+│           └── swiper
 ├── templates
 │   ├── administracion
-│   │   └── admin_index.html
+│   │   ├── admin_index.html
+│   │   ├── edit_empresa.html
+│   │   ├── edit_usuario.html
+│   │   ├── empresas.html
+│   │   ├── nueva_empresa.html
+│   │   ├── nuevo_usuario.html
+│   │   └── usuarios.html
 │   ├── base
+│   │   ├── base_admin.html
 │   │   ├── base.html
 │   │   ├── footer.html
 │   │   └── index.html
 │   ├── gestion
-│   │   └── gestion_index.html
+│   │   ├── gestion_editar_reclamo.html
+│   │   ├── gestion_index.html
+│   │   ├── gestion_inicio.html
+│   │   └── gestion_prueba.html
 │   ├── inspeccion
 │   │   ├── inspeccion_index.html
 │   │   ├── nueva_certificacion.html
@@ -159,6 +184,8 @@ gestion_reclamos
 │       ├── seguimiento.html
 │       └── ver_reclamo.html
 ├── .gitignore
+├── bbdd_calles.json
+├── bbdd_campos.json
 ├── manage.py
 ├── README.md
 └── requirements.txt
@@ -174,21 +201,21 @@ gestion_reclamos
 
 1. Clonar el repositorio desde git bash
 
-    ```bash
-    git clone https://github.com/Sergio395/PIG_django_gestion_reclamos.git
-    ```
+    >```bash
+    >git clone https://github.com/Sergio395/gestion_reclamos.git
+    >```
 
 2. Acceder a la carpeta del proyecto
 
-    ```bash
-    cd ruta/gestion_reclamos
-    ```
+    >```bash
+    >cd ruta/gestion_reclamos
+    >```
 
 3. Crear un entorno virtual
 
-    ```bash
-    python -m venv "nombre_entorno_virtual" 
-    ```
+    >```bash
+    >python -m venv "nombre_entorno_virtual" 
+    >```
 
 4. Activar el entorno virtual
 
@@ -206,29 +233,40 @@ gestion_reclamos
 
 5. Instalar las dependencias
 
-    ```bash
-    pip install -r requirements.txt
-    ```
+    >```bash
+    >pip install -r requirements.txt
+    >```
 
 6. Crear las tablas de la base de datos
 
-    ```bash
-    python manage.py migrate
-    ````
+    >```bash
+    >python manage.py migrate
+    >````
 
 <!-- 7. Crear un usuario administrador
 
-    ```bash
-    python manage.py createsuperuser
-    ```` -->
+    >```bash
+    >python manage.py createsuperuser
+    >```` -->
+7. Crea un archivo '.env' dentro de la carpeta 'gestion_reclamos' con los siguientes parámetros
 
-7. Ejecutar el servidor local
+    >```text
+    >SECRET_KEY =
+    >DEBUG = True
+    >DATABASE_NAME =
+    >DATABASE_HOST = 'localhost'
+    >DATABASE_PORT = '5432' # puerto por defecto
+    >DATABASE_USER = 'postgres' # usuario por defecto
+    >DATABASE_PASSWORD =
+    >````
 
-    ```bash
-    python manage.py runserver
-    ````
+8. Ejecutar el servidor local
 
-8. Acceder a <http://localhost:8000/> en el navegador
+    >```bash
+    >python manage.py runserver
+    >````
+
+9.  Acceder a <http://localhost:8000/> en el navegador
 
 <!-- ## Ejecutando las pruebas
 
