@@ -1,20 +1,18 @@
+# from datetime import datetime
+# from django.contrib import messages
+# from django.forms import ValidationError
+# from django.http import HttpResponse
+# from django.template import loader
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseNotAllowed
-from django.template import loader
-from inspeccion.forms import ContactoForm, NuevaInspeccion,  NuevaCertificacion
-from datetime import datetime
-from django.contrib import messages
-from django.forms import ValidationError
+from django.http import HttpResponseNotAllowed
+from .forms import ContactoForm, NuevaInspeccion, NuevaCertificacion
 
 
-
-def inspeccion (request):
+def inspeccion(request):
     mensaje = None
     if request.method == 'POST':
         contacto_form = ContactoForm(request.POST)
         mensaje = 'Tus datos están Ok'
-
-      
     # acción para tomar los datos del formulario
     elif request.method == 'GET':
         contacto_form = ContactoForm()
@@ -27,15 +25,6 @@ def inspeccion (request):
     }
 
     return render(request, 'inspeccion/inspeccion_index.html', context)
-
-
-
-
-
-
-
-
-
 
 
 def carga_inspeccion(request):
@@ -59,7 +48,6 @@ def carga_inspeccion(request):
 
 
 def carga_certificacion(request):
-    
     mensaje = None
     if request.method == 'POST':
         nueva_certificacion = NuevaCertificacion(request.POST)
@@ -73,7 +61,7 @@ def carga_certificacion(request):
     context = {
         # 'cursos': listado_cursos,
         'mensaje': mensaje,
-        'nueva_certificacion':nueva_certificacion
+        'nueva_certificacion': nueva_certificacion
     }
 
     return render(request, 'inspeccion/nueva_certificacion.html', context)

@@ -1,12 +1,9 @@
+# from datetime import datetime
+# from django.http import HttpResponse
+# from django.template import loader
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseNotAllowed
-from django.template import loader
-from administracion.forms import Userform, AdminForm, Empresaform, Nuevaform, Newuserform, Edituserform
-from datetime import datetime
-
-
-
-
+from django.http import HttpResponseNotAllowed
+from .forms import Userform, AdminForm, Empresaform, Nuevaform, Newuserform, Edituserform
 
 
 # Create your views here.
@@ -15,10 +12,10 @@ def admin(request):
 
 
 def usuario(request):
-    users=[("Chavodelocho","Chavo","delocho",8888,"Admin",14000),
-    ("kiko","Federdo","Garcia",3333,"Inspector",14001),
-    ("candelaylamoto?","Candela","Moto",2222,"Gestor",14002),
-    ("chilindrina","Chili","Peppers",1111,"basico",14003)]
+    users = [("Chavodelocho", "Chavo", "delocho", 8888, "Admin", 14000),
+             ("kiko", "Federdo", "Garcia", 3333, "Inspector", 14001),
+             ("candelaylamoto?", "Candela", "Moto", 2222, "Gestor", 14002),
+             ("chilindrina", "Chili", "Peppers", 1111, "basico", 14003)]
     mensaje = None
     if request.method == 'POST':
         User_form = Userform(request.POST)
@@ -28,7 +25,7 @@ def usuario(request):
         User_form = Userform()
     else:
         return HttpResponseNotAllowed(f"Método {request.method} no soportado")
-    
+
     context = {
         'users': users,
         'mensaje': mensaje,
@@ -37,15 +34,17 @@ def usuario(request):
     return render(request, 'administracion/usuarios.html', context)
 
 
-
-
 def empresa(request):
-    proveedores=[("La podadora","La podadora S.A.","1456","20303406022","lapodadora@gmail.com","155202636"),
-                 ("La podadora","La podadora S.A.","1456","20303406022","lapodadora@gmail.com","155202636"),
-                 ("La podadora","La podadora S.A.","1456","20303406022","lapodadora@gmail.com","155202636"),
-                 ("La podadora","La podadora S.A.","1456","20303406022","lapodadora@gmail.com","155202636"),
-                 ("La podadora","La podadora S.A.","1456","20303406022","lapodadora@gmail.com","155202636"),
-                 ("La podadora","La podadora S.A.","1456","20303406022","lapodadora@gmail.com","155202636")]
+    proveedores = [("La podadora", "La podadora S.A.", "1456", "20303406022", "lapodadora@gmail.com", "155202636"),
+                   ("La podadora", "La podadora S.A.", "1456",
+                    "20303406022", "lapodadora@gmail.com", "155202636"),
+                   ("La podadora", "La podadora S.A.", "1456",
+                    "20303406022", "lapodadora@gmail.com", "155202636"),
+                   ("La podadora", "La podadora S.A.", "1456",
+                    "20303406022", "lapodadora@gmail.com", "155202636"),
+                   ("La podadora", "La podadora S.A.", "1456",
+                    "20303406022", "lapodadora@gmail.com", "155202636"),
+                   ("La podadora", "La podadora S.A.", "1456", "20303406022", "lapodadora@gmail.com", "155202636")]
     mensaje = None
     if request.method == 'POST':
         empresa_form = Empresaform(request.POST)
@@ -55,7 +54,7 @@ def empresa(request):
         empresa_form = Userform()
     else:
         return HttpResponseNotAllowed(f"Método {request.method} no soportado")
-    
+
     context = {
         'proveedores': proveedores,
         'mensaje': mensaje,
@@ -64,8 +63,7 @@ def empresa(request):
     return render(request, 'administracion/empresas.html', context)
 
 
-
-#--------------------------------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------
 def nuevo_usuario(request):
     mensaje = None
     if request.method == 'POST':
@@ -76,18 +74,18 @@ def nuevo_usuario(request):
         nuevo_usuario_form = Newuserform()
     else:
         return HttpResponseNotAllowed(f"Método {request.method} no soportado")
-    
+
     context = {
-        
+
         'mensaje': mensaje,
-        'nuevo_usuario':nuevo_usuario_form
+        'nuevo_usuario': nuevo_usuario_form
     }
     return render(request, 'administracion/nuevo_usuario.html', context)
+# -----------------------------------------------------------------------------------------------------------------------------
 
-#-----------------------------------------------------------------------------------------------------------------------------
 
 def nueva_empresa(request):
-    
+
     mensaje = None
     if request.method == 'POST':
         nueva_form = Nuevaform(request.POST)
@@ -98,19 +96,19 @@ def nueva_empresa(request):
         return HttpResponseNotAllowed(f"Método {request.method} no soportado")
 
     context = {
-        
+
         'mensaje': mensaje,
         'nueva_form': nueva_form
     }
-    return render(request, 'administracion/nueva_empresa.html', context)   
+    return render(request, 'administracion/nueva_empresa.html', context)
 
 
-def edit_usuario(request,usuario_num):
-    users=[("Chavodelocho","Chavo","delocho",8888,"Admin",14000),
-           ("kiko","Federdo","Garcia",3333,"Inspector",14001),
-           ("candelaylamoto?","Candela","Moto",2222,"Gestor",14002),
-           ("chilindrina","Chili","Peppers",1111,"basico",14003)]
-    lista = users[usuario_num -1]
+def edit_usuario(request, usuario_num):
+    users = [("Chavodelocho", "Chavo", "delocho", 8888, "Admin", 14000),
+             ("kiko", "Federdo", "Garcia", 3333, "Inspector", 14001),
+             ("candelaylamoto?", "Candela", "Moto", 2222, "Gestor", 14002),
+             ("chilindrina", "Chili", "Peppers", 1111, "basico", 14003)]
+    lista = users[usuario_num - 1]
     mensaje = None
     if request.method == 'POST':
         edit_usuario_form = Edituserform(request.POST)
@@ -120,23 +118,23 @@ def edit_usuario(request,usuario_num):
         edit_usuario_form = Edituserform()
     else:
         return HttpResponseNotAllowed(f"Método {request.method} no soportado")
-    
+
     context = {
-        'usuario' : lista,
+        'usuario': lista,
         'mensaje': mensaje,
-        'edit_usuario':edit_usuario_form
+        'edit_usuario': edit_usuario_form
     }
     return render(request, 'administracion/edit_usuario.html', context)
+# -----------------------------------------------------------------------------------------------------------------------------
 
-#-----------------------------------------------------------------------------------------------------------------------------
 
-def delete_usuario(request,usuario_num):
-    users=[("Chavodelocho","Chavo","delocho",8888,"Admin",14000),
-    ("kiko","Federdo","Garcia",3333,"Inspector",14001),
-    ("candelaylamoto?","Candela","Moto",2222,"Gestor",14002),
-    ("chilindrina","Chili","Peppers",1111,"basico",14003)]                
+def delete_usuario(request, usuario_num):
+    users = [("Chavodelocho", "Chavo", "delocho", 8888, "Admin", 14000),
+             ("kiko", "Federdo", "Garcia", 3333, "Inspector", 14001),
+             ("candelaylamoto?", "Candela", "Moto", 2222, "Gestor", 14002),
+             ("chilindrina", "Chili", "Peppers", 1111, "basico", 14003)]
     del users[usuario_num-1]
-    
+
     mensaje = None
     if request.method == 'POST':
         User_form = Userform(request.POST)
@@ -145,25 +143,11 @@ def delete_usuario(request,usuario_num):
         User_form = Userform()
     else:
         return HttpResponseNotAllowed(f"Método {request.method} no soportado")
-    
+
     context = {
         'users': users,
         'mensaje': mensaje,
         'Userform': User_form
     }
     return render(request, 'administracion/usuarios.html', context)
-        
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-#--------------------------------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------

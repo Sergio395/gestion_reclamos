@@ -1,26 +1,21 @@
-{% extends 'base.html' %}
+{% extends 'base/base.html' %}
 {% block titulo %}Nuevo reclamo{% endblock titulo %}
 
-
-<main id="main">
-
 <!-- ======= Breadcrumbs ======= -->
-{% block etiqueta  %}Nuevo reclamo{% endblock etiqueta  %}
+{% block etiqueta %}Nuevo reclamo{% endblock etiqueta %}
 {% block nav %}
-<nav>
-    <div class="container">      
-    <ol>     
-      <li><a href="{% url 'index' %}">Home</a></li>
-      <li>Nuevo reclamo</li>
-    </ol>      
-  </div>
-</nav>
+  <nav>
+      <div class="container">      
+      <ol>     
+        <li><a href="{% url 'index' %}">Home</a></li>
+        <li>Nuevo reclamo</li>
+      </ol>      
+    </div>
+  </nav>
 {% endblock nav %}
-
 <!-- End Breadcrumbs -->
 
 {% block contenido %}
-
   <!-- ======= Claim Section ======= -->
   <section id="contact" class="contact">
     <div class="container" data-aos="fade-up">
@@ -50,7 +45,4 @@
       </div>
     </div>
   </section><!-- End Claim Section -->
-
-</main><!-- End #main -->
-
 {% endblock contenido %}

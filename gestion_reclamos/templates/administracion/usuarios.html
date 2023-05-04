@@ -1,105 +1,51 @@
-{%extends 'base_admin.html'%}
+{%extends 'base/base_admin.html'%}
 {% block titulo %}Sistema de Gestión de Reclamos{% endblock titulo %}
 
 {% block contenido %}
+  <div class="container mt-5">
+    <hr>
+    <div class="titulo_tabla">Usuario registrados</div>
+    <hr>
 
+    <form id="contact-form" name="contact-form" action="" method="POST">
+      {% csrf_token %}
+      <table class="table  table-hover ">
+        <thead class="thead-light  ">
+          <tr>
+            <th scope="col">Usuario</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Apellido</th>
+            <th scope="col">Contraseña</th>
+            <th scope="col">Permiso</th>
+            <th scope="col">Legajo</th>
+            <th scope="col" class="text-center">Acciones</th>
+          </tr>
+        </thead>
 
-              <div class="container mt-5">
-                  <hr><div class="titulo_tabla" >Usuario registrados</div><hr>
-          
-                  <form id="contact-form" name="contact-form" action="" method="POST">
-                    {% csrf_token %}
-                    <table class="table  table-hover ">
-                      <thead class="thead-light  ">
-                         <tr>
-                            <th scope="col">Usuario</th>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Apellido</th>
-                            <th scope="col">Contraseña</th>
-                            <th scope="col">Permiso</th>
-                            <th scope="col">Legajo</th> 
-                            <th scope="col" class="text-center" >Acciones</th>                              
-                          </tr>
-                      </thead>
-                      
-                        <tbody>
-                          {% for data in users %}
-                            <tr>
-                              <td>{{data.0}}</td>
-                              <td>{{data.1}}</td>
-                              <td>{{data.2}}</td>
-                              <td>{{data.3}}</td>
-                              <td>{{data.4}}</td>
-                              <td>{{data.5}}</td>                                
-                              
-                              <td class="text-center ">
-                                <a href="{% url 'editar_usuario' forloop.counter %}"><span class="	fas fa-edit"></span></a> |
-                                <a onclick = "" href="{% url 'eliminar_usuario' forloop.counter %}"><span class="far fa-trash-alt" ></span></a>
-                              </td>        
-                            </tr>        
-                          {% endfor %}
-                        </tbody>  
-                    </table> 
-                    <div class="row mt-5 ">
-                      <div class="text-center col-1 form-group"><a  href="{%url 'nuevo_usuario'%}"><button type="button"
-                          class="btn btn-success">Nuevo</button></a></div>
-                      <div class="text-center col-2 form-group"><a href="{%url 'admin'%}"><button type="button"
-                          class="btn btn-primary">Volver</button></a></div>
-                    </div>
-                  </div>
-                </form>
+        <tbody>
+          {% for data in users %}
+          <tr>
+            <td>{{data.0}}</td>
+            <td>{{data.1}}</td>
+            <td>{{data.2}}</td>
+            <td>{{data.3}}</td>
+            <td>{{data.4}}</td>
+            <td>{{data.5}}</td>
 
-                    
-
-                  
-
-                
-
-              
-
- 
-
+            <td class="text-center ">
+              <a href="{% url 'editar_usuario' forloop.counter %}"><span class="	fas fa-edit"></span></a> |
+              <a onclick="" href="{% url 'eliminar_usuario' forloop.counter %}"><span class="far fa-trash-alt"></span></a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <div class="row mt-5 ">
+        <div class="text-center col-1 form-group"><a href="{%url 'nuevo_usuario'%}"><button type="button"
+              class="btn btn-success">Nuevo</button></a></div>
+        <div class="text-center col-2 form-group"><a href="{%url 'admin'%}"><button type="button"
+              class="btn btn-primary">Volver</button></a></div>
+      </div>
+    </form>
+  </div>
 {% endblock contenido %}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

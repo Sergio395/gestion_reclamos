@@ -1,29 +1,21 @@
-{% extends 'base.html' %}
+{% extends 'base/base.html' %}
 {% block titulo %}Inspección{% endblock titulo %}
 
 <!-- ======= Breadcrumbs ======= -->
-{% block etiqueta  %}Inspecciones{% endblock etiqueta  %}
+{% block etiqueta %}Inspecciones{% endblock etiqueta %}
 {% block nav %}
-<nav>
-    <div class="container">      
-    <ol>     
-      <li><a href="{% url 'index' %}">Home</a></li>
-      <li>Inspecciones</li>
-      <li></li>
-    </ol>      
-  </div>
-</nav>
+  <nav>
+      <div class="container">      
+      <ol>     
+        <li><a href="{% url 'index' %}">Home</a></li>
+        <li>Inspecciones</li>
+      </ol>      
+    </div>
+  </nav>
 {% endblock nav %}
-
-
 <!-- End Breadcrumbs -->
 
-
-
 {% block contenido %}
-
-<main id="main">
-
   <section id="contact" class="contact">
     <div class="container" data-aos="fade-up">
       <div class="row gx-lg-0 gy-4">
@@ -42,8 +34,8 @@
                   <div class="col-md-12">
                       <div class="md-form mb-0">
                           <label for="name" class="form-label">{{ campo.label }}</label>
-                          {{campo}} {% endcomment %}
-                          {% comment %} {% if campo.field.widget.input_type == 'checkbox' %}
+                          {{campo}}
+                          {% if campo.field.widget.input_type == 'checkbox' %}
                               {{campo}} 
                               <label for="name" class="">{{ campo.label }}</label>
                           {% else %}
@@ -54,7 +46,7 @@
                       <div >{{campo.errors}}</div>
                   </div>
                   <!--Grid column-->
-              {% endfor %}  {%endcomment %} 
+              {% endfor %}  {% endcomment %} 
             <div class="text-center text-md-left mt-3">
               <label ><em> <b>N° de cuadrícula</b> </em>
               <input  type="text" name="txtName" id="txtName" placeholder="Si queda vacío - Alert JS" >
@@ -62,7 +54,6 @@
               <button class="btn btn-primary" type="submit">Generar planilla de inspección</button>
             </div>
           </form>
-         
           {{mensaje}}
           
           <div class="text-center text-md-left mt-3">
@@ -73,7 +64,4 @@
       </div>
     </div>
   </section><!-- End Claim Section -->
-
-</main><!-- End #main -->
-
 {% endblock contenido %}

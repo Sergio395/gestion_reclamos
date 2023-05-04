@@ -1,24 +1,11 @@
+# from django.http import HttpResponse
 import datetime
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseNotAllowed
-from reclamos.forms import NuevoReclamo
-import datetime
-
-
-
-
-
+from django.http import HttpResponseNotAllowed
+from .forms import NuevoReclamo
 
 
 # Create your views here.
-def index(request):
-    tag="pagina_index"
-    return render(request, 'index.html', {'tag': tag})
-
-
-
-# Nuevo Reclamo---------------------------------------------------
-
 def nuevo_reclamo(request):
     mensaje = None
     if request.method == 'POST':
@@ -38,14 +25,13 @@ def nuevo_reclamo(request):
     return render(request, 'reclamos/nuevo_reclamo.html', context)
 
 
-
-
 # Fin Nuevo Reclamo-----------------------------------------------
 
 
-
-lista = ['Area Geográfica', 'Norte', 30333256, 15995687, 42974589, 'pepe@nocorreo.com']
-lista2 = ['Arbol caido = 1', 'Arbol enfermo = 2', 'Arbol poda = 5', 'Arbol no identificado = 2']
+lista = ['Area Geográfica', 'Norte', 30333256,
+         15995687, 42974589, 'pepe@nocorreo.com']
+lista2 = ['Arbol caido = 1', 'Arbol enfermo = 2',
+          'Arbol poda = 5', 'Arbol no identificado = 2']
 # lista2 = []
 
 

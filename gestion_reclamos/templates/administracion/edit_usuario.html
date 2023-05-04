@@ -1,13 +1,10 @@
-{%extends 'base_admin.html'%}
+{%extends 'base/base_admin.html'%}
 {% block titulo %}Sistema de Gestión de Reclamos{% endblock titulo %}
 
-
 {% block contenido %}
-
-
-<div class="container mt-5 col-lg-8">
-    <hr><div class="titulo_tabla" >Update usuarios</div><hr>
-</div>
+  <div class="container mt-5 col-lg-8">
+      <hr><div class="titulo_tabla" >Update usuarios</div><hr>
+  </div>
   <section id="contact" class="contact">
     <div class="container" data-aos="fade-up">
       <div class="row gx-lg-0 gy-4">
@@ -59,18 +56,11 @@
                     <div class="text-center col-md-4 mt-5 mt-md-0"><a href="{%url 'usuario'%}"><button type="button"
                     class="btn btn-primary">Volver</button></a></div>
                 </div>           
-                     
+
             </form>
           </div>
         </div>
       </div>
     </div>
   </section><!-- End Claim Section -->
-
-
-
-
 {% endblock contenido %}
-
-
-

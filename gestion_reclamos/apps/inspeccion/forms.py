@@ -1,38 +1,40 @@
+# import datetime
+# from django.contrib.admin import widgets
 from django import forms
-from django.contrib.admin import widgets
 from django.forms import ValidationError
-import datetime
 
 
 class FotoPesoMaxValido:
     def __init__(self, foto_max_peso=5):
         self.foto_max_peso = foto_max_peso
-        
-    def __call__(self,value):
-        peso=value.peso_max_peso * 1048576
-        max_peso=self.foto_max_peso
-        
+
+    def __call__(self, value):
+        peso = value.peso_max_peso * 1048576
+        max_peso = self.foto_max_peso
+
         if peso > max_peso:
-            raise ValidationError(f"El peso máximo de la foto es de {self.foto_max_peso}MB")
+            raise ValidationError(
+                f"El peso máximo de la foto es de {self.foto_max_peso}MB")
         return value
-    
+
 
 class ContactoForm(forms.Form):
-    
     reclamo = (
         (22, "00-283706-01 Arbol caido"),
         (21, "01-293934-02 Arbol poda"),
         (19, "00-297349-01 Arbol enfermo"),
     )
-    nombre = forms.CharField(label='Inspector Designado',min_length=2,max_length=25,widget=forms.TextInput(
+    nombre = forms.CharField(label='Inspector Designado', min_length=2, max_length=25, widget=forms.TextInput(
         attrs={'placeholder': 'Ingrese su Apellido', 'class': 'form-control', 'style': 'height: 2.5em;'}))
-    lugar = forms.CharField(label='Lugar de inspección', max_length=25,widget=forms.TextInput(
+    lugar = forms.CharField(label='Lugar de inspección', max_length=25, widget=forms.TextInput(
         attrs={'placeholder': '¿Qué lugar inspecciona?', 'class': 'form-control', 'style': 'height: 2.5em;'}))
     reclamo = forms.ChoiceField(label='Decide el reclamo ID', choices=reclamo)
     nota = forms.CharField(label='Observaciones', widget=forms.Textarea(
         attrs={'placeholder': 'Ingrese comentarios si son necesarios', 'class': 'form-control', 'style': 'height: 5em;'}), required=False)
-    foto = forms.ImageField(validators=[FotoPesoMaxValido(foto_max_peso=2)], required=False)
-    
+    foto = forms.ImageField(
+        validators=[FotoPesoMaxValido(foto_max_peso=2)], required=False)
+
+
 class NuevaInspeccion(forms.Form):
     # esta informacion deberia venir de la BBDD ---------------------------
     reclamos = (
@@ -102,6 +104,7 @@ class NuevaInspeccion(forms.Form):
         attrs={'placeholder': 'Justifique brevemente la urgencia', 'class': 'form-control', 'style': 'height: 5em;'}), required=False)
     inspector = forms.ChoiceField(label='inspector', widget=forms.Select(
         attrs={'class': 'form-control', 'style': 'height: 2.5em;'}), choices=inspectores)
-    
+
+
 class NuevaCertificacion(forms.Form):
     nombre = forms.CharField(label='')

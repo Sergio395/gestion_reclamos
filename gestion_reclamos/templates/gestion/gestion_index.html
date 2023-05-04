@@ -1,49 +1,41 @@
-{% extends 'base.html' %}
+{% extends 'base/base.html' %}
 {% block titulo %}Gestión{% endblock titulo %}
 
-  <!-- ======= Breadcrumbs ======= -->
-  {% block etiqueta  %}Gestión{% endblock etiqueta  %}
-  {% block nav %}
-<nav>
-    <div class="container">      
-    <ol>     
-      <li><a href="{% url 'index' %}">Home</a></li>
-      <li>Gestión</li>
-      <li></li>
-    </ol>      
-  </div>
-</nav>
+<!-- ======= Breadcrumbs ======= -->
+{% block etiqueta %}Gestión{% endblock etiqueta %}
+{% block nav %}
+  <nav>
+      <div class="container">      
+      <ol>     
+        <li><a href="{% url 'index' %}">Home</a></li>
+        <li>Gestión</li>
+      </ol>      
+    </div>
+  </nav>
 {% endblock nav %}
-  
-  <!-- End Breadcrumbs -->
+<!-- End Breadcrumbs -->
     
-  {% block contenido %}
-  
-    <section id="contact" class="contact">
-      <div class="container" data-aos="fade-up">
-        <div class="row gx-lg-0 gy-4">
-          <div class="col-lg-2"></div>
-          <div class="col-lg-8">
+{% block contenido %}
+  <section id="contact" class="contact">
+    <div class="container" data-aos="fade-up">
+      <div class="row gx-lg-0 gy-4">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8">
 
-            <form id="gestion-form" name="gestion-form" action="{% url 'gestion' %}" method="POST">
-              {% csrf_token %}
-              
+          <form id="gestion-form" name="gestion-form" action="{% url 'gestion' %}" method="POST">
+            {% csrf_token %}
+            
+            <table>
+              {{ gestion_form.as_table }}
+            </table>
 
-              <table>
-                {{ gestion_form.as_table }}
-              </table>
-
-
-             
-              <div class="text-center text-md-left mt-3">
-                <button class="btn btn-primary" type="submit">Opciones? sólo sé que no sé nada</button>
-              </div>
-            </form>
-          </div>
+            <div class="text-center text-md-left mt-3">
+              <button class="btn btn-primary" type="submit">Opciones? sólo sé que no sé nada</button>
+            </div>
+          </form>
 
         </div>
       </div>
-    </section>
-  </main>
-  
+    </div>
+  </section>
 {% endblock contenido %}

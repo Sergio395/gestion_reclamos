@@ -9,9 +9,9 @@
   <meta content="" name="description" />
   <meta content="" name="keywords" />
 
-    <title>{% block titulo %}{% endblock titulo %}</title>
+    <title>{% block titulo %}{% endblock titulo %} | SGR.</title>
 
-  <!-- Estaticos-->
+  <!-- Cargar estáticos-->
   {% load static %}
 
   <!-- Favicons -->
@@ -41,6 +41,7 @@
 </head>
 
 <body>
+
   <!-- ======= Header ======= -->
   <header id="header" class="header d-flex align-items-center">
     <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
@@ -52,7 +53,13 @@
           <li><a href="{% url 'index' %}">Inicio</a></li>
           <li><a href="{% url 'nuevo_reclamo' %}">Nuevo Reclamo</a></li>
           <li><a href="{% url 'seguimiento' %}">Seguimiento</a></li>
-          <li><a href="{% url 'inspeccion' %}">Inspección</a></li>
+          <li class="dropdown">
+            <a href="{% url 'inspeccion' %}"><span>Inspección</span></a>
+            <ul>
+              <li><a href="{% url 'carga_inspeccion' %}">Cargar de Inspección</a></li>
+              <li><a href="{% url 'carga_certificacion' %}">Cargar de Certificación</a></li>
+            </ul>
+          </li>
           <li><a href="{% url 'gestion' %}">Gestión</a></li>
           <li><a href="{% url 'admin' %}">Administración</a></li>
           <li class="dropdown">
@@ -71,29 +78,27 @@
   </header><!-- End Header -->
 
 <!-- ======= Breadcrumbs ======= -->
-<div class="breadcrumbs">
-  <div
-    class="page-header d-flex align-items-center"
-    style="background-image: url('')"  >
-    <div class="container position-relative">
-      <div class="row d-flex justify-content-center">
-        <div class="col-lg-6 text-center">
-          <h2>{% block etiqueta %}{% endblock etiqueta %}</h2>
+{% if request.path != "/" %}
+  <div class="breadcrumbs">
+    <div class="page-header d-flex align-items-center" style="background-image: url('')">
+      <div class="container position-relative">
+        <div class="row d-flex justify-content-center">
+          <div class="col-lg-6 text-center">
+            <h2>{% block etiqueta %}{% endblock etiqueta %}</h2>
+          </div>
         </div>
       </div>
     </div>
-  </div> 
-  {% if tag  != 'pagina_index' %}
-      {%block nav%}{%endblock nav%}
-  {%endif%}  
-</div>
+    {%block nav%}{%endblock nav%}
+  </div>
+{% endif %}
 <!-- End Breadcrumbs -->
 
   <main id="main">
     {% block contenido %}{% endblock contenido %}
   </main>
 
-  {% include 'footer.html' %}
+  {% include 'base/footer.html' %}
 
   <!-- JS Files -->
   <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
@@ -102,11 +107,10 @@
   <script src="{% static 'assets/vendor/purecounter/purecounter_vanilla.js' %}"></script>
   <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
   
-
   <!-- Template Main JS File -->
   <script src="{% static 'assets/js/main.js' %}"></script>
   <script src="{% static 'assets/js/inspeccion_index.js' %}"></script>
-  {%block javascript%} {%endblock javascript%}
+  {%block javascript%}{%endblock javascript%}
 
 </body>
 
