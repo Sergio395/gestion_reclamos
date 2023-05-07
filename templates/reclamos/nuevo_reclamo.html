@@ -7,7 +7,7 @@
   <nav>
       <div class="container">      
       <ol>     
-        <li><a href="{% url 'index' %}">Home</a></li>
+        <li><a href="{% url 'index' %}">Inicio</a></li>
         <li>Nuevo reclamo</li>
       </ol>      
     </div>
@@ -28,9 +28,34 @@
             <form class="php-email-form" id="" name="nuevo_reclamo" action="{% url 'nuevo_reclamo' %}" method="POST">
               {% csrf_token %}
 
-              <table class="table">
-                {{ nuevo_reclamo.as_table }}
-              </table>
+              {% comment %} <table class="table"> {% endcomment %}
+                {% comment %} {{ nuevo_reclamo.as_table }} {% endcomment %}
+                {% for campo in nuevo_reclamo|slice:":-1" %}
+                  {% if campo.name != 'detalle' %}
+                    {% if forloop.counter0|divisibleby:"2" %}
+                      <div class="row">
+                    {% endif %}
+
+                    <div class="col-md-6 form-floating mb-3" >
+                      {{ campo }}
+                      <label for="{{ campo.name }}">{{ campo.widget.attrs.placeholder }}</label>
+                    </div>
+                    
+                    {% if forloop.counter|divisibleby:"2" or forloop.last %}
+                      </div>
+                    {% endif %}
+                  {% endif %}
+                {% endfor %}
+                      </div>
+
+                <div class="row">
+                  <div class="col-md-12 form-floating mt-3 mt-md-0">
+                    {{ nuevo_reclamo.detalle }}
+                    <label for="{{ nuevo_reclamo.detalle.name }}">{{ nuevo_reclamo.detalle.widget.attrs.placeholder }}</label>
+                  </div> 
+                </div>
+
+              {% comment %} </table> {% endcomment %}
             
 
               <div class="row">

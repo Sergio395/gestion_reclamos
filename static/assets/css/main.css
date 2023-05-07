@@ -1829,6 +1829,10 @@ section {
   padding: 10px 12px;
 }
 
+input.form-control ::slotted {
+  margin: 0 0 10px 10px !important;
+}
+
 .contact .php-email-form button[type=submit] {
   background: var(--color-primary);
   border: 0;
