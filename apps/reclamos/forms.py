@@ -1,10 +1,12 @@
 # from django.forms import widgets
+import datetime
 from django import forms
 from django.forms.widgets import DateInput
 
 
 class NuevoReclamo(forms.Form):
     urgencias = (
+        (0, ""),
         (1, "Baja"),
         (2, "Media"),
         (3, "Alta"))
@@ -636,49 +638,139 @@ class NuevoReclamo(forms.Form):
         (623, "Col?n\r\nBah?a San Juli?n\r"))
 
     localidadd = (
+        (0, ""),
         (1, "Localidad 1"),
         (2, "Localidad 2"),
         (3, "Localidad 3"),
         (4, "Localidad 4"),
         (5, "Localidad 5"))
 
-    numero = forms.CharField(max_length=50, widget=forms.TextInput(
-        attrs={'class': 'form-control', 'placeholder': 'Número', 'required': True}))
-    medio = forms.CharField(max_length=50, widget=forms.TextInput(
-        attrs={'class': 'form-control', 'placeholder': 'Medio', 'required': True}))
-    fuente = forms.CharField(max_length=50, widget=forms.TextInput(
-        attrs={'class': 'form-control', 'placeholder': 'Fuente', 'required': True}))
-    fecha = forms.DateField(widget=DateInput(attrs={
-                            'class': 'form-control', 'placeholder': 'Fecha', 'type': 'date', 'required': True}))
-    nombre = forms.CharField(max_length=50, widget=forms.TextInput(
-        attrs={'class': 'form-control', 'placeholder': 'Nombre', 'required': True}))
-    apellido = forms.CharField(max_length=50, widget=forms.TextInput(
-        attrs={'class': 'form-control', 'placeholder': 'Apellido', 'required': True}))
-    dni = forms.IntegerField(widget=forms.NumberInput(
-        attrs={'class': 'form-control', 'placeholder': 'DNI', 'required': True}))
-    celular = forms.IntegerField(widget=forms.NumberInput(
-        attrs={'class': 'form-control', 'placeholder': 'Celular', 'required': True}))
-    telefono_fijo = forms.IntegerField(widget=forms.NumberInput(
-        attrs={'class': 'form-control', 'placeholder': 'Teléfono fijo', 'required': True}))
-    correo_electronico = forms.EmailField(widget=forms.EmailInput(
-        attrs={'class': 'form-control', 'placeholder': 'Correo electrónico', 'required': True}))
-    calle = forms.ChoiceField(widget=forms.Select(
-        attrs={'class': 'form-control', 'placeholder': 'Calle', 'style': 'height: 35px;', 'required': True}), choices=calles)
-    altura = forms.IntegerField(widget=forms.NumberInput(
-        attrs={'class': 'form-control', 'placeholder': 'Altura', 'required': True}))
-    edificio = forms.CharField(max_length=50, widget=forms.TextInput(
-        attrs={'class': 'form-control', 'placeholder': 'Edificio', 'required': True}))
-    departamento = forms.CharField(max_length=50, widget=forms.TextInput(
-        attrs={'class': 'form-control', 'placeholder': 'Departamento', 'required': True}))
-    entre_calle_1 = forms.ChoiceField(widget=forms.Select(
-        attrs={'class': 'form-control', 'placeholder': 'Entre calle 1', 'style': 'height: 35px;', 'required': True}), choices=calles)
-    entre_calle_2 = forms.ChoiceField(widget=forms.Select(
-        attrs={'class': 'form-control', 'placeholder': 'Entre calle 2', 'style': 'height: 35px;', 'required': True}), choices=calles)
-    localidad = forms.ChoiceField(widget=forms.Select(
-        attrs={'class': 'form-control', 'placeholder': 'Localidad', 'style': 'height: 35px;', 'required': True}), choices=localidadd)
-    reclamo = forms.CharField(widget=forms.TextInput(
-        attrs={'class': 'form-control', 'placeholder': 'Reclamo', 'required': True}))
-    urgencia = forms.ChoiceField(widget=forms.Select(
-        attrs={'class': 'form-control', 'placeholder': 'Urgencia', 'style': 'height: 35px;'}), choices=urgencias)
-    detalle = forms.CharField(widget=forms.Textarea(
-        attrs={'placeholder': 'Detalles', 'class': 'form-control', 'style': 'height: 10em;'}), required=False)
+    class Styles:
+        @staticmethod
+        def input_styles(attrs):
+            # default_attrs = {'class': 'form-control', 'style': 'height: 35px;', 'required': True}
+            default_attrs = {
+                'class': 'form-control',
+                'style': 'border-radius: .375rem;',
+                'required': True
+                }
+            default_attrs.update(attrs)
+            return default_attrs
+
+    numero = forms.CharField(
+        max_length=50,
+        widget=forms.TextInput(attrs=Styles.input_styles({
+            'placeholder': 'Número'
+            }))
+        )
+    medio = forms.CharField(
+        max_length=50,
+        widget=forms.TextInput(attrs=Styles.input_styles({
+            'placeholder': 'Medio'
+            }))
+        )
+    fuente = forms.CharField(
+        max_length=50,
+        widget=forms.TextInput(attrs=Styles.input_styles({
+            'placeholder': 'Fuente'
+            }))
+        )
+    fecha = forms.DateField(
+        widget=forms.DateInput(attrs=Styles.input_styles({
+            'placeholder': 'Fecha',
+            'type': 'date',
+            'value': datetime.date.today().strftime('%Y-%m-%d')
+            }))
+        )
+    nombre = forms.CharField(
+        max_length=50,
+        widget=forms.TextInput(attrs=Styles.input_styles({
+            'placeholder': 'Nombre'
+            }))
+        )
+    apellido = forms.CharField(
+        max_length=50,
+        widget=forms.TextInput(attrs=Styles.input_styles({
+            'placeholder': 'Apellido'
+            }))
+        )
+    dni = forms.IntegerField(
+        widget=forms.NumberInput(attrs=Styles.input_styles({
+            'placeholder': 'DNI'
+            }))
+        )
+    celular = forms.IntegerField(
+        widget=forms.NumberInput(attrs=Styles.input_styles({
+            'placeholder': 'Celular'
+            }))
+        )
+    telefono_fijo = forms.IntegerField(
+        widget=forms.NumberInput(attrs=Styles.input_styles({
+            'placeholder': 'Teléfono fijo',
+            'required': None,
+            }))
+        )
+    correo_electronico = forms.EmailField(
+        widget=forms.EmailInput(attrs=Styles.input_styles({
+            'placeholder': 'Correo electrónico'
+            }))
+        )
+    calle = forms.ChoiceField(
+        widget=forms.Select(attrs=Styles.input_styles({
+            'placeholder': 'Calle'
+            })),
+        choices=calles
+        )
+    altura = forms.IntegerField(
+        widget=forms.NumberInput(attrs=Styles.input_styles({
+            'placeholder': 'Altura'
+            }))
+        )
+    edificio = forms.CharField(
+        max_length=50,
+        widget=forms.TextInput(attrs=Styles.input_styles({
+            'placeholder': 'Edificio'
+            }))
+        )
+    departamento = forms.CharField(
+        max_length=50,
+        widget=forms.TextInput(attrs=Styles.input_styles({
+            'placeholder': 'Departamento'
+            }))
+        )
+    entre_calle_1 = forms.ChoiceField(
+        widget=forms.Select(attrs=Styles.input_styles({
+            'placeholder': 'Entre calle 1'
+            })),
+        choices=calles
+        )
+    entre_calle_2 = forms.ChoiceField(
+        widget=forms.Select(attrs=Styles.input_styles({
+            'placeholder': 'Entre calle 2'
+            })),
+        choices=calles
+        )
+    localidad = forms.ChoiceField(
+        widget=forms.Select(attrs=Styles.input_styles({
+            'placeholder': 'Localidad'
+            })),
+        choices=localidadd
+        )
+    reclamo = forms.CharField(
+        widget=forms.TextInput(attrs=Styles.input_styles({
+            'placeholder': 'Reclamo'
+            }))
+        )
+    urgencia = forms.ChoiceField(
+        widget=forms.Select(attrs=Styles.input_styles({
+            'placeholder': 'Urgencia'
+            })),
+        choices=urgencias
+        )
+    detalle = forms.CharField(
+        widget=forms.Textarea(attrs=Styles.input_styles({
+            'placeholder': 'Detalles',
+            'style': 'height: 10em; border-radius: .375rem;'
+            })),
+        required=False
+        )
