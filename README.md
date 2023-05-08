@@ -68,7 +68,6 @@ gestion_reclamos
 ├── apps
 │   ├── administracion
 │   │   ├── migrations
-│   │   │   └── __init__.py
 │   │   ├── __init__.py
 │   │   ├── admin.py
 │   │   ├── apps.py
@@ -79,7 +78,6 @@ gestion_reclamos
 │   │   └── views.py
 │   ├── base
 │   │   ├── migrations
-│   │   │   └── __init__.py
 │   │   ├── __init__.py
 │   │   ├── admin.py
 │   │   ├── apps.py
@@ -89,7 +87,6 @@ gestion_reclamos
 │   │   └── views.py
 │   ├── gestion
 │   │   ├── migrations
-│   │   │   └── __init__.py
 │   │   ├── __init__.py
 │   │   ├── admin.py
 │   │   ├── apps.py
@@ -102,7 +99,6 @@ gestion_reclamos
 │   │   └── views.py
 │   ├── inspeccion
 │   │   ├── migrations
-│   │   │   └── __init__.py
 │   │   ├── __init__.py
 │   │   ├── admin.py
 │   │   ├── apps.py
@@ -113,7 +109,6 @@ gestion_reclamos
 │   │   └── views.py
 │   ├── reclamos
 │   │   ├── migrations
-│   │   │   └── __init__.py
 │   │   ├── __init__.py
 │   │   ├── admin.py
 │   │   ├── apps.py
@@ -134,28 +129,12 @@ gestion_reclamos
 ├── static
 │   ├── administracion
 │   │   ├── css
-│   │   │   └── styles.css
 │   │   └── js
-│   │       ├── datatables-simple-demo.js
-│   │       └── scripts.js
 │   └── assets
 │       ├── css
-│       │   └── main.css
 │       ├── img
-│       │   ├── favicon
-│       │   └── SGR.png
 │       ├── js
-│       │   ├── inspeccion_index.js
-│       │   └── main.js
 │       └── vendor
-│           ├── aos
-│           ├── bootstrap
-│           ├── bootstrap-icons
-│           ├── glightbox
-│           ├── isotope-layout
-│           ├── php-email-form
-│           ├── purecounter
-│           └── swiper
 ├── templates
 │   ├── administracion
 │   │   ├── admin_index.html
@@ -184,8 +163,6 @@ gestion_reclamos
 │       ├── seguimiento.html
 │       └── ver_reclamo.html
 ├── .gitignore
-├── bbdd_calles.json
-├── bbdd_campos.json
 ├── manage.py
 ├── README.md
 └── requirements.txt
@@ -237,36 +214,55 @@ gestion_reclamos
     >pip install -r requirements.txt
     >```
 
-6. Crear las tablas de la base de datos
+6. Crear el archivo '.env' en la carpeta 'gestion_reclamos' con los siguientes parámetros
+
+    >```text
+    >SECRET_KEY = 'clave del entorno'
+    >DEBUG = True
+    >DATABASE_NAME = 'gestion_reclamos_db' # nombre de BD utilizada para este proyecto
+    >DATABASE_HOST = 'localhost'
+    >DATABASE_PORT = '5432' # puerto por defecto
+    >DATABASE_USER = 'postgres' # usuario por defecto
+    >DATABASE_PASSWORD = 'password de postgres'
+    >````
+
+7. Ingresar al cliente de PostgreSQL
+
+    >```bash
+    >psql
+    >```
+
+8. Crear una nueva base de datos
+
+    >```sql
+    >CREATE DATABASE gestion_reclamos_db ENCODING 'UTF8';
+    >```
+
+9.  Salir del cliente de PostgreSQL
+
+    >```sql
+    >\q
+    >```
+
+10. Crear las tablas de la base de datos
 
     >```bash
     >python manage.py migrate
     >````
 
-<!-- 7. Crear un usuario administrador
+<!-- 11. Crear un usuario administrador
 
     >```bash
     >python manage.py createsuperuser
     >```` -->
-7. Crea un archivo '.env' dentro de la carpeta 'gestion_reclamos' con los siguientes parámetros
 
-    >```text
-    >SECRET_KEY =
-    >DEBUG = True
-    >DATABASE_NAME =
-    >DATABASE_HOST = 'localhost'
-    >DATABASE_PORT = '5432' # puerto por defecto
-    >DATABASE_USER = 'postgres' # usuario por defecto
-    >DATABASE_PASSWORD =
-    >````
-
-8. Ejecutar el servidor local
+11. Ejecutar el servidor local
 
     >```bash
     >python manage.py runserver
     >````
 
-9.  Acceder a <http://localhost:8000/> en el navegador
+12.  Acceder a <http://localhost:8000/> en el navegador
 
 <!-- ## Ejecutando las pruebas
 
