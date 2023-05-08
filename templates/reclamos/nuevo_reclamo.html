@@ -19,53 +19,44 @@
   <!-- ======= Claim Section ======= -->
   <section id="contact" class="contact">
     <div class="container" data-aos="fade-up">
-
       <div class="row gx-lg-0 gy-4">
+        <div class="col-lg-8">
+          <form class="php-email-form" id="" name="nuevo_reclamo" action="{% url 'nuevo_reclamo' %}" method="POST">
+            {% csrf_token %}
 
-        <div class="col-lg-2"></div>
+            {% for campo in nuevo_reclamo %}
+              {% comment %} Excluimos el campo 'detalle' {% endcomment %}
+              {% if campo.name != 'detalle' %}
+                {% comment %} Agrupar los campos de 2 en 2 {% endcomment %}
+                {% if forloop.counter0|divisibleby:"2" %}
+                  <div class="row">
+                {% endif %}
 
-          <div class="col-lg-8">
-            <form class="php-email-form" id="" name="nuevo_reclamo" action="{% url 'nuevo_reclamo' %}" method="POST">
-              {% csrf_token %}
-
-              {% comment %} <table class="table"> {% endcomment %}
-                {% comment %} {{ nuevo_reclamo.as_table }} {% endcomment %}
-                {% for campo in nuevo_reclamo|slice:":-1" %}
-                  {% if campo.name != 'detalle' %}
-                    {% if forloop.counter0|divisibleby:"2" %}
-                      <div class="row">
-                    {% endif %}
-
-                    <div class="col-md-6 form-floating mb-3" >
-                      {{ campo }}
-                      <label for="{{ campo.name }}">{{ campo.widget.attrs.placeholder }}</label>
-                    </div>
-                    
-                    {% if forloop.counter|divisibleby:"2" or forloop.last %}
-                      </div>
-                    {% endif %}
-                  {% endif %}
-                {% endfor %}
-                      </div>
-
-                <div class="row">
-                  <div class="col-md-12 form-floating mt-3 mt-md-0">
-                    {{ nuevo_reclamo.detalle }}
-                    <label for="{{ nuevo_reclamo.detalle.name }}">{{ nuevo_reclamo.detalle.widget.attrs.placeholder }}</label>
-                  </div> 
+                <div class="col-md-6 form-group mb-3" >
+                  <label for="{{ campo.name }}">{{ campo.label }}</label>
+                  {{ campo }}
                 </div>
+                
+                {% if forloop.counter|divisibleby:"2" or forloop.last %}
+                  </div>
+                {% endif %}
+              {% endif %}
+            {% endfor %}
 
-              {% comment %} </table> {% endcomment %}
+            <div class="row">
+              <div class="col-md-12 form-group mt-3 mt-md-0">
+                <label for="{{ nuevo_reclamo.detalle.name }}">{{ nuevo_reclamo.detalle.label }}</label>
+                {{ nuevo_reclamo.detalle }}
+              </div> 
+            </div>
+
+            <div class="row">
+              <div class="text-center col-md-4 form-group mt-3 mt-md-0"><button style="background-color: orange;" type="submit">Cancelar</button></div>
+              <div class="text-center col-md-4 form-group mt-3 mt-md-0"><button type="submit">Limpiar</button></div>
+              <div class="text-center col-md-4 form-group mt-3 mt-md-0"><button style="background-color: rgb(46, 71, 236);" type="submit">Siguiente</button></div>
+            </div>
             
-
-              <div class="row">
-                <div class="text-center col-md-4 form-group mt-3 mt-md-0"><button style="background-color: orange;" type="submit">Cancelar</button></div>
-                <div class="text-center col-md-4 form-group mt-3 mt-md-0"><button type="submit">Limpiar</button></div>
-                <div class="text-center col-md-4 form-group mt-3 mt-md-0"><button style="background-color: rgb(46, 71, 236);" type="submit">Siguiente</button></div>
-              </div>
-              
-            </form>
-          </div>
+          </form>
         </div>
       </div>
     </div>

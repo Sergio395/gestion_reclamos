@@ -1,7 +1,5 @@
-# from django.forms import widgets
 import datetime
 from django import forms
-from django.forms.widgets import DateInput
 
 
 class NuevoReclamo(forms.Form):
@@ -648,129 +646,162 @@ class NuevoReclamo(forms.Form):
     class Styles:
         @staticmethod
         def input_styles(attrs):
-            # default_attrs = {'class': 'form-control', 'style': 'height: 35px;', 'required': True}
             default_attrs = {
                 'class': 'form-control',
-                'style': 'border-radius: .375rem;',
+                'style': 'border-radius: .375rem; height: 35px;',
                 'required': True
                 }
             default_attrs.update(attrs)
             return default_attrs
 
     numero = forms.CharField(
+        label='Número',
         max_length=50,
         widget=forms.TextInput(attrs=Styles.input_styles({
-            'placeholder': 'Número'
+            # 'placeholder': 'Número'
             }))
         )
     medio = forms.CharField(
+        label='Medio',
         max_length=50,
         widget=forms.TextInput(attrs=Styles.input_styles({
-            'placeholder': 'Medio'
+            # 'placeholder': 'Medio'
             }))
         )
     fuente = forms.CharField(
+        label='Fuente',
         max_length=50,
         widget=forms.TextInput(attrs=Styles.input_styles({
-            'placeholder': 'Fuente'
+            # 'placeholder': 'Fuente'
             }))
         )
     fecha = forms.DateField(
+        label='Fecha',
         widget=forms.DateInput(attrs=Styles.input_styles({
-            'placeholder': 'Fecha',
             'type': 'date',
             'value': datetime.date.today().strftime('%Y-%m-%d')
             }))
         )
     nombre = forms.CharField(
+        label='Nombre',
         max_length=50,
         widget=forms.TextInput(attrs=Styles.input_styles({
-            'placeholder': 'Nombre'
+            # 'placeholder': 'Nombre'
             }))
         )
     apellido = forms.CharField(
+        label='Apellido',
         max_length=50,
         widget=forms.TextInput(attrs=Styles.input_styles({
-            'placeholder': 'Apellido'
+            # 'placeholder': 'Apellido'
             }))
         )
     dni = forms.IntegerField(
+        label='DNI',
         widget=forms.NumberInput(attrs=Styles.input_styles({
-            'placeholder': 'DNI'
+            'placeholder': '12.345.678'
             }))
         )
     celular = forms.IntegerField(
+        label='Celular',
         widget=forms.NumberInput(attrs=Styles.input_styles({
-            'placeholder': 'Celular'
+            'placeholder': '(11) 555 5555'
             }))
         )
     telefono_fijo = forms.IntegerField(
+        label='Teléfono fijo',
         widget=forms.NumberInput(attrs=Styles.input_styles({
-            'placeholder': 'Teléfono fijo',
-            'required': None,
-            }))
+            'placeholder': '(11) 555 5555',
+            'required': False,
+            })),
+        required=False
         )
     correo_electronico = forms.EmailField(
+        label='Correo electrónico',
         widget=forms.EmailInput(attrs=Styles.input_styles({
-            'placeholder': 'Correo electrónico'
-            }))
+            'placeholder': 'vecino@ejemplo.com',
+            'required': False,
+            })),
+        required=False
         )
     calle = forms.ChoiceField(
+        label='Calle',
         widget=forms.Select(attrs=Styles.input_styles({
-            'placeholder': 'Calle'
+            # 'placeholder': 'Calle'
             })),
         choices=calles
         )
     altura = forms.IntegerField(
+        label='Altura',
         widget=forms.NumberInput(attrs=Styles.input_styles({
-            'placeholder': 'Altura'
+            # 'placeholder': 'Altura'
             }))
         )
     edificio = forms.CharField(
+        label='Edificio',
         max_length=50,
         widget=forms.TextInput(attrs=Styles.input_styles({
-            'placeholder': 'Edificio'
-            }))
+            # 'placeholder': 'Edificio',
+            'required': False,
+            })),
+        required=False
         )
     departamento = forms.CharField(
+        label='Departamento',
         max_length=50,
         widget=forms.TextInput(attrs=Styles.input_styles({
-            'placeholder': 'Departamento'
-            }))
+            # 'placeholder': 'Departamento',
+            'required': False,
+            })),
+        required=False
         )
     entre_calle_1 = forms.ChoiceField(
+        label='Entre calle',
         widget=forms.Select(attrs=Styles.input_styles({
-            'placeholder': 'Entre calle 1'
+            # 'placeholder': 'Entre calle 1'
             })),
         choices=calles
         )
     entre_calle_2 = forms.ChoiceField(
+        label='y calle',
         widget=forms.Select(attrs=Styles.input_styles({
-            'placeholder': 'Entre calle 2'
+            # 'placeholder': 'Entre calle 2'
             })),
         choices=calles
         )
     localidad = forms.ChoiceField(
+        label='Localidad',
         widget=forms.Select(attrs=Styles.input_styles({
-            'placeholder': 'Localidad'
+            # 'placeholder': 'Localidad'
             })),
         choices=localidadd
         )
     reclamo = forms.CharField(
+        label='Reclamo',
         widget=forms.TextInput(attrs=Styles.input_styles({
-            'placeholder': 'Reclamo'
+            # 'placeholder': 'Reclamo'
             }))
         )
     urgencia = forms.ChoiceField(
+        label='Urgencia',
         widget=forms.Select(attrs=Styles.input_styles({
-            'placeholder': 'Urgencia'
+            # 'placeholder': 'Urgencia'
             })),
         choices=urgencias
         )
+    foto = forms.FileField(
+        label='Fotos',
+        widget=forms.ClearableFileInput(attrs=Styles.input_styles({
+            'accept': 'image/*',
+            'multiple': True
+            }))
+        )
     detalle = forms.CharField(
+        label='Detalles',
         widget=forms.Textarea(attrs=Styles.input_styles({
-            'placeholder': 'Detalles',
-            'style': 'height: 10em; border-radius: .375rem;'
+            # 'placeholder': 'Detalles',
+            'style': 'height: 10em; border-radius: .375rem;',
+            'required': False,
             })),
         required=False
         )
