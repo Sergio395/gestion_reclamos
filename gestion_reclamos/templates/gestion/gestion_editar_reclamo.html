@@ -22,17 +22,13 @@
     <section id="contact" class="contact">
       <div class="container" data-aos="fade-up">
         <div class="row gx-lg-0 gy-4">
-          <div class="col-lg-2"></div>
+    
           <div class="col-lg-8">
-
-            <section id="contact" class="contact">
+            <!-- Formulario HTML (por ahora comentado)-->
+            <!-- <section id="contact" class="contact">
                 <div class="container aos-init aos-animate" data-aos="fade-up">
-            
                   <div class="row gx-lg-0 gy-4">
-            
-                    <div class="col-lg-2"></div>
-            
-                      <div class="col-lg-8">
+                    <div class="col-lg-8">
                         <form action="" method="post" role="form" class="php-email-form">
                           <h2>Estoy en construccion!!</h2>
                           <h4>Datos del reclamo Nro: {{ reclamo.Reclamo }}</h4>
@@ -132,21 +128,67 @@
                             <div class="text-center col-md-4 form-group mt-3 mt-md-0"><button href="{% url 'gestion_guardar_reclamo' reclamo.Reclamo %}" style="background-color: rgb(236, 46, 46);" type="submit">Guardar</button></div>
                           </div>
                         </form>
-                      </div>
                     </div>
                   </div>
-                
+                </div>
+              </section> -->
+              
+              <h2>Estoy en construccion!!</h2>
+              <h4>Datos del reclamo Nro: {{ reclamo.Reclamo }}</h4>
+              <hr>
+              <!-- Creo otra sección para el 1er form -->
+              <section id="contact" class="contact">
+                <div class="container aos-init aos-animate" data-aos="fade-up">
+                  <div class="row gx-lg-0 gy-4">
+                    <div class="col-lg-8">
+                      
+                      <form class="php-email-form" id="" name="" action="" method="POST">
+                          {% csrf_token %}
+                        <!-- Formulario Contacto -->  
+                        <br>
+                        <h4>Datos de Contacto</h4>
+                        <hr>      
+                        <table class="table">
+                          {{ form_contacto.as_table }}
+                        </table>
+
+                        <!--Formulario Inspeccion-->
+                        <br>
+                        <h4>Datos de Inspección</h4>
+                        <hr>
+                          
+                          <table class="table">
+                            {{ form_inspeccion.as_table }}
+                          </table>
+
+                        <!--Formulario Gestion-->
+                        <br>
+                        <h4>Datos de Gestión</h4>
+                        <hr>
+                          
+                          <table class="table">
+                            {{ form_gestion.as_table }}
+                          </table>  
+
+                        <!--Botones-->
+                        <div class="row">
+                            <div class="text-center col-md-4 form-group mt-5 mt-md-0"><button type="button"
+                                class="btn btn-primary">Cancelar</button></div>
+                            <div class="text-center col-md-4 form-group mt-5 mt-md-0"><button type="button"
+                                class="btn btn-warning">Limpiar</button></div>
+                            <div class="text-center col-md-4 form-group mt-5 mt-md-0"><button type="button"
+                                class="btn btn-success">Cargar</button></div>
+                        </div>
+  
+                      </form>  
+                    </div>
+                  </div>
+                </div>
               </section>
 
-
-             
-       
-            
           </div>
-
         </div>
       </div>
     </section>
-  </main>
   
 {% endblock contenido %}

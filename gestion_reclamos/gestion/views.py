@@ -5,7 +5,7 @@ from django.core.mail import send_mail
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotAllowed, JsonResponse
 from django.template import loader
-from gestion.forms import GestionForm
+from gestion.forms import GestionForm, GesContactoForm, GesInspeccion, GesGestion
 
 lista_reclamos = [
     {
@@ -248,10 +248,37 @@ def gestion_inicio (request):
 
     return render(request, 'gestion/gestion_inicio.html', context)
 
+# def gestion_editar_reclamo (request, nro_reclamo):
+#     return render(request, 'gestion/gestion_editar_reclamo.html', {
+#         'reclamo': lista_reclamos[nro_reclamo-1]
+#     })
+
 def gestion_editar_reclamo (request, nro_reclamo):
-    return render(request, 'gestion/gestion_editar_reclamo.html', {
-        'reclamo': lista_reclamos[nro_reclamo-1]
-    })
+    mensaje = None
+    if request.method == 'POST':
+        # GesContactoForm, GesInspeccion, GesGestion
+        form_contacto = GesContactoForm(request.POST)
+        form_inspeccion = GesInspeccion(request.POST)
+        form_gestion = GesGestion(request.POST)
+        mensaje = 'Hemos recibido tus datos'
+        # acción para tomar los datos del formulario
+    elif request.method == 'GET':
+        form_contacto = GesContactoForm()
+        form_inspeccion = GesInspeccion()
+        form_gestion = GesGestion()
+    else:
+        return HttpResponseNotAllowed(f"Método {request.method} no soportado")
+
+    context = {
+        'mensaje': mensaje,
+        'reclamo': lista_reclamos[nro_reclamo-1],
+        'form_contacto': form_contacto,
+        'form_inspeccion': form_inspeccion,
+        'form_gestion': form_gestion
+    }
+
+    return render(request, 'gestion/gestion_editar_reclamo.html', context)
+
 
 def gestion_guardar_reclamo (request):
     mensaje = "Estoy en construcción"
