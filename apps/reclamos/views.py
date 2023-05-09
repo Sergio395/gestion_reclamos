@@ -9,22 +9,20 @@ from .forms import NuevoReclamo
 def nuevo_reclamo(request):
     mensaje = None
     if request.method == 'POST':
-        nuevo_reclamo = NuevoReclamo(request.POST)
+        nuevo = NuevoReclamo(request.POST)
         mensaje = 'Hemos recibido tus datos'
         # acción para tomar los datos del formulario
     elif request.method == 'GET':
-        nuevo_reclamo = NuevoReclamo()
+        nuevo = NuevoReclamo()
     else:
         return HttpResponseNotAllowed(f"Método {request.method} no soportado")
 
     context = {
         'mensaje': mensaje,
-        'nuevo_reclamo': nuevo_reclamo
+        'nuevo_reclamo': nuevo
     }
 
     return render(request, 'reclamos/nuevo_reclamo.html', context)
-
-
 # Fin Nuevo Reclamo-----------------------------------------------
 
 
