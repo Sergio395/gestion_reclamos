@@ -793,8 +793,10 @@ class NuevoReclamo(forms.Form):
         label='Fotos',
         widget=forms.ClearableFileInput(attrs=Styles.input_styles({
             'accept': 'image/*',
-            'multiple': True
-            }))
+            'multiple': True,
+            'required': False,
+            })),
+        required=False
         )
     detalle = forms.CharField(
         label='Detalles',
