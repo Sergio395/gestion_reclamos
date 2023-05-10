@@ -125,7 +125,7 @@
                           <div class="row">
                             <div class="text-center col-md-4 form-group mt-3 mt-md-0"><button href="{% url 'gestion' %}" style="background-color: rgb(0, 64, 255);" type="submit">Volver</button></div>
                             <div class="text-center col-md-4 form-group mt-3 mt-md-0"><button href="{% url 'gestion_editar_reclamo' reclamo.Reclamo %}"style="background-color: rgb(255, 191, 0);" type="submit">Limpiar</button></div>
-                            <div class="text-center col-md-4 form-group mt-3 mt-md-0"><button href="{% url 'gestion_guardar_reclamo' reclamo.Reclamo %}" style="background-color: rgb(236, 46, 46);" type="submit">Guardar</button></div>
+                            <div class="text-center col-md-4 form-group mt-3 mt-md-0"><button href="{% url 'gestion_editar_reclamo' reclamo.Reclamo %}" style="background-color: rgb(236, 46, 46);" type="submit">Guardar</button></div>
                           </div>
                         </form>
                     </div>
@@ -146,7 +146,7 @@
             
               <div class="col-lg-8">
                     
-                <form class="php-email-form" id="" name="" action="" method="POST">
+                <form class="php-email-form" id="" name="gestion_form" action="{% url 'gestion_editar_reclamo' nro_reclamo %}" method="POST">
                     {% csrf_token %}
 
                   <!-- Formulario Contacto -->  
@@ -155,6 +155,14 @@
                   <hr>      
                   <table class="table">
                     {{ form_contacto.as_table }}
+                  </table>
+
+                  <!-- Formulario Inspector -->  
+                  <br>
+                  <h4>Datos de Inspector</h4>
+                  <hr>      
+                  <table class="table">
+                    {{ form_inspector.as_table }}
                   </table>
 
                   <!--Formulario Inspeccion-->
@@ -178,19 +186,22 @@
                   <!--Botones-->
                   <div class="row">
                     <div class="text-center col-md-4 form-group mt-5 mt-md-0">
-                      <button type="button" class="btn btn-primary">
+                      <input type="button" class="btn btn-primary btn-lg" value="Volver">
+                      <!-- <button type="button" class="btn btn-primary">
                         Cancelar
-                      </button>
+                      </button> -->
                     </div>
                     <div class="text-center col-md-4 form-group mt-5 mt-md-0">
-                      <button type="button" class="btn btn-warning">
+                      <input type="reset" class="btn btn-warning btn-lg" value="Limpiar">
+                      <!-- <button type="button" class="btn btn-warning">
                         Limpiar
-                      </button>
+                      </button> -->
                     </div>
                     <div class="text-center col-md-4 form-group mt-5 mt-md-0">
-                      <button type="button" class="btn btn-success">
+                      <input type="submit" class="btn btn-success btn-lg" value="Guardar">
+                      <!-- <button type="button" class="btn btn-success">
                         Guadar
-                      </button>
+                      </button> -->
                     </div>
                   </div>
 

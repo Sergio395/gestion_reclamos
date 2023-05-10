@@ -5,7 +5,7 @@ from django.core.mail import send_mail
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotAllowed, JsonResponse
 from django.template import loader
-from gestion.forms import GestionForm, GesContactoForm, GesInspeccion, GesGestion
+from gestion.forms import GesContacto, GesInspector, GesInspeccion, GesGestion
 
 lista_reclamos = [
     {
@@ -248,51 +248,32 @@ def gestion_inicio (request):
 
     return render(request, 'gestion/gestion_inicio.html', context)
 
-# def gestion_editar_reclamo (request, nro_reclamo):
-#     return render(request, 'gestion/gestion_editar_reclamo.html', {
-#         'reclamo': lista_reclamos[nro_reclamo-1]
-#     })
 
-def gestion_editar_reclamo (request, nro_reclamo):
+def gestion_editar_reclamo(request, nro_reclamo):
     mensaje = None
     if request.method == 'POST':
-        # GesContactoForm, GesInspeccion, GesGestion
-        form_contacto = GesContactoForm(request.POST)
+        form_contacto = GesContacto(request.POST)
+        form_inspector = GesInspector(request.POST)
         form_inspeccion = GesInspeccion(request.POST)
         form_gestion = GesGestion(request.POST)
         mensaje = 'Hemos recibido tus datos'
         # acción para tomar los datos del formulario
     elif request.method == 'GET':
-        form_contacto = GesContactoForm()
+        form_contacto = GesContacto()
+        form_inspector = GesInspeccion()
         form_inspeccion = GesInspeccion()
         form_gestion = GesGestion()
     else:
         return HttpResponseNotAllowed(f"Método {request.method} no soportado")
 
     context = {
+        'nro_reclamo' : nro_reclamo,
         'mensaje': mensaje,
         'reclamo': lista_reclamos[nro_reclamo-1],
         'form_contacto': form_contacto,
+        'form_inspector': form_inspector,
         'form_inspeccion': form_inspeccion,
-        'form_gestion': form_gestion
-    }
-
-    return render(request, 'gestion/gestion_editar_reclamo.html', context)
-
-
-def gestion_guardar_reclamo (request):
-    mensaje = "Estoy en construcción"
-    if request.method == 'POST':
-        gestion_form = GestionForm(request.POST)
-        mensaje = 'Hemos recibido tus datos'
-    # acción para tomar los datos del formulario
-    elif request.method == 'GET':
-    	gestion_form = GestionForm()
-    else:
-        return HttpResponseNotAllowed(f"Método {request.method} no soportado")
-    context = {
-	    'mensaje': mensaje,
-        'gestion_form': gestion_form
+        'form_gestion': form_gestion,
     }
 
     return render(request, 'gestion/gestion_editar_reclamo.html', context)
