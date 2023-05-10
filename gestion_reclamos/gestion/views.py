@@ -260,7 +260,7 @@ def gestion_editar_reclamo(request, nro_reclamo):
         # acción para tomar los datos del formulario
     elif request.method == 'GET':
         form_contacto = GesContacto()
-        form_inspector = GesInspeccion()
+        form_inspector = GesInspector()
         form_inspeccion = GesInspeccion()
         form_gestion = GesGestion()
     else:
