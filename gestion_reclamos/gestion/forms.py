@@ -3,60 +3,150 @@ from django.contrib.admin import widgets
 
 class GesContacto(forms.Form):
     medio = forms.CharField(
-        label='Medio')
+        label='Medio',
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Medio', 
+                'class': 'form-control', 
+                'style': 'height: 2.5em'}))
     fuente = forms.CharField(
         label='Fuente', 
-        max_length=30)
+        max_length=30,
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Fuente', 
+                'class': 'form-control', 
+                'style': 'height: 2.5em'}))
     fecha = forms.DateField(
-        label='Fecha de reclamo')
+        label='Fecha de reclamo',
+        widget=forms.DateInput(
+            attrs={
+                'type': 'date',
+                'placeholder': 'Fecha de reclamo', 
+                'class': 'form-control', 
+                'style': 'height: 2.5em'}))
     nombre = forms.CharField(
         label='Nombre', 
-        max_length=30)
+        max_length=30,
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Nombre', 
+                'class': 'form-control', 
+                'style': 'height: 2.5em'}))
     apellido = forms.CharField(
         label='Apellido', 
-        max_length=30)
+        max_length=30,
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Apellido', 
+                'class': 'form-control', 
+                'style': 'height: 2.5em'}))
     dni = forms.CharField(
         label='DNI', 
-        max_length=30)
+        max_length=30,
+        widget=forms.TextInput(
+            attrs={
+                'type': 'number',
+                'placeholder': 'DNI', 
+                'class': 'form-control', 
+                'style': 'height: 2.5em'}))
     celular = forms.CharField(
         label='Teléfono Celular', 
-        max_length=30)
+        max_length=30,
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Teléfono Móvil', 
+                'class': 'form-control', 
+                'style': 'height: 2.5em'}))
     tel_fijo = forms.CharField(
         label='Teléfono fijo', 
-        max_length=30)
+        max_length=30,
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Teléfono fijo', 
+                'class': 'form-control', 
+                'style': 'height: 2.5em'}))
     mail = forms.CharField(
-        label='Mail', 
-        max_length=30)
+        label='E-mail', 
+        max_length=30,
+        widget=forms.EmailInput(
+            attrs={
+                'type': 'email',
+                'placeholder': 'correo@servidor.com', 
+                'class': 'form-control', 
+                'style': 'height: 2.5em'}))
     calle = forms.CharField(
         label='Calle',
-        max_length=30)
+        max_length=30,
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Calle', 
+                'class': 'form-control', 
+                'style': 'height: 2.5em'}))
     altura = forms.CharField(
         label='Altura',
-        max_length=30)
+        max_length=30,
+        widget=forms.TextInput(
+            attrs={
+                'type': 'number',
+                'placeholder': 'Altura', 
+                'class': 'form-control', 
+                'style': 'height: 2.5em'}))
     edificio = forms.CharField(
         label='Edificio',
-        max_length=30)
+        max_length=30,
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Edificio', 
+                'class': 'form-control', 
+                'style': 'height: 2.5em'}))
     departamento = forms.CharField(
         label='Departamentp',
-        max_length=30)
+        max_length=30,
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Departamento', 
+                'class': 'form-control', 
+                'style': 'height: 2.5em'}))
     entre_calle_1 = forms.CharField(
         label='Entre calle 1',
-        max_length=30)
+        max_length=30,
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Entre calles 1', 
+                'class': 'form-control', 
+                'style': 'height: 2.5em'}))
     entre_calle_2 = forms.CharField(
         label='Entre calle 2',
-        max_length=30)
+        max_length=30,
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Entre calles 2', 
+                'class': 'form-control', 
+                'style': 'height: 2.5em'}))
     localidad = forms.CharField(
         label='Localidad',
-        max_length=30)
+        max_length=30,
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Localidad', 
+                'class': 'form-control', 
+                'style': 'height: 2.5em'}))
     urgencia = forms.CharField(
         label='Urgencia',
-        max_length=30)
+        max_length=30,
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Urgencia', 
+                'class': 'form-control', 
+                'style': 'height: 2.5em'}))
     detalle = forms.CharField(
         label='Detalle',
         widget=forms.Textarea(
             attrs={
-                'row':1,
-                'cols':23}),
+                'placeholder': 'Detalles', 
+                'class': 'form-control', 
+                'style': 'height: 10em'}),
         required=False)
 
 
