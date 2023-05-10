@@ -2667,3 +2667,8 @@ section {
   height: auto;
   min-height: 100px;
 }
+
+
+.ancho-celda {
+  min-width: 150px;
+}

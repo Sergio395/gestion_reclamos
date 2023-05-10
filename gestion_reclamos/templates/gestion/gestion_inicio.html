@@ -25,28 +25,31 @@
           <!--filtros-->
           <div class="input-group mb-3">
             <h2>Buscar</h2>
+            <hr>
           </div>
+          
           
           <!--caja de busqueda -->
           
-            <div class="input-group mb-3">
-              <input type="text" class="form-control" aria-label="Text input with dropdown button Default" aria-describedby="inputGroup-sizing-default">
-              <select class="custom-select" id="inputGroupSelect02">
-                {% for item in reclamos.0 %}
-                <option selected> {{ item }}</option>
-                {% endfor  %}
-              </select>
-              <div class="input-group-append">
-                <button class="btn btn-primary" type="button">Buscar</button>
-              </div>           
-              
-            </div>
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" aria-label="Text input with dropdown button" aria-describedby="inputGroup-sizing-default" style="height: 2.5em">
+            <select class="custom-select" id="inputGroupSelect01">
+              {% for item in reclamos.0 %}
+              <option selected> {{ item }}</option>
+              {% endfor  %}
+            </select>
+            <div class="input-group-append">
+              <button class="btn btn-primary" type="button">Buscar</button>
+            </div>           
+            
+          </div>
           
           <!--fin filtros-->
           
           <!--- Tabla con los datos-->
           <div class="input-group mb-3">
             <h2>Resultados</h2>
+            <hr>
           </div>
             <div class="table-responsive">
               
@@ -64,49 +67,49 @@
                     {% for reclamo in reclamos %}
                       <tr>
                         <th scope="row"><a href="{% url 'gestion_editar_reclamo' forloop.counter %}" class="btn btn-warning" role="button">Editar</a></th>
-                          <td>{{ reclamo.Reclamo }}</td>
-                          <td>{{ reclamo.Medio }}</td>
-                          <td>{{ reclamo.Fuente }}</td>
-                          <td>{{ reclamo.Fechadereclamo }}</td>
-                          <td>{{ reclamo.NombreyApellido }}</td>
-                          <td>{{ reclamo.DNI }}</td>
-                          <td>{{ reclamo.Celular }}</td>
-                          <td>{{ reclamo.Telefono }}</td>
-                          <td>{{ reclamo.Mail }}</td>
-                          <td>{{ reclamo.Calle }}</td>
-                          <td>{{ reclamo.Altura }}</td>
-                          <td>{{ reclamo.Edificio }}</td>
-                          <td>{{ reclamo.Depto }}</td>
-                          <td>{{ reclamo.Entrecalle1 }}</td>
-                          <td>{{ reclamo.Entrecalle2 }}</td>
-                          <td>{{ reclamo.Localidad }}</td>
-                          <td>{{ reclamo.ReclamoB }}</td>
-                          <td>{{ reclamo.Urgencia }}</td>
-                          <td>{{ reclamo.Detalledelreclamo }}</td>
-                          <td>{{ reclamo.FechadeCarga }}</td>
-                          <td>{{ reclamo.ID }}</td>
-                          <td>{{ reclamo.Norequiereinspeccion }}</td>
-                          <td>{{ reclamo.Fechadeinspeccion }}</td>
-                          <td>{{ reclamo.Trabajoarealizar }}</td>
-                          <td>{{ reclamo.Especie }}</td>
-                          <td>{{ reclamo.Altura }}</td>
-                          <td>{{ reclamo.Dap }}</td>
-                          <td>{{ reclamo.Cableadocercano }}</td>
-                          <td>{{ reclamo.Construccioncercana }}</td>
-                          <td>{{ reclamo.Observacionesdelsitio }}</td>
-                          <td>{{ reclamo.Urgenciadetrabajo }}</td>
-                          <td>{{ reclamo.Justificacion }}</td>
-                          <td>{{ reclamo.Inspector }}</td>
-                          <td>{{ reclamo.Fechadecargadeinspeccion }}</td>
-                          <td>{{ reclamo.Codigotrabajo }}</td>
-                          <td>{{ reclamo.Lote }}</td>
-                          <td>{{ reclamo.Estado }}</td>
-                          <td>{{ reclamo.Gestion }}</td>
-                          <td>{{ reclamo.DetalledeGestion }}</td>
-                          <td>{{ reclamo.EquipodeTrabajo }}</td>
-                          <td>{{ reclamo.FechaProgramada }}</td>
-                          <td>{{ reclamo.FechadeSolucion }}</td>
-                          <td>{{ reclamo.OrdendeTrabajo }}</td>
+                          <td class="ancho-celda">{{ reclamo.Reclamo }}</td>
+                          <td class="ancho-celda">{{ reclamo.Medio }}</td>
+                          <td class="ancho-celda">{{ reclamo.Fuente }}</td>
+                          <td class="ancho-celda">{{ reclamo.Fechadereclamo }}</td>
+                          <td class="ancho-celda">{{ reclamo.NombreyApellido }}</td>
+                          <td class="ancho-celda">{{ reclamo.DNI }}</td>
+                          <td class="ancho-celda">{{ reclamo.Celular }}</td>
+                          <td class="ancho-celda">{{ reclamo.Telefono }}</td>
+                          <td class="ancho-celda">{{ reclamo.Mail }}</td>
+                          <td class="ancho-celda">{{ reclamo.Calle }}</td>
+                          <td class="ancho-celda">{{ reclamo.Altura }}</td>
+                          <td class="ancho-celda">{{ reclamo.Edificio }}</td>
+                          <td class="ancho-celda">{{ reclamo.Depto }}</td>
+                          <td class="ancho-celda">{{ reclamo.Entrecalle1 }}</td>
+                          <td class="ancho-celda">{{ reclamo.Entrecalle2 }}</td>
+                          <td class="ancho-celda">{{ reclamo.Localidad }}</td>
+                          <td class="ancho-celda">{{ reclamo.ReclamoB }}</td>
+                          <td class="ancho-celda">{{ reclamo.Urgencia }}</td>
+                          <td class="ancho-celda">{{ reclamo.Detalledelreclamo }}</td>
+                          <td class="ancho-celda">{{ reclamo.FechadeCarga }}</td>
+                          <td class="ancho-celda">{{ reclamo.ID }}</td>
+                          <td class="ancho-celda">{{ reclamo.Norequiereinspeccion }}</td>
+                          <td class="ancho-celda">{{ reclamo.Fechadeinspeccion }}</td>
+                          <td class="ancho-celda">{{ reclamo.Trabajoarealizar }}</td>
+                          <td class="ancho-celda">{{ reclamo.Especie }}</td>
+                          <td class="ancho-celda">{{ reclamo.Altura }}</td>
+                          <td class="ancho-celda">{{ reclamo.Dap }}</td>
+                          <td class="ancho-celda">{{ reclamo.Cableadocercano }}</td>
+                          <td class="ancho-celda">{{ reclamo.Construccioncercana }}</td>
+                          <td class="ancho-celda">{{ reclamo.Observacionesdelsitio }}</td>
+                          <td class="ancho-celda">{{ reclamo.Urgenciadetrabajo }}</td>
+                          <td class="ancho-celda">{{ reclamo.Justificacion }}</td>
+                          <td class="ancho-celda">{{ reclamo.Inspector }}</td>
+                          <td class="ancho-celda">{{ reclamo.Fechadecargadeinspeccion }}</td>
+                          <td class="ancho-celda">{{ reclamo.Codigotrabajo }}</td>
+                          <td class="ancho-celda">{{ reclamo.Lote }}</td>
+                          <td class="ancho-celda">{{ reclamo.Estado }}</td>
+                          <td class="ancho-celda">{{ reclamo.Gestion }}</td>
+                          <td class="ancho-celda">{{ reclamo.DetalledeGestion }}</td>
+                          <td class="ancho-celda">{{ reclamo.EquipodeTrabajo }}</td>
+                          <td class="ancho-celda">{{ reclamo.FechaProgramada }}</td>
+                          <td class="ancho-celda">{{ reclamo.FechadeSolucion }}</td>
+                          <td class="ancho-celda">{{ reclamo.OrdendeTrabajo }}</td>
                         
                       </tr>
                     {% endfor %} 
@@ -124,20 +127,23 @@
       <!-- pagination -->
 
       <nav aria-label="Page navigation example">
-  <ul class="pagination justify-content-center">
-    <li class="page-item disabled">
-      <a class="page-link" href="#" tabindex="-1">Anterior</a>
-    </li>
-    <li class="page-item"><a class="page-link" href="#">1</a></li>
-    <li class="page-item"><a class="page-link" href="#">2</a></li>
-    <li class="page-item"><a class="page-link" href="#">3</a></li>
-    <li class="page-item">
-      <a class="page-link" href="#">Próximo</a>
-    </li>
-  </ul>
-</nav>
+        <ul class="pagination justify-content-center">
+          <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1">Anterior</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="#">1</a></li>
+          <li class="page-item">
+            <a class="page-link" href="#">2</a></li>
+          <li class="page-item">
+            <a class="page-link" href="#">3</a></li>
+          <li class="page-item">
+            <a class="page-link" href="#">Próximo</a>
+          </li>
+        </ul>
+      </nav>
 
-      <!--fin pagination-->
+      <!-- fin pagination-->
     </section>
   </main>
   
