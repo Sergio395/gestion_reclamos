@@ -41,11 +41,36 @@ class GesContactoForm(forms.Form):
         (21, "01-293934-02 Arbol poda"),
         (19, "00-297349-01 Arbol enfermo"),
     )
-    nombre = forms.CharField(label='Inspector designado')
-    lugar = forms.CharField(label='Lugar de inspección', max_length=30)
-    reclamo = forms.ChoiceField(label='Decide el reclamo ID', choices=reclamo)
-    nota = forms.CharField(label='Observaciones', widget=forms.Textarea(
-        attrs={'row': 1, 'cols': 23}), required=False)
+    nombre = forms.CharField(
+        label='Inspector designado',
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Inspector designado', 
+                'class': 'form-control', 
+                'style': 'height: 2.5em'}))
+    lugar = forms.CharField(
+        label='Lugar de inspección', 
+        max_length=30, 
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Lugar de inspección', 
+                'class': 'form-control', 
+                'style': 'height: 2.5em'}))
+    reclamo = forms.ChoiceField(
+        label = 'Decide el reclamo ID', 
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'ID de reclamo', 
+                'class': 'form-control', 
+                'style': 'height: 2.5em'}), 
+        choices = reclamo)
+    nota = forms.CharField(
+        label='Observaciones', 
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-control', 
+                'style': 'height: 10em'}), 
+            required=False)
 
 
 class GesInspeccion(forms.Form):
@@ -91,7 +116,7 @@ class GesInspeccion(forms.Form):
         (1, 'No'),
         (2, 'Si')
     )
-    numero_reclamo = forms.ChoiceField(
+    numero_reclamo = forms.ChoiceField( 
         label='Selecciona el ID del reclamo', 
         widget=forms.Select(
             attrs={
@@ -110,18 +135,20 @@ class GesInspeccion(forms.Form):
                 'type': 'date', 
                 'class': 'form-control'}))
     trabajo = forms.ChoiceField(
-        label='Seleccione trbajo a realizar', 
+        label='Seleccione trabajo a realizar', 
         widget=forms.Select(
             attrs={
+                'placeholder': 'Trabajo a realizar', 
                 'class': 'form-control', 
-                'style': 'height: 2.5em;'}), 
+                'style': 'height: 2.5em'}), 
             choices=trabajos)
     especie = forms.ChoiceField(
         label='Seleccione especie', 
         widget=forms.Select(
             attrs={
+                'placeholder': 'Seleccione una especie', 
                 'class': 'form-control', 
-                'style': 'height: 2.5em;'}), 
+                'style': 'height: 2.5em'}), 
             choices=especies)
     altura = forms.CharField(
         label='Ingrese altura (m)', 
@@ -129,7 +156,7 @@ class GesInspeccion(forms.Form):
             attrs={
                 'placeholder': 'Ingrese altura en metros', 
                 'class': 'form-control', 
-                'style': 'height: 2.5em;'}))
+                'style': 'height: 2.5em'}))
     dap = forms.CharField(
         label='Ingrese DAP (cm)', 
         widget=forms.TextInput(
@@ -220,10 +247,10 @@ class GesGestion (forms.Form):
             required=False)
     
     equipo_trabajo = forms.CharField(
-        label='Detalle de gestión', 
+        label='Equipo de trabajo', 
         widget=forms.TextInput(
             attrs={
-                'placeholder': 'Detalle de gestión', 
+                'placeholder': 'Equipo de trabajo', 
                 'class': 'form-control', 
                 'style': 'height: 5em;'}), 
             required=False)
@@ -241,10 +268,10 @@ class GesGestion (forms.Form):
                 'class': 'form-control'}))
         
     ordentrabajo = forms.CharField(
-        label='Detalle de gestión', 
+        label='Orden de trabajo', 
         widget=forms.TextInput(
             attrs={
-                'placeholder': 'Detalle de gestión', 
+                'placeholder': 'Orden de trabajo', 
                 'class': 'form-control', 
                 'style': 'height: 5em;'}), 
             required=False)
