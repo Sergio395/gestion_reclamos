@@ -41,9 +41,35 @@ El Sistema de Gestión de Reclamos de arbolado público es una aplicación web q
 - Asignación de roles
 - Alta de contratistas
 
-### Flujo de funcionamiento del sistema
+### Flujo de trabajo
 
-![Flujo de funcionamiento](diagrams/Gestión_reclamos-Flujo.png)
+```mermaid
+    graph TD
+        A{Inicio} --> B
+        B(Operador) --> |Carga| E[Nuevo reclamo]
+        E --> C(Inspector)
+        C --> |Genera| F[Planilla inspección]
+        F --> |Realiza| G[Inspección]
+        G --> |Carga| H[Nueva inspección]
+        H --> |Cambia estado| I[Inspeccionado]
+        I --> D(Gestor)
+        D --> |Organiza| J[Reclamos]
+        J --> |Por| J1[área, prioridad, urgencia]
+        J --> |Genera| K[Órden de trabajo]
+        K --> L(Contratista)
+        L --> |Realiza| M[Trabajos]
+        M --> |Notifica| N[Trabajo terminado]
+        N --> C
+        C -.-> |Inspecciona| N
+        N -.-> |Carga| O[Árboles certificados]
+        O -.-> |Cambia estado| P[Ejecutado]
+        P -.-> D
+        D -.-> |Genera pago| L
+        D -.-> |Cierra| Q[Reclamo]
+        Q -.-> |Cambia estado| R[Solucionado]
+        R -.-> S{Fin}
+        L -.-> S{Fin}
+```
 
 ### UX-UI (preliminar)
 
@@ -128,7 +154,6 @@ gestion_reclamos
 ├── apps
 │   ├── administracion
 │   │   ├── migrations
-│   │   │   └── __init__.py
 │   │   ├── __init__.py
 │   │   ├── admin.py
 │   │   ├── apps.py
@@ -139,7 +164,6 @@ gestion_reclamos
 │   │   └── views.py
 │   ├── base
 │   │   ├── migrations
-│   │   │   └── __init__.py
 │   │   ├── __init__.py
 │   │   ├── admin.py
 │   │   ├── apps.py
@@ -149,7 +173,6 @@ gestion_reclamos
 │   │   └── views.py
 │   ├── gestion
 │   │   ├── migrations
-│   │   │   └── __init__.py
 │   │   ├── __init__.py
 │   │   ├── admin.py
 │   │   ├── apps.py
@@ -162,7 +185,6 @@ gestion_reclamos
 │   │   └── views.py
 │   ├── inspeccion
 │   │   ├── migrations
-│   │   │   └── __init__.py
 │   │   ├── __init__.py
 │   │   ├── admin.py
 │   │   ├── apps.py
@@ -173,7 +195,6 @@ gestion_reclamos
 │   │   └── views.py
 │   ├── reclamos
 │   │   ├── migrations
-│   │   │   └── __init__.py
 │   │   ├── __init__.py
 │   │   ├── admin.py
 │   │   ├── apps.py
@@ -194,28 +215,12 @@ gestion_reclamos
 ├── static
 │   ├── administracion
 │   │   ├── css
-│   │   │   └── styles.css
 │   │   └── js
-│   │       ├── datatables-simple-demo.js
-│   │       └── scripts.js
 │   └── assets
 │       ├── css
-│       │   └── main.css
 │       ├── img
-│       │   ├── favicon
-│       │   └── SGR.png
 │       ├── js
-│       │   ├── inspeccion_index.js
-│       │   └── main.js
 │       └── vendor
-│           ├── aos
-│           ├── bootstrap
-│           ├── bootstrap-icons
-│           ├── glightbox
-│           ├── isotope-layout
-│           ├── php-email-form
-│           ├── purecounter
-│           └── swiper
 ├── templates
 │   ├── administracion
 │   │   ├── admin_index.html
@@ -244,8 +249,6 @@ gestion_reclamos
 │       ├── seguimiento.html
 │       └── ver_reclamo.html
 ├── .gitignore
-├── bbdd_calles.json
-├── bbdd_campos.json
 ├── manage.py
 ├── README.md
 └── requirements.txt
@@ -297,36 +300,43 @@ gestion_reclamos
     >pip install -r requirements.txt
     >```
 
-6. Crear las tablas de la base de datos
+6. Crear la base de datos en PostgreSQL:
+
+    1. Abre pgAdmin y haz clic derecho en “Databases”.
+    2. Selecciona “Create” y luego “Database”.
+    3. Ingresa el nombre de la base de datos y selecciona el propietario.
+
+7. Crear el archivo '.env' en la carpeta 'gestion_reclamos' con los siguientes parámetros
+
+    >```text
+    >SECRET_KEY = 'clave_del_entorno'
+    >DEBUG = True
+    >DATABASE_NAME = 'nombre_de_tu_base_de_datos'
+    >DATABASE_HOST = 'localhost'
+    >DATABASE_PORT = ''
+    >DATABASE_USER = 'nombre_de_usuario'
+    >DATABASE_PASSWORD = 'password'
+    >````
+
+8. Crear las tablas de la base de datos
 
     >```bash
     >python manage.py migrate
     >````
 
-<!-- 7. Crear un usuario administrador
+<!-- 9. Crear un usuario administrador
 
     >```bash
     >python manage.py createsuperuser
     >```` -->
-7. Crea un archivo '.env' dentro de la carpeta 'gestion_reclamos' con los siguientes parámetros
 
-    >```text
-    >SECRET_KEY =
-    >DEBUG = True
-    >DATABASE_NAME =
-    >DATABASE_HOST = 'localhost'
-    >DATABASE_PORT = '5432' # puerto por defecto
-    >DATABASE_USER = 'postgres' # usuario por defecto
-    >DATABASE_PASSWORD =
-    >````
-
-8. Ejecutar el servidor local
+9. Ejecutar el servidor local
 
     >```bash
     >python manage.py runserver
     >````
 
-9.  Acceder a <http://localhost:8000/> en el navegador
+10.  Acceder a <http://localhost:8000/> en el navegador
 
 <!-- ## Ejecutando las pruebas
 
