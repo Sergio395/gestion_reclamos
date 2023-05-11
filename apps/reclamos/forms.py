@@ -702,8 +702,16 @@ class NuevoReclamo(forms.Form):
             'placeholder': '12.345.678'
             }))
         )
+    correo_electronico = forms.EmailField(
+        label='Correo electrónico',
+        widget=forms.EmailInput(attrs=Styles.input_styles({
+            'placeholder': 'vecino@ejemplo.com',
+            'required': False,
+            })),
+        required=False
+        )
     celular = forms.IntegerField(
-        label='Celular',
+        label='Teléfono celular',
         widget=forms.NumberInput(attrs=Styles.input_styles({
             'placeholder': '(11) 555 5555'
             }))
@@ -712,14 +720,6 @@ class NuevoReclamo(forms.Form):
         label='Teléfono fijo',
         widget=forms.NumberInput(attrs=Styles.input_styles({
             'placeholder': '(11) 555 5555',
-            'required': False,
-            })),
-        required=False
-        )
-    correo_electronico = forms.EmailField(
-        label='Correo electrónico',
-        widget=forms.EmailInput(attrs=Styles.input_styles({
-            'placeholder': 'vecino@ejemplo.com',
             'required': False,
             })),
         required=False
@@ -736,6 +736,20 @@ class NuevoReclamo(forms.Form):
         widget=forms.NumberInput(attrs=Styles.input_styles({
             # 'placeholder': 'Altura'
             }))
+        )
+    entre_calle_1 = forms.ChoiceField(
+        label='Entre calle',
+        widget=forms.Select(attrs=Styles.input_styles({
+            # 'placeholder': 'Entre calle 1'
+            })),
+        choices=calles
+        )
+    entre_calle_2 = forms.ChoiceField(
+        label='y calle',
+        widget=forms.Select(attrs=Styles.input_styles({
+            # 'placeholder': 'Entre calle 2'
+            })),
+        choices=calles
         )
     edificio = forms.CharField(
         label='Edificio',
@@ -754,20 +768,6 @@ class NuevoReclamo(forms.Form):
             'required': False,
             })),
         required=False
-        )
-    entre_calle_1 = forms.ChoiceField(
-        label='Entre calle',
-        widget=forms.Select(attrs=Styles.input_styles({
-            # 'placeholder': 'Entre calle 1'
-            })),
-        choices=calles
-        )
-    entre_calle_2 = forms.ChoiceField(
-        label='y calle',
-        widget=forms.Select(attrs=Styles.input_styles({
-            # 'placeholder': 'Entre calle 2'
-            })),
-        choices=calles
         )
     localidad = forms.ChoiceField(
         label='Localidad',
