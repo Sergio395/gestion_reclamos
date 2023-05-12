@@ -166,7 +166,7 @@ class GesInspector(forms.Form):
                 'placeholder': 'Lugar de inspección', 
                 'class': 'form-control', 
                 'style': 'height: 2.5em'}))
-    reclamo = forms.ChoiceField(
+    reclamo = forms.CharField(
         label = 'Decide el reclamo ID', 
         widget=forms.TextInput(
             attrs={
