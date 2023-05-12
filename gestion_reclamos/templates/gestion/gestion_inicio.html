@@ -22,15 +22,14 @@
     <section id="contact" class="contact">
       <div class="container" data-aos="fade-up">
         <div class="row gx-lg-0 gy-4">
+
           <!--filtros-->
           <div class="input-group mb-3">
             <h2>Buscar</h2>
             <hr>
           </div>
           
-          
           <!--caja de busqueda -->
-          
           <div class="input-group mb-3">
             <input type="text" class="form-control" aria-label="Text input with dropdown button" aria-describedby="inputGroup-sizing-default" style="height: 2.5em">
             <select class="custom-select" id="inputGroupSelect01">
@@ -41,9 +40,7 @@
             <div class="input-group-append">
               <button class="btn btn-primary" type="button">Buscar</button>
             </div>           
-            
           </div>
-          
           <!--fin filtros-->
           
           <!--- Tabla con los datos-->
@@ -52,80 +49,50 @@
             <hr>
           </div>
             <div class="table-responsive">
-              
               <table class="table table-striped table-hover">
+
+                <!-- Titulos -->
                 <thead>
                   <tr>
                     <th>#</th>
-                    {% for item in reclamos.0 %}
-                      <th>{{ item }}</th>  
+                    {% for key in reclamos.0 %}
+                      <th>{{ key }}</th>  
                     {% endfor %}
                   </tr>
                 </thead>
+
+                <!-- Datos de tabla   -->
                 <tbody>
-                  
+                    <!-- Por cada reclamo en la lista reclamos -->
                     {% for reclamo in reclamos %}
                       <tr>
-                        <th scope="row"><a href="{% url 'gestion_editar_reclamo' forloop.counter %}" class="btn btn-warning" role="button">Editar</a></th>
-                          <td class="ancho-celda">{{ reclamo.Reclamo }}</td>
-                          <td class="ancho-celda">{{ reclamo.Medio }}</td>
-                          <td class="ancho-celda">{{ reclamo.Fuente }}</td>
-                          <td class="ancho-celda">{{ reclamo.Fechadereclamo }}</td>
-                          <td class="ancho-celda">{{ reclamo.NombreyApellido }}</td>
-                          <td class="ancho-celda">{{ reclamo.DNI }}</td>
-                          <td class="ancho-celda">{{ reclamo.Celular }}</td>
-                          <td class="ancho-celda">{{ reclamo.Telefono }}</td>
-                          <td class="ancho-celda">{{ reclamo.Mail }}</td>
-                          <td class="ancho-celda">{{ reclamo.Calle }}</td>
-                          <td class="ancho-celda">{{ reclamo.Altura }}</td>
-                          <td class="ancho-celda">{{ reclamo.Edificio }}</td>
-                          <td class="ancho-celda">{{ reclamo.Depto }}</td>
-                          <td class="ancho-celda">{{ reclamo.Entrecalle1 }}</td>
-                          <td class="ancho-celda">{{ reclamo.Entrecalle2 }}</td>
-                          <td class="ancho-celda">{{ reclamo.Localidad }}</td>
-                          <td class="ancho-celda">{{ reclamo.ReclamoB }}</td>
-                          <td class="ancho-celda">{{ reclamo.Urgencia }}</td>
-                          <td class="ancho-celda">{{ reclamo.Detalledelreclamo }}</td>
-                          <td class="ancho-celda">{{ reclamo.FechadeCarga }}</td>
-                          <td class="ancho-celda">{{ reclamo.ID }}</td>
-                          <td class="ancho-celda">{{ reclamo.Norequiereinspeccion }}</td>
-                          <td class="ancho-celda">{{ reclamo.Fechadeinspeccion }}</td>
-                          <td class="ancho-celda">{{ reclamo.Trabajoarealizar }}</td>
-                          <td class="ancho-celda">{{ reclamo.Especie }}</td>
-                          <td class="ancho-celda">{{ reclamo.Altura }}</td>
-                          <td class="ancho-celda">{{ reclamo.Dap }}</td>
-                          <td class="ancho-celda">{{ reclamo.Cableadocercano }}</td>
-                          <td class="ancho-celda">{{ reclamo.Construccioncercana }}</td>
-                          <td class="ancho-celda">{{ reclamo.Observacionesdelsitio }}</td>
-                          <td class="ancho-celda">{{ reclamo.Urgenciadetrabajo }}</td>
-                          <td class="ancho-celda">{{ reclamo.Justificacion }}</td>
-                          <td class="ancho-celda">{{ reclamo.Inspector }}</td>
-                          <td class="ancho-celda">{{ reclamo.Fechadecargadeinspeccion }}</td>
-                          <td class="ancho-celda">{{ reclamo.Codigotrabajo }}</td>
-                          <td class="ancho-celda">{{ reclamo.Lote }}</td>
-                          <td class="ancho-celda">{{ reclamo.Estado }}</td>
-                          <td class="ancho-celda">{{ reclamo.Gestion }}</td>
-                          <td class="ancho-celda">{{ reclamo.DetalledeGestion }}</td>
-                          <td class="ancho-celda">{{ reclamo.EquipodeTrabajo }}</td>
-                          <td class="ancho-celda">{{ reclamo.FechaProgramada }}</td>
-                          <td class="ancho-celda">{{ reclamo.FechadeSolucion }}</td>
-                          <td class="ancho-celda">{{ reclamo.OrdendeTrabajo }}</td>
+
+                        <!-- Boton EDITAR -->
+                        <th scope="row">
+                          <a href="{% url 'gestion_editar_reclamo' forloop.counter %}" class="btn btn-warning" role="button">
+                            Editar
+                          </a>
+                        </th>
+
+                        <!-- Datos de reclamos -->
+                        {% for key, value in reclamo.items %}
+                          <td class="ancho-celda">
+                            {{ value }}
+                          </td>  
+                        {% endfor %}
+                        <!-- Fin de loop datos de reclamos -->
                         
                       </tr>
                     {% endfor %} 
-                  
+                    <!-- fin de recorrer cada reclamo -->
                 </tbody>
-              
               </table>
             </div>
-            
           </div>
-
         </div>
       </div>
 
       <!-- pagination -->
-
       <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
           <li class="page-item disabled">
