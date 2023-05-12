@@ -28,7 +28,7 @@
             {% for campo in nuevo_reclamo %}
               {% comment %} Excluimos el campo 'detalle' {% endcomment %}
               {% if campo.name != 'detalle' %}
-                {% comment %} Agrupar los campos de 2 en 2 {% endcomment %}
+                {% comment %} Agrupamos los campos de 2 en 2 en el div.row {% endcomment %}
                 {% if forloop.counter0|divisibleby:"2" %}
                   <div class="row">
                 {% endif %}

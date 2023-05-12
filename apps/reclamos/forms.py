@@ -1,13 +1,24 @@
-import datetime
+from datetime import date
 from django import forms
 
 
 class NuevoReclamo(forms.Form):
+    """
+    Formulario para crear un nuevo reclamo.
+    Este formulario contiene campos para ingresar información acerca de un reclamo
+    a ser registrado. Los campos incluyen el número de reclamo, medio por el cual
+    fue realizado, fuente de donde proviene, fecha, nombre y apellido del vecino,
+    su DNI, dirección donde se generó el reclamo, urgencia del mismo, una descripción
+    y fotos si las hay. Todos los campos son requeridos, excepto el correo electrónico,
+    teléfono fijo, edificio y departamento. 
+    """
+
     urgencias = (
-        (0, ""),
+        (0, "Ninguna"),
         (1, "Baja"),
         (2, "Media"),
-        (3, "Alta"))
+        (3, "Alta")
+        )
 
     calles = (
         (0, ""),
@@ -635,17 +646,27 @@ class NuevoReclamo(forms.Form):
         (622, "calle 12"),
         (623, "Col?n\r\nBah?a San Juli?n\r"))
 
-    localidadd = (
+    localidad = (
         (0, ""),
         (1, "Localidad 1"),
         (2, "Localidad 2"),
         (3, "Localidad 3"),
         (4, "Localidad 4"),
-        (5, "Localidad 5"))
+        (5, "Localidad 5")
+        )
 
     class Styles:
+        """
+        Clase de utilidad que proporciona estilos de entrada para el formulario.
+        """
         @staticmethod
         def input_styles(attrs):
+            """
+            Devuelve un diccionario de atributos con valores por defecto.
+            Recibe un diccionario con los atributos y valores personalizados del campo y
+            actualiza los valores por defecto del diccionario 'default_attrs' para
+            devolverlos como un diccionario único.
+            """
             default_attrs = {
                 'class': 'form-control',
                 'style': 'border-radius: .375rem; height: 35px;',
@@ -658,7 +679,7 @@ class NuevoReclamo(forms.Form):
         label='Número',
         max_length=50,
         widget=forms.TextInput(attrs=Styles.input_styles({
-            # 'placeholder': 'Número'
+            # 'placeholder': 'Número de reclamo'
             }))
         )
     medio = forms.CharField(
@@ -679,7 +700,7 @@ class NuevoReclamo(forms.Form):
         label='Fecha',
         widget=forms.DateInput(attrs=Styles.input_styles({
             'type': 'date',
-            'value': datetime.date.today().strftime('%Y-%m-%d')
+            'value': date.today().strftime('%Y-%m-%d')
             }))
         )
     nombre = forms.CharField(
@@ -774,7 +795,7 @@ class NuevoReclamo(forms.Form):
         widget=forms.Select(attrs=Styles.input_styles({
             # 'placeholder': 'Localidad'
             })),
-        choices=localidadd
+        choices=localidad
         )
     reclamo = forms.CharField(
         label='Reclamo',
