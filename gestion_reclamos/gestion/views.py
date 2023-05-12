@@ -236,6 +236,7 @@ def gestion_inicio (request):
 
 
 def gestion_editar_reclamo(request, nro_reclamo):
+    datos_reclamo = lista_reclamos[nro_reclamo-1]
     mensaje = None
     if request.method == 'POST':
         form_contacto = GesContacto(request.POST)
@@ -245,17 +246,17 @@ def gestion_editar_reclamo(request, nro_reclamo):
         mensaje = 'Hemos recibido tus datos'
         # acción para tomar los datos del formulario
     elif request.method == 'GET':
-        form_contacto = GesContacto(lista_reclamos[nro_reclamo-1])
-        form_inspector = GesInspector(lista_reclamos[nro_reclamo-1])
-        form_inspeccion = GesInspeccion(lista_reclamos[nro_reclamo-1])
-        form_gestion = GesGestion(lista_reclamos[nro_reclamo-1])
+        form_contacto = GesContacto(datos_reclamo)
+        form_inspector = GesInspector(datos_reclamo)
+        form_inspeccion = GesInspeccion(datos_reclamo)
+        form_gestion = GesGestion(datos_reclamo)
     else:
         return HttpResponseNotAllowed(f"Método {request.method} no soportado")
 
     context = {
         'nro_reclamo' : nro_reclamo,
         'mensaje': mensaje,
-        'reclamo': lista_reclamos[nro_reclamo-1],
+        'datos_reclamo': datos_reclamo,
         'form_contacto': form_contacto,
         'form_inspector': form_inspector,
         'form_inspeccion': form_inspeccion,
