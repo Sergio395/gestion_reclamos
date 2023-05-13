@@ -1,168 +1,91 @@
 {% extends 'base/base.html' %}
 {% block titulo %}Gestión{% endblock titulo %}
 
-<!-- ======= Breadcrumbs ======= -->
-{% block etiqueta %}Gestión{% endblock etiqueta %}
-{% block nav %}
+  <!-- ======= Breadcrumbs ======= -->
+  {% block etiqueta  %}Gestión{% endblock etiqueta  %}
+  {% block nav %}
   <nav>
-    <div class="container">
-      <ol>
-        <li><a href="{% url 'index' %}">Home</a></li>
-        <li>Gestión</li>
-      </ol>
-    </div>
+    <div class="container">      
+    <ol>     
+      <li><a href="{% url 'index' %}">Home</a></li>
+      <li>Gestión</li>
+      <li></li>
+    </ol>      
+  </div>
   </nav>
-{% endblock nav %}
-<!-- End Breadcrumbs -->
-
-{% block contenido %}
-  <section id="contact" class="contact">
-    <div class="container" data-aos="fade-up">
-      <div class="row gx-lg-0 gy-4">
-        <div class="col-lg-2"></div>
-        <div class="col-lg-8">
-
-          <section id="contact" class="contact">
-            <div class="container aos-init aos-animate" data-aos="fade-up">
-
-              <div class="row gx-lg-0 gy-4">
-
-                <div class="col-lg-2"></div>
-
-                <div class="col-lg-8">
-                  <form action="" method="post" role="form" class="php-email-form">
-                    <h2>Estoy en construccion!!</h2>
-                    <h4>Datos del reclamo Nro: {{ reclamo.Reclamo }}</h4>
-                    <hr>
-                    <div class="row">
-                      <div class="col-md-6 form-group mt-3 mt-md-0">
-                        <input value="{{ reclamo.Reclamo }}" type="text" name="name" class="form-control" id="name"
-                          placeholder="Número" required="">
-                      </div>
-                      <div class="col-md-6 form-group mt-3 mt-md-0">
-                        <input type="text" class="form-control" name="email" id="email" value="{{ reclamo.Medio }}"
-                          placeholder="Medio" required="">
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-6 form-group mt-3 mt-md-0">
-                        <input type="text" name="name" class="form-control" id="name" value="{{ reclamo.Fuente }} "
-                          placeholder="Fuente" required="">
-                      </div>
-                      <div class="col-md-6 form-group mt-3 mt-md-0">
-                        <input type="date" class="form-control" name="email" id="email" value="{{ reclamo.Fecha }}"
-                          placeholder="Fecha" required="">
-                      </div>
-                    </div>
-                    <br>
-
-                    <h4>Datos del vecino</h4>
-                    <hr>
-                    <div class="row">
-                      <div class="col-md-6 form-group mt-3 mt-md-0">
-                        <input value="{{ reclamo.NombreyApellido }}" type="text" name="name" class="form-control"
-                          id="name" placeholder="Nombre" required="">
-                      </div>
-                      <div class="col-md-6 form-group mt-3 mt-md-0">
-                        <input type="text" class="form-control" name="email" id="email"
-                          value="{{ reclamo.NombreyApellido }}" placeholder="Apellido" required="">
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-6 form-group mt-3 mt-md-0">
-                        <input type="number" name="name" class="form-control" id="name" value="{{ reclamo.DNI }}"
-                          placeholder="DNI" required="">
-                      </div>
-                      <div class="col-md-6 form-group mt-3 mt-md-0">
-                        <input type="number" class="form-control" name="email" id="email" placeholder="Celular"
-                          value="{{ reclamo.Celular }}" required="">
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-6 form-group mt-3 mt-md-0">
-                        <input type="number" name="name" class="form-control" id="name" value="{{ reclamo.Telefono }}"
-                          placeholder="Teléfono fijo" required="">
-                      </div>
-                      <div class="col-md-6 form-group mt-3 mt-md-0">
-                        <input type="email" class="form-control" name="email" id="email" placeholder="Correo electrónico"
-                          value="{{ reclamo.Mail }}" required="">
-                      </div>
-                    </div>
-                    <br>
-
-                    <h4>Datos del árbol</h4>
-                    <hr>
-                    <div class="row">
-                      <div class="col-md-6 form-group mt-3 mt-md-0">
-                        <input type="text" name="name" class="form-control" id="name" placeholder="Calle"
-                          value="{{ reclamo.Calle }}" required="">
-                      </div>
-                      <div class="col-md-6 form-group mt-3 mt-md-0">
-                        <input type="number" class="form-control" name="email" id="email" placeholder="Altura"
-                          value="{{ reclamo.Altura }}" required="">
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-6 form-group mt-3 mt-md-0">
-                        <input type="text" name="name" class="form-control" id="name" value="{{ reclamo.Edificio }}"
-                          placeholder="Edificio" required="">
-                      </div>
-                      <div class="col-md-6 form-group mt-3 mt-md-0">
-                        <input type="text" class="form-control" name="email" id="email" value="{{ reclamo.Departamento }}"
-                          placeholder="Departamento" required="">
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-6 form-group mt-3 mt-md-0">
-                        <input type="text" name="name" class="form-control" id="name" placeholder="Entre calle 1"
-                          value="{{ reclamo.Entrecalle1 }}" required="">
-                      </div>
-                      <div class="col-md-6 form-group mt-3 mt-md-0">
-                        <input type="text" class="form-control" name="email" id="email" placeholder="Entre calle 2"
-                          value="{{ reclamo.Entrecalle2 }}" required="">
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-6 form-group mt-3 mt-md-0">
-                        <input type="text" name="name" class="form-control" id="name" placeholder="Localidad"
-                          value="{{ reclamo.Localidad }}" required="">
-                      </div>
-                      <div class="col-md-6 form-group mt-3 mt-md-0">
-                        <input type="text" class="form-control" name="email" id="email" placeholder="Reclamo"
-                          value="{{ reclamo.ReclamoB }}" required="">
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-6 form-group mt-3 mt-md-0">
-                        <input type="text" name="name" class="form-control" id="name" placeholder="Urgencia"
-                          value="{{ reclamo.Urgencia }}" required="">
-                      </div>
-                    </div>
-                    <div class="form-group mt-3">
-                      <textarea class="form-control" name="message" rows="7" placeholder="Detalle"
-                        value="{{ reclamo.Detalle }}" required=""></textarea>
-                    </div>
-                    <br>
-                    <div class="row">
-                      <div class="text-center col-md-4 form-group mt-3 mt-md-0"><button href="{% url 'gestion' %}"
-                          style="background-color: rgb(0, 64, 255);" type="submit">Volver</button></div>
-                      <div class="text-center col-md-4 form-group mt-3 mt-md-0"><button
-                          href="{% url 'gestion_editar_reclamo' reclamo.Reclamo %}"
-                          style="background-color: rgb(255, 191, 0);" type="submit">Limpiar</button></div>
-                      <div class="text-center col-md-4 form-group mt-3 mt-md-0"><button
-                          href="{% url 'gestion_guardar_reclamo' reclamo.Reclamo %}"
-                          style="background-color: rgb(236, 46, 46);" type="submit">Guardar</button></div>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-
-          </section>
-
+  {% endblock nav %}
+  
+  <!-- End Breadcrumbs -->
+    
+  {% block contenido %}
+  
+    <section id="contact" class="contact">
+      <div class="container" data-aos="fade-up">
+        <div class="row gx-lg-0 gy-4">
+          
+        <!-- Datos del reclamo -->
+          <h4>Datos del reclamo Nro: {{ nro_reclamo }}</h4>
+          <hr>
         </div>
+            
+        <section id="contact" class="contact">
+          <div class="container aos-init aos-animate" data-aos="fade-up">
+            
+              <div class="col-lg-8">
+                <form class="php-email-form" id="" name="gestion_form" action="{% url 'gestion_editar_reclamo' nro_reclamo %}" method="POST">
+                    {% csrf_token %}
 
+                  <!-- Formulario Contacto -->  
+                  <br>
+                  <h4>Datos de Contacto</h4>
+                  <hr>      
+                  <table class="table">
+                    {{ form_contacto.as_table }}
+                  </table>
+
+                  <!-- Formulario Inspector -->  
+                  <br>
+                  <h4>Datos de Inspector</h4>
+                  <hr>      
+                  <table class="table">
+                    {{ form_inspector.as_table }}
+                  </table>
+
+                  <!--Formulario Inspeccion-->
+                  <br>
+                  <h4>Datos de Inspección</h4>
+                  <hr>
+                    
+                  <table class="table">
+                    {{ form_inspeccion.as_table }}
+                  </table>
+
+                  <!--Formulario Gestion-->
+                  <br>
+                  <h4>Datos de Gestión</h4>
+                  <hr>
+                    
+                  <table class="table">
+                    {{ form_gestion.as_table }}
+                  </table>
+
+                  <!--Botones-->
+                  <div class="row">
+                    <div class="text-center col-md-4 form-group mt-5 mt-md-0">
+                      <input type="button" class="btn btn-primary btn-lg" value="Volver">
+                    </div>
+                    <div class="text-center col-md-4 form-group mt-5 mt-md-0">
+                      <input type="reset" class="btn btn-warning btn-lg" value="Limpiar">
+                    </div>
+                    <div class="text-center col-md-4 form-group mt-5 mt-md-0">
+                      <input type="submit" class="btn btn-success btn-lg" value="Guardar">
+                    </div>
+                  </div>
+                </form>  
+              </div>  
+          </div>
+        </section>
       </div>
-    </div>
-  </section>
+    </section>
+  
 {% endblock contenido %}
