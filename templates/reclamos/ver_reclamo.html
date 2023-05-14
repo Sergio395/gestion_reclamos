@@ -1,5 +1,5 @@
 {% extends 'base/base.html' %}
-{% block titulo %}Reclamo N° {{ nro }}{% endblock titulo %}
+{% block titulo %}Seguimiento: {{ nro }}{% endblock titulo %}
 
 <!-- ======= Breadcrumbs ======= -->
 {% block etiqueta %}Ver reclamo{% endblock etiqueta %}
@@ -7,9 +7,9 @@
   <nav>
       <div class="container">      
       <ol>     
-        <li><a href="{% url 'index' %}">Home</a></li>
+        <li><a href="{% url 'index' %}">Inicio</a></li>
         <li><a href="{% url 'seguimiento' %}">Seguimiento</a></li>
-        <li>Ver reclamo</li>             
+        <li>{{ nro }}</li>             
       </ol>      
     </div>
   </nav>

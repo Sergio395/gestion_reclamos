@@ -1,13 +1,46 @@
 {% extends 'base/base.html' %}
 {% block titulo %}Nuevo reclamo{% endblock titulo %}
 
+{% block css %}
+  <style>
+    label {
+      color: #008375;
+    }
+    div.text-center button {
+      width: 180px;
+    }
+    button#btn-reset {
+      background: DarkTurquoise;
+      border: 0;
+      padding: 14px 45px;
+      color: #fff;
+      transition: 0.4s;
+      border-radius: 50px;
+    }
+    button#btn-reset:hover {
+      background: Turquoise;
+    }
+    button#btn-button {
+      background: Crimson;
+      border: 0;
+      padding: 14px 45px;
+      color: #fff;
+      transition: 0.4s;
+      border-radius: 50px;
+    }
+    button#btn-button:hover {
+      background: Red;
+    }
+  </style>
+{% endblock css %}
+
 <!-- ======= Breadcrumbs ======= -->
 {% block etiqueta %}Nuevo reclamo{% endblock etiqueta %}
 {% block nav %}
   <nav>
       <div class="container">      
       <ol>     
-        <li><a href="{% url 'index' %}">Home</a></li>
+        <li><a href="{% url 'index' %}">Inicio</a></li>
         <li>Nuevo reclamo</li>
       </ol>      
     </div>
@@ -19,28 +52,86 @@
   <!-- ======= Claim Section ======= -->
   <section id="contact" class="contact">
     <div class="container" data-aos="fade-up">
-
       <div class="row gx-lg-0 gy-4">
-
         <div class="col-lg-2"></div>
+        <div class="col-lg-8">
 
-          <div class="col-lg-8">
-            <form class="php-email-form" id="" name="nuevo_reclamo" action="{% url 'nuevo_reclamo' %}" method="POST">
-              {% csrf_token %}
+          {% for message in messages %}
+            <div class="alert alert-{% if message.tags == 'error' %}warning{% else %}{{ message.tags }}{% endif %}" role="alert">
+              {{message}}
+            </div>
+          {% endfor %}
 
-              <table class="table">
-                {{ nuevo_reclamo.as_table }}
-              </table>
-            
+          <form class="php-email-form" id="nuevo_reclamo" name="nuevo_reclamo" action="{% url 'nuevo_reclamo' %}" method="POST" novalidate>
+            {% csrf_token %}
 
-              <div class="row">
-                <div class="text-center col-md-4 form-group mt-3 mt-md-0"><button style="background-color: orange;" type="submit">Cancelar</button></div>
-                <div class="text-center col-md-4 form-group mt-3 mt-md-0"><button type="submit">Limpiar</button></div>
-                <div class="text-center col-md-4 form-group mt-3 mt-md-0"><button style="background-color: rgb(46, 71, 236);" type="submit">Siguiente</button></div>
+            {% for campo in nuevo_reclamo %}
+              {% if campo.name != 'detalle' %}
+
+                {% if forloop.counter0|divisibleby:"2" %}
+                  <div class="row">
+                {% endif %}
+
+                {% load custom_filters %}
+
+                <div class="col-md-6 form-group mb-1" >
+                  <label class="form-label" for="{{ campo.name }}">{{ campo.label }}{% if campo.field.required %}*{% endif %}</label>
+                  {% if campo.form.is_bound %}
+
+                    {% if campo.errors %}
+                      {{ campo|add_class:"form-control is-invalid" }}
+                      <div class="invalid-feedback">{{campo.errors}}</div>
+                    {% elif not campo.field.required %}
+                      {{ campo }}
+                    {% else %}
+                      {{ campo|add_class:"form-control is-valid" }}
+                    {% endif %}
+
+                  {% else %}
+                      {{ campo }}
+                  {% endif %}
+                </div>
+
+                {% if forloop.counter|divisibleby:"2" or forloop.last %}
+                  </div>
+                {% endif %}
+
+              {% endif %}
+            {% endfor %}
+
+            <div class="row">
+              <div class="col-md-12 form-group mt-3 mt-md-0">
+                <label class="form-label" for="{{ nuevo_reclamo.detalle.name }}">{{ nuevo_reclamo.detalle.label }}{% if nuevo_reclamo.detalle.field.required %}*{% endif %}</label>
+                {% if nuevo_reclamo.detalle.form.is_bound %}
+
+                  {% if nuevo_reclamo.detalle.errors %}
+                    {{ nuevo_reclamo.detalle|add_class:"form-control is-invalid" }}
+                    <div class="invalid-feedback">{{nuevo_reclamo.detalle.errors}}</div>
+                  {% elif not nuevo_reclamo.detalle.field.required %}
+                    {{ nuevo_reclamo.detalle }}
+                  {% else %}
+                    {{ nuevo_reclamo.detalle|add_class:"form-control is-valid" }}
+                  {% endif %}
+
+                {% else %}
+                  {{ nuevo_reclamo.detalle }}
+                {% endif %}
+              </div> 
+            </div>
+
+            <div class="row">
+              <div class="text-center col-md-4 form-group mt-3 mt-md-0">
+                <button id="btn-button" onclick="window.history.go(-1); return false;" type="button">Atrás</button>
               </div>
-              
-            </form>
-          </div>
+              <div class="text-center col-md-4 form-group mt-3 mt-md-0">
+                <button id="btn-reset" type="reset">Limpiar</button>
+              </div>
+              <div class="text-center col-md-4 form-group mt-3 mt-md-0">
+                <button type="submit">Siguiente</button>
+              </div>
+            </div>
+            
+          </form>
         </div>
       </div>
     </div>

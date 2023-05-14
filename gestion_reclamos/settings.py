@@ -59,7 +59,7 @@ ROOT_URLCONF = 'gestion_reclamos.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR,'templates'],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -81,9 +81,9 @@ WSGI_APPLICATION = 'gestion_reclamos.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('DATABASE_NAME'), 
         'HOST': config('DATABASE_HOST'),
         'PORT': config('DATABASE_PORT'),
+        'NAME': config('DATABASE_NAME'),
         'USER': config('DATABASE_USER'),
         'PASSWORD': config('DATABASE_PASSWORD'),
     }
@@ -136,7 +136,13 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# para campos del yipo correo
 
-DEFAULT_FROM_EMAIL  =  " sogtackk22@hotmail.com" 
-EMAIL_BACKEND  =  "django.core.mail.backends.console.EmailBackend"
+# Configuracion para el envio de email por medio de GMAIL
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = config("EMAIL_HOST")
+EMAIL_PORT = config("EMAIL_PORT")
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+# Clave generada desde la configuracion de Google
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+RECIPIENT_ADDRESS = config("RECIPIENT_ADDRESS")
