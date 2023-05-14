@@ -79,69 +79,9 @@ El Sistema de Gestión de Reclamos de arbolado público es una aplicación web q
 
 ![Formularios de reclamos](diagrams/Gestión_reclamos-Formularios.png)
 
-### Diagrama de Clases (BETA)
+### Diagrama de Clases
 
-```mermaid
-classDiagram
-    class Reclamo{
-        +numero: integer
-        +medio: string
-        +fuente: string
-        +fecha: date
-        +nombre: string
-        +apellido: string
-        +dni: integer
-        +celular: integer
-        +telefono_fijo: integer
-        +correo_electronico: string
-        +calle: string
-        +altura: integer
-        +edificio: string
-        +departamento: string
-        +entre_calle_1: string
-        +entre_calle_2: string
-        +localidad: string
-        +reclamo: string
-        +urgencia: string
-        +foto: file
-        +detalle: string
-    }
-
-    class Operador{
-        +username: string
-        +email: string
-        +password: string
-        +cargarReclamo()
-    }
-
-    class Inspector{
-        +username: string
-        +email: string
-        +password: string
-        +manejarReclamo()
-        +cargarReclamo()
-    }
-
-    class Gestor{
-        +username: string
-        +email: string
-        +password: string
-        +manejarReclamo()
-    }
-
-    class Administrador{
-        +username: string
-        +email: string
-        +password: string
-        +manejarReclamo()
-    }
-
-    Operador "1" -- "N" Reclamo : carga
-    Inspector "1" -- "N" Reclamo : maneja
-    Inspector "1" -- "N" Reclamo : carga
-    Gestor "1" -- "N" Reclamo : maneja
-    Administrador "1" -- "N" Reclamo : maneja
-```
+![Diagrama de Clases]()
 
 ### Diagrama Entidad-Relación (DER)
 
@@ -150,7 +90,7 @@ classDiagram
 ### Estructura del proyecto
 
 ```text
-gestion_reclamos
+gestion_recla
 ├── apps
 │   ├── administracion
 │   │   ├── migrations
@@ -195,6 +135,9 @@ gestion_reclamos
 │   │   └── views.py
 │   ├── reclamos
 │   │   ├── migrations
+│   │   ├── templatetags
+|   │   │   ├── __init__.py
+|   │   │   └── custom_filters.py
 │   │   ├── __init__.py
 │   │   ├── admin.py
 │   │   ├── apps.py

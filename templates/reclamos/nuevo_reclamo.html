@@ -3,6 +3,12 @@
 
 {% block css %}
   <style>
+    label {
+      color: #008375;
+    }
+    div.text-center button {
+      width: 180px;
+    }
     button#btn-reset {
       background: DarkTurquoise;
       border: 0;
@@ -61,21 +67,26 @@
 
             {% for campo in nuevo_reclamo %}
               {% if campo.name != 'detalle' %}
-                
+
                 {% if forloop.counter0|divisibleby:"2" %}
                   <div class="row">
                 {% endif %}
 
                 {% load custom_filters %}
+
                 <div class="col-md-6 form-group mb-1" >
                   <label class="form-label" for="{{ campo.name }}">{{ campo.label }}{% if campo.field.required %}*{% endif %}</label>
                   {% if campo.form.is_bound %}
+
                     {% if campo.errors %}
                       {{ campo|add_class:"form-control is-invalid" }}
                       <div class="invalid-feedback">{{campo.errors}}</div>
+                    {% elif not campo.field.required %}
+                      {{ campo }}
                     {% else %}
                       {{ campo|add_class:"form-control is-valid" }}
                     {% endif %}
+
                   {% else %}
                       {{ campo }}
                   {% endif %}
@@ -92,12 +103,16 @@
               <div class="col-md-12 form-group mt-3 mt-md-0">
                 <label class="form-label" for="{{ nuevo_reclamo.detalle.name }}">{{ nuevo_reclamo.detalle.label }}{% if nuevo_reclamo.detalle.field.required %}*{% endif %}</label>
                 {% if nuevo_reclamo.detalle.form.is_bound %}
+
                   {% if nuevo_reclamo.detalle.errors %}
                     {{ nuevo_reclamo.detalle|add_class:"form-control is-invalid" }}
                     <div class="invalid-feedback">{{nuevo_reclamo.detalle.errors}}</div>
+                  {% elif not nuevo_reclamo.detalle.field.required %}
+                    {{ nuevo_reclamo.detalle }}
                   {% else %}
                     {{ nuevo_reclamo.detalle|add_class:"form-control is-valid" }}
                   {% endif %}
+
                 {% else %}
                   {{ nuevo_reclamo.detalle }}
                 {% endif %}
