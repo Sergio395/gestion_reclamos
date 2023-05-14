@@ -1,74 +1,71 @@
 from datetime import datetime
-from django.shortcuts import render, redirect
-# from django.views import View
-from .forms import NuevoReclamo
-from django.http import HttpResponse
+from django.contrib import messages
+# from django.core.mail import send_mail
+from django.shortcuts import render
 from django.http import HttpResponseNotAllowed
-
-
-
-
-# PARA IMPLEMENTAR
-# from django.views.generic.edit import FormView
-# from .forms import NuevoReclamoForm
-
-# class NuevoReclamoView(FormView):
-#     template_name = 'reclamos/nuevo_reclamo.html'
-#     form_class = NuevoReclamoForm
-#     success_url = '/reclamos/gracias/'
-
-#     def form_valid(self, form):
-#         # Lógica para guardar el formulario en la base de datos
-#         return super().form_valid(form)
-#  fin
-
-
-# class NuevoReclamoView(View):
-#     template_name = 'reclamos/nuevo_reclamo.html'
-
-#     def get(self, request, *args, **kwargs):
-#         nuevo = NuevoReclamo()
-#         context = {
-#             'nuevo_reclamo': nuevo,
-#         }
-#         return render(request, self.template_name, context)
-
-#     def post(self, request, *args, **kwargs):
-#         nuevo = NuevoReclamo(request.POST)
-#         if nuevo.is_valid():
-#             mensaje = 'Hemos recibido tus datos'
-#             # acción para tomar los datos del formulario
-#             return redirect('ruta_de_redireccion')
-#         else:
-#             mensaje = 'Ha ocurrido un error, por favor verifica los datos ingresados.'
-#         context = {
-#             'mensaje': mensaje,
-#             'nuevo_reclamo': nuevo,
-#         }
-#         return render(request, self.template_name, context)
-
-
+from .forms import NuevoReclamo
 
 
 # Create your views here.
 def nuevo_reclamo(request):
-    mensaje = None
+    """
+    Vista para manejar la creación de un nuevo reclamo.
+    Si la solicitud es de tipo 'POST', valida el formulario utilizando la clase
+    NuevoReclamo y muestra los mensajes correspondientes según el resultado de la
+    validación. Si la solicitud es de tipo 'GET', crea una instancia de NuevoReclamo
+    vacía. Si la solicitud no es de tipo 'GET' ni 'POST', devuelve un error de método
+    no permitido.
+    """
     if request.method == 'POST':
         nuevo = NuevoReclamo(request.POST)
-        mensaje = 'Hemos recibido tus datos'
+
         # acción para tomar los datos del formulario
+        if nuevo.is_valid():
+            messages.success(
+                request,
+                'Hemos generado el reclamo'
+            )
+            # if nuevo.correo_electronico:
+            #     mensaje = f"""
+            #         De : {nuevo.cleaned_data['nombre']} <{nuevo.cleaned_data['correo_electronico']}>
+            #         Asunto: {nuevo.cleaned_data['asunto']}
+            #         Mensaje: {nuevo.cleaned_data['mensaje']}
+            #     """
+            #     mensaje_html = f"""
+            #         <p>De: {nuevo.cleaned_data['nombre']} <a href="mailto:{nuevo.cleaned_data['correo_electronico']}">{nuevo.cleaned_data['email']}</a></p>
+            #         <p>Asunto:  {nuevo.cleaned_data['asunto']}</p>
+            #         <p>Mensaje: {nuevo.cleaned_data['mensaje']}</p>
+            #     """
+            #     asunto = "CONSULTA DESDE LA PAGINA - " + \
+            #         nuevo.cleaned_data['asunto']
+            #     send_mail(
+            #         asunto, mensaje, settings.EMAIL_HOST_USER,
+            #         [settings.RECIPIENT_ADDRESS],
+            #         fail_silently=False,
+            #         html_message=mensaje_html
+            #     )
+
+        # acción para mostrar los datos del formulario
+        else:
+            messages.error(
+                request,
+                'Revisa los errores en el formulario'
+            )
+
     elif request.method == 'GET':
         nuevo = NuevoReclamo()
+
     else:
-        return HttpResponseNotAllowed(f"Método {request.method} no soportado")
+        return HttpResponseNotAllowed(
+            f"Método {request.method} no soportado"
+        )
 
     context = {
-        'mensaje': mensaje,
         'nuevo_reclamo': nuevo
     }
 
     return render(request, 'reclamos/nuevo_reclamo.html', context)
-# Fin Nuevo Reclamo-----------------------------------------------
+
 
 
 lista = ['Area Geográfica', 'Norte', 30333256,

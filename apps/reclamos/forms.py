@@ -1,27 +1,19 @@
 from datetime import date
 from django import forms
+from django.core import validators
+from .models import Reclamo
 
 
-class NuevoReclamo(forms.Form):
-    """
-    Formulario para crear un nuevo reclamo.
-    Este formulario contiene campos para ingresar información acerca de un reclamo
-    a ser registrado. Los campos incluyen el número de reclamo, medio por el cual
-    fue realizado, fuente de donde proviene, fecha, nombre y apellido del vecino,
-    su DNI, dirección donde se generó el reclamo, urgencia del mismo, una descripción
-    y fotos si las hay. Todos los campos son requeridos, excepto el correo electrónico,
-    teléfono fijo, edificio y departamento. 
-    """
 
-    urgencias = (
-        (0, "Ninguna"),
+URGENCIAS = (
+        ("", "Seleccione la urgencia"),
         (1, "Baja"),
         (2, "Media"),
         (3, "Alta")
         )
 
-    calles = (
-        (0, ""),
+CALLES = (
+        ("", "Seleccione una calle"),
         (1, "12 de Octubre"),
         (2, "17 de Agosto"),
         (3, "20 de Junio"),
@@ -646,14 +638,48 @@ class NuevoReclamo(forms.Form):
         (622, "calle 12"),
         (623, "Col?n\r\nBah?a San Juli?n\r"))
 
-    localidad = (
-        (0, ""),
+LOCALIDADES = (
+        ("", "Selecciona una localidad"),
         (1, "Localidad 1"),
         (2, "Localidad 2"),
         (3, "Localidad 3"),
         (4, "Localidad 4"),
         (5, "Localidad 5")
         )
+
+
+def validate_only_alphabetic(value):
+    """
+    Valida que el valor recibido contenga solo letras del alfabeto.
+    """
+    if not value.isalpha():
+        raise forms.ValidationError('Este campo solo debe contener letras.')
+
+
+class NuevoReclamo(forms.Form):
+    """
+    Formulario para crear un nuevo reclamo.
+    Este formulario contiene campos para ingresar información acerca de un reclamo
+    a ser registrado. Los campos incluyen el número de reclamo, medio por el cual
+    fue realizado, fuente de donde proviene, fecha, nombre y apellido del vecino,
+    su DNI, dirección donde se generó el reclamo, urgencia del mismo, una descripción
+    y fotos si las hay. Todos los campos son requeridos, excepto el correo electrónico,
+    teléfono fijo, edificio, departamento y detalle. 
+    """
+
+    class Meta:
+        """
+        La clase Meta se utiliza para definir opciones adicionales para el formulario.
+        En este caso, se especifica el modelo asociado al formulario y los campos que
+        se incluyen en el formulario.
+        """
+        model = Reclamo
+        fields = [
+            'numero', 'medio', 'fuente', 'fecha', 'nombre', 'apellido', 'dni',
+            'correo_electronico', 'celular', 'telefono_fijo', 'calle',
+            'numeracion', 'entre_calle_1', 'entre_calle_2', 'edificio',
+            'departamento', 'localidad', 'reclamo', 'urgencia', 'foto', 'detalle'
+        ]
 
     class Styles:
         """
@@ -669,162 +695,172 @@ class NuevoReclamo(forms.Form):
             """
             default_attrs = {
                 'class': 'form-control',
-                'style': 'border-radius: .375rem; height: 35px;',
-                'required': True
-                }
+                'style': 'border-radius: .375rem; height: 35px;'
+            }
             default_attrs.update(attrs)
             return default_attrs
 
-    numero = forms.CharField(
+    numero = forms.IntegerField(
         label='Número',
-        max_length=50,
-        widget=forms.TextInput(attrs=Styles.input_styles({
-            # 'placeholder': 'Número de reclamo'
-            }))
-        )
+        widget=forms.NumberInput(attrs=Styles.input_styles({
+            'placeholder': 'Escribe el número de reclamo'
+        }))
+    )
     medio = forms.CharField(
         label='Medio',
         max_length=50,
         widget=forms.TextInput(attrs=Styles.input_styles({
-            # 'placeholder': 'Medio'
-            }))
-        )
+            'placeholder': 'Elige un medio'
+        }))
+    )
     fuente = forms.CharField(
         label='Fuente',
         max_length=50,
         widget=forms.TextInput(attrs=Styles.input_styles({
-            # 'placeholder': 'Fuente'
-            }))
-        )
+            'placeholder': 'Elige una fuente'
+        }))
+    )
     fecha = forms.DateField(
         label='Fecha',
+        validators=[validators.MaxValueValidator(date.today)],
         widget=forms.DateInput(attrs=Styles.input_styles({
             'type': 'date',
             'value': date.today().strftime('%Y-%m-%d')
-            }))
-        )
+        }))
+    )
     nombre = forms.CharField(
         label='Nombre',
         max_length=50,
+        validators=[validate_only_alphabetic],
         widget=forms.TextInput(attrs=Styles.input_styles({
-            # 'placeholder': 'Nombre'
-            }))
-        )
+            'placeholder': 'Nombre del denunciante'
+        }))
+    )
     apellido = forms.CharField(
         label='Apellido',
         max_length=50,
+        validators=[validate_only_alphabetic],
         widget=forms.TextInput(attrs=Styles.input_styles({
-            # 'placeholder': 'Apellido'
-            }))
-        )
+            'placeholder': 'Apellido del denunciante'
+        }))
+    )
     dni = forms.IntegerField(
         label='DNI',
+        validators=[
+            validators.MinValueValidator(1000000),
+            validators.MaxValueValidator(99999999)
+        ],
         widget=forms.NumberInput(attrs=Styles.input_styles({
             'placeholder': '12.345.678'
-            }))
-        )
+        }))
+    )
     correo_electronico = forms.EmailField(
         label='Correo electrónico',
+        error_messages={'invalid': 'Introduce una dirección de correo electrónico válida'},
         widget=forms.EmailInput(attrs=Styles.input_styles({
-            'placeholder': 'vecino@ejemplo.com',
+            'placeholder': 'johndoe@mail.com',
             'required': False,
-            })),
+        })),
         required=False
-        )
+    )
     celular = forms.IntegerField(
         label='Teléfono celular',
         widget=forms.NumberInput(attrs=Styles.input_styles({
-            'placeholder': '(11) 555 5555'
-            }))
-        )
+            'placeholder': '11 555 5555'
+        }))
+    )
     telefono_fijo = forms.IntegerField(
         label='Teléfono fijo',
         widget=forms.NumberInput(attrs=Styles.input_styles({
-            'placeholder': '(11) 555 5555',
+            'placeholder': '11 555 5555',
             'required': False,
-            })),
+        })),
         required=False
-        )
+    )
     calle = forms.ChoiceField(
         label='Calle',
         widget=forms.Select(attrs=Styles.input_styles({
             # 'placeholder': 'Calle'
-            })),
-        choices=calles
-        )
-    altura = forms.IntegerField(
-        label='Altura',
+        })),
+        choices=CALLES
+    )
+    numeracion = forms.IntegerField(
+        label='Numeración',
         widget=forms.NumberInput(attrs=Styles.input_styles({
-            # 'placeholder': 'Altura'
-            }))
-        )
+            'placeholder': 'Numeración aproximada'
+        }))
+    )
     entre_calle_1 = forms.ChoiceField(
-        label='Entre calle',
+        label='Entre la calle',
         widget=forms.Select(attrs=Styles.input_styles({
-            # 'placeholder': 'Entre calle 1'
-            })),
-        choices=calles
-        )
+        'required': False,
+        })),
+        required=False,
+        choices=CALLES
+    )
     entre_calle_2 = forms.ChoiceField(
-        label='y calle',
+        label='y la calle',
         widget=forms.Select(attrs=Styles.input_styles({
-            # 'placeholder': 'Entre calle 2'
-            })),
-        choices=calles
-        )
+            'required': False,
+        })),
+        required=False,
+        choices=CALLES
+    )
     edificio = forms.CharField(
         label='Edificio',
         max_length=50,
         widget=forms.TextInput(attrs=Styles.input_styles({
             # 'placeholder': 'Edificio',
             'required': False,
-            })),
+        })),
         required=False
-        )
+    )
     departamento = forms.CharField(
         label='Departamento',
         max_length=50,
         widget=forms.TextInput(attrs=Styles.input_styles({
             # 'placeholder': 'Departamento',
             'required': False,
-            })),
+        })),
         required=False
-        )
+    )
     localidad = forms.ChoiceField(
         label='Localidad',
         widget=forms.Select(attrs=Styles.input_styles({
             # 'placeholder': 'Localidad'
-            })),
-        choices=localidad
-        )
+        })),
+        choices=LOCALIDADES
+    )
     reclamo = forms.CharField(
         label='Reclamo',
         widget=forms.TextInput(attrs=Styles.input_styles({
             # 'placeholder': 'Reclamo'
-            }))
-        )
+        }))
+    )
     urgencia = forms.ChoiceField(
         label='Urgencia',
         widget=forms.Select(attrs=Styles.input_styles({
             # 'placeholder': 'Urgencia'
-            })),
-        choices=urgencias
-        )
+        })),
+        choices=URGENCIAS
+    )
     foto = forms.FileField(
         label='Fotos',
         widget=forms.ClearableFileInput(attrs=Styles.input_styles({
             'accept': 'image/*',
             'multiple': True,
             'required': False,
-            })),
+        })),
         required=False
-        )
+    )
     detalle = forms.CharField(
         label='Detalles',
+        validators=[validators.MinLengthValidator(10)],
         widget=forms.Textarea(attrs=Styles.input_styles({
-            # 'placeholder': 'Detalles',
+            'placeholder': 'Detalla el reclamo',
             'style': 'height: 10em; border-radius: .375rem;',
+            'row': 3,
             'required': False,
-            })),
+        })),
         required=False
-        )
+    )
