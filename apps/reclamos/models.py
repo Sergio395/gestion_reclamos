@@ -22,29 +22,6 @@ class Denunciante(models.Model):
         return f"{self.apellido}, {self.nombre}"
 
 
-class Arbol(models.Model):
-    """
-    Modelo que representa un árbol. Contiene información relevante
-    acerca del reclamo, como la dirección donde se encuentra el árbol,
-    coordenadas GPS, especie de árbol y altura del mismo.
-    """
-    fecha_creacion = models.DateField(auto_now_add=True, verbose_name="Fecha de creación")
-    calle = models.CharField(max_length=50, verbose_name="Calle")
-    numeracion = models.IntegerField(verbose_name="Numeración")
-    entre_calle_1 = models.CharField(max_length=50, verbose_name="Entre calle")
-    entre_calle_2 = models.CharField(max_length=50, verbose_name="y calle")
-    localidad = models.CharField(max_length=50, verbose_name="Localidad")
-    edificio = models.CharField(max_length=50, verbose_name="Edificio")
-    departamento = models.CharField(max_length=50, verbose_name="Departamento")
-    latitud = models.DecimalField(max_digits=9, decimal_places=6, verbose_name="Latitud")
-    longitud = models.DecimalField(max_digits=9, decimal_places=6, verbose_name="Longitud")
-    especie = models.CharField(max_length=30, verbose_name="Especie")
-    altura = models.DecimalField(max_digits=3, decimal_places=1, verbose_name="Altura")
-
-    def __str__(self):
-        return f"{self.especie} [lat {self.latitud}, lng {self.longitud}]"
-
-
 class Reclamo(models.Model):
     """
     Modelo que representa un reclamo realizado por un denunciante.
@@ -88,13 +65,24 @@ class Reclamo(models.Model):
     fecha_creacion = models.DateField(auto_now_add=True, verbose_name="Fecha de creación")
     numero = models.IntegerField(verbose_name="Número")
     medio = models.CharField(max_length=20, verbose_name="Medio")
-    fuente = models.CharField(max_length=5, verbose_name="Fuente", choices=FuenteChoices.choices)
+    fuente = models.CharField(max_length=5, verbose_name="Fuente",
+                              choices=FuenteChoices.choices)
     fecha = models.DateField(verbose_name="Fecha del reclamo")
     denunciantes = models.ManyToManyField(Denunciante, verbose_name="Denunciante")
+    calle = models.CharField(max_length=50, verbose_name="Calle")
+    numeracion = models.IntegerField(verbose_name="Numeración")
+    entre_calle_1 = models.CharField(max_length=50, verbose_name="Entre calle")
+    entre_calle_2 = models.CharField(max_length=50, verbose_name="y calle")
+    localidad = models.CharField(max_length=50, verbose_name="Localidad")
+    edificio = models.CharField(max_length=50, verbose_name="Edificio")
+    departamento = models.CharField(max_length=50, verbose_name="Departamento")
     arboles = models.ManyToManyField(Arbol, verbose_name="Arbol")
     reclamo = models.CharField(max_length=200, verbose_name="Reclamo")
-    urgencia = models.CharField(max_length=5, verbose_name="Urgencia", choices=UrgenciaChoices.choices, default=UrgenciaChoices.NINGUNA)
-    foto = models.ImageField(upload_to='img_reclamos', null=True, blank=True, verbose_name="Fotos") # img_reclamos define la ruta donde se almacenan las fotos
+    urgencia = models.CharField(max_length=5, verbose_name="Urgencia",
+                                choices=UrgenciaChoices.choices,
+                                default=UrgenciaChoices.NINGUNA)
+    foto = models.ImageField(upload_to='img_reclamos', null=True,
+                             blank=True, verbose_name="Fotos") # img_reclamos define la ruta donde se almacenan las fotos
     detalle = models.CharField(max_length=500, verbose_name="Detalles")
     reclamo_valido = models.BooleanField(default=0, verbose_name="Reclamo válido")
 
