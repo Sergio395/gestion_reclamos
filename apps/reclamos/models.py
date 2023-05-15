@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-
+from ..inspeccion.models import Arbol
 
 # Create your models here.
 class Denunciante(models.Model):
@@ -19,7 +19,7 @@ class Denunciante(models.Model):
     telefono_fijo = models.IntegerField(verbose_name="Telefono fijo")
 
     def __str__(self):
-        return f"{self.apellido}, {self.nombre}"
+        return f"{self.apellido}, {self.nombre} DNI: {self.dni}"
 
 
 class Reclamo(models.Model):
@@ -39,17 +39,17 @@ class Reclamo(models.Model):
         restringir los valores permitidos en el campo 'medio' del modelo
         Reclamo.
         """
-        BLANK = "0", _("")
-        CALLE = "1", _("Calle")
-        CAV = "2", _("CAV")
-        EXP = "3", _("Expediente")
-        MAIL = "4", _("Correo electrónico")
-        NOTA = "5", _("Nota")
-        RED = "6", _("Redes sociales")
-        TEL = "7", _("Teléfono Oficina")
-        VENT = "8", _("Ventanilla")
-        WAP = "9", _("WAP")
-        
+        BLANK = "", _("")
+        CALLE = "06", _("Calle")
+        CAV = "00", _("CAV")
+        EXP = "01", _("Expediente")
+        MAIL = "07", _("Correo electrónico")
+        NOTA = "05", _("Nota")
+        RED = "03", _("Redes sociales")
+        TEL = "04", _("Teléfono Oficina")
+        VENT = "02", _("Ventanilla")
+        WAP = "08", _("WAP")
+
     class FuenteChoices(models.TextChoices):
         """
         Clase que representa las opciones de fuente de un reclamo.
@@ -57,7 +57,7 @@ class Reclamo(models.Model):
         restringir los valores permitidos en el campo 'fuente' del modelo
         Reclamo.
         """
-        BLANK = "0", _("")
+        BLANK = "", _("")
         ARQ = "1", _("Arquitectura")
         CAV = "2", _("CAV")
         CERE = "3", _("Ceremonial")
@@ -94,8 +94,8 @@ class Reclamo(models.Model):
         restringir los valores permitidos en el campo 'localidad' del modelo
         Reclamo.
         """
-        BLANK = "0", _("")
-        9DAB = "1", _("9 de Abril")
+        BLANK = "", _("")
+        NDAB = "1", _("9 de Abril")
         CANN = "2", _("Canning")
         EJAG = "3", _("El Jagüel")
         LGUI = "4", _("Luis Guillón")
@@ -108,7 +108,7 @@ class Reclamo(models.Model):
         restringir los valores permitidos en el campo 'reclamo' del modelo
         Reclamo.
         """
-        BLANK = "0", _("")
+        BLANK = "", _("")
         ACAI = "1", _("Árbol caído")
         ARCA = "2", _("Árbol con riesgo de caída")
         AELE = "3", _("Árbol electrificado")
@@ -135,7 +135,7 @@ class Reclamo(models.Model):
         restringir los valores permitidos en el campo 'urgencia' del modelo
         Reclamo.
         """
-        BLANK = "0", _("")
+        BLANK = "", _("")
         BAJA = "1", _("Baja")
         MEDIA = "2", _("Media")
         ALTA = "3", _("Alta")

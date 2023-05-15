@@ -136,8 +136,8 @@ gestion_recla
 │   ├── reclamos
 │   │   ├── migrations
 │   │   ├── templatetags
-|   │   │   ├── __init__.py
-|   │   │   └── custom_filters.py
+│   │   │   ├── __init__.py
+│   │   │   └── custom_filters.py
 │   │   ├── __init__.py
 │   │   ├── admin.py
 │   │   ├── apps.py
