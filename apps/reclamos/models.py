@@ -32,6 +32,24 @@ class Reclamo(models.Model):
     una foto del incidente (opcional), y un detalle del mismo.
     """
 
+    class MedioChoices(models.TextChoices):
+        """
+        Clase que representa las opciones de medio de un reclamo.
+        Las opciones son limitadas y predefinidas, y se utilizan para
+        restringir los valores permitidos en el campo 'medio' del modelo
+        Reclamo.
+        """
+        BLANK = "0", _("")
+        CALLE = "1", _("Calle")
+        CAV = "2", _("CAV")
+        EXP = "3", _("Expediente")
+        MAIL = "4", _("Correo electrónico")
+        NOTA = "5", _("Nota")
+        RED = "6", _("Redes sociales")
+        TEL = "7", _("Teléfono Oficina")
+        VENT = "8", _("Ventanilla")
+        WAP = "9", _("WAP")
+        
     class FuenteChoices(models.TextChoices):
         """
         Clase que representa las opciones de fuente de un reclamo.
@@ -39,16 +57,76 @@ class Reclamo(models.Model):
         restringir los valores permitidos en el campo 'fuente' del modelo
         Reclamo.
         """
-        OFICINA_1 = "1", _("Oficina 1")
-        OFICINA_2 = "2", _("Oficina 2")
-        OFICINA_3 = "3", _("Oficina 3")
-        OFICINA_4 = "4", _("Oficina 4")
-        OFICINA_5 = "5", _("Oficina 5")
-        OFICINA_6 = "6", _("Oficina 6")
-        OFICINA_7 = "7", _("Oficina 7")
-        OFICINA_8 = "8", _("Oficina 8")
-        OFICINA_9 = "9", _("Oficina 9")
-        OFICINA_10 = "10", _("Oficina 10")
+        BLANK = "0", _("")
+        ARQ = "1", _("Arquitectura")
+        CAV = "2", _("CAV")
+        CERE = "3", _("Ceremonial")
+        COM = "4", _("COM")
+        CDEL = "5", _("Consejo Deliberante")
+        CESC = "6", _("Consejo Escolar")
+        CULT = "7", _("Cultura")
+        DEFC = "8", _("Defensa Civil")
+        D9DA = "9", _("Delegación 9 de Julio")
+        DCAN = "10", _("Delegación Canning")
+        DEJ = "11", _("Delegación El Jagüel")
+        DLG = "12", _("Delegación Luis Guillón")
+        DMAL = "13", _("Delegación Malvinas")
+        DMGS = "14", _("Delegación Monte Grande Sur")
+        EDES = "15", _("EDESUR S.A.")
+        ECHE = "16", _("Enlace Echeverría")
+        ENTI = "17", _("Entidades")
+        EVER = "18", _("Espacios Verdes")
+        GOB = "19", _("Gobierno")
+        MAMB = "20", _("Medio Ambiente")
+        MENT = "21", _("Mesa de Entrada")
+        OHID = "22", _("Obras Hídricas")
+        OPAR = "23", _("Obras Particulares")
+        OPUB = "24", _("Obras Públicas")
+        PREN = "25", _("Prensa")
+        SEG = "26", _("Seguridad")
+        SERV = "27", _("Servicios")
+        VEC = "28", _("Vecino")
+
+    class LocalidadChoices(models.TextChoices):
+        """
+        Clase que representa las opciones de localidad de un reclamo.
+        Las opciones son limitadas y predefinidas, y se utilizan para
+        restringir los valores permitidos en el campo 'localidad' del modelo
+        Reclamo.
+        """
+        BLANK = "0", _("")
+        9DAB = "1", _("9 de Abril")
+        CANN = "2", _("Canning")
+        EJAG = "3", _("El Jagüel")
+        LGUI = "4", _("Luis Guillón")
+        MGRA = "5", _("Monte Grande")
+
+    class ReclamoChoices(models.TextChoices):
+        """
+        Clase que representa las opciones de tipo de reclamo.
+        Las opciones son limitadas y predefinidas, y se utilizan para
+        restringir los valores permitidos en el campo 'reclamo' del modelo
+        Reclamo.
+        """
+        BLANK = "0", _("")
+        ACAI = "1", _("Árbol caído")
+        ARCA = "2", _("Árbol con riesgo de caída")
+        AELE = "3", _("Árbol electrificado")
+        CDRA = "4", _("Corte de raíz")
+        DCAB = "5", _("Despeje de cables")
+        DLUM = "6", _("Despeje luminario")
+        EXTR = "7", _("Extracción")
+        INDE = "8", _("Indemnización")
+        PAOA = "9", _("Panal de abejas/avispas")
+        PODA = "10", _("Poda")
+        PSAU = "11", _("Poda sin autorización")
+        QUEJ = "12", _("Queja")
+        RQUE = "13", _("Rama quebrada")
+        RDPO = "14", _("Recolección de poda")
+        REDA = "15", _("Revisión de estado del árbol")
+        SDAR = "16", _("Solicitud de árbol")
+        SDAU = "17", _("Solicitud de autorización")
+        TSAU = "18", _("Tala sin autorización")
 
     class UrgenciaChoices(models.TextChoices):
         """
@@ -57,34 +135,40 @@ class Reclamo(models.Model):
         restringir los valores permitidos en el campo 'urgencia' del modelo
         Reclamo.
         """
-        NINGUNA = "0", _("Ninguna")
+        BLANK = "0", _("")
         BAJA = "1", _("Baja")
         MEDIA = "2", _("Media")
         ALTA = "3", _("Alta")
 
     fecha_creacion = models.DateField(auto_now_add=True, verbose_name="Fecha de creación")
     numero = models.IntegerField(verbose_name="Número")
-    medio = models.CharField(max_length=20, verbose_name="Medio")
-    fuente = models.CharField(max_length=5, verbose_name="Fuente",
-                              choices=FuenteChoices.choices)
+    medio = models.CharField(max_length=50, verbose_name="Medio",
+                             choices=MedioChoices.choices,
+                             default=MedioChoices.BLANK)
+    fuente = models.CharField(max_length=50, verbose_name="Fuente",
+                              choices=FuenteChoices.choices,
+                              default=FuenteChoices.BLANK)
     fecha = models.DateField(verbose_name="Fecha del reclamo")
     denunciantes = models.ManyToManyField(Denunciante, verbose_name="Denunciante")
     calle = models.CharField(max_length=50, verbose_name="Calle")
     numeracion = models.IntegerField(verbose_name="Numeración")
-    entre_calle_1 = models.CharField(max_length=50, verbose_name="Entre calle")
-    entre_calle_2 = models.CharField(max_length=50, verbose_name="y calle")
-    localidad = models.CharField(max_length=50, verbose_name="Localidad")
     edificio = models.CharField(max_length=50, verbose_name="Edificio")
     departamento = models.CharField(max_length=50, verbose_name="Departamento")
+    entre_calle_1 = models.CharField(max_length=50, verbose_name="Entre calle")
+    entre_calle_2 = models.CharField(max_length=50, verbose_name="y calle")
+    localidad = models.CharField(max_length=50, verbose_name="Localidad",
+                                 choices=LocalidadChoices.choices,
+                                 default=LocalidadChoices.BLANK)
     arboles = models.ManyToManyField(Arbol, verbose_name="Arbol")
-    reclamo = models.CharField(max_length=200, verbose_name="Reclamo")
+    reclamo = models.CharField(max_length=200, verbose_name="Reclamo",
+                               choices=ReclamoChoices.choices,
+                               default=ReclamoChoices.BLANK)
     urgencia = models.CharField(max_length=5, verbose_name="Urgencia",
                                 choices=UrgenciaChoices.choices,
-                                default=UrgenciaChoices.NINGUNA)
+                                default=UrgenciaChoices.BLANK)
     foto = models.ImageField(upload_to='img_reclamos', null=True,
                              blank=True, verbose_name="Fotos") # img_reclamos define la ruta donde se almacenan las fotos
     detalle = models.CharField(max_length=500, verbose_name="Detalles")
-    reclamo_valido = models.BooleanField(default=0, verbose_name="Reclamo válido")
 
     def __str__(self):
         return f'Reclamo {self.numero}'

@@ -676,9 +676,9 @@ class NuevoReclamo(forms.Form):
         model = Reclamo
         fields = [
             'numero', 'medio', 'fuente', 'fecha', 'nombre', 'apellido', 'dni',
-            'correo_electronico', 'celular', 'telefono_fijo', 'calle',
-            'numeracion', 'entre_calle_1', 'entre_calle_2', 'edificio',
-            'departamento', 'localidad', 'reclamo', 'urgencia', 'foto', 'detalle'
+            'correo_electronico', 'celular', 'telefono_fijo', 'calle', 'numeracion',
+            'edificio', 'departamento', 'entre_calle_1', 'entre_calle_2',
+            'localidad', 'reclamo', 'urgencia', 'foto', 'detalle'
         ]
 
     class Styles:
@@ -790,22 +790,6 @@ class NuevoReclamo(forms.Form):
             'placeholder': 'Numeración aproximada'
         }))
     )
-    entre_calle_1 = forms.ChoiceField(
-        label='Entre la calle',
-        widget=forms.Select(attrs=Styles.input_styles({
-        'required': False,
-        })),
-        required=False,
-        choices=CALLES
-    )
-    entre_calle_2 = forms.ChoiceField(
-        label='y la calle',
-        widget=forms.Select(attrs=Styles.input_styles({
-            'required': False,
-        })),
-        required=False,
-        choices=CALLES
-    )
     edificio = forms.CharField(
         label='Edificio',
         max_length=50,
@@ -823,6 +807,22 @@ class NuevoReclamo(forms.Form):
             'required': False,
         })),
         required=False
+    )
+    entre_calle_1 = forms.ChoiceField(
+        label='Entre la calle',
+        widget=forms.Select(attrs=Styles.input_styles({
+        'required': False,
+        })),
+        required=False,
+        choices=CALLES
+    )
+    entre_calle_2 = forms.ChoiceField(
+        label='y la calle',
+        widget=forms.Select(attrs=Styles.input_styles({
+            'required': False,
+        })),
+        required=False,
+        choices=CALLES
     )
     localidad = forms.ChoiceField(
         label='Localidad',
