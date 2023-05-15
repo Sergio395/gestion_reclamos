@@ -137,12 +137,12 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-# Configuracion para el envio de email por medio de GMAIL
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = config("EMAIL_HOST")
-EMAIL_PORT = config("EMAIL_PORT")
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = config("EMAIL_HOST_USER")
-# Clave generada desde la configuracion de Google
-EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
-RECIPIENT_ADDRESS = config("RECIPIENT_ADDRESS")
+# # Configuracion para el envio de email por medio de GMAIL
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = config("EMAIL_HOST")
+# EMAIL_PORT = config("EMAIL_PORT")
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+# # Clave generada desde la configuracion de Google
+# EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+# RECIPIENT_ADDRESS = config("RECIPIENT_ADDRESS")
