@@ -421,20 +421,21 @@ class GesBusqueda(forms.Form):
         ('fecha_programada', 'fecha programada'),
         ('fecha_solucion', 'fecha solución')
     )
-    criterio1_valor = forms.ChoiceField( 
+    criterio1_valor = forms.CharField( 
         label='Criterio 1', 
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'Texto a buscar en criterio 1',
-                'class': 'form-control  mx-auto', 
-                'style': 'height: 2.5em'}))
+                'class': 'form-control', 
+                'style': 'height: 2.8em'}))
     criterio1_campo = forms.ChoiceField(
         label='Campo', 
         widget=forms.Select(
             attrs={
                 'placeholder': 'Campo a filtrar', 
                 'class': 'form-control', 
-                'style': 'height: 2.5em'}), 
+                'style': 'height: 2.5em',
+                'id': "inputGroupSelect01"}), 
             choices=campos)
     
     criterio2_valor = forms.ChoiceField( 
@@ -442,14 +443,14 @@ class GesBusqueda(forms.Form):
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'Texto a buscar en criterio 2',
-                'class': 'form-control  mx-auto', 
-                'style': 'height: 2.5em'}))
+                'class': 'form-control mx-auto', 
+                'style': 'height: 2.8em'}))
     criterio2_campo = forms.ChoiceField(
         label='Campo', 
         widget=forms.Select(
             attrs={
                 'placeholder': 'Campo a filtrar', 
-                'class': 'form-control', 
+                'class': 'form-control mx-auto', 
                 'style': 'height: 2.5em'}), 
             choices=campos)
     
@@ -458,28 +459,28 @@ class GesBusqueda(forms.Form):
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'Texto a buscar en criterio 3',
-                'class': 'form-control  mx-auto', 
-                'style': 'height: 2.5em'}))
+                'class': 'form-control mx-auto', 
+                'style': 'height: 2.8em'}))
     criterio3_campo = forms.ChoiceField(
         label='Campo', 
         widget=forms.Select(
             attrs={
                 'placeholder': 'Campo a filtrar', 
-                'class': 'form-control', 
+                'class': 'form-control mx-auto', 
                 'style': 'height: 2.5em'}), 
             choices=campos)
 
-    fecha_busqueda = forms.DateField(
+    criterio4_valor = forms.DateField(
         widget=forms.DateInput(
             attrs={
                 'type': 'date', 
-                'class': 'form-control', 
-                'style': 'height: 2.5em'}))
-    fecha_campo = forms.ChoiceField(
+                'class': 'form-control mx-auto', 
+                'style': 'height: 2.8em'}))
+    criterio4_campo = forms.ChoiceField(
         label='Fecha a buscar', 
         widget=forms.Select(
             attrs={
                 'placeholder': 'Fecha a filtrar', 
-                'class': 'form-control', 
+                'class': 'form-control mx-auto', 
                 'style': 'height: 2.5em'}), 
             choices=fechas)

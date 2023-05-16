@@ -5,7 +5,7 @@ from django.core.mail import send_mail
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotAllowed, JsonResponse
 from django.template import loader
-from .forms import GesContacto, GesInspector, GesInspeccion, GesGestion
+from .forms import GesContacto, GesInspector, GesInspeccion, GesGestion, GesBusqueda
 
 lista_reclamos = [
     {
@@ -226,11 +226,21 @@ lista_reclamos = [
 ]
 
 # Create your views here.
-def gestion_inicio (request):  
+def gestion_inicio (request):
     mensaje = None
+    if request.method == 'POST':
+        form_busqueda = GesBusqueda(request.POST)
+        mensaje = 'Hemos recibido tus datos'
+        # acción para tomar los datos del formulario
+    elif request.method == 'GET':
+        form_busqueda = GesBusqueda()
+    else:
+        return HttpResponseNotAllowed(f"Método {request.method} no soportado")
+
     context = {
 		'reclamos': lista_reclamos,
-        'mensaje': mensaje
+        'mensaje': mensaje,
+        'form_busqueda' : GesBusqueda
     }
     return render(request, 'gestion/gestion_inicio.html', context)
 
