@@ -1,9 +1,9 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from ..inspeccion.models import Arbol
+# from ..inspeccion.models import ArbolModel
 
 # Create your models here.
-class Denunciante(models.Model):
+class DenuncianteModel(models.Model):
     """
     Modelo que representa a la persona que realizó un reclamo.
     Contiene información personal acerca del denunciante,
@@ -22,7 +22,7 @@ class Denunciante(models.Model):
         return f"{self.apellido}, {self.nombre} DNI: {self.dni}"
 
 
-class Reclamo(models.Model):
+class ReclamoModel(models.Model):
     """
     Modelo que representa un reclamo realizado por un denunciante.
     Contiene información relevante acerca del reclamo,
@@ -149,7 +149,7 @@ class Reclamo(models.Model):
                               choices=FuenteChoices.choices,
                               default=FuenteChoices.BLANK)
     fecha = models.DateField(verbose_name="Fecha del reclamo")
-    denunciantes = models.ManyToManyField(Denunciante, verbose_name="Denunciante")
+    denunciantes = models.ManyToManyField(DenuncianteModel, verbose_name="Denunciante")
     localidad = models.CharField(max_length=50, verbose_name="Localidad",
                                  choices=LocalidadChoices.choices,
                                  default=LocalidadChoices.BLANK)
@@ -169,6 +169,7 @@ class Reclamo(models.Model):
     foto = models.ImageField(upload_to='img_reclamos', null=True,
                              blank=True, verbose_name="Fotos") # img_reclamos define la ruta donde se almacenan las fotos
     detalle = models.CharField(max_length=500, verbose_name="Detalles")
+    eliminado = models.BooleanField(default=False)
 
     def __str__(self):
         return f'Reclamo {self.numero}'

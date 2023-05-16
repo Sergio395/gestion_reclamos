@@ -1,0 +1,7 @@
+-- CREAR BASE DE DATOS
+CREATE DATABASE "gestion_reclamos_db"
+WITH OWNER "postgres"
+ENCODING 'UTF8'
+
+
+-- EJEMPLO DE DATASET

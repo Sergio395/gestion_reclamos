@@ -4,21 +4,21 @@ from django.contrib import messages
 # from django.conf import settings
 from django.shortcuts import render
 from django.http import HttpResponseNotAllowed
-from .forms import NuevoReclamo
+from .forms import ReclamoForm
 
 
 # Create your views here.
-def nuevo_reclamo(request):
+def nuevo_reclamo(request): #FormView
     """
     Vista para manejar la creación de un nuevo reclamo.
     Si la solicitud es de tipo 'POST', valida el formulario utilizando la clase
-    NuevoReclamo y muestra los mensajes correspondientes según el resultado de la
-    validación. Si la solicitud es de tipo 'GET', crea una instancia de NuevoReclamo
+    ReclamoForm y muestra los mensajes correspondientes según el resultado de la
+    validación. Si la solicitud es de tipo 'GET', crea una instancia de ReclamoForm
     vacía. Si la solicitud no es de tipo 'GET' ni 'POST', devuelve un error de método
     no permitido.
     """
     if request.method == 'POST':
-        nuevo = NuevoReclamo(request.POST)
+        nuevo = ReclamoForm(request.POST)
 
         # acción para tomar los datos del formulario
         if nuevo.is_valid():
@@ -54,7 +54,7 @@ def nuevo_reclamo(request):
             )
 
     elif request.method == 'GET':
-        nuevo = NuevoReclamo()
+        nuevo = ReclamoForm()
 
     else:
         return HttpResponseNotAllowed(
@@ -76,7 +76,7 @@ lista2 = ['Arbol caido = 1', 'Arbol enfermo = 2',
 # lista2 = []
 
 
-def seguimiento(request):
+def seguimiento(request): #ListView
     fecha_actual = datetime.now()
     nombre = lista[0] + " " + lista[1]
     return render(request, 'reclamos/seguimiento.html', {
@@ -87,7 +87,7 @@ def seguimiento(request):
     })
 
 
-def seguimiento_reclamo(request, nro_reclamo):
+def seguimiento_reclamo(request, nro_reclamo): #DetailView
     return render(request, 'reclamos/ver_reclamo.html', {
         'lista2': lista2[nro_reclamo-1],
         'nro': nro_reclamo,
