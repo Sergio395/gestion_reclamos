@@ -150,16 +150,16 @@ class Reclamo(models.Model):
                               default=FuenteChoices.BLANK)
     fecha = models.DateField(verbose_name="Fecha del reclamo")
     denunciantes = models.ManyToManyField(Denunciante, verbose_name="Denunciante")
+    localidad = models.CharField(max_length=50, verbose_name="Localidad",
+                                 choices=LocalidadChoices.choices,
+                                 default=LocalidadChoices.BLANK)
     calle = models.CharField(max_length=50, verbose_name="Calle")
     numeracion = models.IntegerField(verbose_name="Numeración")
     edificio = models.CharField(max_length=50, verbose_name="Edificio")
     departamento = models.CharField(max_length=50, verbose_name="Departamento")
     entre_calle_1 = models.CharField(max_length=50, verbose_name="Entre calle")
     entre_calle_2 = models.CharField(max_length=50, verbose_name="y calle")
-    localidad = models.CharField(max_length=50, verbose_name="Localidad",
-                                 choices=LocalidadChoices.choices,
-                                 default=LocalidadChoices.BLANK)
-    arboles = models.ManyToManyField(Arbol, verbose_name="Arbol")
+    # arboles = models.ManyToManyField(Arbol, verbose_name="Arbol")
     reclamo = models.CharField(max_length=200, verbose_name="Reclamo",
                                choices=ReclamoChoices.choices,
                                default=ReclamoChoices.BLANK)
