@@ -378,27 +378,28 @@ class GesGestion (forms.Form):
         
 class GesBusqueda(forms.Form):
     campos = (
+        ('none',' --- '),
         ('medio','medio'),
         ('fuente','fuente'),
         ('nombre','nombre'),
         ('apellido','apellido'),
         ('dni','dni'),
         ('celular','celular'),
-        ('tel_fijo','tel_fijo'),
+        ('tel_fijo','teléfono fijo'),
         ('mail','mail'),
         ('calle','calle'),
         ('altura','altura'),
         ('edificio','edificio'),
         ('departamento','departamento'),
-        ('entre_calle_1','entre_calle_1'),
-        ('entre_calle_2','entre_calle_2'),
+        ('entre_calle_1','entre calle 1'),
+        ('entre_calle_2','entre calle 2'),
         ('localidad','localidad'),
         ('urgencia','urgencia'),
         ('detalle','detalle'),
         ('lugar','lugar'),
         ('nota','nota'),
-        ('numero_reclamo','numero_reclamo'),
-        ('reclamo_valido','reclamo_valido'),
+        ('numero_reclamo','numero de reclamo'),
+        ('reclamo_valido','reclamo valido'),
         ('trabajo','trabajo'),
         ('especie','especie'),
         ('altura','altura'),
@@ -410,9 +411,9 @@ class GesBusqueda(forms.Form):
         ('inspector','inspector'),
         ('estado','estado'),
         ('gestion','gestion'),
-        ('detalle_gestion','detalle_gestion'),
-        ('equipo_trabajo','equipo_trabajo'),
-        ('ordentrabajo','ordentrabajo')
+        ('detalle_gestion','detalle de gestion'),
+        ('equipo_trabajo','equipo de trabajo'),
+        ('ordentrabajo','orden detrabajo')
     )
 
     fechas = (
@@ -421,30 +422,32 @@ class GesBusqueda(forms.Form):
         ('fecha_programada', 'fecha programada'),
         ('fecha_solucion', 'fecha solución')
     )
+    
     criterio1_valor = forms.CharField( 
         label='Criterio 1', 
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'Texto a buscar en criterio 1',
                 'class': 'form-control', 
-                'style': 'height: 2.8em'}))
+                'style': 'height: 2.8em'}),
+            required=False)
     criterio1_campo = forms.ChoiceField(
         label='Campo', 
         widget=forms.Select(
             attrs={
                 'placeholder': 'Campo a filtrar', 
                 'class': 'form-control', 
-                'style': 'height: 2.5em',
-                'id': "inputGroupSelect01"}), 
+                'style': 'height: 2.5em'}), 
             choices=campos)
     
-    criterio2_valor = forms.ChoiceField( 
+    criterio2_valor = forms.CharField( 
         label='Criterio 2', 
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'Texto a buscar en criterio 2',
                 'class': 'form-control mx-auto', 
-                'style': 'height: 2.8em'}))
+                'style': 'height: 2.8em'}),
+                required=False)
     criterio2_campo = forms.ChoiceField(
         label='Campo', 
         widget=forms.Select(
@@ -454,13 +457,14 @@ class GesBusqueda(forms.Form):
                 'style': 'height: 2.5em'}), 
             choices=campos)
     
-    criterio3_valor = forms.ChoiceField( 
+    criterio3_valor = forms.CharField( 
         label='Criterio 3', 
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'Texto a buscar en criterio 3',
                 'class': 'form-control mx-auto', 
-                'style': 'height: 2.8em'}))
+                'style': 'height: 2.8em'}),
+                required=False)
     criterio3_campo = forms.ChoiceField(
         label='Campo', 
         widget=forms.Select(
@@ -475,7 +479,8 @@ class GesBusqueda(forms.Form):
             attrs={
                 'type': 'date', 
                 'class': 'form-control mx-auto', 
-                'style': 'height: 2.8em'}))
+                'style': 'height: 2.8em'}),
+                required=False)
     criterio4_campo = forms.ChoiceField(
         label='Fecha a buscar', 
         widget=forms.Select(

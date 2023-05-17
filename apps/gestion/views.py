@@ -232,6 +232,10 @@ def gestion_inicio (request):
         form_busqueda = GesBusqueda(request.POST)
         mensaje = 'Hemos recibido tus datos'
         # acción para tomar los datos del formulario
+		# if form_busqueda.is_valid():
+        #     pass
+        # return
+            
     elif request.method == 'GET':
         form_busqueda = GesBusqueda()
     else:
