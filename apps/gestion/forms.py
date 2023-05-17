@@ -417,6 +417,7 @@ class GesBusqueda(forms.Form):
     )
 
     fechas = (
+        ('none', ' --- '),
         ('fecha', 'fecha'),
         ('fecha_inspeccion', 'fecha de inspección'),
         ('fecha_programada', 'fecha programada'),
