@@ -358,6 +358,7 @@ def gestion_editar_reclamo(request, nro_reclamo):
     return render(request, 'gestion/gestion_editar_reclamo.html', context)
 
 def buscar_en_lista (lista, criterio):
+    arreglo_fecha = f'''{criterio['criterio4_valor']}'''
     resultado1 = []
     resultado2 = []
     resultado3 = []
@@ -387,7 +388,7 @@ def buscar_en_lista (lista, criterio):
     
     if criterio['criterio4_campo'] != 'none':
         for item in resultado3:
-            if item[criterio['criterio4_campo']] == criterio['criterio4_valor']:
+            if item[criterio['criterio4_campo']] == arreglo_fecha:
                 resultado4.append(item)
     else:
         resultado4 = resultado3
