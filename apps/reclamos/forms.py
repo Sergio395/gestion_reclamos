@@ -31,9 +31,9 @@ class ReclamoForm(forms.Form):
         """
         model = ReclamoModel
         fields = [
-            'numero', 'medio', 'fuente', 'fecha', 'nombre', 'apellido', 'dni',
-            'correo_electronico', 'celular', 'telefono_fijo', 'localidad', 'calle',
-            'numeracion', 'edificio', 'departamento', 'entre_calle_1', 'entre_calle_2',
+            'medio', 'numero', 'fuente', 'fecha', 'nombre', 'apellido', 'dni',
+            'celular', 'telefono_fijo', 'correo_electronico', 'localidad', 'calle',
+            'altura', 'edificio', 'departamento', 'entre_calle_1', 'entre_calle_2',
             'reclamo', 'urgencia', 'foto', 'detalle'
         ]
 
@@ -56,18 +56,18 @@ class ReclamoForm(forms.Form):
             default_attrs.update(attrs)
             return default_attrs
 
-    numero = forms.IntegerField(
-        label='Número de reclamo',
-        widget=forms.NumberInput(attrs=Styles.input_styles({
-            # 'placeholder': 'Escribe el número de reclamo'
-        }))
-    )
     medio = forms.ChoiceField(
         label='Medio',
         widget=forms.Select(attrs=Styles.input_styles({
             # 'placeholder': 'Elige un medio'
         })),
         choices=ReclamoModel.MedioChoices.choices
+    )
+    numero = forms.IntegerField(
+        label='Número de reclamo',
+        widget=forms.NumberInput(attrs=Styles.input_styles({
+            # 'placeholder': 'Escribe el número de reclamo'
+        }))
     )
     fuente = forms.ChoiceField(
         label='Fuente',
@@ -110,15 +110,6 @@ class ReclamoForm(forms.Form):
             'placeholder': 'e.g. 12.345.678'
         }))
     )
-    correo_electronico = forms.EmailField(
-        label='Correo electrónico',
-        error_messages={'invalid': 'Introduce una dirección de correo electrónico válida'},
-        widget=forms.EmailInput(attrs=Styles.input_styles({
-            'placeholder': 'e.g. johndoe@mail.com',
-            'required': False,
-        })),
-        required=False
-    )
     celular = forms.IntegerField(
         label='Teléfono celular',
         widget=forms.NumberInput(attrs=Styles.input_styles({
@@ -129,6 +120,15 @@ class ReclamoForm(forms.Form):
         label='Teléfono fijo',
         widget=forms.NumberInput(attrs=Styles.input_styles({
             'placeholder': 'e.g. 115555555',
+            'required': False,
+        })),
+        required=False
+    )
+    correo_electronico = forms.EmailField(
+        label='Correo electrónico',
+        error_messages={'invalid': 'Introduce una dirección de correo electrónico válida'},
+        widget=forms.EmailInput(attrs=Styles.input_styles({
+            'placeholder': 'e.g. johndoe@mail.com',
             'required': False,
         })),
         required=False
@@ -147,8 +147,8 @@ class ReclamoForm(forms.Form):
         })),
         #! choices=CALLES CAMBIAR CON AJAX
     )
-    numeracion = forms.IntegerField(
-        label='Numeración aproximada',
+    altura = forms.IntegerField(
+        label='Altura aproximada',
         widget=forms.NumberInput(attrs=Styles.input_styles({
             # 'placeholder': 'Numeración aproximada'
         }))

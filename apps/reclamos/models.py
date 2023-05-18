@@ -14,9 +14,9 @@ class DenuncianteModel(models.Model):
     nombre = models.CharField(max_length=30, verbose_name="Nombre")
     apellido = models.CharField(max_length=30, verbose_name="Apellido")
     dni = models.IntegerField(verbose_name="DNI")
-    correo_electronico = models.EmailField(verbose_name="Correo electrónico")
     celular = models.IntegerField(verbose_name="Celular")
     telefono_fijo = models.IntegerField(verbose_name="Telefono fijo")
+    correo_electronico = models.EmailField(verbose_name="Correo electrónico")
 
     def __str__(self):
         return f"{self.apellido}, {self.nombre} DNI: {self.dni}"
@@ -141,10 +141,10 @@ class ReclamoModel(models.Model):
         ALTA = "3", _("Alta")
 
     fecha_creacion = models.DateField(auto_now_add=True, verbose_name="Fecha de creación")
-    numero = models.IntegerField(verbose_name="Número")
     medio = models.CharField(max_length=50, verbose_name="Medio",
                              choices=MedioChoices.choices,
                              default=MedioChoices.BLANK)
+    numero = models.IntegerField(verbose_name="Número")
     fuente = models.CharField(max_length=50, verbose_name="Fuente",
                               choices=FuenteChoices.choices,
                               default=FuenteChoices.BLANK)
@@ -154,7 +154,7 @@ class ReclamoModel(models.Model):
                                  choices=LocalidadChoices.choices,
                                  default=LocalidadChoices.BLANK)
     calle = models.CharField(max_length=50, verbose_name="Calle")
-    numeracion = models.IntegerField(verbose_name="Numeración")
+    altura = models.IntegerField(verbose_name="Numeración")
     edificio = models.CharField(max_length=50, verbose_name="Edificio")
     departamento = models.CharField(max_length=50, verbose_name="Departamento")
     entre_calle_1 = models.CharField(max_length=50, verbose_name="Entre calle")
