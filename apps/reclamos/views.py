@@ -1,15 +1,14 @@
 from datetime import datetime
-from django.views.generic import edit
+from django.views.generic import edit, View
 from django.contrib import messages
 # from django.core.mail import send_mail
 # from django.conf import settings
 from django.shortcuts import render
-from django.http import HttpResponseNotAllowed
+from django.http import JsonResponse, HttpResponseNotAllowed
 from django.urls import reverse_lazy
-from .utils.street_names import get_street_names
+from .utils.street_names import get_street
 from .forms import ReclamoForm
 from .models import ReclamoModel, DenuncianteModel
-
 
 class ReclamoView(edit.CreateView):
     model = ReclamoModel
@@ -115,6 +114,16 @@ class ReclamoView(edit.CreateView):
 
 #     return render(request, 'reclamos/nuevo_reclamo.html', context)
 
+
+class ObtenerCallesView(View, JsonResponseMixin):
+    def get(self, request):
+        relation_id = request.GET.get('localidad')
+
+        # Llamar a la función obtener_calles del módulo calle_utils
+        calles = get_streets(relation_id)
+
+        # Devolver la lista de calles como una respuesta JSON
+        return self.render_json_response(calles)
 
 
 lista = ['Area Geográfica', 'Norte', 30333256,
