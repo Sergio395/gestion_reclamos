@@ -1,72 +1,119 @@
 from datetime import datetime
+from django.views.generic import edit
 from django.contrib import messages
 # from django.core.mail import send_mail
 # from django.conf import settings
 from django.shortcuts import render
 from django.http import HttpResponseNotAllowed
+from django.urls import reverse_lazy
 from .utils.street_names import get_street_names
 from .forms import ReclamoForm
+from .models import ReclamoModel, DenuncianteModel
 
+
+class ReclamoView(edit.CreateView):
+    model = ReclamoModel
+    form_class = ReclamoForm
+    template_name = 'reclamos/nuevo_reclamo.html'
+    # URL a la que redirigir después de guardar el reclamo
+    success_url = reverse_lazy('nueno_reclamo')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['nuevo_reclamo'] = ReclamoForm()
+        return context
+
+    def form_valid(self, form):
+        # Obtener los valores de los campos personalizados
+        nombre = form.cleaned_data['nombre']
+        apellido = form.cleaned_data['apellido']
+        dni = form.cleaned_data['dni']
+        celular = form.cleaned_data['celular']
+        telefono_fijo = form.cleaned_data['telefono_fijo']
+        correo_electronico = form.cleaned_data['correo_electronico']
+
+        # Crear una instancia de DenuncianteModel y guardarla
+        denunciante = DenuncianteModel(
+            telefono_fijo=telefono_fijo,
+            nombre=nombre,
+            celular=celular,
+            apellido=apellido,
+            correo_electronico=correo_electronico,
+            dni=dni
+        )
+        denunciante.save()
+
+        # Asociar el denunciante con el reclamo y guardar el reclamo
+        reclamo = form.save(commit=False)
+        reclamo.denunciantes.add(denunciante)
+        reclamo.save()
+
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'Revisa los errores en el formulario')
+
+        return self.render_to_response(self.get_context_data(form=form))
 
 # Create your views here.
-def nuevo_reclamo(request): #FormView
-    """
-    Vista para manejar la creación de un nuevo reclamo.
-    Si la solicitud es de tipo 'POST', valida el formulario utilizando la clase
-    ReclamoForm y muestra los mensajes correspondientes según el resultado de la
-    validación. Si la solicitud es de tipo 'GET', crea una instancia de ReclamoForm
-    vacía. Si la solicitud no es de tipo 'GET' ni 'POST', devuelve un error de método
-    no permitido.
-    """
-    if request.method == 'POST':
-        nuevo = ReclamoForm(request.POST)
+# def nuevo_reclamo(request): #FormView
+#     """
+#     Vista para manejar la creación de un nuevo reclamo.
+#     Si la solicitud es de tipo 'POST', valida el formulario utilizando la clase
+#     ReclamoForm y muestra los mensajes correspondientes según el resultado de la
+#     validación. Si la solicitud es de tipo 'GET', crea una instancia de ReclamoForm
+#     vacía. Si la solicitud no es de tipo 'GET' ni 'POST', devuelve un error de método
+#     no permitido.
+#     """
+#     if request.method == 'POST':
+#         nuevo = ReclamoForm(request.POST)
 
-        # acción para tomar los datos del formulario
-        if nuevo.is_valid():
-            messages.success(
-                request,
-                'Hemos generado el reclamo'
-            )
-            # if nuevo.correo_electronico:
-            #     mensaje = f"""
-            #         De : {nuevo.cleaned_data['nombre']} <{nuevo.cleaned_data['correo_electronico']}>
-            #         Asunto: {nuevo.cleaned_data['asunto']}
-            #         Mensaje: {nuevo.cleaned_data['mensaje']}
-            #     """
-            #     mensaje_html = f"""
-            #         <p>De: {nuevo.cleaned_data['nombre']} <a href="mailto:{nuevo.cleaned_data['correo_electronico']}">{nuevo.cleaned_data['email']}</a></p>
-            #         <p>Asunto:  {nuevo.cleaned_data['asunto']}</p>
-            #         <p>Mensaje: {nuevo.cleaned_data['mensaje']}</p>
-            #     """
-            #     asunto = "CONSULTA DESDE LA PAGINA - " + \
-            #         nuevo.cleaned_data['asunto']
-            #     send_mail(
-            #         asunto, mensaje, settings.EMAIL_HOST_USER,
-            #         [settings.RECIPIENT_ADDRESS],
-            #         fail_silently=False,
-            #         html_message=mensaje_html
-            #     )
+#         # acción para tomar los datos del formulario
+#         if nuevo.is_valid():
+#             messages.success(
+#                 request,
+#                 'Hemos generado el reclamo'
+#             )
+#             # if nuevo.correo_electronico:
+#             #     mensaje = f"""
+#             #         De : {nuevo.cleaned_data['nombre']} <{nuevo.cleaned_data['correo_electronico']}>
+#             #         Asunto: {nuevo.cleaned_data['asunto']}
+#             #         Mensaje: {nuevo.cleaned_data['mensaje']}
+#             #     """
+#             #     mensaje_html = f"""
+#             #         <p>De: {nuevo.cleaned_data['nombre']} <a href="mailto:{nuevo.cleaned_data['correo_electronico']}">{nuevo.cleaned_data['email']}</a></p>
+#             #         <p>Asunto:  {nuevo.cleaned_data['asunto']}</p>
+#             #         <p>Mensaje: {nuevo.cleaned_data['mensaje']}</p>
+#             #     """
+#             #     asunto = "CONSULTA DESDE LA PAGINA - " + \
+#             #         nuevo.cleaned_data['asunto']
+#             #     send_mail(
+#             #         asunto, mensaje, settings.EMAIL_HOST_USER,
+#             #         [settings.RECIPIENT_ADDRESS],
+#             #         fail_silently=False,
+#             #         html_message=mensaje_html
+#             #     )
 
-        # acción para mostrar los datos del formulario
-        else:
-            messages.error(
-                request,
-                'Revisa los errores en el formulario'
-            )
+#         # acción para mostrar los datos del formulario
+#         else:
+#             messages.error(
+#                 request,
+#                 'Revisa los errores en el formulario'
+#             )
 
-    elif request.method == 'GET':
-        nuevo = ReclamoForm()
+#     elif request.method == 'GET':
+#         nuevo = ReclamoForm()
 
-    else:
-        return HttpResponseNotAllowed(
-            f"Método {request.method} no soportado"
-        )
+#     else:
+#         return HttpResponseNotAllowed(
+#             f"Método {request.method} no soportado"
+#         )
 
-    context = {
-        'nuevo_reclamo': nuevo
-    }
+#     context = {
+#         'nuevo_reclamo': nuevo
+#     }
 
-    return render(request, 'reclamos/nuevo_reclamo.html', context)
+#     return render(request, 'reclamos/nuevo_reclamo.html', context)
 
 
 
