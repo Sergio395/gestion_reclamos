@@ -16,7 +16,7 @@ class Usuario(models.Model):
     correo_electronico = models.EmailField(verbose_name="Correo electrónico")
     clave = models.CharField(max_length=20, verbose_name="Clave")
     permiso = models.CharField(max_length=20, verbose_name="Permiso")
-
+    eliminado=models.BooleanField(default=False)
     def __str__(self):
         return f"{self.usuario} => {self.apellido}, {self.nombre}"
 
@@ -26,32 +26,6 @@ class Usuario(models.Model):
         
         
         
-class OrdenCompra(models.Model):
-    """
-    Modelo base para ordenes de compras.
-       
-    """
-
-    fecha_emision = models.DateField(auto_now_add=True, verbose_name="Fecha_emision")
-    proveedor = models.CharField(max_length=30, verbose_name="Proveedor")
-    numero = models.IntegerField(verbose_name="Numero")
-    cantidad = models.DecimalField(max_digits=7, decimal_places=2, verbose_name="Cantidad")
-    descripcion = models.TextField(verbose_name="Descripcion")
-    precio_unitario = models.DecimalField(max_digits=10, decimal_places=2,verbose_name="Precio_unitario")
-    monto = models.DecimalField(max_digits=10, decimal_places=2,verbose_name="Monto")
-    certificacion_cant = models.DecimalField(max_digits=7, decimal_places=2, verbose_name="Certificacion_cantidad")
-    certificacion_monto = models.DecimalField(max_digits=7, decimal_places=2, verbose_name="CErtificacion_monto")
-    saldo_cant = models.DecimalField(max_digits=7, decimal_places=2,verbose_name="Saldo_cantidad")
-    saldo_monto = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Saldo_monto")
-    
-
-    def __str__(self):
-        return f"{self.proveedor} / {self.numero}"
-
-    class Meta:
-        abstract = False
-
-
 class Empresa(models.Model):
     
     """
@@ -66,8 +40,8 @@ class Empresa(models.Model):
     cuit = models.IntegerField(verbose_name="Cuit")
     correo = models.EmailField(max_length=20, verbose_name="Correo_Electronico")
     telefono = models.CharField(max_length=20, verbose_name="Telefono")
-    orden_compra = models.ForeignKey(OrdenCompra, on_delete=models.CASCADE,null=True)
-
+    orden_compra = models.IntegerField(verbose_name="OC")
+    eliminado=models.BooleanField(default=False)
     def __str__(self):
         return f"{self.razon_social} - {self.orden_compra}"
 
@@ -76,6 +50,30 @@ class Empresa(models.Model):
         
         
 
+class OrdenCompra(models.Model):
+    """
+    Modelo base para ordenes de compras.
+       
+    """
+
+    fecha_emision = models.DateField(auto_now_add=True, verbose_name="Fecha_emision")
+    empresa = models.OneToOneField(Empresa,  on_delete=models.CASCADE,verbose_name="Empresa", primary_key=True)
+    numero = models.IntegerField(verbose_name="Numero")
+    cantidad = models.DecimalField(max_digits=7, decimal_places=2, verbose_name="Cantidad")
+    descripcion = models.TextField(verbose_name="Descripcion")
+    precio_unitario = models.DecimalField(max_digits=10, decimal_places=2,verbose_name="Precio_unitario")
+    monto = models.DecimalField(max_digits=10, decimal_places=2,verbose_name="Monto")
+    certificacion_cant = models.DecimalField(max_digits=7, decimal_places=2, verbose_name="Certificacion_cantidad")
+    certificacion_monto = models.DecimalField(max_digits=7, decimal_places=2, verbose_name="CErtificacion_monto")
+    saldo_cant = models.DecimalField(max_digits=7, decimal_places=2,verbose_name="Saldo_cantidad")
+    saldo_monto = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Saldo_monto")
+    eliminado=models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.proveedor} / {self.numero}"
+
+    class Meta:
+        abstract = False
         
 class Cuadrante(models.Model):
     
@@ -93,7 +91,7 @@ class Cuadrante(models.Model):
     punto3_long = models.DecimalField(max_digits=7, decimal_places=2, verbose_name="Punto_3_longitud")
     punto4_lat  = models.DecimalField(max_digits=7, decimal_places=2, verbose_name="Punto_4_latitud")
     punto4_long = models.DecimalField(max_digits=7, decimal_places=2, verbose_name="Punto_4_longitud")
-    
+    eliminado=models.BooleanField(default=False)
     
     def __str__(self):
         
