@@ -4,7 +4,7 @@
 {% block contenido %}
 <div class="container mt-5">
   <hr>
-  <div class="titulo_tabla">Empresas registradas</div>
+  <div class="titulo_tabla">Ordenes de compra</div>
   <hr>
   {% for message in messages %}
   <div class="alert alert-{{ message.tags }}" role="alert">
@@ -16,29 +16,36 @@
     <table class="table  table-hover  ">
       <thead class="thead-light  ">
         <tr>
-          <th scope="col">Fecha de alta</th>
+          <th scope="col">Fecha de emisión</th>
+          <th scope="col">Número</th>
+          <th scope="col">Cantidad</th>
+          <th scope="col">Descripción</th>
+          <th scope="col">Precio</th>
+          <th scope="col">Monto</th>
+          <th scope="col">Avance cantidad</th>
+          <th scope="col">Avance monto</th>
+          <th scope="col">Saldo cantidad</th>
+          <th scope="col">Saldo monto</th>
           <th scope="col">Empresa</th>
-          <th scope="col">Razón_social</th>
-          <th scope="col">N° proveedor</th>
-          <th scope="col">Cuit</th>
-          <th scope="col">Correo</th>
-          <th scope="col">Telefono</th>
 
           <th scope="col" class="text-center">Acciones</th>
         </tr>
       </thead>
 
       <tbody>
-        {% for data in proveedores %}
+        {% for data in oc %}
         <tr>          
-          <td>{{data.fecha_alta}}</td>
-          <td>{{data.nombre}}</td>
-          <td>{{data.razon_social}}</td>
-          <td>{{data.num_proveedor}}</td>
-          <td>{{data.cuit}}</td>
-          <td>{{data.correo}}</td>
-          <td>{{data.telefono}}</td>
-
+          <td>{{data.fecha_emision}}</td>
+          <td>{{data.numero}}</td>
+          <td>{{data.cantidad}}</td>
+          <td>{{data.descripcion}}</td>
+          <td>{{data.precio_unitario}}</td>
+          <td>{{data.monto}}</td>
+          <td>{{data.certificacion_cant}}</td>
+          <td>{{data.certificacion_monto}}</td>
+          <td>{{data.saldo_cant}}</td>
+          <td>{{data.saldo_monto}}</td>
+    
           <td class="text-center">
             <a href="{% url 'editar_empresa' data.id %}" title="Editar"><i class="fas fa-edit"></i></a>
             <a href="{% url 'eliminar_empresa' data.id %}" onclick="return confirmacion()" title="Eliminar"><i class="far fa-trash-alt"></i></a>
@@ -59,42 +66,12 @@
         {% endfor %}
       </tbody>
     </table>
-   
-   
-  
-   
-   
-   
-   
-   
-   
-   
-   
-   
-  
-  
-  
-  
-  
-
-  
-  
-  
-    
-
-      
-    
-    
-    
     <div class="row mt-5">
-      <div class="text-center col-md-4 form-group mt-5 mt-md-0"><a href="{%url 'nueva_empresa'%}"><button type="button"
+      <div class="text-center col-md-4 form-group mt-5 mt-md-0"><a href="{%url 'nueva_oc'%}"><button type="button"
             class="btn btn-success">Nueva</button></a></div>
       <div class="text-center col-md-4 form-group mt-5 mt-md-0"><a href="{%url 'admin'%}"><button type="button"
             class="btn btn-primary">Volver</button></a></div>
     </div>
   </form>
 </div>
-
-
-
 {% endblock contenido %}

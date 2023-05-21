@@ -1,9 +1,16 @@
 # from datetime import datetime
 # from django.http import HttpResponse
 # from django.template import loader
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponseNotAllowed
-from .forms import Userform, AdminForm, Empresaform, Nuevaform, Newuserform, Edituserform
+from .forms import Userform, AdminForm, Nuevaform ,Newuserform, Edituserform, Empresaform, OrdencompraForm
+from django.views.generic import ListView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
+from .models import Empresa, OrdenCompra
+from django.shortcuts import get_object_or_404
+from django.contrib import messages
+
 
 
 # Create your views here.
@@ -34,36 +41,129 @@ def usuario(request):
     return render(request, 'administracion/usuarios.html', context)
 
 
-def empresa(request):
-    proveedores = [("La podadora", "La podadora S.A.", "1456", "20303406022", "lapodadora@gmail.com", "155202636"),
-                   ("La podadora", "La podadora S.A.", "1456",
-                    "20303406022", "lapodadora@gmail.com", "155202636"),
-                   ("La podadora", "La podadora S.A.", "1456",
-                    "20303406022", "lapodadora@gmail.com", "155202636"),
-                   ("La podadora", "La podadora S.A.", "1456",
-                    "20303406022", "lapodadora@gmail.com", "155202636"),
-                   ("La podadora", "La podadora S.A.", "1456",
-                    "20303406022", "lapodadora@gmail.com", "155202636"),
-                   ("La podadora", "La podadora S.A.", "1456", "20303406022", "lapodadora@gmail.com", "155202636")]
-    mensaje = None
-    if request.method == 'POST':
-        empresa_form = Empresaform(request.POST)
-        mensaje = 'Hemos recibido tus datos'
+class ListarEmpresas(ListView):
+    model = Empresa
+    template_name = 'administracion/empresas.html'
+    context_object_name = 'proveedores'    
+    queryset = Empresa.objects.filter(eliminado=False)
+    
 
-    elif request.method == 'GET':
-        empresa_form = Userform()
+
+def nueva_empresa(request):
+
+
+    if (request.method == 'POST'):
+        
+        formulario = Nuevaform(request.POST)
+        if formulario.is_valid():
+            formulario.save()
+            messages.success(request, 'Proveedor creado correctamente')
+            return redirect('empresa')
+            
     else:
-        return HttpResponseNotAllowed(f"Método {request.method} no soportado")
+        formulario = Nuevaform()
+    return render(request, 'administracion/nueva_empresa.html', {'empresaform': formulario})
 
-    context = {
-        'proveedores': proveedores,
-        'mensaje': mensaje,
-        'empresaform': empresa_form
-    }
-    return render(request, 'administracion/empresas.html', context)
+
+def editar_empresa(request, id_empresa):
+    
+    try:
+        empresa = Empresa.objects.get(pk=id_empresa)
+    except Empresa.DoesNotExist:
+        return render(request, 'administracion/404_admin.html')
+    formulario = Nuevaform(request.POST or None, request.FILES or None, instance=empresa)
+    if empresa.eliminado == True:
+        messages.warning(request, 'El registro ha sido eliminado de la base de datos')      
+        return redirect('empresa')
+        
+    if formulario.is_valid():
+        formulario.save()
+        messages.success(request, 'Se ha editado el proveedor correctamente')
+        return redirect('empresa')
+        
+       
+          
+    return render(request, 'administracion/edit_empresa.html', {'empresaform': formulario, 'ID' : id_empresa})
+
+
+
+
+def delete_empresa(request, id_empresa):
+    try:
+        empresa = Empresa.objects.get(pk=id_empresa)
+    except Empresa.DoesNotExist:
+        return render(request, 'administracion/404_admin.html')
+    empresa.soft_delete()
+    messages.warning(request, 'Se ha eliminado  el registro correctamente')
+    return redirect('empresa')
+
+
+
 
 
 # --------------------------------------------------------------------------------------------------------------------------
+"""
+    IMPLEMENTACION DE CRUD DE CATEGORIA POR MEDIO DE VISTAS BASADAS EN CLASES (VBC)
+"""
+
+
+class OrdencompraListView(ListView):
+    model = OrdenCompra
+    context_object_name = 'oc'
+    template_name = 'administracion/ordenes_compra.html'
+    queryset = OrdenCompra.objects.filter(eliminado=False)
+    ordering = ['numero']
+
+
+class OrdencompraCreateView(CreateView):
+    model = OrdenCompra
+    #context_object_name = 'oc'
+    fields = '__all__'
+    #form_class = OrdencompraForm
+    template_name = 'administracion/nueva_oc.html'
+    success_url = reverse_lazy('ordenes_compra')
+
+
+# class OrdencompraUpdateView(UpdateView):
+    # model = Categoria
+    # fields = ['nombre']
+    # # form_class = CategoriaForm
+    # template_name = 'administracion/categorias/editar.html'
+    # success_url = reverse_lazy('categorias_index_view')
+
+    # # Si queremos sobrescribir la obtención del objeto
+    # # def get_object(self, queryset=None):
+    # #     pk = self.kwargs.get(self.pk_url_kwarg)
+    # #     obj = get_object_or_404(Categoria, pk=pk)
+    # #     return obj
+
+
+# class OrdencompraDeleteView(DeleteView):
+    # model = Categoria
+    # template_name = 'administracion/categorias/eliminar.html'
+    # success_url = reverse_lazy('categorias_index_view')
+
+    # # Si queremos sobrescribir la obtención del objeto
+    # # def get_object(self, queryset=None):
+    # #     pk = self.kwargs.get(self.pk_url_kwarg)
+    # #     obj = get_object_or_404(Categoria, pk=pk)
+    # #     return obj
+
+    # # se puede sobreescribir el metodo delete por defecto de la VBC, para que no se realice una baja fisica
+    # def delete(self, request, *args, **kwargs):
+        # self.object = self.get_object()
+        # self.object.soft_delete()  # Llamada al método soft_delete() del modelo
+        # return HttpResponseRedirect(self.get_success_url())
+
+#----------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
 def nuevo_usuario(request):
     mensaje = None
     if request.method == 'POST':
@@ -84,23 +184,23 @@ def nuevo_usuario(request):
 # -----------------------------------------------------------------------------------------------------------------------------
 
 
-def nueva_empresa(request):
+# def nueva_empresa(request):
 
-    mensaje = None
-    if request.method == 'POST':
-        nueva_form = Nuevaform(request.POST)
-        mensaje = 'Hemos recibido tus datos'
-    elif request.method == 'GET':
-        nueva_form = Nuevaform()
-    else:
-        return HttpResponseNotAllowed(f"Método {request.method} no soportado")
+    # mensaje = None
+    # if request.method == 'POST':
+        # nueva_form = Nuevaform(request.POST)
+        # mensaje = 'Hemos recibido tus datos'
+    # elif request.method == 'GET':
+        # nueva_form = Nuevaform()
+    # else:
+        # return HttpResponseNotAllowed(f"Método {request.method} no soportado")
 
-    context = {
+    # context = {
 
-        'mensaje': mensaje,
-        'nueva_form': nueva_form
-    }
-    return render(request, 'administracion/nueva_empresa.html', context)
+        # 'mensaje': mensaje,
+        # 'nueva_form': nueva_form
+    # }
+    # return render(request, 'administracion/nueva_empresa.html', context)
 
 
 def edit_usuario(request, usuario_num):
@@ -151,3 +251,34 @@ def delete_usuario(request, usuario_num):
     }
     return render(request, 'administracion/usuarios.html', context)
 # --------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+# def empresa(request):
+    # proveedores = [("La podadora", "La podadora S.A.", "1456", "20303406022", "lapodadora@gmail.com", "155202636"),
+                #    ("La podadora", "La podadora S.A.", "1456",
+                    # "20303406022", "lapodadora@gmail.com", "155202636"),
+                #    ("La podadora", "La podadora S.A.", "1456",
+                    # "20303406022", "lapodadora@gmail.com", "155202636"),
+                #    ("La podadora", "La podadora S.A.", "1456",
+                    # "20303406022", "lapodadora@gmail.com", "155202636"),
+                #    ("La podadora", "La podadora S.A.", "1456",
+                    # "20303406022", "lapodadora@gmail.com", "155202636"),
+                #    ("La podadora", "La podadora S.A.", "1456", "20303406022", "lapodadora@gmail.com", "155202636")]
+    # mensaje = None
+    # if request.method == 'POST':
+        # empresa_form = Empresaform(request.POST)
+        # mensaje = 'Hemos recibido tus datos'
+
+    # elif request.method == 'GET':
+        # empresa_form = Userform()
+    # else:
+        # return HttpResponseNotAllowed(f"Método {request.method} no soportado")
+
+    # context = {
+        # 'proveedores': proveedores,
+        # 'mensaje': mensaje,
+        # 'empresaform': empresa_form
+    # }
+    # return render(request, 'administracion/empresas.html', context)

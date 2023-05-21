@@ -4,7 +4,7 @@
 {%block contenido%}
   <div class="container mt-5 col-lg-8">
     <hr>
-    <div class="titulo_tabla">Nuevo proveedor</div>
+    <div class="titulo_tabla">Cargar orden de comprar</div>
     <hr>
   </div>
   <main id="main">
@@ -17,7 +17,7 @@
             <form id="contact-form" name="contact-form" action="" method="POST">
               {% csrf_token %}
               <table class="table">
-                {{ empresaform.as_table }}
+                {{ oc.as_table }}
               </table>
               <div class="row mt-5">
                 <div class="text-center col-md-4 form-group mt-5 mt-md-0"><a href="{%url 'empresa'%}"><button
