@@ -2,7 +2,7 @@
 # from django.http import HttpResponse
 # from django.template import loader
 from django.shortcuts import render, redirect
-from django.http import HttpResponseNotAllowed
+from django.http import HttpResponseNotAllowed, HttpResponseRedirect
 from .forms import Userform, AdminForm, Nuevaform ,Newuserform, Edituserform, Empresaform, OrdencompraForm
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -117,37 +117,52 @@ class OrdencompraListView(ListView):
 
 class OrdencompraCreateView(CreateView):
     model = OrdenCompra
-    #context_object_name = 'oc'
     fields = '__all__'
     #form_class = OrdencompraForm
     template_name = 'administracion/nueva_oc.html'
-    success_url = reverse_lazy('ordenes_compra')
+    success_url = reverse_lazy('orden_compra')
+    
+    
+
+class OrdencompraUpdateView(UpdateView):
+    model = OrdenCompra
+    fields = '__all__'    
+    exclude=['eliminado']
+    
+    # form_class = CategoriaForm
+    template_name = 'administracion/editar_oc.html'
+    success_url = reverse_lazy('orden_compra')
+
+    #Si queremos sobrescribir la obtención del objeto
+    def get_object(self, queryset=None):
+        pk = self.kwargs.get(self.pk_url_kwarg)
+        obj = get_object_or_404(OrdenCompra, pk=pk)
+        return obj
+    
+    def mensaje(self,request):
+        messages.warning(request, 'Se ha eliminado  el registro correctamente')
+    
 
 
-# class OrdencompraUpdateView(UpdateView):
-    # model = Categoria
-    # fields = ['nombre']
-    # # form_class = CategoriaForm
-    # template_name = 'administracion/categorias/editar.html'
-    # success_url = reverse_lazy('categorias_index_view')
-
-    # # Si queremos sobrescribir la obtención del objeto
-    # # def get_object(self, queryset=None):
-    # #     pk = self.kwargs.get(self.pk_url_kwarg)
-    # #     obj = get_object_or_404(Categoria, pk=pk)
-    # #     return obj
-
+def delete_oc(request, pk):
+    try:
+        oc = OrdenCompra.objects.get(pk=pk)
+    except Empresa.DoesNotExist:
+        return render(request, 'administracion/404_admin.html')
+    oc.soft_delete()
+    messages.warning(request, 'Se ha eliminado  el registro correctamente')
+    return redirect('orden_compra')
 
 # class OrdencompraDeleteView(DeleteView):
-    # model = Categoria
-    # template_name = 'administracion/categorias/eliminar.html'
-    # success_url = reverse_lazy('categorias_index_view')
+    # model = OrdenCompra
+    # template_name = 'administracion/ordenes_compra.html'
+    # success_url = reverse_lazy('orden_compra')
 
-    # # Si queremos sobrescribir la obtención del objeto
-    # # def get_object(self, queryset=None):
-    # #     pk = self.kwargs.get(self.pk_url_kwarg)
-    # #     obj = get_object_or_404(Categoria, pk=pk)
-    # #     return obj
+    # #Si queremos sobrescribir la obtención del objeto
+    # def get_object(self, queryset=None):
+        # pk = self.kwargs.get(self.pk_url_kwarg)
+        # obj = get_object_or_404(OrdenCompra, pk=pk)
+        # return obj
 
     # # se puede sobreescribir el metodo delete por defecto de la VBC, para que no se realice una baja fisica
     # def delete(self, request, *args, **kwargs):

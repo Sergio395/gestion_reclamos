@@ -17,8 +17,8 @@ urlpatterns = [
     
     path('orden_compra/', views.OrdencompraListView.as_view(), name='orden_compra'),
     path('nueva_oc/', views.OrdencompraCreateView.as_view(), name='nueva_oc'),
-    #path('empresa/<int:id_empresa>/', views.editar_empresa, name='editar_empresa'),
-    #path('empresa/delete/<int:id_empresa>/', views.delete_empresa, name='eliminar_empresa'),
+    path('orden_compra/<int:pk>/', views.OrdencompraUpdateView.as_view(), name='editar_oc'),
+    path('orden_compra/delete/<int:pk>/', views.delete_oc, name='eliminar_oc'),
     
     
    

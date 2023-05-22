@@ -67,15 +67,15 @@ class OrdenCompra(models.Model):
        
     """
 
-    fecha_emision = models.DateField(auto_now_add=True, verbose_name="Fecha_emision")
-    empresa = models.OneToOneField(Empresa,  on_delete=models.CASCADE,verbose_name="Empresa", primary_key=True)
+    fecha_emision = models.DateField(verbose_name="Fecha_emision")
+    empresa = models.ForeignKey(Empresa,  on_delete=models.CASCADE,verbose_name="Empresa")
     numero = models.IntegerField(verbose_name="Numero")
     cantidad = models.DecimalField(max_digits=7, decimal_places=2, verbose_name="Cantidad")
     descripcion = models.TextField(verbose_name="Descripcion")
     precio_unitario = models.DecimalField(max_digits=10, decimal_places=2,verbose_name="Precio_unitario")
     monto = models.DecimalField(max_digits=10, decimal_places=2,verbose_name="Monto")
     certificacion_cant = models.DecimalField(max_digits=7, decimal_places=2, verbose_name="Certificacion_cantidad")
-    certificacion_monto = models.DecimalField(max_digits=7, decimal_places=2, verbose_name="CErtificacion_monto")
+    certificacion_monto = models.DecimalField(max_digits=7, decimal_places=2, verbose_name="Certificacion_monto")
     saldo_cant = models.DecimalField(max_digits=7, decimal_places=2,verbose_name="Saldo_cantidad")
     saldo_monto = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Saldo_monto")
     eliminado=models.BooleanField(default=False)
@@ -90,7 +90,9 @@ class OrdenCompra(models.Model):
     def restore(self):
         self.eliminado = False
         super().save()
-        
+    
+    
+     
         # class Meta:
         # abstract = False
         

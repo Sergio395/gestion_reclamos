@@ -45,10 +45,11 @@
           <td>{{data.certificacion_monto}}</td>
           <td>{{data.saldo_cant}}</td>
           <td>{{data.saldo_monto}}</td>
+          <td>{{data.empresa.nombre}}</td>
     
           <td class="text-center">
-            <a href="{% url 'editar_empresa' data.id %}" title="Editar"><i class="fas fa-edit"></i></a>
-            <a href="{% url 'eliminar_empresa' data.id %}" onclick="return confirmacion()" title="Eliminar"><i class="far fa-trash-alt"></i></a>
+            <a href="{% url 'editar_oc' data.id %}" title="Editar"><i class="fas fa-edit"></i></a>
+            <a href="{% url 'eliminar_oc' data.id %}" onclick="return confirmacion()" title="Eliminar"><i class="far fa-trash-alt"></i></a>
           </td>
         </tr>
         <script>
