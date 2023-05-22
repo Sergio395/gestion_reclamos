@@ -320,7 +320,7 @@ class GesGestion (forms.Form):
     )
 
     estado = forms.ChoiceField(
-        label='inspector', 
+        label='Estado', 
         widget=forms.Select(
             attrs={
                 'placeholder' :'Seleccione un estado',
