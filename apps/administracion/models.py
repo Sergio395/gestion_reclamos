@@ -23,7 +23,7 @@ class Usuario(models.Model):
         return f"{self.usuario} => {self.apellido}, {self.nombre}"
 
     class Meta:
-        abstract = True
+        abstract = False
         
         
         
