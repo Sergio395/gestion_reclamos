@@ -129,6 +129,7 @@ class ReclamoForm(forms.ModelForm):
                                                                     'style': 'height: 10em; border-radius: .375rem;',
                                                                     'rows': 3, 'required': False})),
         }
+        # labels = {}
         error_messages = {
             'nombre': {
                 'required': 'No te olvides de completar'

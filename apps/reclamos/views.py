@@ -20,10 +20,13 @@ class ReclamoView(edit.CreateView):
     # URL a la que redirigir después de guardar el reclamo
     success_url = reverse_lazy('nuevo_reclamo')
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['nuevo_reclamo'] = ReclamoForm()
-        return context
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['nuevo_reclamo'] = ReclamoForm()
+    #     return context
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name, {'nuevo_reclamo': ReclamoForm()})
 
     # def form_valid(self, form):
     #     # Obtener los valores de los campos personalizados

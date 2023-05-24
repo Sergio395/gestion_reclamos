@@ -11,11 +11,12 @@ class DenuncianteModel(models.Model):
     número de teléfono fijo y correo electrónico.
     """
     fecha_creacion = models.DateField(auto_now_add=True, verbose_name="Fecha de creación")
+    fecha_edicion = models.DateField(auto_now=True, verbose_name="Fecha de edición")
+    dni = models.IntegerField(verbose_name="DNI")
     nombre = models.CharField(max_length=30, verbose_name="Nombre")
     apellido = models.CharField(max_length=30, verbose_name="Apellido")
-    dni = models.IntegerField(verbose_name="DNI")
     celular = models.IntegerField(verbose_name="Celular")
-    telefono_fijo = models.IntegerField(verbose_name="Telefono fijo")
+    telefono_fijo = models.IntegerField(verbose_name="Teléfono fijo")
     correo_electronico = models.EmailField(verbose_name="Correo electrónico")
 
     def __str__(self):
@@ -141,6 +142,7 @@ class ReclamoModel(models.Model):
         ALTA = "3", _("Alta")
 
     fecha_creacion = models.DateField(auto_now_add=True, verbose_name="Fecha de creación")
+    fecha_edicion = models.DateField(auto_now=True, verbose_name="Fecha de edición")
     medio = models.CharField(max_length=50, verbose_name="Medio",
                              choices=MedioChoices.choices,
                              default=MedioChoices.BLANK)
