@@ -2,7 +2,7 @@ import osmnx as ox
 from unidecode import unidecode
 
 
-def get_street(relation_id):
+def get_streets(relation_id):
     # Definir las coordenadas del polígono a través de relation_id
     polygon = ox.geocoder.geocode_to_gdf(relation_id, which_result=None, by_osmid=True, buffer_dist=None)
 

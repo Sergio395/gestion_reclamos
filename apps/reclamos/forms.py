@@ -84,7 +84,7 @@ class ReclamoForm(forms.ModelForm):
             'placeholder': 'e.g. johndoe@mail.com'
         }))
     )
-
+    
     class Meta:
         """
         La clase Meta se utiliza para definir opciones adicionales para el formulario.
@@ -100,35 +100,82 @@ class ReclamoForm(forms.ModelForm):
         ]
         widgets = {
             'medio': forms.Select(attrs=Styles.input_styles({}),
-                                  choices=ReclamoModel.MedioChoices.choices),
-            'numero': forms.NumberInput(attrs=Styles.input_styles({}),
-                                        validators=[validators.MinValueValidator(1)])
+                                    choices=ReclamoModel.MedioChoices.choices),
+            'numero': forms.NumberInput(attrs=Styles.input_styles({
+                'validators': [validators.MinValueValidator(1)]})),
             'fuente': forms.Select(attrs=Styles.input_styles({}),
-                                   choices=ReclamoModel.FuenteChoices.choices),
-            'fecha': forms.DateInput(attrs=Styles.input_styles({'type': 'date', 'value': date.today().strftime('%Y-%m-%d')}),
-                                     validators=[validators.MaxValueValidator(date.today)]),
+                                    choices=ReclamoModel.FuenteChoices.choices),
+            'fecha': forms.DateInput(attrs=Styles.input_styles({
+                'type': 'date', 'value': date.today().strftime('%Y-%m-%d'),
+                'validators': [validators.MaxValueValidator(date.today)]})),
             'localidad': forms.Select(attrs=Styles.input_styles({'id': 'localidad-select'}),
-                                      choices=ReclamoModel.LocalidadChoices.choices),
-            'calle': forms.Select(attrs=Styles.input_styles({'class': 'form-control calle-select'})),
+                                        choices=ReclamoModel.LocalidadChoices.choices),
+            'calle': forms.Select(attrs=Styles.input_styles({
+                'class': 'form-control calle-select'})),
             'altura': forms.NumberInput(attrs=Styles.input_styles({})),
             'edificio': forms.TextInput(attrs=Styles.input_styles({})),
             'departamento': forms.TextInput(attrs=Styles.input_styles({})),
-            'entre_calle_1': forms.Select(attrs=Styles.input_styles({'class': 'form-control calle-select'})),
-            'entre_calle_2': forms.Select(attrs=Styles.input_styles({'class': 'form-control calle-select'})),
+            'entre_calle_1': forms.Select(attrs=Styles.input_styles({
+                'class': 'form-control calle-select'})),
+            'entre_calle_2': forms.Select(attrs=Styles.input_styles({
+                'class': 'form-control calle-select'})),
             'reclamo': forms.Select(attrs=Styles.input_styles({}),
                                     choices=ReclamoModel.ReclamoChoices.choices),
             'urgencia': forms.Select(attrs=Styles.input_styles({}),
-                                     choices=ReclamoModel.UrgenciaChoices.choices),
-            'foto': forms.ClearableFileInput(attrs=Styles.input_styles({'accept': 'image/*', 'multiple': True})),
+                                        choices=ReclamoModel.UrgenciaChoices.choices),
+            'foto': forms.ClearableFileInput(attrs=Styles.input_styles({
+                'accept': 'image/*', 'multiple': True})),
             'detalle': forms.Textarea(attrs=Styles.input_styles({'placeholder': 'Detalles del reclamo',
-                                                                 'style': 'height: 10em; border-radius: .375rem;',
-                                                                 'rows': 3, 'required': False})),
+                                                                    'style': 'height: 10em; border-radius: .375rem;',
+                                                                    'rows': 3, 'required': False})),
         }
         error_messages = {
-            
+            'nombre': {
+                'required': 'No te olvides de completar'
+            }
         }
-        required_fields = ['nombre', 'apellido', 'dni', 'celular', 'localidad', 'calle', 'altura', 'reclamo', 'urgencia']
-        error_messages.update({field: {'required': 'Este campo es obligatorio.'} for field in required_fields})
+        # required_fields = ['nombre', 'apellido', 'dni', 'celular', 'localidad', 'calle', 'altura', 'reclamo', 'urgencia']
+        # error_messages.update({field: {'required': 'Este campo es obligatorio.'} for field in required_fields})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     # class Styles:
     #     """
     #     Clase de utilidad que proporciona estilos de entrada para el formulario.

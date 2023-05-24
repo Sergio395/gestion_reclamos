@@ -4,57 +4,70 @@ from django.contrib import messages
 # from django.core.mail import send_mail
 # from django.conf import settings
 from django.shortcuts import render
-from django.http import JsonResponse, HttpResponseNotAllowed
+# from django.http import JsonResponse, HttpResponseNotAllowed
 from django.urls import reverse_lazy
-from .utils.street_names import get_street
+# from .utils.calle_utils import get_streets
+from .utils.calles_json import CALLES_JSON
 from .forms import ReclamoForm
 from .models import ReclamoModel, DenuncianteModel
 
+
+# Create your views here.
 class ReclamoView(edit.CreateView):
     model = ReclamoModel
     form_class = ReclamoForm
     template_name = 'reclamos/nuevo_reclamo.html'
     # URL a la que redirigir después de guardar el reclamo
-    success_url = reverse_lazy('nueno_reclamo')
+    success_url = reverse_lazy('nuevo_reclamo')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['nuevo_reclamo'] = ReclamoForm()
         return context
 
-    def form_valid(self, form):
-        # Obtener los valores de los campos personalizados
-        nombre = form.cleaned_data['nombre']
-        apellido = form.cleaned_data['apellido']
-        dni = form.cleaned_data['dni']
-        celular = form.cleaned_data['celular']
-        telefono_fijo = form.cleaned_data['telefono_fijo']
-        correo_electronico = form.cleaned_data['correo_electronico']
+    # def form_valid(self, form):
+    #     # Obtener los valores de los campos personalizados
+    #     nombre = form.cleaned_data['nombre']
+    #     apellido = form.cleaned_data['apellido']
+    #     dni = form.cleaned_data['dni']
+    #     celular = form.cleaned_data['celular']
+    #     telefono_fijo = form.cleaned_data['telefono_fijo']
+    #     correo_electronico = form.cleaned_data['correo_electronico']
 
-        # Crear una instancia de DenuncianteModel y guardarla
-        denunciante = DenuncianteModel(
-            telefono_fijo=telefono_fijo,
-            nombre=nombre,
-            celular=celular,
-            apellido=apellido,
-            correo_electronico=correo_electronico,
-            dni=dni
-        )
-        denunciante.save()
+    #     # Crear una instancia de DenuncianteModel y guardarla
+    #     denunciante = DenuncianteModel(
+    #         telefono_fijo=telefono_fijo,
+    #         nombre=nombre,
+    #         celular=celular,
+    #         apellido=apellido,
+    #         correo_electronico=correo_electronico,
+    #         dni=dni
+    #     )
+    #     denunciante.save()
 
-        # Asociar el denunciante con el reclamo y guardar el reclamo
-        reclamo = form.save(commit=False)
-        reclamo.denunciantes.add(denunciante)
-        reclamo.save()
+    #     # Asociar el denunciante con el reclamo y guardar el reclamo
+    #     reclamo = form.save(commit=False)
+    #     reclamo.denunciantes.add(denunciante)
+    #     reclamo.save()
 
-        return super().form_valid(form)
+    #     return super().form_valid(form)
 
-    def form_invalid(self, form):
-        messages.error(self.request, 'Revisa los errores en el formulario')
+    # def form_invalid(self, form):
+    #     messages.error(self.request, 'Revisa los errores en el formulario')
 
-        return self.render_to_response(self.get_context_data(form=form))
+    #     return self.render_to_response(self.get_context_data(form=form))
 
-# Create your views here.
+    # def form_invalid(self, form):
+    #     response = super().form_invalid(form)
+    #     messages.error(self.request, 'Revisa los errores en el formulario')
+    #     return response
+
+    # def form_invalid(self, form):
+    #     messages.error(self.request, 'Revisa los errores en el formulario')
+    #     return self.render_to_response(self.get_context_data())
+
+
+
 # def nuevo_reclamo(request): #FormView
 #     """
 #     Vista para manejar la creación de un nuevo reclamo.
@@ -115,15 +128,15 @@ class ReclamoView(edit.CreateView):
 #     return render(request, 'reclamos/nuevo_reclamo.html', context)
 
 
-class ObtenerCallesView(View, JsonResponseMixin):
-    def get(self, request):
-        relation_id = request.GET.get('localidad')
+# class ObtenerCallesView(View):
+#     def get(self, request):
+#         relation_id = request.GET.get('localidad')
 
-        # Llamar a la función obtener_calles del módulo calle_utils
-        calles = get_streets(relation_id)
+#         # Llamar a la función obtener_calles del módulo calle_utils
+#         calles = get_streets(relation_id)
 
-        # Devolver la lista de calles como una respuesta JSON
-        return self.render_json_response(calles)
+#         # Devolver la lista de calles como una respuesta JSON
+#         return JsonResponse(calles, safe=False)
 
 
 lista = ['Area Geográfica', 'Norte', 30333256,

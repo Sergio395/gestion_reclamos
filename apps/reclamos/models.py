@@ -95,11 +95,11 @@ class ReclamoModel(models.Model):
         Reclamo.
         """
         BLANK = "", _("")
-        NDAB = "1", _("9 de Abril")
-        CANN = "2", _("Canning")
-        EJAG = "3", _("El Jagüel")
-        LGUI = "4", _("Luis Guillón")
-        MGRA = "5", _("Monte Grande")
+        NDAB = "R2546787", _("9 de Abril")
+        CANN = "R2546804", _("Canning")
+        EJAG = "R2546834", _("El Jagüel")
+        LGUI = "R2546803", _("Luis Guillón")
+        MGRA = "R2546842", _("Monte Grande")
 
     class ReclamoChoices(models.TextChoices):
         """
