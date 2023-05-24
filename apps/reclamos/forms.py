@@ -74,15 +74,17 @@ class ReclamoForm(forms.ModelForm):
     telefono_fijo = forms.IntegerField(
         label='Teléfono fijo',
         widget=forms.NumberInput(attrs=Styles.input_styles({
-            'placeholder': 'e.g. 115555555'
-        }))
+            'placeholder': 'e.g. 115555555', 'required': False
+        })),
+        required=False
     )
     correo_electronico = forms.EmailField(
         label='Correo electrónico',
         error_messages={'invalid': 'Introduce una dirección de correo electrónico válida'},
         widget=forms.EmailInput(attrs=Styles.input_styles({
-            'placeholder': 'e.g. johndoe@mail.com'
-        }))
+            'placeholder': 'e.g. johndoe@mail.com', 'required': False
+        })),
+        required=False
     )
     
     class Meta:
@@ -101,13 +103,11 @@ class ReclamoForm(forms.ModelForm):
         widgets = {
             'medio': forms.Select(attrs=Styles.input_styles({}),
                                     choices=ReclamoModel.MedioChoices.choices),
-            'numero': forms.NumberInput(attrs=Styles.input_styles({
-                'validators': [validators.MinValueValidator(1)]})),
+            'numero': forms.NumberInput(attrs=Styles.input_styles({})),
             'fuente': forms.Select(attrs=Styles.input_styles({}),
                                     choices=ReclamoModel.FuenteChoices.choices),
             'fecha': forms.DateInput(attrs=Styles.input_styles({
-                'type': 'date', 'value': date.today().strftime('%Y-%m-%d'),
-                'validators': [validators.MaxValueValidator(date.today)]})),
+                'type': 'date', 'value': date.today().strftime('%Y-%m-%d')})),
             'localidad': forms.Select(attrs=Styles.input_styles({'id': 'localidad-select'}),
                                         choices=ReclamoModel.LocalidadChoices.choices),
             'calle': forms.Select(attrs=Styles.input_styles({
@@ -127,16 +127,15 @@ class ReclamoForm(forms.ModelForm):
                 'accept': 'image/*', 'multiple': True})),
             'detalle': forms.Textarea(attrs=Styles.input_styles({'placeholder': 'Detalles del reclamo',
                                                                     'style': 'height: 10em; border-radius: .375rem;',
-                                                                    'rows': 3, 'required': False})),
+                                                                    'rows': 3})),
         }
         # labels = {}
-        error_messages = {
-            'nombre': {
-                'required': 'No te olvides de completar'
-            }
-        }
-        # required_fields = ['nombre', 'apellido', 'dni', 'celular', 'localidad', 'calle', 'altura', 'reclamo', 'urgencia']
-        # error_messages.update({field: {'required': 'Este campo es obligatorio.'} for field in required_fields})
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['numero'].validators.append(validators.MinValueValidator(1))
+        self.fields['fecha'].validators.append(validators.MaxValueValidator(date.today()))
+        self.fields['detalle'].validators.append(validators.MinLengthValidator(10))
 
 
 

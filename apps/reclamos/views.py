@@ -1,15 +1,12 @@
 from datetime import datetime
-from django.views.generic import edit, View
-from django.contrib import messages
+from django.views.generic import edit
+# from django.contrib import messages
 # from django.core.mail import send_mail
 # from django.conf import settings
-from django.shortcuts import render
-# from django.http import JsonResponse, HttpResponseNotAllowed
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-# from .utils.calle_utils import get_streets
-from .utils.calles_json import CALLES_JSON
 from .forms import ReclamoForm
-from .models import ReclamoModel, DenuncianteModel
+from .models import ReclamoModel
 
 
 # Create your views here.
@@ -26,7 +23,17 @@ class ReclamoView(edit.CreateView):
     #     return context
 
     def get(self, request, *args, **kwargs):
-        return render(request, self.template_name, {'nuevo_reclamo': ReclamoForm()})
+        form = self.form_class()
+        return render(request, self.template_name, {'nuevo_reclamo': form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            reclamo = form.save()
+            # Realiza las acciones adicionales que necesites después de guardar el reclamo
+            return redirect(self.success_url)
+        else:
+            return render(request, self.template_name, {'nuevo_reclamo': form})
 
     # def form_valid(self, form):
     #     # Obtener los valores de los campos personalizados

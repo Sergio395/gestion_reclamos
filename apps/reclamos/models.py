@@ -16,8 +16,8 @@ class DenuncianteModel(models.Model):
     nombre = models.CharField(max_length=30, verbose_name="Nombre")
     apellido = models.CharField(max_length=30, verbose_name="Apellido")
     celular = models.IntegerField(verbose_name="Celular")
-    telefono_fijo = models.IntegerField(verbose_name="Teléfono fijo")
-    correo_electronico = models.EmailField(verbose_name="Correo electrónico")
+    telefono_fijo = models.IntegerField(blank=True, verbose_name="Teléfono fijo")
+    correo_electronico = models.EmailField(blank=True, verbose_name="Correo electrónico")
 
     def __str__(self):
         return f"{self.apellido}, {self.nombre} DNI: {self.dni}"
@@ -157,10 +157,10 @@ class ReclamoModel(models.Model):
                                  default=LocalidadChoices.BLANK)
     calle = models.CharField(max_length=50, verbose_name="Calle")
     altura = models.IntegerField(verbose_name="Numeración")
-    edificio = models.CharField(max_length=50, verbose_name="Edificio")
-    departamento = models.CharField(max_length=50, verbose_name="Departamento")
-    entre_calle_1 = models.CharField(max_length=50, verbose_name="Entre calle")
-    entre_calle_2 = models.CharField(max_length=50, verbose_name="y calle")
+    edificio = models.CharField(max_length=50, blank=True, verbose_name="Edificio")
+    departamento = models.CharField(max_length=50, blank=True, verbose_name="Departamento")
+    entre_calle_1 = models.CharField(max_length=50, blank=True, verbose_name="Entre calle")
+    entre_calle_2 = models.CharField(max_length=50, blank=True, verbose_name="y calle")
     # arboles = models.ManyToManyField(Arbol, verbose_name="Arbol")
     reclamo = models.CharField(max_length=200, verbose_name="Reclamo",
                                choices=ReclamoChoices.choices,
@@ -170,7 +170,7 @@ class ReclamoModel(models.Model):
                                 default=UrgenciaChoices.BLANK)
     foto = models.ImageField(upload_to='img_reclamos', null=True,
                              blank=True, verbose_name="Fotos") # img_reclamos define la ruta donde se almacenan las fotos
-    detalle = models.CharField(max_length=500, verbose_name="Detalles")
+    detalle = models.CharField(max_length=500, blank=True, verbose_name="Detalles")
     eliminado = models.BooleanField(default=False)
 
     def __str__(self):

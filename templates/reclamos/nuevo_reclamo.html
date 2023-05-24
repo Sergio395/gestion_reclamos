@@ -62,7 +62,7 @@
             </div>
           {% endfor %}
 
-          <form class="php-email-form" id="nuevo_reclamo" name="nuevo_reclamo" action="{% url 'nuevo_reclamo' %}" method="POST" novalidate>
+          <form class="php-email-form" id="nuevo_reclamo" name="nuevo_reclamo" action="{% url 'nuevo_reclamo' %}" method="POST" enctype="multipart/form-data" novalidate>
             {% csrf_token %}
 
             {% for campo in nuevo_reclamo %}
@@ -79,12 +79,20 @@
                   {% if campo.form.is_bound %}
 
                     {% if campo.errors %}
-                      {{ campo|add_class:"form-control is-invalid" }}
+                      {% if campo.name == 'calle' or campo.name == 'entre_calle_1' or campo.name == 'entre_calle_2' %}
+                        {{ campo|add_class:"form-control is-invalid calle-select" }}
+                      {% else %}
+                        {{ campo|add_class:"form-control is-invalid" }}
+                      {% endif %}
                       <div class="invalid-feedback">{{campo.errors}}</div>
                     {% elif not campo.field.required %}
                       {{ campo }}
                     {% else %}
-                      {{ campo|add_class:"form-control is-valid" }}
+                      {% if campo.name == 'calle' or campo.name == 'entre_calle_1' or campo.name == 'entre_calle_2' %}
+                        {{ campo|add_class:"form-control is-valid calle-select" }}
+                      {% else %}
+                        {{ campo|add_class:"form-control is-valid" }}
+                      {% endif %}
                     {% endif %}
 
                   {% else %}
