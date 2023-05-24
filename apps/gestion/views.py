@@ -6,6 +6,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotAllowed, JsonResponse
 from django.template import loader
 from .forms import GesContacto, GesInspector, GesInspeccion, GesGestion, GesBusqueda
+from ..reclamos.models import Reclamo
 
 lista_reclamos = [
     {
@@ -270,35 +271,38 @@ lista_reclamos = [
 
 # Create your views here.
 
-# def index(request):
-#		
-#     # mensaje=None
+# ---- Así funcionaba con listas ----
+
+# def gestion_inicio (request):
+#     mensaje = None
 #     if request.method == 'POST':
-#         contacto_form = ContactoForm(request.POST)
-#         # mensaje='Hemos recibido tus datos'
+#         form_busqueda = GesBusqueda(request.POST)
+        
 #         # acción para tomar los datos del formulario
-#         if contacto_form.is_valid():
+#         if form_busqueda.is_valid():
 #             messages.success(request, 'Hemos recibido tus datos')
-#             mensaje = f"De : {contacto_form.cleaned_data['nombre']} <{contacto_form.cleaned_data['email']}>\n Asunto: {contacto_form.cleaned_data['asunto']}\n Mensaje: {contacto_form.cleaned_data['mensaje']}"
-#             mensaje_html = f"""
-#                 <p>De: {contacto_form.cleaned_data['nombre']} <a href="mailto:{contacto_form.cleaned_data['email']}">{contacto_form.cleaned_data['email']}</a></p>
-#                 <p>Asunto:  {contacto_form.cleaned_data['asunto']}</p>
-#                 <p>Mensaje: {contacto_form.cleaned_data['mensaje']}</p>
-#             """
-#             asunto = "CONSULTA DESDE LA PAGINA - " + \
-#                 contacto_form.cleaned_data['asunto']
-#             send_mail(asunto, mensaje, settings.EMAIL_HOST_USER, [
-#                       settings.RECIPIENT_ADDRESS], fail_silently=False, html_message=mensaje_html)
+#             resultado = buscar_en_lista(lista_reclamos, form_busqueda.cleaned_data)
+#             reclamos = resultado
 #         # acción para tomar los datos del formulario
 #         else:
 #             messages.error(
 #                 request, 'Por favor revisa los errores en el formulario')
+            
 #     elif request.method == 'GET':
-#         contacto_form = ContactoForm()
+#         form_busqueda = GesBusqueda()
+#         reclamos = lista_reclamos
 #     else:
 #         return HttpResponseNotAllowed(f"Método {request.method} no soportado")
-    
 
+#     context = {
+#         'reclamos': reclamos,
+#         'mensaje': mensaje,
+#         'form_busqueda' : form_busqueda
+#     }
+#     return render(request, 'gestion/gestion_inicio.html', context)
+
+
+# ---- Con modelos ----
 def gestion_inicio (request):
     mensaje = None
     if request.method == 'POST':
@@ -307,8 +311,15 @@ def gestion_inicio (request):
         # acción para tomar los datos del formulario
         if form_busqueda.is_valid():
             messages.success(request, 'Hemos recibido tus datos')
-            resultado = buscar_en_lista(lista_reclamos, form_busqueda.cleaned_data)
-            reclamos = resultado
+            criterio1_campo = form_busqueda.cleaned_data['criterio1_campo']
+            criterio1_valor = form_busqueda.cleaned_data['criterio1_valor']
+            criterio2_campo = form_busqueda.cleaned_data['criterio2_campo']
+            criterio2_valor = form_busqueda.cleaned_data['criterio2_valor']
+            criterio3_campo = form_busqueda.cleaned_data['criterio3_campo']
+            criterio3_valor = form_busqueda.cleaned_data['criterio3_valor']
+            criterio4_campo = form_busqueda.cleaned_data['criterio4_campo']
+            criterio4_valor = form_busqueda.cleaned_data['criterio4_valor']
+            reclamos = Reclamo.objects.filter (criterio1_campo = criterio1_valor)
         # acción para tomar los datos del formulario
         else:
             messages.error(
@@ -316,7 +327,8 @@ def gestion_inicio (request):
             
     elif request.method == 'GET':
         form_busqueda = GesBusqueda()
-        reclamos = lista_reclamos
+        # reclamos = lista_reclamos
+        reclamos = Reclamo.objects.all()
     else:
         return HttpResponseNotAllowed(f"Método {request.method} no soportado")
 
@@ -326,6 +338,7 @@ def gestion_inicio (request):
         'form_busqueda' : form_busqueda
     }
     return render(request, 'gestion/gestion_inicio.html', context)
+
 
 
 def gestion_editar_reclamo(request, nro_reclamo):
@@ -357,41 +370,47 @@ def gestion_editar_reclamo(request, nro_reclamo):
     }
     return render(request, 'gestion/gestion_editar_reclamo.html', context)
 
-def buscar_en_lista (lista, criterio):
-    arreglo_fecha = f'''{criterio['criterio4_valor']}'''
-    resultado1 = []
-    resultado2 = []
-    resultado3 = []
-    resultado4 = []
-    resultado_final = []
-    # print(criterio['criterio1_campo'])
-    if criterio['criterio1_campo'] != 'none':
-        for item in lista:
-            if item[criterio['criterio1_campo']] == criterio['criterio1_valor']:
-                resultado1.append(item)
-    else:
-        resultado1 = lista
+# ---- buscar en lista, filtra una lista por hasta 4 criterios distintos ---
 
-    if criterio['criterio2_campo'] != 'none':
-        for item in resultado1:
-            if item[criterio['criterio2_campo']] == criterio['criterio2_valor']:
-                resultado2.append(item)
-    else:
-        resultado2 = resultado1
+# def buscar_en_lista (lista, criterio):
+#     arreglo_fecha = f'''{criterio['criterio4_valor']}'''
+#     resultado1 = []
+#     resultado2 = []
+#     resultado3 = []
+#     resultado4 = []
+#     resultado_final = []
+#     # print(criterio['criterio1_campo'])
+#     if criterio['criterio1_campo'] != 'none':
+#         for item in lista:
+#             if item[criterio['criterio1_campo']] == criterio['criterio1_valor']:
+#                 resultado1.append(item)
+#     else:
+#         resultado1 = lista
 
-    if criterio['criterio3_campo'] != 'none':
-        for item in resultado2:
-            if item[criterio['criterio3_campo']] == criterio['criterio3_valor']:
-                resultado3.append(item)
-    else:
-        resultado3 = resultado2
+#     if criterio['criterio2_campo'] != 'none':
+#         for item in resultado1:
+#             if item[criterio['criterio2_campo']] == criterio['criterio2_valor']:
+#                 resultado2.append(item)
+#     else:
+#         resultado2 = resultado1
+
+#     if criterio['criterio3_campo'] != 'none':
+#         for item in resultado2:
+#             if item[criterio['criterio3_campo']] == criterio['criterio3_valor']:
+#                 resultado3.append(item)
+#     else:
+#         resultado3 = resultado2
     
-    if criterio['criterio4_campo'] != 'none':
-        for item in resultado3:
-            if item[criterio['criterio4_campo']] == arreglo_fecha:
-                resultado4.append(item)
-    else:
-        resultado4 = resultado3
+#     if criterio['criterio4_campo'] != 'none':
+#         for item in resultado3:
+#             if item[criterio['criterio4_campo']] == arreglo_fecha:
+#                 resultado4.append(item)
+#     else:
+#         resultado4 = resultado3
     
-    resultado_final = resultado4
-    return resultado_final
+#     resultado_final = resultado4
+#     return resultado_final
+
+# def buscar_en_db (criterio):
+#     resultado = Reclamo.objects.filter(criterio['criterio1_campo'] = criterio['criterio1_valor'])
+#     return resultado

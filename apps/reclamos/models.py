@@ -142,12 +142,8 @@ class Reclamo(models.Model):
 
     fecha_creacion = models.DateField(auto_now_add=True, verbose_name="Fecha de creación")
     numero = models.IntegerField(verbose_name="Número")
-    medio = models.CharField(max_length=50, verbose_name="Medio",
-                             choices=MedioChoices.choices,
-                             default=MedioChoices.BLANK)
-    fuente = models.CharField(max_length=50, verbose_name="Fuente",
-                              choices=FuenteChoices.choices,
-                              default=FuenteChoices.BLANK)
+    medio = models.CharField(max_length=50, verbose_name="Medio", choices=MedioChoices.choices, default=MedioChoices.BLANK)
+    fuente = models.CharField(max_length=50, verbose_name="Fuente", choices=FuenteChoices.choices, default=FuenteChoices.BLANK)
     fecha = models.DateField(verbose_name="Fecha del reclamo")
     denunciantes = models.ManyToManyField(Denunciante, verbose_name="Denunciante")
     calle = models.CharField(max_length=50, verbose_name="Calle")
@@ -156,18 +152,11 @@ class Reclamo(models.Model):
     departamento = models.CharField(max_length=50, verbose_name="Departamento")
     entre_calle_1 = models.CharField(max_length=50, verbose_name="Entre calle")
     entre_calle_2 = models.CharField(max_length=50, verbose_name="y calle")
-    localidad = models.CharField(max_length=50, verbose_name="Localidad",
-                                 choices=LocalidadChoices.choices,
-                                 default=LocalidadChoices.BLANK)
+    localidad = models.CharField(max_length=50, verbose_name="Localidad", choices=LocalidadChoices.choices, default=LocalidadChoices.BLANK)
     arboles = models.ManyToManyField(Arbol, verbose_name="Arbol")
-    reclamo = models.CharField(max_length=200, verbose_name="Reclamo",
-                               choices=ReclamoChoices.choices,
-                               default=ReclamoChoices.BLANK)
-    urgencia = models.CharField(max_length=5, verbose_name="Urgencia",
-                                choices=UrgenciaChoices.choices,
-                                default=UrgenciaChoices.BLANK)
-    foto = models.ImageField(upload_to='img_reclamos', null=True,
-                             blank=True, verbose_name="Fotos") # img_reclamos define la ruta donde se almacenan las fotos
+    reclamo = models.CharField(max_length=200, verbose_name="Reclamo", choices=ReclamoChoices.choices, default=ReclamoChoices.BLANK)
+    urgencia = models.CharField(max_length=5, verbose_name="Urgencia", choices=UrgenciaChoices.choices, default=UrgenciaChoices.BLANK)
+    foto = models.ImageField(upload_to='img_reclamos', null=True, blank=True, verbose_name="Fotos") # img_reclamos define la ruta donde se almacenan las fotos
     detalle = models.CharField(max_length=500, verbose_name="Detalles")
 
     def __str__(self):
