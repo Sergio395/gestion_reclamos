@@ -22,7 +22,7 @@ class Arbol(models.Model):
     longitud = models.DecimalField(max_digits=9, decimal_places=6, verbose_name="Longitud")
     especie = models.CharField(max_length=30, verbose_name="Especie")
     altura = models.DecimalField(max_digits=3, decimal_places=1, verbose_name="Altura")
-    gestion = models.ForeignKey(Gestion, on_delete=models.CASCADE)
+    # gestion = models.ForeignKey(Gestion, on_delete=models.CASCADE)
 
 
     def __str__(self):

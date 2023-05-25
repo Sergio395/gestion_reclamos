@@ -1,12 +1,16 @@
+from django.template import loader
+from django.shortcuts import render, redirect
+from django.http import HttpResponseNotAllowed
 from datetime import datetime
 from django.conf import settings
 from django.contrib import messages
-from django.core.mail import send_mail
-from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseNotAllowed, JsonResponse
-from django.template import loader
-from .forms import GesContacto, GesInspector, GesInspeccion, GesGestion, GesBusqueda
-from ..reclamos.models import Reclamo
+from .forms import GestionForm, BusquedaForm
+from .models import Gestion
+
+from django.views.generic import ListView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
+
 
 lista_reclamos = [
     {
@@ -270,6 +274,62 @@ lista_reclamos = [
 ]
 
 # Create your views here.
+# class GestionListView(ListView):
+#     model = Gestion
+#     context_object_name = 'Gestion'
+#     template_name = 'templates/gestion/gestion_index.html'
+#     queryset = Gestion.objects.filter(baja=False)
+#     ordering = ['estado']
+    
+def gestion_index(request):
+    '''
+    Por ahora trae los valores de la tabla Gestion, pero deberiamos definir en grupo que datos va a mostrar 
+    Muestra un formulario de busqueda para utilizar como filtro
+    Trae los reclamos y los muestra en una tabla
+    '''
+    form_busqueda = BusquedaForm(request.POST or None)
+    gestion = Gestion.objects.filter(baja=False)
+    fields = Gestion.objects.model._meta.get_fields()
+    return render(request, 'gestion/gestion_prueba.html', {
+        'gestion': gestion, 
+        'form_busqueda': form_busqueda, 
+        'campos': fields
+        })
+
+
+def gestion_nuevo(request):
+    # forma de resumida de instanciar un formulario basado en model con los
+    # datos recibidos por POST si la petición es por POST o bien vacio(None)
+    # Si la petición es por GET
+    formulario = GestionForm(request.POST or None)
+    if formulario.is_valid():
+        formulario.save()
+        messages.success(request, 'Se ha creado el curso correctamente')
+        return redirect('gestion_index')
+    return render(request, 'gestion/gestion_nuevo.html', {'gestion_form': formulario})
+
+
+# def cursos_editar(request, id_curso):
+#     try:
+#         curso = Curso.objects.get(pk=id_curso)
+#     except Curso.DoesNotExist:
+#         return render(request, 'administracion/404_admin.html')
+#     formulario = CursoForm(request.POST or None, request.FILES or None, instance=curso)
+#     if formulario.is_valid():
+#         formulario.save()
+#         messages.success(request, 'Se ha editado el curso correctamente')
+#         return redirect('cursos_index')
+#     return render(request, 'administracion/cursos/editar.html', {'formulario': formulario})
+
+
+# def cursos_eliminar(request, id_curso):
+#     try:
+#         curso = Curso.objects.get(pk=id_curso)
+#     except Curso.DoesNotExist:
+#         return render(request, 'administracion/404_admin.html')
+#     messages.success(request, 'Se ha eliminado el curso correctamente')
+#     curso.delete()
+#     return redirect('cursos_index')
 
 # ---- Así funcionaba con listas ----
 
@@ -302,73 +362,35 @@ lista_reclamos = [
 #     return render(request, 'gestion/gestion_inicio.html', context)
 
 
-# ---- Con modelos ----
-def gestion_inicio (request):
-    mensaje = None
-    if request.method == 'POST':
-        form_busqueda = GesBusqueda(request.POST)
-        
-        # acción para tomar los datos del formulario
-        if form_busqueda.is_valid():
-            messages.success(request, 'Hemos recibido tus datos')
-            criterio1_campo = form_busqueda.cleaned_data['criterio1_campo']
-            criterio1_valor = form_busqueda.cleaned_data['criterio1_valor']
-            criterio2_campo = form_busqueda.cleaned_data['criterio2_campo']
-            criterio2_valor = form_busqueda.cleaned_data['criterio2_valor']
-            criterio3_campo = form_busqueda.cleaned_data['criterio3_campo']
-            criterio3_valor = form_busqueda.cleaned_data['criterio3_valor']
-            criterio4_campo = form_busqueda.cleaned_data['criterio4_campo']
-            criterio4_valor = form_busqueda.cleaned_data['criterio4_valor']
-            reclamos = Reclamo.objects.filter (criterio1_campo = criterio1_valor)
-        # acción para tomar los datos del formulario
-        else:
-            messages.error(
-                request, 'Por favor revisa los errores en el formulario')
-            
-    elif request.method == 'GET':
-        form_busqueda = GesBusqueda()
-        # reclamos = lista_reclamos
-        reclamos = Reclamo.objects.all()
-    else:
-        return HttpResponseNotAllowed(f"Método {request.method} no soportado")
 
-    context = {
-        'reclamos': reclamos,
-        'mensaje': mensaje,
-        'form_busqueda' : form_busqueda
-    }
-    return render(request, 'gestion/gestion_inicio.html', context)
+# def gestion_editar_reclamo(request, nro_reclamo):
+#     datos_reclamo = lista_reclamos[nro_reclamo-1]
+#     mensaje = None
+#     if request.method == 'POST':
+#         form_contacto = GesContacto(request.POST)
+#         form_inspector = GesInspector(request.POST)
+#         form_inspeccion = GesInspeccion(request.POST)
+#         form_gestion = GesGestion(request.POST)
+#         mensaje = 'Hemos recibido tus datos'
+#         # acción para tomar los datos del formulario
+#     elif request.method == 'GET':
+#         form_contacto = GesContacto(datos_reclamo)
+#         form_inspector = GesInspector(datos_reclamo)
+#         form_inspeccion = GesInspeccion(datos_reclamo)
+#         form_gestion = GesGestion(datos_reclamo)
+#     else:
+#         return HttpResponseNotAllowed(f"Método {request.method} no soportado")
 
-
-
-def gestion_editar_reclamo(request, nro_reclamo):
-    datos_reclamo = lista_reclamos[nro_reclamo-1]
-    mensaje = None
-    if request.method == 'POST':
-        form_contacto = GesContacto(request.POST)
-        form_inspector = GesInspector(request.POST)
-        form_inspeccion = GesInspeccion(request.POST)
-        form_gestion = GesGestion(request.POST)
-        mensaje = 'Hemos recibido tus datos'
-        # acción para tomar los datos del formulario
-    elif request.method == 'GET':
-        form_contacto = GesContacto(datos_reclamo)
-        form_inspector = GesInspector(datos_reclamo)
-        form_inspeccion = GesInspeccion(datos_reclamo)
-        form_gestion = GesGestion(datos_reclamo)
-    else:
-        return HttpResponseNotAllowed(f"Método {request.method} no soportado")
-
-    context = {
-        'nro_reclamo' : nro_reclamo,
-        'mensaje': mensaje,
-        'datos_reclamo': datos_reclamo,
-        'form_contacto': form_contacto,
-        'form_inspector': form_inspector,
-        'form_inspeccion': form_inspeccion,
-        'form_gestion': form_gestion,
-    }
-    return render(request, 'gestion/gestion_editar_reclamo.html', context)
+#     context = {
+#         'nro_reclamo' : nro_reclamo,
+#         'mensaje': mensaje,
+#         'datos_reclamo': datos_reclamo,
+#         'form_contacto': form_contacto,
+#         'form_inspector': form_inspector,
+#         'form_inspeccion': form_inspeccion,
+#         'form_gestion': form_gestion,
+#     }
+#     return render(request, 'gestion/gestion_editar_reclamo.html', context)
 
 # ---- buscar en lista, filtra una lista por hasta 4 criterios distintos ---
 
@@ -406,11 +428,6 @@ def gestion_editar_reclamo(request, nro_reclamo):
 #             if item[criterio['criterio4_campo']] == arreglo_fecha:
 #                 resultado4.append(item)
 #     else:
-#         resultado4 = resultado3
-    
+#         resultado4 = resultado3    
 #     resultado_final = resultado4
 #     return resultado_final
-
-# def buscar_en_db (criterio):
-#     resultado = Reclamo.objects.filter(criterio['criterio1_campo'] = criterio['criterio1_valor'])
-#     return resultado
