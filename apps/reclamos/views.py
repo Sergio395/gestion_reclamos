@@ -1,26 +1,21 @@
 from datetime import datetime
-from django.views.generic import edit
+from django.views.generic.edit import CreateView
 # from django.contrib import messages
 # from django.core.mail import send_mail
 # from django.conf import settings
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from .forms import ReclamoForm
-from .models import ReclamoModel
+from .models import ReclamoModel, DenuncianteModel
 
 
 # Create your views here.
-class ReclamoView(edit.CreateView):
+class ReclamoView(CreateView):
     model = ReclamoModel
     form_class = ReclamoForm
     template_name = 'reclamos/nuevo_reclamo.html'
     # URL a la que redirigir después de guardar el reclamo
     success_url = reverse_lazy('nuevo_reclamo')
-
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context['nuevo_reclamo'] = ReclamoForm()
-    #     return context
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -28,53 +23,29 @@ class ReclamoView(edit.CreateView):
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
+        print(request.POST) #!DEBUG
+
         if form.is_valid():
-            reclamo = form.save()
-            # Realiza las acciones adicionales que necesites después de guardar el reclamo
+            reclamo = form.save(commit=False)
+            # Crear una instancia de DenuncianteModel y guardarla
+            denunciante = DenuncianteModel(
+                dni = form.cleaned_data['dni'],
+                correo_electronico = form.cleaned_data['correo_electronico'],
+                nombre = form.cleaned_data['nombre'],
+                apellido = form.cleaned_data['apellido'],
+                celular = form.cleaned_data['celular'],
+                telefono_fijo = form.cleaned_data['telefono_fijo'],
+            )
+            denunciante.save()
+
+            # Asociar el denunciante con el reclamo y guardar el reclamo
+            reclamo.save()
+            reclamo.denunciantes.add(denunciante)
+
             return redirect(self.success_url)
         else:
             return render(request, self.template_name, {'nuevo_reclamo': form})
 
-    # def form_valid(self, form):
-    #     # Obtener los valores de los campos personalizados
-    #     nombre = form.cleaned_data['nombre']
-    #     apellido = form.cleaned_data['apellido']
-    #     dni = form.cleaned_data['dni']
-    #     celular = form.cleaned_data['celular']
-    #     telefono_fijo = form.cleaned_data['telefono_fijo']
-    #     correo_electronico = form.cleaned_data['correo_electronico']
-
-    #     # Crear una instancia de DenuncianteModel y guardarla
-    #     denunciante = DenuncianteModel(
-    #         telefono_fijo=telefono_fijo,
-    #         nombre=nombre,
-    #         celular=celular,
-    #         apellido=apellido,
-    #         correo_electronico=correo_electronico,
-    #         dni=dni
-    #     )
-    #     denunciante.save()
-
-    #     # Asociar el denunciante con el reclamo y guardar el reclamo
-    #     reclamo = form.save(commit=False)
-    #     reclamo.denunciantes.add(denunciante)
-    #     reclamo.save()
-
-    #     return super().form_valid(form)
-
-    # def form_invalid(self, form):
-    #     messages.error(self.request, 'Revisa los errores en el formulario')
-
-    #     return self.render_to_response(self.get_context_data(form=form))
-
-    # def form_invalid(self, form):
-    #     response = super().form_invalid(form)
-    #     messages.error(self.request, 'Revisa los errores en el formulario')
-    #     return response
-
-    # def form_invalid(self, form):
-    #     messages.error(self.request, 'Revisa los errores en el formulario')
-    #     return self.render_to_response(self.get_context_data())
 
 
 

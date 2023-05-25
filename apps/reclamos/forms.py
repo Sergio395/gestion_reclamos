@@ -1,7 +1,7 @@
 from datetime import date
 from django import forms
 from django.core import validators
-from .models import ReclamoModel
+from .models import ReclamoModel, DenuncianteModel
 
 
 def validate_only_alphabetic(value):
@@ -42,28 +42,32 @@ class ReclamoForm(forms.ModelForm):
     y fotos si las hay. Todos los campos son requeridos, excepto el correo electrónico,
     teléfono fijo, edificio, departamento y detalle. 
     """
-    nombre = forms.CharField(
-        label='Nombre del denunciante',
-        max_length=50,
-        validators=[validate_only_alphabetic],
-        widget=forms.TextInput(attrs=Styles.input_styles({
-            # 'placeholder': 'Nombre del denunciante'
-        }))
-    )
-    apellido = forms.CharField(
-        label='Apellido del denunciante',
-        max_length=50,
-        validators=[validate_only_alphabetic],
-        widget=forms.TextInput(attrs=Styles.input_styles({
-            # 'placeholder': 'Apellido del denunciante'
-        }))
-    )
     dni = forms.IntegerField(
         label='DNI',
         validators=[validators.MinValueValidator(1000000), validators.MaxValueValidator(99999999)],
         widget=forms.NumberInput(attrs=Styles.input_styles({
             'placeholder': 'e.g. 12.345.678'
         }))
+    )
+    correo_electronico = forms.EmailField(
+        label='Correo electrónico',
+        error_messages={'invalid': 'Introduce una dirección de correo electrónico válida'},
+        widget=forms.EmailInput(attrs=Styles.input_styles({
+            'placeholder': 'e.g. johndoe@mail.com', 'required': False
+        })),
+        required=False
+    )
+    nombre = forms.CharField(
+        label='Nombre del denunciante',
+        max_length=50,
+        validators=[validate_only_alphabetic],
+        widget=forms.TextInput(attrs=Styles.input_styles({}))
+    )
+    apellido = forms.CharField(
+        label='Apellido del denunciante',
+        max_length=50,
+        validators=[validate_only_alphabetic],
+        widget=forms.TextInput(attrs=Styles.input_styles({}))
     )
     celular = forms.IntegerField(
         label='Teléfono celular',
@@ -78,15 +82,7 @@ class ReclamoForm(forms.ModelForm):
         })),
         required=False
     )
-    correo_electronico = forms.EmailField(
-        label='Correo electrónico',
-        error_messages={'invalid': 'Introduce una dirección de correo electrónico válida'},
-        widget=forms.EmailInput(attrs=Styles.input_styles({
-            'placeholder': 'e.g. johndoe@mail.com', 'required': False
-        })),
-        required=False
-    )
-    
+
     class Meta:
         """
         La clase Meta se utiliza para definir opciones adicionales para el formulario.
@@ -95,11 +91,15 @@ class ReclamoForm(forms.ModelForm):
         """
         model = ReclamoModel
         fields = [
-            'medio', 'numero', 'fuente', 'fecha', 'nombre', 'apellido', 'dni',
-            'celular', 'telefono_fijo', 'correo_electronico', 'localidad', 'calle',
-            'altura', 'edificio', 'departamento', 'entre_calle_1', 'entre_calle_2',
-            'reclamo', 'urgencia', 'foto', 'detalle'
+            'medio', 'numero', 'fuente', 'fecha', 'dni', 'correo_electronico', 'nombre',
+            'apellido', 'celular', 'telefono_fijo',  'localidad', 'calle', 'altura',
+            'edificio', 'departamento', 'entre_calle_1', 'entre_calle_2', 'reclamo',
+            'urgencia', 'foto', 'detalle'
         ]
+        labels = {
+            'medio': 'Medio', 'numero': 'Número de reclamo', 'fuente': 'Fuente',
+            'fecha': 'Fecha del reclamo'
+        }
         widgets = {
             'medio': forms.Select(attrs=Styles.input_styles({}),
                                     choices=ReclamoModel.MedioChoices.choices),
@@ -108,6 +108,7 @@ class ReclamoForm(forms.ModelForm):
                                     choices=ReclamoModel.FuenteChoices.choices),
             'fecha': forms.DateInput(attrs=Styles.input_styles({
                 'type': 'date', 'value': date.today().strftime('%Y-%m-%d')})),
+            # 'telefono_fijo': forms.NumberInput(attrs=Styles.input_styles({'placeholder': 'e.g. 115555555', 'required': False})),
             'localidad': forms.Select(attrs=Styles.input_styles({'id': 'localidad-select'}),
                                         choices=ReclamoModel.LocalidadChoices.choices),
             'calle': forms.Select(attrs=Styles.input_styles({
@@ -129,7 +130,6 @@ class ReclamoForm(forms.ModelForm):
                                                                     'style': 'height: 10em; border-radius: .375rem;',
                                                                     'rows': 3})),
         }
-        # labels = {}
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

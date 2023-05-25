@@ -56,11 +56,13 @@
         <div class="col-lg-2"></div>
         <div class="col-lg-8">
 
-          {% for message in messages %}
-            <div class="alert alert-{% if message.tags == 'error' %}warning{% else %}{{ message.tags }}{% endif %}" role="alert">
-              {{message}}
-            </div>
-          {% endfor %}
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-{% if message.tags == 'error' %}warning{% else %}{{ message.tags }}{% endif %}" role="alert">
+                {{message}}
+              </div>
+            {% endfor %}
+          {% endif %}
 
           <form class="php-email-form" id="nuevo_reclamo" name="nuevo_reclamo" action="{% url 'nuevo_reclamo' %}" method="POST" enctype="multipart/form-data" novalidate>
             {% csrf_token %}
