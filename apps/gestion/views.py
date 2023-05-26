@@ -290,46 +290,44 @@ def gestion_index(request):
     form_busqueda = BusquedaForm(request.POST or None)
     gestion = Gestion.objects.filter(baja=False)
     fields = Gestion.objects.model._meta.get_fields()
-    return render(request, 'gestion/gestion_prueba.html', {
-        'gestion': gestion, 
-        'form_busqueda': form_busqueda, 
-        'campos': fields
-        })
+    return render(request, 'gestion/gestion_prueba.html', {'gestion': gestion, 'form_busqueda': form_busqueda, 'campos': fields})
 
 
 def gestion_nuevo(request):
     # forma de resumida de instanciar un formulario basado en model con los
     # datos recibidos por POST si la petición es por POST o bien vacio(None)
     # Si la petición es por GET
+    titulo_accion = 'Creación de registro'
     formulario = GestionForm(request.POST or None)
     if formulario.is_valid():
         formulario.save()
         messages.success(request, 'Se ha creado el curso correctamente')
         return redirect('gestion_index')
-    return render(request, 'gestion/gestion_nuevo.html', {'gestion_form': formulario})
+    return render(request, 'gestion/gestion_nuevo.html', {'gestion_form': formulario, 'accion': titulo_accion})
 
 
-# def cursos_editar(request, id_curso):
-#     try:
-#         curso = Curso.objects.get(pk=id_curso)
-#     except Curso.DoesNotExist:
-#         return render(request, 'administracion/404_admin.html')
-#     formulario = CursoForm(request.POST or None, request.FILES or None, instance=curso)
-#     if formulario.is_valid():
-#         formulario.save()
-#         messages.success(request, 'Se ha editado el curso correctamente')
-#         return redirect('cursos_index')
-#     return render(request, 'administracion/cursos/editar.html', {'formulario': formulario})
+def gestion_editar(request, id):
+    titulo_accion = 'Edición de registro'
+    try:
+        gestion = Gestion.objects.get(pk=id)
+    except Gestion.DoesNotExist:
+        return render(request, 'gestion/gestion_prueba.html')
+    formulario = GestionForm(request.POST or None, instance = gestion)
+    if formulario.is_valid():
+        formulario.save()
+        messages.success(request, 'Se ha editado el campo correctamente')
+        return redirect('gestion_index')
+    return render(request, 'gestion/gestion_nuevo.html', {'gestion_form': formulario, 'accion':titulo_accion})
 
 
-# def cursos_eliminar(request, id_curso):
-#     try:
-#         curso = Curso.objects.get(pk=id_curso)
-#     except Curso.DoesNotExist:
-#         return render(request, 'administracion/404_admin.html')
-#     messages.success(request, 'Se ha eliminado el curso correctamente')
-#     curso.delete()
-#     return redirect('cursos_index')
+def gestion_eliminar(request, id):
+    try:
+        gestion = Gestion.objects.get(pk=id)
+    except Gestion.DoesNotExist:
+        return render(request, 'gestion/gestion_prueba.html')
+    messages.success(request, 'Se ha eliminado el curso correctamente')
+    gestion.soft_delete()
+    return redirect('gestion_index')
 
 # ---- Así funcionaba con listas ----
 

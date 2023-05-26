@@ -83,9 +83,9 @@
                 <!-- Titulos -->
                 <thead>
                   <tr>
-                    <th>Acciones</th>
+                    <th class="ancho-celda">Acciones</th>
                     {% for titulo in campos %}
-                    <th>{{ titulo.attname }}</th>
+                    <th class="ancho-celda">{{ titulo.attname }}</th>
                     {% endfor %}  
                   </tr>
                 </thead>
@@ -97,8 +97,10 @@
                       <tr>
                         <!-- Datos de item -->
                         <td class="ancho-celda">
-                          <a href="{% url 'gestion' %}" class="btn btn-warning" role="button">
+                          <a href="{% url 'gestion_editar' item.id %}" class="btn btn-warning" role="button">
                             Editar
+                          </a>
+                          <a href="{% url 'gestion_eliminar' item.id %}" title="Eliminar" class="btn btn-danger" role="button">Borrar
                           </a>
                         </td>
                         <td class="ancho-celda">
