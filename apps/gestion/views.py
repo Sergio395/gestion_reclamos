@@ -32,6 +32,22 @@ def gestion_index(request):
     fields = Gestion.objects.model._meta.get_fields()
     return render(request, 'gestion/gestion_prueba.html', {'gestion': gestion, 'form_busqueda': form_busqueda, 'campos': fields})
 
+def gestion_buscar(request):
+    '''
+    Tomar los valores del formulario busqueda, y va a realizar la consulta a la DB, para traer y mostrar los resultados
+    '''
+    formulario = BusquedaForm(request.POST or None)
+    if formulario.is_valid():
+        try:
+            gestion = recuperar_datos(formulario.cleaned_data)
+        except Gestion.DoesNotExist:
+            return render(request, 'gestion/gestion_prueba.html')
+    else:
+        messages.warning(request, 'Revisa los campos')
+        return render(request, 'gestion/gestion_prueba.html')
+    
+    fields = Gestion.objects.model._meta.get_fields()
+    return render(request, 'gestion/gestion_prueba.html', {'gestion': gestion, 'form_busqueda': form_busqueda, 'campos': fields})
 
 def gestion_nuevo(request):
     # forma de resumida de instanciar un formulario basado en model con los
@@ -69,6 +85,30 @@ def gestion_eliminar(request, id_registro):
     gestion.soft_delete()
     return redirect('gestion_index')
 
+def recuperar_datos(criterio):
+    '''
+    Recibe los criterios y genera un string para pasar a la funcion filter
+    '''
+    q = Gestion.objects.filter('baja=False')
+    if criterio['criterio1_campo'] != 'none':
+        q1 = q.filter(criterio['criterio1_campo']' = 'criterio['criterio1_valor'])
+    else:
+        q1 = q
+    if criterio['criterio2_campo'] != 'none':
+        q2 = q1.filter(criterio['criterio2_campo']' = 'criterio['criterio2_valor'])
+    else:
+        q2 = q   
+    if criterio['criterio3_campo'] != 'none':
+        q3 = q2.filter(criterio['criterio3_campo']' = 'criterio['criterio3_valor'])
+    else:
+        q3 = q2
+    if criterio['criterio4_campo'] != 'none':
+        q4 = q3.filter(criterio['criterio4_campo']' = 'criterio['criterio4_valor'])
+    else:
+        q4 = q3
+    return q4
+
+#  mod_date = models.DateField(default=date.today)
 # ---- Así funcionaba con listas ----
 
 # def gestion_inicio (request):
