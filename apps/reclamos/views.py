@@ -1,10 +1,15 @@
 from datetime import datetime
 from django.views.generic.edit import CreateView
+
 # from django.contrib import messages
 # from django.core.mail import send_mail
 # from django.conf import settings
+
 from django.shortcuts import render, redirect
+from django.utils.text import get_valid_filename
+
 from django.urls import reverse_lazy
+
 from .forms import ReclamoForm
 from .models import ReclamoModel, DenuncianteModel
 
@@ -22,7 +27,7 @@ class ReclamoView(CreateView):
         return render(request, self.template_name, {'nuevo_reclamo': form})
 
     def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST)
+        form = self.form_class(request.POST, request.FILES)
         print(request.POST) #!DEBUG
 
         if form.is_valid():
@@ -37,6 +42,24 @@ class ReclamoView(CreateView):
                 telefono_fijo = form.cleaned_data['telefono_fijo'],
             )
             denunciante.save()
+
+            # Guardar las fotos
+            fotos = request.FILES.getlist('foto')
+            current_datetime = datetime.now().strftime('%Y%m%d_%H%M%S%f')
+            for i, pic in enumerate(fotos):
+                # Obtener el nombre del archivo original
+                original_filename = pic.name
+
+                # Obtener la extensión del archivo original
+                extension = original_filename.split('.')[-1]
+
+                # Generar el nombre de la foto usando la fecha, hora actual y numero de foto subida
+                foto_name = f"{current_datetime}-{i+1}"
+                foto_filename = get_valid_filename(foto_name + '.' + extension)
+
+                # Guardar el reclamo de la foto
+                reclamo.foto.save(foto_filename, pic)
+
 
             # Asociar el denunciante con el reclamo y guardar el reclamo
             reclamo.save()

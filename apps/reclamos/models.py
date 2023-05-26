@@ -146,7 +146,7 @@ class ReclamoModel(models.Model):
     medio = models.CharField(max_length=50, verbose_name="Medio",
                              choices=MedioChoices.choices,
                              default=MedioChoices.BLANK)
-    numero = models.IntegerField(verbose_name="Número")
+    numero = models.IntegerField(verbose_name="Número de reclamo")
     fuente = models.CharField(max_length=50, verbose_name="Fuente",
                               choices=FuenteChoices.choices,
                               default=FuenteChoices.BLANK)
@@ -168,10 +168,18 @@ class ReclamoModel(models.Model):
     urgencia = models.CharField(max_length=5, verbose_name="Urgencia",
                                 choices=UrgenciaChoices.choices,
                                 default=UrgenciaChoices.BLANK)
-    foto = models.ImageField(upload_to='img_reclamos', null=True,
-                             blank=True, verbose_name="Fotos") # img_reclamos define la ruta donde se almacenan las fotos
+    foto = models.ImageField(upload_to='img_reclamos/', null=True,
+                             blank=True, verbose_name="Fotos")
     detalle = models.CharField(max_length=500, blank=True, null=True, verbose_name="Detalles")
     eliminado = models.BooleanField(default=False)
+
+    def soft_delete(self):
+        self.eliminado=True
+        super().save()
+
+    def restore(self):
+        self.eliminado = False
+        super().save()
 
     def __str__(self):
         return f'Reclamo {self.numero}'

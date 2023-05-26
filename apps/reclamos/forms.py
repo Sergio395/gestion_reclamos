@@ -1,7 +1,7 @@
 from datetime import date
 from django import forms
 from django.core import validators
-from .models import ReclamoModel, DenuncianteModel
+from .models import ReclamoModel
 
 
 def validate_only_alphabetic(value):
@@ -58,13 +58,13 @@ class ReclamoForm(forms.ModelForm):
         required=False
     )
     nombre = forms.CharField(
-        label='Nombre del denunciante',
+        label='Nombre',
         max_length=50,
         validators=[validate_only_alphabetic],
         widget=forms.TextInput(attrs=Styles.input_styles({}))
     )
     apellido = forms.CharField(
-        label='Apellido del denunciante',
+        label='Apellido',
         max_length=50,
         validators=[validate_only_alphabetic],
         widget=forms.TextInput(attrs=Styles.input_styles({}))
@@ -82,6 +82,12 @@ class ReclamoForm(forms.ModelForm):
         })),
         required=False
     )
+    foto = forms.FileField(
+        label='Foto',
+        widget=forms.ClearableFileInput(attrs=Styles.input_styles({
+                'accept': 'image/*', 'multiple': True})),
+        required=False
+    )
 
     class Meta:
         """
@@ -92,13 +98,13 @@ class ReclamoForm(forms.ModelForm):
         model = ReclamoModel
         fields = [
             'medio', 'numero', 'fuente', 'fecha', 'dni', 'correo_electronico', 'nombre',
-            'apellido', 'celular', 'telefono_fijo',  'localidad', 'calle', 'altura',
-            'edificio', 'departamento', 'entre_calle_1', 'entre_calle_2', 'reclamo',
-            'urgencia', 'foto', 'detalle'
+            'apellido', 'celular', 'telefono_fijo',  'localidad', 'calle', 'entre_calle_1',
+            'entre_calle_2', 'altura', 'edificio', 'departamento', 'reclamo', 'urgencia',
+            'foto', 'detalle'
         ]
         labels = {
-            'medio': 'Medio', 'numero': 'Número de reclamo', 'fuente': 'Fuente',
-            'fecha': 'Fecha del reclamo'
+            # 'medio': 'Medio', 'numero': 'Número de reclamo', 'fuente': 'Fuente',
+            # 'fecha': 'Fecha del reclamo'
         }
         widgets = {
             'medio': forms.Select(attrs=Styles.input_styles({}),
@@ -108,7 +114,6 @@ class ReclamoForm(forms.ModelForm):
                                     choices=ReclamoModel.FuenteChoices.choices),
             'fecha': forms.DateInput(attrs=Styles.input_styles({
                 'type': 'date', 'value': date.today().strftime('%Y-%m-%d')})),
-            # 'telefono_fijo': forms.NumberInput(attrs=Styles.input_styles({'placeholder': 'e.g. 115555555', 'required': False})),
             'localidad': forms.Select(attrs=Styles.input_styles({'id': 'localidad-select'}),
                                         choices=ReclamoModel.LocalidadChoices.choices),
             'calle': forms.Select(attrs=Styles.input_styles({

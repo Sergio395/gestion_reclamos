@@ -49,6 +49,7 @@
 <!-- End Breadcrumbs -->
 
 {% block contenido %}
+  {% load custom_filters %}
   <!-- ======= Claim Section ======= -->
   <section id="contact" class="contact">
     <div class="container" data-aos="fade-up">
@@ -67,68 +68,54 @@
           <form class="php-email-form" id="nuevo_reclamo" name="nuevo_reclamo" action="{% url 'nuevo_reclamo' %}" method="POST" enctype="multipart/form-data" novalidate>
             {% csrf_token %}
 
-            {% for campo in nuevo_reclamo %}
-              {% if campo.name != 'detalle' %}
 
-                {% if forloop.counter0|divisibleby:"2" %}
-                  <div class="row">
+            <!-- Bloque 1: Internos -->
+            <h4>Datos Internos</h4>
+            <hr>
+            <div class="row">
+              {% for campo in nuevo_reclamo %}
+                {% if campo.name != 'detalle' and forloop.counter <= 4 %}
+                  <div class="col-md-6 form-group mb-1" >
+                    {% include 'reclamos/nuevo_reclamo_validaciones.html' %}
+                  </div>
                 {% endif %}
+              {% endfor %}
+            </div>
 
-                {% load custom_filters %}
+            <!-- Bloque 2: Denunciante -->
+            <br>
+            <h4>Datos del Denunciante</h4>
+            <hr>
+            <div class="row">
+              {% for campo in nuevo_reclamo %}
+                {% if campo.name != 'detalle' and forloop.counter > 4 and forloop.counter <= 10 %}
+                  <div class="col-md-6 form-group mb-1" >
+                    {% include 'reclamos/nuevo_reclamo_validaciones.html' %}
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
 
-                <div class="col-md-6 form-group mb-1" >
-                  <label class="form-label" for="{{ campo.name }}">{{ campo.label }}{% if campo.field.required %}*{% endif %}</label>
-                  {% if campo.form.is_bound %}
-
-                    {% if campo.errors %}
-                      {% if campo.name == 'calle' or campo.name == 'entre_calle_1' or campo.name == 'entre_calle_2' %}
-                        {{ campo|add_class:"form-control is-invalid calle-select" }}
-                      {% else %}
-                        {{ campo|add_class:"form-control is-invalid" }}
-                      {% endif %}
-                      <div class="invalid-feedback">{{campo.errors}}</div>
-                    {% elif not campo.field.required %}
-                      {{ campo }}
-                    {% else %}
-                      {% if campo.name == 'calle' or campo.name == 'entre_calle_1' or campo.name == 'entre_calle_2' %}
-                        {{ campo|add_class:"form-control is-valid calle-select" }}
-                      {% else %}
-                        {{ campo|add_class:"form-control is-valid" }}
-                      {% endif %}
-                    {% endif %}
-
-                  {% else %}
-                      {{ campo }}
-                  {% endif %}
-                </div>
-
-                {% if forloop.counter|divisibleby:"2" or forloop.last %}
+            <!-- Bloque 3: Reclamo -->
+            <br>
+            <h4>Datos del Reclamo</h4>
+            <hr>
+            <div class="row">
+              {% for campo in nuevo_reclamo %}
+                {% if campo.name != 'detalle' and forloop.counter > 10 %}
+                  <div class="col-md-6 form-group mb-1" >
+                    {% include 'reclamos/nuevo_reclamo_validaciones.html' %}
                   </div>
                 {% endif %}
 
-              {% endif %}
-            {% endfor %}
-
-            <div class="row">
-              <div class="col-md-12 form-group mt-3 mt-md-0">
-                <label class="form-label" for="{{ nuevo_reclamo.detalle.name }}">{{ nuevo_reclamo.detalle.label }}{% if nuevo_reclamo.detalle.field.required %}*{% endif %}</label>
-                {% if nuevo_reclamo.detalle.form.is_bound %}
-
-                  {% if nuevo_reclamo.detalle.errors %}
-                    {{ nuevo_reclamo.detalle|add_class:"form-control is-invalid" }}
-                    <div class="invalid-feedback">{{nuevo_reclamo.detalle.errors}}</div>
-                  {% elif not nuevo_reclamo.detalle.field.required %}
-                    {{ nuevo_reclamo.detalle }}
-                  {% else %}
-                    {{ nuevo_reclamo.detalle|add_class:"form-control is-valid" }}
-                  {% endif %}
-
-                {% else %}
-                  {{ nuevo_reclamo.detalle }}
+                {% if campo.name == 'detalle' %}
+                  <div class="col-md-12 form-group mt-3 mt-md-0">
+                    {% include 'reclamos/nuevo_reclamo_validaciones.html' %}
+                  </div>
                 {% endif %}
-              </div> 
+              {% endfor %}
             </div>
-
+            <br>
             <div class="row">
               <div class="text-center col-md-4 form-group mt-3 mt-md-0">
                 <button id="btn-button" onclick="window.history.go(-1); return false;" type="button">Atrás</button>

@@ -1,6 +1,8 @@
 *.bat
 __pycache__
 cache
+media
+db-definition
 .vscode
 .env
 BBDD.txt
