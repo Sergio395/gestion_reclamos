@@ -1,5 +1,5 @@
 from datetime import datetime
-from django.views.generic.edit import CreateView
+from django.views.generic import edit, ListView, UpdateView
 
 # from django.contrib import messages
 # from django.core.mail import send_mail
@@ -15,16 +15,16 @@ from .models import ReclamoModel, DenuncianteModel
 
 
 # Create your views here.
-class ReclamoView(CreateView):
+class ReclamoCreateView(edit.CreateView):
     model = ReclamoModel
     form_class = ReclamoForm
-    template_name = 'reclamos/nuevo_reclamo.html'
+    template_name = 'reclamos/reclamo_form.html'
     # URL a la que redirigir después de guardar el reclamo
-    success_url = reverse_lazy('nuevo_reclamo')
+    success_url = reverse_lazy('reclamo_form')
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
-        return render(request, self.template_name, {'nuevo_reclamo': form})
+        return render(request, self.template_name, {'reclamo_form': form})
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST, request.FILES)
@@ -67,12 +67,28 @@ class ReclamoView(CreateView):
 
             return redirect(self.success_url)
         else:
-            return render(request, self.template_name, {'nuevo_reclamo': form})
+            return render(request, self.template_name, {'reclamo_form': form})
 
 
+class ReclamoListView(ListView):
+    model = ReclamoModel
+    template_name = 'reclamos/reclamo_list.html'
+    context_object_name = 'reclamos'
 
 
-# def nuevo_reclamo(request): #FormView
+class ReclamoUpdateView(UpdateView):
+    model = ReclamoModel
+    form_class = ReclamoForm
+    template_name = 'reclamos/reclamo_form.html'
+    success_url = 'seguimiento'
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        return self.render_to_response(self.get_context_data(reclamo_form=form))
+
+
+# def reclamo_form(request): #FormView
 #     """
 #     Vista para manejar la creación de un nuevo reclamo.
 #     Si la solicitud es de tipo 'POST', valida el formulario utilizando la clase
@@ -126,10 +142,10 @@ class ReclamoView(CreateView):
 #         )
 
 #     context = {
-#         'nuevo_reclamo': nuevo
+#         'reclamo_form': nuevo
 #     }
 
-#     return render(request, 'reclamos/nuevo_reclamo.html', context)
+#     return render(request, 'reclamos/reclamo_form.html', context)
 
 
 # class ObtenerCallesView(View):

@@ -1,0 +1,55 @@
+{% extends 'base/base.html' %}
+{% block titulo %}Seguimiento{% endblock titulo %}
+{% block css %}
+<style>
+  label {
+    color: #008375;
+  }
+  div.text-center button {
+    width: 180px;
+  }
+  button#btn-reset {
+    background: DarkTurquoise;
+    border: 0;
+    padding: 14px 45px;
+    color: #fff;
+    transition: 0.4s;
+    border-radius: 50px;
+  }
+  button#btn-reset:hover {
+    background: Turquoise;
+  }
+  button#btn-button {
+    background: Crimson;
+    border: 0;
+    padding: 14px 45px;
+    color: #fff;
+    transition: 0.4s;
+    border-radius: 50px;
+  }
+  button#btn-button:hover {
+    background: Red;
+  }
+</style>
+{% endblock css %}
+
+<!-- ======= Breadcrumbs ======= -->
+{% block etiqueta %}Seguimiento{% endblock etiqueta %} {% block nav %}
+<nav>
+  <div class="container">
+    <ol>
+      <li><a href="{% url 'index' %}">Inicio</a></li>
+      <li>Seguimiento</li>
+    </ol>
+  </div>
+</nav>
+{% endblock nav %}
+<!-- End Breadcrumbs -->
+
+{% block contenido %}
+  {% for reclamo in reclamos %}
+    <a href="{% url 'editar_reclamo' reclamo.id %}">{{ reclamo }}</a><br>
+  {% empty %}
+    No se encontraron reclamos.
+  {% endfor %}
+{% endblock contenido %}

@@ -65,7 +65,7 @@
             {% endfor %}
           {% endif %}
 
-          <form class="php-email-form" id="nuevo_reclamo" name="nuevo_reclamo" action="{% url 'nuevo_reclamo' %}" method="POST" enctype="multipart/form-data" novalidate>
+          <form class="php-email-form" id="reclamo_form" name="reclamo_form" action="{% url 'reclamo_form' %}" method="POST" enctype="multipart/form-data" novalidate>
             {% csrf_token %}
 
 
@@ -73,10 +73,10 @@
             <h4>Datos Internos</h4>
             <hr>
             <div class="row">
-              {% for campo in nuevo_reclamo %}
+              {% for campo in reclamo_form %}
                 {% if campo.name != 'detalle' and forloop.counter <= 4 %}
                   <div class="col-md-6 form-group mb-1" >
-                    {% include 'reclamos/nuevo_reclamo_validaciones.html' %}
+                    {% include 'reclamos/reclamo_form_validaciones.html' %}
                   </div>
                 {% endif %}
               {% endfor %}
@@ -87,10 +87,10 @@
             <h4>Datos del Denunciante</h4>
             <hr>
             <div class="row">
-              {% for campo in nuevo_reclamo %}
+              {% for campo in reclamo_form %}
                 {% if campo.name != 'detalle' and forloop.counter > 4 and forloop.counter <= 10 %}
                   <div class="col-md-6 form-group mb-1" >
-                    {% include 'reclamos/nuevo_reclamo_validaciones.html' %}
+                    {% include 'reclamos/reclamo_form_validaciones.html' %}
                   </div>
                 {% endif %}
               {% endfor %}
@@ -101,16 +101,16 @@
             <h4>Datos del Reclamo</h4>
             <hr>
             <div class="row">
-              {% for campo in nuevo_reclamo %}
+              {% for campo in reclamo_form %}
                 {% if campo.name != 'detalle' and forloop.counter > 10 %}
                   <div class="col-md-6 form-group mb-1" >
-                    {% include 'reclamos/nuevo_reclamo_validaciones.html' %}
+                    {% include 'reclamos/reclamo_form_validaciones.html' %}
                   </div>
                 {% endif %}
 
                 {% if campo.name == 'detalle' %}
                   <div class="col-md-12 form-group mt-3 mt-md-0">
-                    {% include 'reclamos/nuevo_reclamo_validaciones.html' %}
+                    {% include 'reclamos/reclamo_form_validaciones.html' %}
                   </div>
                 {% endif %}
               {% endfor %}
