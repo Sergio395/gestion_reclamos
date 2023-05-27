@@ -28,18 +28,25 @@ def gestion_index(request):
     Trae los reclamos y los muestra en una tabla
     '''
     form_busqueda = BusquedaForm(request.POST or None)
-    gestion = Gestion.objects.filter(baja=False)
-    fields = Gestion.objects.model._meta.get_fields()
+    try:
+        gestion = Gestion.objects.filter(baja=False)
+    except Gestion.DoesNotExist:
+        return render(request, 'gestion/gestion_prueba.html')
+    try:
+        fields = Gestion.objects.model._meta.get_fields()
+    except Gestion.DoesNotExist:
+        return render(request, 'gestion/gestion_prueba.html')
     return render(request, 'gestion/gestion_prueba.html', {'gestion': gestion, 'form_busqueda': form_busqueda, 'campos': fields})
 
 def gestion_buscar(request):
     '''
     Tomar los valores del formulario busqueda, y va a realizar la consulta a la DB, para traer y mostrar los resultados
     '''
-    formulario = BusquedaForm(request.POST or None)
+    formulario = BusquedaForm(request.POST or None) # hay que pasarle instancia?
     if formulario.is_valid():
         try:
-            gestion = recuperar_datos(formulario.cleaned_data)
+            filtro = preparar_filtro(formulario.cleaned_data)
+            gestion = Gestion.objects.filter(**filtro)
         except Gestion.DoesNotExist:
             return render(request, 'gestion/gestion_prueba.html')
     else:
@@ -47,7 +54,7 @@ def gestion_buscar(request):
         return render(request, 'gestion/gestion_prueba.html')
     
     fields = Gestion.objects.model._meta.get_fields()
-    return render(request, 'gestion/gestion_prueba.html', {'gestion': gestion, 'form_busqueda': form_busqueda, 'campos': fields})
+    return render(request, 'gestion/gestion_prueba.html', {'gestion': gestion, 'form_busqueda': formulario, 'campos': fields})
 
 def gestion_nuevo(request):
     # forma de resumida de instanciar un formulario basado en model con los
@@ -85,28 +92,28 @@ def gestion_eliminar(request, id_registro):
     gestion.soft_delete()
     return redirect('gestion_index')
 
-def recuperar_datos(criterio):
+def preparar_filtro(criterio):
     '''
-    Recibe los criterios y genera un string para pasar a la funcion filter
+    Recibe los criterios y compaa si son distintos de 'none', y los agrega al diccionario que luego se pasará como filtro por los parametros **kwargs
+    ejemplo:
+    your_filters = {
+    'field_1__exact': value_1,
+    'field_2__gte': value_2,
+    }
+
+    Model.objects.filter(**your_filters)
     '''
-    q = Gestion.objects.filter('baja=False')
+    filtro = {'baja':False}
+    
     if criterio['criterio1_campo'] != 'none':
-        q1 = q.filter(criterio['criterio1_campo']' = 'criterio['criterio1_valor'])
-    else:
-        q1 = q
+        filtro[criterio['criterio1_campo']] = criterio['criterio1_valor']
     if criterio['criterio2_campo'] != 'none':
-        q2 = q1.filter(criterio['criterio2_campo']' = 'criterio['criterio2_valor'])
-    else:
-        q2 = q   
+        filtro[criterio['criterio2_campo']] = criterio['criterio2_valor']
     if criterio['criterio3_campo'] != 'none':
-        q3 = q2.filter(criterio['criterio3_campo']' = 'criterio['criterio3_valor'])
-    else:
-        q3 = q2
+        filtro[criterio['criterio3_campo']] = criterio['criterio3_valor']
     if criterio['criterio4_campo'] != 'none':
-        q4 = q3.filter(criterio['criterio4_campo']' = 'criterio['criterio4_valor'])
-    else:
-        q4 = q3
-    return q4
+        filtro[criterio['criterio4_campo']] = criterio['criterio4_valor']
+    return filtro
 
 #  mod_date = models.DateField(default=date.today)
 # ---- Así funcionaba con listas ----
