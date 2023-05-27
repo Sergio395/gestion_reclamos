@@ -1,7 +1,10 @@
+# import os
+# import glob
 from datetime import datetime
-from django.views.generic import edit, ListView, UpdateView
+# from django.conf import settings
+from django.views.generic import edit, ListView, UpdateView, DeleteView
 
-# from django.contrib import messages
+from django.contrib import messages
 # from django.core.mail import send_mail
 # from django.conf import settings
 
@@ -10,82 +13,172 @@ from django.utils.text import get_valid_filename
 
 from django.urls import reverse_lazy
 
-from .forms import ReclamoForm
+from .forms import ReclamoForm, DenuncianteForm
 from .models import ReclamoModel, DenuncianteModel
 
 
 # Create your views here.
 class ReclamoCreateView(edit.CreateView):
     model = ReclamoModel
-    form_class = ReclamoForm
+    reclamo_form_class = ReclamoForm
+    denunciante_form_class = DenuncianteForm
     template_name = 'reclamos/reclamo_form.html'
     # URL a la que redirigir después de guardar el reclamo
     success_url = reverse_lazy('reclamo_form')
 
     def get(self, request, *args, **kwargs):
-        form = self.form_class()
-        return render(request, self.template_name, {'reclamo_form': form})
+        reclamo_form = self.reclamo_form_class()
+        denunciante_form = self.denunciante_form_class()
+        return render(request, self.template_name, {
+            'reclamo_form': reclamo_form, 'denunciante_form': denunciante_form})
 
     def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST, request.FILES)
-        print(request.POST) #!DEBUG
+        reclamo_form = self.reclamo_form_class(request.POST, request.FILES)
+        denunciante_form = self.denunciante_form_class(request.POST)
 
-        if form.is_valid():
-            reclamo = form.save(commit=False)
-            # Crear una instancia de DenuncianteModel y guardarla
-            denunciante = DenuncianteModel(
-                dni = form.cleaned_data['dni'],
-                correo_electronico = form.cleaned_data['correo_electronico'],
-                nombre = form.cleaned_data['nombre'],
-                apellido = form.cleaned_data['apellido'],
-                celular = form.cleaned_data['celular'],
-                telefono_fijo = form.cleaned_data['telefono_fijo'],
-            )
-            denunciante.save()
-
-            # Guardar las fotos
-            fotos = request.FILES.getlist('foto')
-            current_datetime = datetime.now().strftime('%Y%m%d_%H%M%S%f')
-            for i, pic in enumerate(fotos):
-                # Obtener el nombre del archivo original
-                original_filename = pic.name
-
-                # Obtener la extensión del archivo original
-                extension = original_filename.split('.')[-1]
-
-                # Generar el nombre de la foto usando la fecha, hora actual y numero de foto subida
-                foto_name = f"{current_datetime}-{i+1}"
-                foto_filename = get_valid_filename(foto_name + '.' + extension)
-
-                # Guardar el reclamo de la foto
-                reclamo.foto.save(foto_filename, pic)
-
-
-            # Asociar el denunciante con el reclamo y guardar el reclamo
-            reclamo.save()
-            reclamo.denunciantes.add(denunciante)
-
-            return redirect(self.success_url)
+        if reclamo_form.is_valid() and denunciante_form.is_valid():
+            return self.form_valid(reclamo_form, denunciante_form)
         else:
-            return render(request, self.template_name, {'reclamo_form': form})
+            return self.form_invalid(reclamo_form, denunciante_form)
+
+    def form_valid(self, reclamo_form, denunciante_form):
+        messages.success(self.request, 'Reclamo creado con éxito')
+        reclamo = reclamo_form.save(commit=False)
+        denunciante = denunciante_form.save()
+
+        # Guardar las fotos
+        fotos = self.request.FILES.getlist('foto')
+        current_datetime = datetime.now().strftime('%Y%m%d_%H%M%S%f')
+
+        for i, pic in enumerate(fotos):
+            # Obtener el nombre del archivo original
+            original_filename = pic.name
+
+            # Obtener el nombre del archivo original
+            extension = original_filename.split('.')[-1]
+
+            # Generar el nombre de la foto usando la fecha, hora actual y numero de foto subida
+            foto_name = f"{current_datetime}-{i+1}"
+            foto_filename = get_valid_filename(foto_name + '.' + extension)
+
+            # Guardar el reclamo de la foto
+            reclamo.foto.save(foto_filename, pic)
+
+        reclamo.save()
+        reclamo.denunciantes.add(denunciante)
+
+        return redirect(self.success_url)
+
+    def form_invalid(self, reclamo_form, denunciante_form):
+        messages.error(self.request, 'Revisa los campos del formulario')
+        return render(self.request, self.template_name, {
+            'reclamo_form': reclamo_form, 'denunciante_form': denunciante_form})
 
 
 class ReclamoListView(ListView):
     model = ReclamoModel
     template_name = 'reclamos/reclamo_list.html'
     context_object_name = 'reclamos'
+# obtener fotos-------------------------------------
+    # def obtener_fotos_por_nombre_base(self, nombre_base):
+    #     media_root = settings.MEDIA_ROOT  # Ruta a la carpeta de medios configurada en settings.py
+    #     subcarpeta = 'img_reclamos'  # Nombre de la subcarpeta donde se encuentran las imágenes
+
+    #     # Construir la ruta completa a la carpeta de imágenes
+    #     ruta_carpeta = os.path.join(media_root, subcarpeta)
+
+    #     # Construir el patrón de búsqueda para las imágenes
+    #     patron_busqueda = os.path.join(ruta_carpeta, f'{nombre_base}-*')
+
+    #     # Buscar las imágenes que coincidan con el patrón
+    #     imagenes = glob.glob(patron_busqueda)
+
+    #     return imagenes
+# fin obtener fotos------------------------------------
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        reclamos = self.get_queryset()
+        # images = []
+        relaciones = []
+
+        for reclamo in reclamos:
+            # Obtener el nombre base de la foto
+            # nombre_base = reclamo.foto
+
+            # Obtener las imágenes asociadas al reclamo
+            # reclamo_images = self.obtener_fotos_por_nombre_base(nombre_base)
+            # images.extend(reclamo_images)
+
+            # Obtener el primer denunciante del reclamo
+            denunciante = reclamo.denunciantes.first()
+
+            # Crear la relación reclamo-denunciante
+            relacion = {
+                'reclamo': reclamo,
+                'denunciante': denunciante,
+            }
+            relaciones.append(relacion)
+
+        # context['images'] = images
+        context['relaciones'] = relaciones
+        return context
 
 
 class ReclamoUpdateView(UpdateView):
     model = ReclamoModel
     form_class = ReclamoForm
+    denunciante_form_class = DenuncianteForm
     template_name = 'reclamos/reclamo_form.html'
-    success_url = 'seguimiento'
+    success_url = reverse_lazy('seguimiento')
 
-    def get(self, request, *args, **kwargs):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        reclamo = self.get_object()
+        context['reclamo_form'] = self.form_class(instance=self.object)
+        context['denunciante_form'] = self.denunciante_form_class(
+            instance=self.object.denunciantes.first())
+        context['accion'] = 'actualizar'
+        context['numero_reclamo'] = reclamo.numero
+        return context
+
+    def post(self, request, *args, **kwargs):
         self.object = self.get_object()
-        form = self.get_form()
-        return self.render_to_response(self.get_context_data(reclamo_form=form))
+        reclamo_form = self.get_form()
+        denunciante_form = self.denunciante_form_class(
+            request.POST, instance=self.object.denunciantes.first())
+        if reclamo_form.is_valid() and denunciante_form.is_valid():
+            return self.form_valid(reclamo_form, denunciante_form)
+        else:
+            return self.form_invalid(reclamo_form, denunciante_form)
+
+    def form_valid(self, reclamo_form, denunciante_form):
+        messages.success(self.request, 'Reclamo editado con éxito')
+        reclamo = reclamo_form.save(commit=False)
+        denunciante = denunciante_form.save(commit=False)
+        reclamo.denunciantes.clear()
+        # reclamo.denunciantes.remove(self.object.denunciantes.first())
+        reclamo.denunciantes.add(denunciante)
+        reclamo.save()
+        return redirect(self.success_url)
+
+    def form_invalid(self, reclamo_form, denunciante_form):
+        messages.error(self.request, 'Revisa los campos del formulario')
+        return self.render_to_response(self.get_context_data(
+            reclamo_form=reclamo_form, denunciante_form=denunciante_form))
+
+
+class ReclamoDeleteView(DeleteView):
+    model = ReclamoModel
+    form_class = ReclamoForm
+    denunciante_form_class = DenuncianteForm
+    template_name = 'reclamos/reclamo_confirm_delete.html' #!NO ES LA IDEA
+    success_url = reverse_lazy('seguimiento')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['accion'] = 'eliminar'
+        return context
+
 
 
 # def reclamo_form(request): #FormView

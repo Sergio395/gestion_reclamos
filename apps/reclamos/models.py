@@ -156,7 +156,7 @@ class ReclamoModel(models.Model):
                                  choices=LocalidadChoices.choices,
                                  default=LocalidadChoices.BLANK)
     calle = models.CharField(max_length=50, verbose_name="Calle")
-    altura = models.IntegerField(verbose_name="Numeración")
+    altura = models.IntegerField(verbose_name="Altura")
     edificio = models.CharField(max_length=50, blank=True, null=True, verbose_name="Edificio")
     departamento = models.CharField(max_length=50, blank=True, null=True, verbose_name="Departamento")
     entre_calle_1 = models.CharField(max_length=50, blank=True, null=True, verbose_name="Entre calle")

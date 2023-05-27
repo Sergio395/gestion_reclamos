@@ -1,7 +1,7 @@
 from datetime import date
 from django import forms
 from django.core import validators
-from .models import ReclamoModel
+from .models import ReclamoModel, DenuncianteModel
 
 
 def validate_only_alphabetic(value):
@@ -42,53 +42,6 @@ class ReclamoForm(forms.ModelForm):
     y fotos si las hay. Todos los campos son requeridos, excepto el correo electrónico,
     teléfono fijo, edificio, departamento y detalle. 
     """
-    dni = forms.IntegerField(
-        label='DNI',
-        validators=[validators.MinValueValidator(1000000), validators.MaxValueValidator(99999999)],
-        widget=forms.NumberInput(attrs=Styles.input_styles({
-            'placeholder': 'e.g. 12.345.678'
-        }))
-    )
-    correo_electronico = forms.EmailField(
-        label='Correo electrónico',
-        error_messages={'invalid': 'Introduce una dirección de correo electrónico válida'},
-        widget=forms.EmailInput(attrs=Styles.input_styles({
-            'placeholder': 'e.g. johndoe@mail.com', 'required': False
-        })),
-        required=False
-    )
-    nombre = forms.CharField(
-        label='Nombre',
-        max_length=50,
-        validators=[validate_only_alphabetic],
-        widget=forms.TextInput(attrs=Styles.input_styles({}))
-    )
-    apellido = forms.CharField(
-        label='Apellido',
-        max_length=50,
-        validators=[validate_only_alphabetic],
-        widget=forms.TextInput(attrs=Styles.input_styles({}))
-    )
-    celular = forms.IntegerField(
-        label='Teléfono celular',
-        widget=forms.NumberInput(attrs=Styles.input_styles({
-            'placeholder': 'e.g. 115555555'
-        }))
-    )
-    telefono_fijo = forms.IntegerField(
-        label='Teléfono fijo',
-        widget=forms.NumberInput(attrs=Styles.input_styles({
-            'placeholder': 'e.g. 115555555', 'required': False
-        })),
-        required=False
-    )
-    foto = forms.FileField(
-        label='Foto',
-        widget=forms.ClearableFileInput(attrs=Styles.input_styles({
-                'accept': 'image/*', 'multiple': True})),
-        required=False
-    )
-
     class Meta:
         """
         La clase Meta se utiliza para definir opciones adicionales para el formulario.
@@ -97,23 +50,16 @@ class ReclamoForm(forms.ModelForm):
         """
         model = ReclamoModel
         fields = [
-            'medio', 'numero', 'fuente', 'fecha', 'dni', 'correo_electronico', 'nombre',
-            'apellido', 'celular', 'telefono_fijo',  'localidad', 'calle', 'entre_calle_1',
-            'entre_calle_2', 'altura', 'edificio', 'departamento', 'reclamo', 'urgencia',
-            'foto', 'detalle'
+            'medio', 'numero', 'fuente', 'fecha', 'localidad', 'calle', 'entre_calle_1',
+            'entre_calle_2', 'altura', 'edificio', 'departamento', 'reclamo', 'urgencia', 'foto', 'detalle'
         ]
-        labels = {
-            # 'medio': 'Medio', 'numero': 'Número de reclamo', 'fuente': 'Fuente',
-            # 'fecha': 'Fecha del reclamo'
-        }
         widgets = {
             'medio': forms.Select(attrs=Styles.input_styles({}),
                                     choices=ReclamoModel.MedioChoices.choices),
             'numero': forms.NumberInput(attrs=Styles.input_styles({})),
             'fuente': forms.Select(attrs=Styles.input_styles({}),
                                     choices=ReclamoModel.FuenteChoices.choices),
-            'fecha': forms.DateInput(attrs=Styles.input_styles({
-                'type': 'date', 'value': date.today().strftime('%Y-%m-%d')})),
+            # 'fecha': forms.DateInput(),
             'localidad': forms.Select(attrs=Styles.input_styles({'id': 'localidad-select'}),
                                         choices=ReclamoModel.LocalidadChoices.choices),
             'calle': forms.Select(attrs=Styles.input_styles({
@@ -141,15 +87,41 @@ class ReclamoForm(forms.ModelForm):
         self.fields['numero'].validators.append(validators.MinValueValidator(1))
         self.fields['fecha'].validators.append(validators.MaxValueValidator(date.today()))
         self.fields['detalle'].validators.append(validators.MinLengthValidator(10))
+        self.fields['fecha'].widget = forms.TextInput(
+            attrs=Styles.input_styles({
+                'type': 'date',
+                'value': self.instance.fecha.strftime('%Y-%m-%d') if self.instance.fecha else date.today().strftime('%Y-%m-%d')
+        }))
 
 
+class DenuncianteForm(forms.ModelForm):
+    class Meta:
+        model = DenuncianteModel
+        fields = [
+            'dni', 'correo_electronico', 'nombre', 'apellido',
+            'celular', 'telefono_fijo'
+        ]
+        widgets = {
+            'dni': forms.NumberInput(attrs=Styles.input_styles({
+                'placeholder': 'e.g. 12345678'})),
+            'correo_electronico': forms.EmailInput(attrs=Styles.input_styles({
+                'placeholder': 'e.g. johndoe@ejemplomail.com'})),
+            'nombre': forms.TextInput(attrs=Styles.input_styles({})),
+            'apellido': forms.TextInput(attrs=Styles.input_styles({})),
+            'celular': forms.NumberInput(attrs=Styles.input_styles({
+                'placeholder': 'e.g. 115555555'})),
+            'telefono_fijo': forms.NumberInput(attrs=Styles.input_styles({
+                'placeholder': 'e.g. 115555555'}))
+        }
 
-
-
-
-
-
-
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['dni'].validators.append(validators.MinValueValidator(1000000))
+        self.fields['dni'].validators.append(validators.MaxValueValidator(99999999))
+        self.fields['correo_electronico'].validators.append(
+            validators.EmailValidator(message='Introduce una dirección de correo electrónico válida'))
+        self.fields['nombre'].validators.append(validate_only_alphabetic)
+        self.fields['apellido'].validators.append(validate_only_alphabetic)
 
 
 

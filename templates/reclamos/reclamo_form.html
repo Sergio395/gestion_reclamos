@@ -1,5 +1,11 @@
 {% extends 'base/base.html' %}
-{% block titulo %}Nuevo reclamo{% endblock titulo %}
+{% block titulo %}
+  {% if accion == 'actualizar' %}
+    Reclamo: {{ numero_reclamo }}
+  {% else %}
+    Nuevo reclamo
+  {% endif %}
+{% endblock titulo %}
 
 {% block css %}
   <style>
@@ -35,17 +41,36 @@
 {% endblock css %}
 
 <!-- ======= Breadcrumbs ======= -->
-{% block etiqueta %}Nuevo reclamo{% endblock etiqueta %}
+{% block etiqueta %}
+  {% if accion == 'actualizar' %}
+    Editar reclamo
+  {% else %}
+    Nuevo reclamo
+  {% endif %}
+{% endblock etiqueta %}
 {% block nav %}
-  <nav>
-      <div class="container">      
-      <ol>     
-        <li><a href="{% url 'index' %}">Inicio</a></li>
-        <li>Nuevo reclamo</li>
-      </ol>      
-    </div>
-  </nav>
+  {% if accion == 'actualizar' %}
+    <nav>
+      <div class="container">   
+        <ol>
+          <li><a href="{% url 'index' %}">Inicio</a></li>
+          <li><a href="{% url 'seguimiento' %}">Seguimiento</a></li>
+          <li>{{ numero_reclamo }}</li>
+        </ol>
+      </div>
+    </nav>
+  {% else %}
+    <nav>
+      <div class="container">   
+        <ol>
+          <li><a href="{% url 'index' %}">Inicio</a></li>
+          <li>Nuevo reclamo</li>
+        </ol>
+      </div>
+    </nav>
+  {% endif %}
 {% endblock nav %}
+
 <!-- End Breadcrumbs -->
 
 {% block contenido %}
@@ -87,12 +112,10 @@
             <h4>Datos del Denunciante</h4>
             <hr>
             <div class="row">
-              {% for campo in reclamo_form %}
-                {% if campo.name != 'detalle' and forloop.counter > 4 and forloop.counter <= 10 %}
-                  <div class="col-md-6 form-group mb-1" >
-                    {% include 'reclamos/reclamo_form_validaciones.html' %}
-                  </div>
-                {% endif %}
+              {% for campo in denunciante_form %}
+                <div class="col-md-6 form-group mb-1" >
+                  {% include 'reclamos/reclamo_form_validaciones.html' %}
+                </div>
               {% endfor %}
             </div>
 
@@ -102,7 +125,7 @@
             <hr>
             <div class="row">
               {% for campo in reclamo_form %}
-                {% if campo.name != 'detalle' and forloop.counter > 10 %}
+                {% if campo.name != 'detalle' and forloop.counter > 4 %}
                   <div class="col-md-6 form-group mb-1" >
                     {% include 'reclamos/reclamo_form_validaciones.html' %}
                   </div>
@@ -118,13 +141,25 @@
             <br>
             <div class="row">
               <div class="text-center col-md-4 form-group mt-3 mt-md-0">
-                <button id="btn-button" onclick="window.history.go(-1); return false;" type="button">Atrás</button>
+                <button id="btn-button" onclick="window.history.go(-1); return false;" type="button">
+                  {% if accion == 'actualizar' %}
+                    Cancelar
+                  {% else %}
+                    Atrás
+                  {% endif %}
+                </button>
               </div>
               <div class="text-center col-md-4 form-group mt-3 mt-md-0">
                 <button id="btn-reset" type="reset">Limpiar</button>
               </div>
               <div class="text-center col-md-4 form-group mt-3 mt-md-0">
-                <button type="submit">Siguiente</button>
+                <button type="submit">
+                  {% if accion == 'actualizar' %}
+                    Actualizar
+                  {% else %}
+                    Crear
+                  {% endif %}
+                </button>
               </div>
             </div>
             
