@@ -12,7 +12,10 @@
     <title>{% block titulo %}{% endblock titulo %} | SGR.</title>
 
   <!-- Cargar estáticos-->
+  <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
   {% load static %}
+  <link href="{% static '/administracion/css/styles.css'%}" rel="stylesheet" />
+  <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
 
   <!-- Favicons -->
   <link rel="apple-touch-icon" sizes="180x180" href="{% static 'assets/img/favicon/apple-touch-icon.png' %}" />
@@ -54,10 +57,10 @@
           <li><a href="{% url 'nuevo_reclamo' %}">Nuevo Reclamo</a></li>
           <li><a href="{% url 'seguimiento' %}">Seguimiento</a></li>
           <li class="dropdown">
-            <a href="{% url 'inspeccion' %}"><span>Inspección</span></a>
+            <a href="{% url 'index_inspeccion' %}"><span>Inspección</span></a>
             <ul>
               <li><a href="{% url 'carga_inspeccion' %}">Cargar de Inspección</a></li>
-              <li><a href="{% url 'carga_certificacion' %}">Cargar de Certificación</a></li>
+              <li><a href="">Cargar de Certificación</a></li>
             </ul>
           </li>
           <li><a href="{% url 'gestion' %}">Gestión</a></li>

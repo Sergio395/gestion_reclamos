@@ -42,9 +42,9 @@ class Arbol(models.Model):
     especie = models.CharField(max_length=30, verbose_name="Especie")
     altura = models.DecimalField(max_digits=3, decimal_places=1, verbose_name="Altura")
     eliminado=models.BooleanField(default=False)
-
+    
     def __str__(self):
-        return f"{self.especie} [lat {self.latitud}, lng {self.longitud}]"
+        return f"{self.especie}"
     
     def soft_delete(self):
         self.eliminado = True
@@ -53,6 +53,9 @@ class Arbol(models.Model):
     def restore(self):
         self.eliminado = False
         super().save()
+        
+        
+        
 class Reclamo(models.Model):
     """
     Modelo que representa un reclamo realizado por un denunciante.
@@ -174,7 +177,7 @@ class Reclamo(models.Model):
 
         
     fecha_creacion = models.DateField(auto_now_add=True, verbose_name="Fecha de creación")
-    numero = models.IntegerField(verbose_name="Número")
+    numero = models.CharField(max_length=25,verbose_name="Número")
     medio = models.CharField(max_length=50, verbose_name="Medio",
                              choices=MedioChoices.choices,
                              default=MedioChoices.BLANK)
@@ -201,7 +204,7 @@ class Reclamo(models.Model):
                                 default=UrgenciaChoices.BLANK)
     foto = models.ImageField(upload_to='img_reclamos', null=True,
                              blank=True, verbose_name="Fotos") # img_reclamos define la ruta donde se almacenan las fotos
-    detalle = models.CharField(max_length=500, verbose_name="Detalles")
+    detalle = models.CharField(max_length=500, verbose_name="Detalles", null=True)
      
     def __str__(self):
-        return f'Reclamo {self.numero}'
+        return f'{self.numero} {self.fuente}'

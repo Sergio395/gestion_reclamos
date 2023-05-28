@@ -136,11 +136,11 @@ class OrdencompraUpdateView(UpdateView):
     #Si queremos sobrescribir la obtención del objeto
     def get_object(self, queryset=None):
         pk = self.kwargs.get(self.pk_url_kwarg)
-        obj = get_object_or_404(OrdenCompra, pk=pk)
+        obj = get_object_or_404(OrdenCompra, pk=pk)        
         return obj
     
     def mensaje(self,request):
-        messages.warning(request, 'Se ha eliminado  el registro correctamente')
+        messages.warning(request, 'Se ha editado  el registro correctamente')
     
 
 
