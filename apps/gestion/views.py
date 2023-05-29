@@ -64,7 +64,7 @@ def gestion_nuevo(request):
     formulario = GestionForm(request.POST or None)
     if formulario.is_valid():
         formulario.save()
-        messages.success(request, 'Se ha creado el curso correctamente')
+        messages.success(request, 'Se ha creado el .... correctamente')
         return redirect('gestion_index')
     return render(request, 'gestion/gestion_nuevo.html', {'gestion_form': formulario, 'accion': titulo_accion})
 
@@ -112,7 +112,7 @@ def preparar_filtro(criterio):
     if criterio['criterio3_campo'] != 'none':
         filtro[criterio['criterio3_campo']] = criterio['criterio3_valor']
     if criterio['criterio4_campo'] != 'none':
-        filtro[criterio['criterio4_campo']] = criterio['criterio4_valor']
+        filtro[criterio['criterio4_campo']] = criterio['criterio4_valor'].strftime('%Y-%m-%d')
     return filtro
 
 #  mod_date = models.DateField(default=date.today)
