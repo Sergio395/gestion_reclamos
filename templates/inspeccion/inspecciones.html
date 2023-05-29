@@ -1,0 +1,66 @@
+{% extends 'base/base.html' %}
+{% block titulo %}Inspecciones{% endblock titulo %}
+
+<!-- ======= Breadcrumbs ======= -->
+{% block etiqueta %}Inspecciones realizadas{% endblock etiqueta %}
+{% block nav %}
+  <nav>
+    <div class="container">
+      <ol>
+        <li><a href="{% url 'index' %}">Home</a></li>
+        <li><a href="{% url 'inspeccion' %}">Inspecciones</a></li>
+        <li>Detalle Base de datos</li>
+      </ol>
+    </div>
+  </nav>
+{% endblock nav %}
+<!-- End Breadcrumbs -->
+
+{% block contenido %}
+  <!-- <section id="contact" class="contact">
+    <div class="container" data-aos="fade-up">
+      <div class="row gx-lg-0 gy-4">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8"> -->
+<div class="container">
+  <div class="row">
+    <div class="col-md-25">
+      <div class="col-md-6">
+        <div class="table-responsive">
+          <table class="table table-striped">  
+            <thead>
+                <tr>
+                    <th>N°</th>
+                    <th>Inspecciones realizadas</th>
+                    <th>Inspector</th>
+                    <th>Zona geogr&aacute;fica</th>
+                    <th>Fecha de inspecci&oacute;n</th>
+                    <th>Trabajo</th>
+                </tr>
+            </thead>
+            <tbody>
+                    {% for i in inspecciones %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{i.reclamo}}</td>
+                        <td>{{i.inspector}}</td>
+                        <td>{{i.lugar}}</td>
+                        <td>{{i.fecha_inspeccion}}</td>
+                        <td>{{i.trabajo}}</td>
+                    </tr>
+                    {% endfor %}
+            </tbody>
+         </table>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <!-- </div>
+
+</div>
+</div>
+</section> -->
+{% endblock contenido %}

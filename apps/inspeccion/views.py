@@ -1,12 +1,19 @@
 # from datetime import datetime
 # from django.contrib import messages
 # from django.forms import ValidationError
-# from django.http import HttpResponse
+from django.http import HttpResponse
 # from django.template import loader
 from django.shortcuts import render
 from django.http import HttpResponseNotAllowed
 from .forms import ContactoForm, NuevaInspeccion, NuevaCertificacion
+from .models import Inspeccion
+from django.views.generic import ListView
 
+def db_inspeccion(request):
+    inspeccionesRealizadas = Inspeccion.objects.all()
+    return render (request, 'inspeccion/inspecciones.html',{'inspecciones':inspeccionesRealizadas  })
+    
+ 
 
 def inspeccion(request):
     mensaje = None
@@ -65,3 +72,9 @@ def carga_certificacion(request):
     }
 
     return render(request, 'inspeccion/nueva_certificacion.html', context)
+
+
+
+class InspeccionListView(ListView):
+    model = Inspeccion
+    template_name = 'inspeccion/gestion_inspecciones.html'

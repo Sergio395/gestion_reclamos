@@ -16,6 +16,8 @@
 <!-- End Breadcrumbs -->
 
 {% block contenido %}
+
+
   <section id="contact" class="contact">
     <div class="container" data-aos="fade-up">
       <div class="row gx-lg-0 gy-4">
@@ -55,7 +57,20 @@
             </div>
           </form>
           {{mensaje}}
-          
+          <table>  
+            <thead>
+                <tr>
+                    <th>Inspecciones realizadas</th>
+                </tr>
+            </thead>
+            <tbody>
+                    {% for i in inspecciones %}
+                    <tr>
+                        <td>{{i.reclamo}}</td>
+                    </tr>
+                    {% endfor %}
+            </tbody>
+          </table>
           <div class="text-center text-md-left mt-3">
             <a href="{% url 'carga_inspeccion' %}"><button class="btn btn-primary" type="submit">Cargar inspección</button></a>
             <a href="{% url 'carga_certificacion' %}"><button class="btn btn-primary" type="submit">Cargar certificacion</button></a>
@@ -63,5 +78,5 @@
         </div>
       </div>
     </div>
-  </section><!-- End Claim Section -->
+  </section>End Claim Section
 {% endblock contenido %}
