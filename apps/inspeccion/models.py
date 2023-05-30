@@ -80,6 +80,3 @@ class inspecciones(models.Model):
     def restore(self):
         self.eliminado = False
         super().save()
-        
-    
-    

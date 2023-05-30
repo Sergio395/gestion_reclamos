@@ -12,123 +12,160 @@
       </ol>
     </div>
   </nav>
-{% endblock nav %}
+  {% endblock nav %}
 <!-- End Breadcrumbs -->
+    
+  {% block contenido %}
+  
+    <section id="contact" class="contact">
+      <div class="container" data-aos="fade-up">
+        <!-- <div class="row gx-lg-0 gy-4"> -->
 
-{% block contenido %}
-  <section id="contact" class="contact">
-  <div class="container" data-aos="fade-up">
-    <div class="row gx-lg-0 gy-4">
-      <!--filtros-->
-      <div class="input-group mb-3">
-        <h2>Buscar</h2>
-      </div>
-      <!--caja de busqueda -->
-      <div class="input-group mb-3">
-        <div class="input-group">
-          <input type="text" class="form-control" aria-label="Text input with dropdown button Default"
-            aria-describedby="inputGroup-sizing-default">
-          <select class="custom-select" id="inputGroupSelect02">
-            {% for titulo in titulos %}
-            <option selected> {{ titulo }}</option>
-            {% endfor %}
-          </select>
-          <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button">Buscar</button>
+          <!--filtros-->
+          <div class="input-group mb-3">
+            <h2>Buscar</h2>
+            <hr>
           </div>
+          
+          <!-- Primera propuesta -->
+          <!--caja de busqueda -->
 
+          <!-- Segunda propuesta -->
+          <div class="input-group mb-3">
+            
+            <form class="php-email-form" id="" name="" action="{% url 'gestion_buscar' %}" method="POST" >
+              {% csrf_token %}
+
+          <!-- Formulario Busqueda -->
+            <div class="input-group mb-3">
+                {{ form_busqueda.criterio1_valor }}
+                <div class="input-group-append">
+                  {{ form_busqueda.criterio1_campo }}
+                </div>            
+            </div>
+
+            <div class="input-group mb-3">
+              {{ form_busqueda.criterio2_valor }}
+              <div class="input-group-append">
+                {{ form_busqueda.criterio2_campo }}
+              </div>            
+            </div>
+
+            <div class="input-group mb-3">
+              {{ form_busqueda.criterio3_valor }}
+              <div class="input-group-append">
+                {{ form_busqueda.criterio3_campo }}
+              </div>            
+            </div>
+
+            <div class="input-group mb-3">
+              {{ form_busqueda.criterio4_valor }}
+              <div class="input-group-append">
+                {{ form_busqueda.criterio4_campo }}
+              </div>            
+            </div>
+
+              <div class="input-group-append">
+                <button class="btn btn-warning" type="reset">Limpiar</button>
+                <button class="btn btn-primary" type="submit">Buscar</button>
+              </div>
+            </form>           
+          </div>
+          <!--fin filtros-->
+          
+          <!--- Tabla con los datos-->
+          <div class="input-group mb-3">
+            <h2>Resultados tabla gestion</h2>
+            <hr>
+          </div>
+          <div class="table-responsive">
+              <table class="table table-striped table-hover">
+
+                <!-- Titulos -->
+                <thead>
+                  <tr>
+                    <th class="ancho-celda">Acciones</th>
+                    {% for titulo in campos %}
+                    <th class="ancho-celda">{{ titulo.attname }}</th>
+                    {% endfor %}  
+                  </tr>
+                </thead>
+
+                <!-- Datos de tabla   -->
+                <tbody>
+                    <!-- Por cada reclamo en la lista reclamos -->
+                    {% for item in gestion %}
+                      <tr>
+                        <!-- Datos de item -->
+                        <td class="ancho-celda">
+                          <a href="{% url 'gestion_editar' item.id %}" class="btn btn-warning" role="button">
+                            Editar
+                          </a>
+                          <a href="{% url 'gestion_eliminar' item.id %}" class="btn btn-danger" role="button">Borrar
+                          </a>
+                        </td>
+                        <td class="ancho-celda">
+                          {{ item.id }}
+                        </td>
+                        <td class="ancho-celda">
+                          {{ item.estado }}
+                        </td>
+                        <td class="ancho-celda">
+                          {{ item.gestion }}
+                        </td> 
+                        <td class="ancho-celda">
+                          {{ item.detalle_gestion }}
+                        </td> 
+                        <td class="ancho-celda">
+                          {{ item.equipo_trabajo }}
+                        </td> 
+                        <td class="ancho-celda">
+                          {{ item.fecha_programada }}
+                        </td> 
+                        <td class="ancho-celda">
+                          {{ item.fecha_solucion }}
+                        </td> 
+                        <td class="ancho-celda">
+                          {{ item.orden_trabajo }}
+                        </td> 
+                        <td class="ancho-celda">
+                          {{ item.arbol }}
+                        </td>  
+                        <td class="ancho-celda">
+                          {{ item.baja }}
+                        </td>  
+                        <!-- Fin de loop datos de reclamos -->
+                        
+                      </tr>
+                    {% endfor %} 
+                    <!-- fin de recorrer cada reclamo -->
+                </tbody>
+              </table>
+          </div>
         </div>
       </div>
-      <!--fin filtros-->
-
-      <!--- Tabla con los datos-->
-      <div class="input-group mb-3">
-        <h2>Resultados</h2>
-      </div>
-      <div class="table-responsive table">
-
-        <table class="table table-striped table-sm table-hover">
-          <thead>
-            <tr>
-              {% for titulo in titulos %}
-              <th>{{ titulo }}</th>
-              {% endfor %}
-            </tr>
-          </thead>
-          <tbody>
-
-            {% for reclamo in reclamos %}
-            <tr>
-              <td>{{ reclamo.Reclamo }}</td>
-              <td>{{ reclamo.Medio }}</td>
-              <td>{{ reclamo.Fuente }}</td>
-              <td>{{ reclamo.Fechadereclamo }}</td>
-              <td>{{ reclamo.NombreyApellido }}</td>
-              <td>{{ reclamo.DNI }}</td>
-              <td>{{ reclamo.Celular }}</td>
-              <td>{{ reclamo.Telefono }}</td>
-              <td>{{ reclamo.Mail }}</td>
-              <td>{{ reclamo.Calle }}</td>
-              <td>{{ reclamo.Altura }}</td>
-              <td>{{ reclamo.Edificio }}</td>
-              <td>{{ reclamo.Depto }}</td>
-              <td>{{ reclamo.Entrecalle1 }}</td>
-              <td>{{ reclamo.Entrecalle2 }}</td>
-              <td>{{ reclamo.Localidad }}</td>
-              <td>{{ reclamo.ReclamoB }}</td>
-              <td>{{ reclamo.Urgencia }}</td>
-              <td>{{ reclamo.Detalledelreclamo }}</td>
-              <td>{{ reclamo.FechadeCarga }}</td>
-              <td>{{ reclamo.ID }}</td>
-              <td>{{ reclamo.Norequiereinspeccion }}</td>
-              <td>{{ reclamo.Fechadeinspeccion }}</td>
-              <td>{{ reclamo.Trabajoarealizar }}</td>
-              <td>{{ reclamo.Especie }}</td>
-              <td>{{ reclamo.Altura }}</td>
-              <td>{{ reclamo.Dap }}</td>
-              <td>{{ reclamo.Cableadocercano }}</td>
-              <td>{{ reclamo.Construccioncercana }}</td>
-              <td>{{ reclamo.Observacionesdelsitio }}</td>
-              <td>{{ reclamo.Urgenciadetrabajo }}</td>
-              <td>{{ reclamo.Justificacion }}</td>
-              <td>{{ reclamo.Inspector }}</td>
-              <td>{{ reclamo.Fechadecargadeinspeccion }}</td>
-              <td>{{ reclamo.Codigotrabajo }}</td>
-              <td>{{ reclamo.Lote }}</td>
-              <td>{{ reclamo.Estado }}</td>
-              <td>{{ reclamo.Gestion }}</td>
-              <td>{{ reclamo.DetalledeGestion }}</td>
-              <td>{{ reclamo.EquipodeTrabajo }}</td>
-              <td>{{ reclamo.FechaProgramada }}</td>
-              <td>{{ reclamo.FechadeSolucion }}</td>
-              <td>{{ reclamo.OrdendeTrabajo }}</td>
-            </tr>
-            {% endfor %}
-
-          </tbody>
-
-        </table>
-      </div>
-
     </div>
 
-  </div>
-  </div>
+      <!-- pagination -->
+      <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+          <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1">Anterior</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="#">1</a></li>
+          <li class="page-item">
+            <a class="page-link" href="#">2</a></li>
+          <li class="page-item">
+            <a class="page-link" href="#">3</a></li>
+          <li class="page-item">
+            <a class="page-link" href="#">Próximo</a>
+          </li>
+        </ul>
+      </nav>
 
-  <!-- pagination -->
-  <nav aria-label="Page navigation example">
-    <ul class="pagination justify-content-center">
-      <li class="page-item disabled">
-        <a class="page-link" href="#" tabindex="-1">Anterior</a>
-      </li>
-      <li class="page-item"><a class="page-link" href="#">1</a></li>
-      <li class="page-item"><a class="page-link" href="#">2</a></li>
-      <li class="page-item"><a class="page-link" href="#">3</a></li>
-      <li class="page-item">
-        <a class="page-link" href="#">Próximo</a>
-      </li>
-    </ul>
-  </nav>
-  <!--fin pagination-->
-  </section>
+      <!-- fin pagination-->
+    </section>
+  </main>
+  
 {% endblock contenido %}
