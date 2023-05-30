@@ -44,14 +44,14 @@
 </style>
 {%endblock%}
 <!-- ======= Breadcrumbs ======= -->
-{% block etiqueta %}Carga de Inspección{% endblock etiqueta %}
+{% block etiqueta %}Editar Inspección{% endblock etiqueta %}
 {% block nav %}
   <nav>
     <div class="container">
       <ol>
         <li><a href="{% url 'index' %}">Inicio</a></li>
         <li><a href="{% url 'inspeccion' %}">Inspección</a></li>
-        <li>Nueva Inspección</li>
+        <li>Editar Inspección</li>
       </ol>
     </div>
   </nav>
@@ -65,7 +65,7 @@
         <div class="col-lg-2"></div>
         <div class="col-lg-8">
 
-          <form class="php-email-form" id="" name="" action="{% url 'carga_inspeccion' %}" method="POST">
+          <form class="php-email-form" id="" name="" action="" method="POST">
             {% csrf_token %}
 
             <table class="table">

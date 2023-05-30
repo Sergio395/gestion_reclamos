@@ -1,4 +1,6 @@
 from django.db import models
+from typing import Iterable, Optional
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -18,10 +20,10 @@ class Usuario(models.Model):
     permiso = models.CharField(max_length=20, verbose_name="Permiso")
     eliminado=models.BooleanField(default=False)
     def __str__(self):
-        return f"{self.usuario} => {self.apellido}, {self.nombre}"
+        return f"{self.usuario}"
 
     class Meta:
-        abstract = True
+        abstract = False
         
         
         
@@ -33,20 +35,29 @@ class Empresa(models.Model):
     """
 
 
-    fecha_alta = models.DateField(auto_now_add=True, verbose_name="Fecha_alta")
+    fecha_alta = models.DateField(verbose_name="Fecha_alta")
     nombre = models.CharField(max_length=30, verbose_name="Nombre")
     razon_social = models.CharField(max_length=30, verbose_name="Razon_social")
     num_proveedor = models.IntegerField(verbose_name="Num_proveedor")
     cuit = models.IntegerField(verbose_name="Cuit")
     correo = models.EmailField(max_length=20, verbose_name="Correo_Electronico")
     telefono = models.CharField(max_length=20, verbose_name="Telefono")
-    orden_compra = models.IntegerField(verbose_name="OC")
-    eliminado=models.BooleanField(default=False)
+    orden_compra = models.IntegerField(verbose_name="OC", null=True)
+    eliminado=models.BooleanField(default=0)
+    
     def __str__(self):
         return f"{self.razon_social} - {self.orden_compra}"
+    
+    def soft_delete(self):
+        self.eliminado = True
+        super().save()
+        
+    def restore(self):
+        self.eliminado = False
+        super().save()
 
-    class Meta:
-        abstract = False
+    # class Meta:
+        # abstract = False
         
         
 
@@ -56,24 +67,34 @@ class OrdenCompra(models.Model):
        
     """
 
-    fecha_emision = models.DateField(auto_now_add=True, verbose_name="Fecha_emision")
-    empresa = models.OneToOneField(Empresa,  on_delete=models.CASCADE,verbose_name="Empresa", primary_key=True)
+    fecha_emision = models.DateField(verbose_name="Fecha_emision")
+    empresa = models.ForeignKey(Empresa,  on_delete=models.CASCADE,verbose_name="Empresa")
     numero = models.IntegerField(verbose_name="Numero")
     cantidad = models.DecimalField(max_digits=7, decimal_places=2, verbose_name="Cantidad")
     descripcion = models.TextField(verbose_name="Descripcion")
     precio_unitario = models.DecimalField(max_digits=10, decimal_places=2,verbose_name="Precio_unitario")
     monto = models.DecimalField(max_digits=10, decimal_places=2,verbose_name="Monto")
     certificacion_cant = models.DecimalField(max_digits=7, decimal_places=2, verbose_name="Certificacion_cantidad")
-    certificacion_monto = models.DecimalField(max_digits=7, decimal_places=2, verbose_name="CErtificacion_monto")
+    certificacion_monto = models.DecimalField(max_digits=7, decimal_places=2, verbose_name="Certificacion_monto")
     saldo_cant = models.DecimalField(max_digits=7, decimal_places=2,verbose_name="Saldo_cantidad")
     saldo_monto = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Saldo_monto")
     eliminado=models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.proveedor} / {self.numero}"
+        return f"{self.numero}"
+    
+    def soft_delete(self):
+        self.eliminado = True
+        super().save()
 
-    class Meta:
-        abstract = False
+    def restore(self):
+        self.eliminado = False
+        super().save()
+    
+    
+     
+        # class Meta:
+        # abstract = False
         
 class Cuadrante(models.Model):
     

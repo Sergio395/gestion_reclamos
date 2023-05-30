@@ -1,0 +1,119 @@
+{% extends 'base/base.html' %}
+{% block titulo %}Nueva Inspección{% endblock titulo %}
+{%block css%}
+<style>
+  label {
+    color: #008375;
+  }
+  div.text-center button {
+    width: 180px;
+  }
+  button#btn-reset {
+    background: DarkTurquoise;
+    border: 0;
+    padding: 14px 45px;
+    color: #fff;
+    transition: 0.4s;
+    border-radius: 50px;
+  }
+  button#btn-reset:hover {
+    background: Turquoise;
+  }
+  button#btn-button {
+    background: Crimson;
+    border: 0;
+    padding: 14px 45px;
+    color: #fff;
+    transition: 0.4s;
+    border-radius: 50px;
+  }
+  button#btn-button:hover {
+    background: Red;
+  }
+  button#btn-codigo {
+    background: rgba(4, 33, 149);
+    border: 0;
+    padding: 14px 45px;
+    color: #fff;
+    transition: 0.4s;
+    border-radius: 50px;
+  }
+  button#btn-codigo:hover {
+    background: rgb(71, 85, 145);
+  }
+</style>
+{%endblock%}
+<!-- ======= Breadcrumbs ======= -->
+{% block etiqueta %}Consulta reclamo{% endblock etiqueta %}
+{% block nav %}
+  <nav>
+    <div class="container">
+      <ol>
+        <li><a href="{% url 'index' %}">Inicio</a></li>
+        <li><a href="{% url 'inspeccion' %}">Inspección</a></li>
+        <li>Consulta reclamo</li>
+      </ol>
+    </div>
+  </nav>
+{% endblock nav %}
+<!-- End Breadcrumbs -->
+
+{% block contenido %}
+<div class="container-fluid mt-5">
+<hr>
+<div class="titulo_tabla">Reclamo {{form.numero}}</div>
+<hr>
+
+           <table class="table  table-hover  ">
+              <thead class="thead-light  ">
+                <tr>
+                  <th scope="col">No requiere</th>
+                  <th scope="col">Fecha inspección</th>
+                  <th scope="col">Especie</th>
+                  <th scope="col">Altura (m)</th>
+                  <th scope="col">Dap (cm)</th>
+                  <th scope="col">Reclamo codigo</th>
+                  <th scope="col">Trabajo</th>
+                  <th scope="col">Codigo árbol</th>
+                  <th scope="col">Cableado cercano</th>
+                  <th scope="col">Constuction cercana</th>
+                  <th scope="col">Observaciones del sitio</th>
+                  <th scope="col">Urgencia</th>
+                  <th scope="col">Justificación</th>
+                  <th scope="col">Inspecctor</th>
+                  <th scope="col">Foto</th>
+                  <th scope="col">Detalle</th>
+                        
+                </tr>
+              </thead>
+
+
+            <tr>          
+              <td>{{form.fecha_creacion}}</td>
+              <td>{{form.medio}}</td>
+              <td>{{form.fuente}}</td>
+              <td>{{form.fecha}}</td>
+              <td>{{form.calle}}</td>
+              <td>{{form.numeracion}}</td>
+              <td>{{form.edificio}}</td>
+              <td>{{form.departamentoo}}</td>
+              <td>{{form.entre_calle_1}}</td>
+              <td>{{form.entre_calle_2}}</td>
+              <td>{{form.localidad}}</td>
+              <td>{{form.reclamo}}</td>
+              <td>{{form.urgencia}}</td>
+              <td>{{form.foto}}</td>
+              <td>{{form.detalle}}</td>
+            </tr>       
+          </table>
+
+            <div class="row">
+              <div class="text-center col-md-4 form-group mt-3 mt-md-0">
+                <button id="" type="button" onclick= "window.history.go(-1); return false;"
+                >Volver</button></div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </section>
+{% endblock contenido %}
