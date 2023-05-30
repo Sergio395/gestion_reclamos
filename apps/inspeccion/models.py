@@ -1,29 +1,82 @@
 from django.db import models
-from ..gestion.models import Gestion
-
-
-# Create your models here.
-class Arbol(models.Model):
+from apps.reclamos.models import  Reclamo, Arbol
+from apps.administracion.models import Usuario
+ 
+class Especies(models.Model):
+    
+        
     """
-    Modelo que representa un árbol. Contiene información relevante
-    acerca del reclamo, como la dirección donde se encuentra el árbol,
-    coordenadas GPS, especie de árbol y altura del mismo.
-    Agregue el campo gestion en relacion uno a muchos porque entiendo que cada arbol tiene o va a tener un número de gestion, y un numero de gestion puede contener varios árboles
+    Modelo que contiene todos los tipos de especie de arboles existentes.
     """
-    fecha_creacion = models.DateField(auto_now_add=True, verbose_name="Fecha de creación")
-    calle = models.CharField(max_length=50, verbose_name="Calle")
-    numeracion = models.IntegerField(verbose_name="Numeración")
-    entre_calle_1 = models.CharField(max_length=50, verbose_name="Entre calle")
-    entre_calle_2 = models.CharField(max_length=50, verbose_name="y calle")
-    localidad = models.CharField(max_length=50, verbose_name="Localidad")
-    edificio = models.CharField(max_length=50, verbose_name="Edificio")
-    departamento = models.CharField(max_length=50, verbose_name="Departamento")
-    latitud = models.DecimalField(max_digits=9, decimal_places=6, verbose_name="Latitud")
-    longitud = models.DecimalField(max_digits=9, decimal_places=6, verbose_name="Longitud")
-    especie = models.CharField(max_length=30, verbose_name="Especie")
-    altura = models.DecimalField(max_digits=3, decimal_places=1, verbose_name="Altura")
-    # gestion = models.ForeignKey(Gestion, on_delete=models.CASCADE)
-
+    
+    nombre_vulgar =  models.CharField(max_length=50, verbose_name="Nombre_vulgar", default="")        
+    nombre_cientifico =  models.CharField(max_length=50, verbose_name="Nombre_cientifico", default="")
+    nombre_completo =  models.CharField(max_length=50, verbose_name="Nombre_completo", default="")
+ 
+    def __str__(self):
+      
+        return f"{self.nombre_completo}"
+    
+    
+class Trabajos(models.Model):
+    
+    """
+    Modelo que contiene todos los tipos de trabajos existentes.
+    """
+    
+    tipo_poda   = models.CharField(max_length=50, verbose_name="Tipo_poda", null=False)
+    ubicacion   = models.CharField(max_length=50, verbose_name="Ubicacion", null=False)
+    tipo_arbol  = models.CharField(max_length=50, verbose_name="Tipo_arbol", null=False)
+    codigo      = models.CharField(max_length=50, verbose_name="Codigo", null=False)
+    coeficiente = models.CharField(max_length=50, verbose_name="Coeficiente", null=False)
+    descripcion = models.CharField(max_length=250, verbose_name="Descripcion", null=False)    
 
     def __str__(self):
-        return f"{self.especie} [lat {self.latitud}, lng {self.longitud}]"
+         
+        return f"{self.codigo} {self.descripcion}"
+
+
+    
+class inspecciones(models.Model):
+    
+    """
+    Modelo que representa una inspeccion. Contiene información sobre la inspeccion realizada y se ejecuta una por arbol
+    la misma esta vinculada con la tabla arbol. En esta instacia se dividide el reclamo en diferentes arboles.
+  
+     """
+    DisposicionChoices = (('BLANK ' , ''), ('PUNTUAL','Puntual'),('LINEAL','Lineal'))  
+     
+    #UrgenciaChoices = (('BLANK ' , ' '), ('BAJA','BAJA'),('MEDIA','MEDIA'),('ALTA','ALTA'))  
+    no_requiere_inspeccion 	=  models.BooleanField(default=False)           
+    fecha_de_inspeccion	=  models.DateField(auto_now_add=False, verbose_name="Fecha de inspeccion")
+    reclamo = models.ForeignKey(Reclamo, verbose_name=("Reclamo"), on_delete=models.CASCADE)
+    disposicion = models.CharField(max_length=20 ,verbose_name=("Disposicion"), default="", choices=DisposicionChoices)    
+    trabajo_a_realizar	=  models.ForeignKey(Trabajos, verbose_name=("trabajos"), on_delete=models.CASCADE,null=True) 
+    especie=  models.ForeignKey(Especies, verbose_name=("Especie"), on_delete=models.CASCADE)       
+    especie_altura	= models.DecimalField(max_digits=3, decimal_places=1, verbose_name="Especie_altura")
+    dap = models.DecimalField(max_digits=3, decimal_places=1, verbose_name="Dap")
+    cableado_cercano = models.CharField(max_length=50, verbose_name="Cableado_cercano",default="", null=True)
+    construccion_cercana = models.CharField(max_length=50, verbose_name="Construccion_cercana", null=True)	
+    observaciones_sitio= models.CharField(max_length=50, verbose_name="Observaciones" ,default="", null=True)	
+    urgencia_trabajo = models.CharField (max_length=5, verbose_name="Urgencia", choices=Reclamo.UrgenciaChoices.choices,
+                                        default=Reclamo.UrgenciaChoices.BLANK) 
+    justificacion = models.CharField(max_length=50, verbose_name="Justificacion")	
+    inspector = models.ForeignKey(Usuario,verbose_name=("inspector"),on_delete=models.CASCADE,default="") 	
+    fecha_carga_inspeccion=	models.DateField(auto_now_add=False, verbose_name="Fecha_carga_inspeccion")
+    codigo_trabajo = models.CharField(max_length=50, verbose_name="Codigo_trabajo")
+    arbol = models.ForeignKey(Arbol,verbose_name=("arbol"), on_delete=models.CASCADE,null=True)
+    foto = models.ImageField(upload_to='img_reclamos', null=True,
+                            blank=True, verbose_name="Fotos") # img_reclamos define la ruta donde se almacenan las fotos
+    eliminado=models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.reclamo} {self.codigo_trabajo} {self.arbol}"
+
+    def soft_delete(self):
+        self.eliminado = True
+        super().save()
+     
+
+    def restore(self):
+        self.eliminado = False
+        super().save()
