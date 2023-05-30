@@ -1,15 +1,15 @@
 {% extends 'base/base.html' %}
-{% block titulo %}Certificaciones{% endblock titulo %}
+{% block titulo %}Nueva Certificación{% endblock titulo %}
 
 <!-- ======= Breadcrumbs ======= -->
-{% block etiqueta %}Certificaciones{% endblock etiqueta %}
+{% block etiqueta %}Carga de Certificación{% endblock etiqueta %}
 {% block nav %}
   <nav>
     <div class="container">
       <ol>
-        <li><a href="{% url 'index' %}">Home</a></li>
-        <li><a href="{% url 'inspeccion' %}">Inspecciones</a></li>
-        <li>Certificaciones</li>
+        <li><a href="{% url 'index' %}">Inicio</a></li>
+        <li><a href="{% url 'inspeccion' %}">Inspección</a></li>
+        <li>Nueva Certificación</li>
       </ol>
     </div>
   </nav>
@@ -23,7 +23,7 @@
         <div class="col-lg-2"></div>
         <div class="col-lg-8">
 
-          <form class="php-email-form" id="" name="" action="{% url 'carga_certificacion' %}" method="POST">
+          <form class="php-email-form" id="" name="" action="" method="POST">
             {% csrf_token %}
 
             <table class="table">

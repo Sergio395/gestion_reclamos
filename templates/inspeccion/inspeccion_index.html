@@ -1,14 +1,15 @@
+
 {% extends 'base/base.html' %}
 {% block titulo %}Inspección{% endblock titulo %}
 
 <!-- ======= Breadcrumbs ======= -->
-{% block etiqueta %}Inspecciones{% endblock etiqueta %}
+{% block etiqueta %}Inspección{% endblock etiqueta %}
 {% block nav %}
   <nav>
       <div class="container">      
       <ol>     
-        <li><a href="{% url 'index' %}">Home</a></li>
-        <li>Inspecciones</li>
+        <li><a href="{% url 'index' %}">Inicio</a></li>
+        <li>Inspección</li>
       </ol>      
     </div>
   </nav>
@@ -17,15 +18,16 @@
 
 {% block contenido %}
 
+  {% comment %} <section id="contact" class="contact"> {% endcomment %}
+    {% comment %} <div class="container" data-aos="fade-up"> {% endcomment %}
+      {% comment %} <div class="row gx-lg-0 gy-4"> {% endcomment %}
+        {% comment %} <div class="col-lg-2"></div> {% endcomment %}
+        {% comment %} <div class="col-lg-2"> {% endcomment %}
 
-  <section id="contact" class="contact">
-    <div class="container" data-aos="fade-up">
-      <div class="row gx-lg-0 gy-4">
-        <div class="col-lg-2"></div>
-        <div class="col-lg-2">
 
-          <form id="formi" name="formi" action="{% url 'inspeccion' %}" method="POST">
-            {% csrf_token %}
+          {% comment %} <form id="formi" name="formi" action="{% url 'index_inspeccion' %}" method="POST"> {% endcomment %}
+            {% comment %} {% csrf_token %} {% endcomment %}
+
 
             <table>
               {{ contacto_form.as_table }}
@@ -71,12 +73,17 @@
                     {% endfor %}
             </tbody>
           </table>
+
+
           <div class="text-center text-md-left mt-3">
             <a href="{% url 'carga_inspeccion' %}"><button class="btn btn-primary" type="submit">Cargar inspección</button></a>
-            <a href="{% url 'carga_certificacion' %}"><button class="btn btn-primary" type="submit">Cargar certificacion</button></a>
+            <a href=""><button class="btn btn-primary" type="submit">Cargar certificacion</button></a>
+            <a href="{% url 'inspeccion' %}"><button class="btn btn-primary" type="submit">Listar Inspecciones</button></a>
           </div>
         </div>
       </div>
     </div>
+
   </section>End Claim Section
 {% endblock contenido %}
+

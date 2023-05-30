@@ -5,37 +5,142 @@
 {% block etiqueta %}Gestión{% endblock etiqueta %}
 {% block nav %}
   <nav>
-      <div class="container">      
-      <ol>     
-        <li><a href="{% url 'index' %}">Home</a></li>
+    <div class="container">
+      <ol>
+        <li><a href="{% url 'index' %}">Inicio</a></li>
         <li>Gestión</li>
-      </ol>      
+      </ol>
     </div>
   </nav>
-{% endblock nav %}
+  {% endblock nav %}
 <!-- End Breadcrumbs -->
     
-{% block contenido %}
-  <section id="contact" class="contact">
-    <div class="container" data-aos="fade-up">
-      <div class="row gx-lg-0 gy-4">
-        <div class="col-lg-2"></div>
-        <div class="col-lg-8">
+  {% block contenido %}
+  
+    <section id="contact" class="contact">
+      <div class="container" data-aos="fade-up">
+        <!-- <div class="row gx-lg-0 gy-4"> -->
 
-          <form id="gestion-form" name="gestion-form" action="{% url 'gestion' %}" method="POST">
-            {% csrf_token %}
-            
-            <table>
-              {{ gestion_form.as_table }}
-            </table>
+          <!--filtros-->
+          <div class="input-group mb-3">
+            <h2>Buscar</h2>
+            <hr>
+          </div>
+          
+          <!-- Primera propuesta -->
+          <!--caja de busqueda -->
 
-            <div class="text-center text-md-left mt-3">
-              <button class="btn btn-primary" type="submit">Opciones? sólo sé que no sé nada</button>
+          <!-- Segunda propuesta -->
+          <div class="input-group mb-3">
+            <form class="php-email-form" id="" name="gestion_form" action="{% url 'gestion_index' %}" method="POST" >
+              {% csrf_token %}
+
+          <!-- Formulario Busqueda -->
+            <div class="input-group mb-3">
+                {{ form_busqueda.criterio1_valor }}
+                <div class="input-group-append">
+                  {{ form_busqueda.criterio1_campo }}
+                </div>            
             </div>
-          </form>
 
+            <div class="input-group mb-3">
+              {{ form_busqueda.criterio2_valor }}
+              <div class="input-group-append">
+                {{ form_busqueda.criterio2_campo }}
+              </div>            
+            </div>
+
+            <div class="input-group mb-3">
+              {{ form_busqueda.criterio3_valor }}
+              <div class="input-group-append">
+                {{ form_busqueda.criterio3_campo }}
+              </div>            
+            </div>
+
+            <div class="input-group mb-3">
+              {{ form_busqueda.criterio4_valor }}
+              <div class="input-group-append">
+                {{ form_busqueda.criterio4_campo }}
+              </div>            
+            </div>
+
+              <div class="input-group-append">
+                <button class="btn btn-warning" type="reset">Limpiar</button>
+                <button class="btn btn-primary" type="submit">Buscar</button>
+              </div>
+            </form>           
+          </div>
+          <!--fin filtros-->
+          
+          <!--- Tabla con los datos-->
+          <div class="input-group mb-3">
+            <h2>Resultados</h2>
+            <hr>
+          </div>
+          <div class="table-responsive">
+              <table class="table table-striped table-hover">
+
+                <!-- Titulos -->
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    {% for key in gestion.0 %}
+                      <th>{{ key }}</th>  
+                    {% endfor %}
+                  </tr>
+                </thead>
+
+                <!-- Datos de tabla   -->
+                <tbody>
+                    <!-- Por cada reclamo en la lista reclamos -->
+                    {% for item in gestion %}
+                      <tr>
+
+                        <!-- Boton EDITAR -->
+                        <th scope="row">
+                          <a href="{% url '' forloop.counter %}" class="btn btn-warning" role="button">
+                            Editar
+                          </a>
+                        </th>
+
+                        <!-- Datos de reclamos -->
+                        {% for key, value in gestion.items %}
+                          <td class="ancho-celda">
+                            {{ value }}
+                          </td>  
+                        {% endfor %}
+                        <!-- Fin de loop datos de reclamos -->
+                        
+                      </tr>
+                    {% endfor %} 
+                    <!-- fin de recorrer cada reclamo -->
+                </tbody>
+              </table>
+          </div>
         </div>
       </div>
     </div>
-  </section>
+
+      <!-- pagination -->
+      <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+          <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1">Anterior</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="#">1</a></li>
+          <li class="page-item">
+            <a class="page-link" href="#">2</a></li>
+          <li class="page-item">
+            <a class="page-link" href="#">3</a></li>
+          <li class="page-item">
+            <a class="page-link" href="#">Próximo</a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- fin pagination-->
+    </section>
+  </main>
+  
 {% endblock contenido %}

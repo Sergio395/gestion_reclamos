@@ -1,15 +1,57 @@
 {% extends 'base/base.html' %}
-{% block titulo %}Sistema de Gestión de Reclamos{% endblock titulo %}
-
+{% block titulo %}Nueva Inspección{% endblock titulo %}
+{%block css%}
+<style>
+  label {
+    color: #008375;
+  }
+  div.text-center button {
+    width: 180px;
+  }
+  button#btn-reset {
+    background: DarkTurquoise;
+    border: 0;
+    padding: 14px 45px;
+    color: #fff;
+    transition: 0.4s;
+    border-radius: 50px;
+  }
+  button#btn-reset:hover {
+    background: Turquoise;
+  }
+  button#btn-button {
+    background: Crimson;
+    border: 0;
+    padding: 14px 45px;
+    color: #fff;
+    transition: 0.4s;
+    border-radius: 50px;
+  }
+  button#btn-button:hover {
+    background: Red;
+  }
+  button#btn-codigo {
+    background: rgba(4, 33, 149);
+    border: 0;
+    padding: 14px 45px;
+    color: #fff;
+    transition: 0.4s;
+    border-radius: 50px;
+  }
+  button#btn-codigo:hover {
+    background: rgb(71, 85, 145);
+  }
+</style>
+{%endblock%}
 <!-- ======= Breadcrumbs ======= -->
-{% block etiqueta %}Carga de inspección{% endblock etiqueta %}
+{% block etiqueta %}Carga de Inspección{% endblock etiqueta %}
 {% block nav %}
   <nav>
     <div class="container">
       <ol>
-        <li><a href="{% url 'index' %}">Home</a></li>
-        <li><a href="{% url 'inspeccion' %}">Inspecciones</a></li>
-        <li>Carga de inspección</li>
+        <li><a href="{% url 'index' %}">Inicio</a></li>
+        <li><a href="{% url 'inspeccion' %}">Inspección</a></li>
+        <li>Nueva Inspección</li>
       </ol>
     </div>
   </nav>
@@ -27,15 +69,29 @@
             {% csrf_token %}
 
             <table class="table">
-              {{ nueva_inspeccion.as_table }}
+              {{ form.as_table }}
             </table>
 
+            <div class="row mb-5 mt-4">
+              <div class="col-md-3 mt-3 form-group"  >
+                <label for="" class=""><b>Código de trabajo: </b></label>
+              </div>
+              <div class="col-6 mt-2 form-group"  >
+                <input type="text" style = 'height: 3em;' class="form-control ml-2" id="" placeholder="Genere código de Trabajo" readonly>
+              </div>
+              <div class="col-3 mb-0 form-group ">
+              <button type="submit" id="btn-codigo">Generar</button>
+              </div>             
+            </div>
+        
+
             <div class="row">
-              <div class="text-center col-md-4 form-group mt-5 mt-md-0"><button type="button"
-                  class="btn btn-primary">Cancelar</button></div>
-              <div class="text-center col-md-4 form-group mt-5 mt-md-0"><button type="button"
-                  class="btn btn-warning">Limpiar</button></div>
-              <div class="text-center col-md-4 form-group mt-5 mt-md-0"><button type="button"
+              <div class="text-center col-md-4 form-group mt-3 mt-md-0">
+                <button id="btn-button" type="button" onclick= "window.history.go(-1); return false;"
+                >Volver</button></div>
+              <div class="text-center col-md-4 form-group mt-5 mt-md-0"><button id="btn-reset"
+                type="reset">Limpiar</button></div>
+              <div class="text-center col-md-4 form-group mt-5 mt-md-0"><button type="submit"
                   class="btn btn-success">Cargar</button></div>
             </div>
           </form>

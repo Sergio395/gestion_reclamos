@@ -1,17 +1,17 @@
 {% extends 'base/base.html' %}
-{% block titulo %}Gestión{% endblock titulo %}
+{% block titulo %}Gestión: {{ reclamo.Reclamo }}{% endblock titulo %}
 
   <!-- ======= Breadcrumbs ======= -->
   {% block etiqueta  %}Gestión{% endblock etiqueta  %}
   {% block nav %}
   <nav>
-    <div class="container">      
-    <ol>     
-      <li><a href="{% url 'index' %}">Home</a></li>
-      <li>Gestión</li>
-      <li></li>
-    </ol>      
-  </div>
+    <div class="container">
+      <ol>
+        <li><a href="{% url 'index' %}">Inicio</a></li>
+        <li><a href="{% url 'gestion' %}">Gestión</a></li>
+        <li>{{ reclamo.Reclamo }}</li>
+      </ol>
+    </div>
   </nav>
   {% endblock nav %}
   

@@ -17,7 +17,7 @@
             <form id="contact-form" name="contact-form" action="" method="POST">
               {% csrf_token %}
               <table class="table">
-                {{ nueva_form.as_table }}
+                {{ empresaform.as_table }}
               </table>
               <div class="row mt-5">
                 <div class="text-center col-md-4 form-group mt-5 mt-md-0"><a href="{%url 'empresa'%}"><button

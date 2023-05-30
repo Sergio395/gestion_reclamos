@@ -6,11 +6,17 @@
   <hr>
   <div class="titulo_tabla">Empresas registradas</div>
   <hr>
+  {% for message in messages %}
+  <div class="alert alert-{{ message.tags }}" role="alert">
+      {{message}}
+  </div>
+ {% endfor %}
   <form id="contact-form" name="contact-form" action="" method="POST">
     {% csrf_token %}
     <table class="table  table-hover  ">
       <thead class="thead-light  ">
         <tr>
+          <th scope="col">Fecha de alta</th>
           <th scope="col">Empresa</th>
           <th scope="col">Razón_social</th>
           <th scope="col">N° proveedor</th>
@@ -24,22 +30,62 @@
 
       <tbody>
         {% for data in proveedores %}
-        <tr>
-          <td>{{data.0}}</td>
-          <td>{{data.1}}</td>
-          <td>{{data.2}}</td>
-          <td>{{data.3}}</td>
-          <td>{{data.4}}</td>
-          <td>{{data.5}}</td>
+        <tr>          
+          <td>{{data.fecha_alta}}</td>
+          <td>{{data.nombre}}</td>
+          <td>{{data.razon_social}}</td>
+          <td>{{data.num_proveedor}}</td>
+          <td>{{data.cuit}}</td>
+          <td>{{data.correo}}</td>
+          <td>{{data.telefono}}</td>
 
           <td class="text-center">
-            <a href=""><span class="fas fa-edit"></span></a> |
-            <a onclick="return alert()" href=""><span class="far fa-trash-alt"></a>
+            <a href="{% url 'editar_empresa' data.id %}" title="Editar"><i class="fas fa-edit"></i></a>
+            <a href="{% url 'eliminar_empresa' data.id %}" onclick="return confirmacion()" title="Eliminar"><i class="far fa-trash-alt"></i></a>
           </td>
         </tr>
+        <script>
+          function confirmacion() {
+              var respuesta = confirm ("¿Desea ELIMINAR el registro de forma permanente?");
+              
+              if (respuesta == true) {
+                  return true;
+              }
+               else{
+                  return false;
+               }  
+          }
+        </script>
         {% endfor %}
       </tbody>
     </table>
+   
+   
+  
+   
+   
+   
+   
+   
+   
+   
+   
+   
+  
+  
+  
+  
+  
+
+  
+  
+  
+    
+
+      
+    
+    
+    
     <div class="row mt-5">
       <div class="text-center col-md-4 form-group mt-5 mt-md-0"><a href="{%url 'nueva_empresa'%}"><button type="button"
             class="btn btn-success">Nueva</button></a></div>
@@ -48,4 +94,7 @@
     </div>
   </form>
 </div>
+
+
+
 {% endblock contenido %}
