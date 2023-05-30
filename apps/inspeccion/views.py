@@ -1,11 +1,12 @@
 # from datetime import datetime
 # from django.contrib import messages
 # from django.forms import ValidationError
-# from django.http import HttpResponse
+from django.http import HttpResponse
 # from django.template import loader
 from django.shortcuts import render,redirect
 from django.http import HttpResponseNotAllowed
 from .forms import ContactoForm, NuevaInspeccion, NuevaCertificacion
+
 from django.http import HttpResponseNotAllowed, HttpResponseRedirect
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -18,6 +19,11 @@ from apps.reclamos.forms import NuevoReclamo
  
 
 
+def db_inspeccion(request):
+    inspeccionesRealizadas = Inspeccion.objects.all()
+    return render (request, 'inspeccion/inspecciones.html',{'inspecciones':inspeccionesRealizadas  })
+    
+ 
 
 def inspeccion(request):
     mensaje = None
@@ -105,43 +111,6 @@ def mostrar_reclamo(request, pk):
  
  
  
-        
-# class MostrarListView(ListView):
-        # model = inspecciones
-        # context_object_name = 'form'
-        # template_name = 'inspeccion/inspeccion_mostrar.html'
-        # queryset= reclamo
-        
-        # def obtener_objeto(request,pk):
-            
-            # # reclamo = Reclamo.objects.get(id=pk)
-            # # reclamo = inspeccion.arbol_id
-            # reclamo=  Reclamo.objects.get(id=pk)    
-            # return reclamo    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# def mostar_reclamo(request, pk):
-    # try:
-        # inspeccion = inspecciones.objects.get(pk=pk)
-    # except inspecciones.DoesNotExist:
-        # return render(request, 'administracion/404_admin.html')
-    
-    # return render(request, 'inspeccion/inspeccion_mostrar.html', {'form':inspeccion} )
     
 
 
@@ -153,7 +122,6 @@ def mostrar_reclamo(request, pk):
 
 
 
-# muestrar el reclamo correspondiente a la inspeccion
 
 
 
@@ -252,3 +220,9 @@ def carga_certificacion(request):
     }
 
     return render(request, 'inspeccion/nueva_certificacion.html', context)
+
+
+
+class InspeccionListView(ListView):
+    model = Inspeccion
+    template_name = 'inspeccion/gestion_inspecciones.html'

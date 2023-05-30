@@ -1,13 +1,16 @@
 from django.urls import path
 from . import views
-
+from apps.inspeccion.views import InspeccionListView
+from .views import *
 
 urlpatterns = [
-    path('', views.inspeccion, name='index_inspeccion' ),
-    path('inspeccion', views.InspeccionListView.as_view(), name='inspeccion' ),
-    path('carga_inspeccion', views.InspeccionesCreateView.as_view(), name='carga_inspeccion' ),
-    path('editar_inspeccion/<int:pk>/', views.InspeccionesUpdateView.as_view(), name='editar_inspeccion' ),
-    path('eliminar_inspeccion/<int:pk>/', views.delete_inspeccion, name='eliminar_inspeccion'),
-        
-     path('ver_reclamo/<int:pk>/', views.mostrar_reclamo, name='mostrar_reclamo'),
+
+ 
+    path('', views.inspeccion, name='inspeccion' ),
+    path('carga-inspeccion', views.carga_inspeccion, name='carga_inspeccion' ),
+    path('carga-certificacion', views.carga_certificacion, name='carga_certificacion' ),
+    path('db_inspeccion', views.db_inspeccion, name='db_inspeccion' ),
+    
+   
+
 ]

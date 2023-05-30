@@ -17,46 +17,64 @@
 <!-- End Breadcrumbs -->
 
 {% block contenido %}
+
   {% comment %} <section id="contact" class="contact"> {% endcomment %}
     {% comment %} <div class="container" data-aos="fade-up"> {% endcomment %}
       {% comment %} <div class="row gx-lg-0 gy-4"> {% endcomment %}
         {% comment %} <div class="col-lg-2"></div> {% endcomment %}
         {% comment %} <div class="col-lg-2"> {% endcomment %}
 
+
           {% comment %} <form id="formi" name="formi" action="{% url 'index_inspeccion' %}" method="POST"> {% endcomment %}
             {% comment %} {% csrf_token %} {% endcomment %}
 
-            {% comment %} <table> {% endcomment %}
-              {% comment %} {{ contacto_form.as_table }} {% endcomment %}
-            {% comment %} </table> {% endcomment %}
-            {% comment %} <div class="row"> {% endcomment %}
-              {% comment %} {% for campo in contacto_form %} {% endcomment %}
-                  {% comment %} <!--Grid column--> {% endcomment %}
-                  {% comment %} <div class="col-md-12"> {% endcomment %}
-                      {% comment %} <div class="md-form mb-0"> {% endcomment %}
-                          {% comment %} <label for="name" class="form-label">{{ campo.label }}</label> {% endcomment %}
-                          {% comment %} {{campo}} {% endcomment %}
-                          {% comment %} {% if campo.field.widget.input_type == 'checkbox' %} {% endcomment %}
-                              {% comment %} {{campo}}  {% endcomment %}
-                              {% comment %} <label for="name" class="">{{ campo.label }}</label> {% endcomment %}
-                          {% comment %} {% else %} {% endcomment %}
-                              {% comment %} <label for="name" class="">{{ campo.label }}</label> {% endcomment %}
-                              {% comment %} {{campo}} {% endcomment %}
-                          {% comment %} {% endif %}  {% endcomment %}
-                      {% comment %} </div> {% endcomment %}
-                      {% comment %} <div >{{campo.errors}}</div> {% endcomment %}
-                  {% comment %} </div> {% endcomment %}
-                  {% comment %} <!--Grid column--> {% endcomment %}
-            {% comment %} {% endfor %}   {% endcomment %}
-            {% comment %} <div class="text-center text-md-left mt-3"> {% endcomment %}
-              {% comment %} <label ><em> <b>N° de cuadrícula</b> </em> {% endcomment %}
-              {% comment %} <input  type="text" name="txtName" id="txtName" placeholder="Si queda vacío - Alert JS" > {% endcomment %}
-              {% comment %} </label> {% endcomment %}
-              {% comment %} <button class="btn btn-primary" type="submit">Generar planilla de inspección</button> {% endcomment %}
-            {% comment %} </div> {% endcomment %}
-          {% comment %} </form> {% endcomment %}
-          {% comment %} {{mensaje}} {% endcomment %}
-          
+
+            <table>
+              {{ contacto_form.as_table }}
+            </table>
+            {% comment %} <div class="row">
+              {% for campo in contacto_form %}
+                  <!--Grid column-->
+                  <div class="col-md-12">
+                      <div class="md-form mb-0">
+                          <label for="name" class="form-label">{{ campo.label }}</label>
+                          {{campo}}
+                          {% if campo.field.widget.input_type == 'checkbox' %}
+                              {{campo}} 
+                              <label for="name" class="">{{ campo.label }}</label>
+                          {% else %}
+                              <label for="name" class="">{{ campo.label }}</label>
+                              {{campo}}
+                          {% endif %} 
+                      </div>
+                      <div >{{campo.errors}}</div>
+                  </div>
+                  <!--Grid column-->
+              {% endfor %}  {% endcomment %} 
+            <div class="text-center text-md-left mt-3">
+              <label ><em> <b>N° de cuadrícula</b> </em>
+              <input  type="text" name="txtName" id="txtName" placeholder="Si queda vacío - Alert JS" >
+              </label>
+              <button class="btn btn-primary" type="submit">Generar planilla de inspección</button>
+            </div>
+          </form>
+          {{mensaje}}
+          <table>  
+            <thead>
+                <tr>
+                    <th>Inspecciones realizadas</th>
+                </tr>
+            </thead>
+            <tbody>
+                    {% for i in inspecciones %}
+                    <tr>
+                        <td>{{i.reclamo}}</td>
+                    </tr>
+                    {% endfor %}
+            </tbody>
+          </table>
+
+
           <div class="text-center text-md-left mt-3">
             <a href="{% url 'carga_inspeccion' %}"><button class="btn btn-primary" type="submit">Cargar inspección</button></a>
             <a href=""><button class="btn btn-primary" type="submit">Cargar certificacion</button></a>
@@ -65,5 +83,7 @@
         </div>
       </div>
     </div>
-  </section><!-- End Claim Section -->
-{% endblock contenido %}  
+
+  </section>End Claim Section
+{% endblock contenido %}
+
