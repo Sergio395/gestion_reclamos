@@ -1,53 +1,36 @@
 {% extends 'base/base.html' %}
 {% block titulo %}Seguimiento{% endblock titulo %}
-{% block css %}
-<style>
-  label {
-    color: #008375;
-  }
-  div.text-center button {
-    width: 180px;
-  }
-  button#btn-reset {
-    background: DarkTurquoise;
-    border: 0;
-    padding: 14px 45px;
-    color: #fff;
-    transition: 0.4s;
-    border-radius: 50px;
-  }
-  button#btn-reset:hover {
-    background: Turquoise;
-  }
-  button#btn-button {
-    background: Crimson;
-    border: 0;
-    padding: 14px 45px;
-    color: #fff;
-    transition: 0.4s;
-    border-radius: 50px;
-  }
-  button#btn-button:hover {
-    background: Red;
-  }
-</style>
-{% endblock css %}
+
 
 <!-- ======= Breadcrumbs ======= -->
-{% block etiqueta %}Seguimiento{% endblock etiqueta %} {% block nav %}
-<nav>
-  <div class="container">
-    <ol>
-      <li><a href="{% url 'index' %}">Inicio</a></li>
-      <li>Seguimiento</li>
-    </ol>
-  </div>
-</nav>
+{% block etiqueta %}Seguimiento{% endblock etiqueta %}
+{% block nav %}
+  <nav>
+    <div class="container">
+      <ol>
+        <li><a href="{% url 'index' %}">Inicio</a></li>
+        <li>Seguimiento</li>
+      </ol>
+    </div>
+  </nav>
 {% endblock nav %}
 <!-- End Breadcrumbs -->
 
 {% block contenido %}
   <div class="table-responsive">
+    {% if messages %}
+      {% for message in messages %}
+        <div class="messages alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %}" role="alert">
+          {{message}}
+        </div>
+      {% endfor %}
+      <script>
+        setTimeout(function() {
+            var messages = document.getElementsByClassName('messages')[0];
+            messages.style.display = 'none';
+        }, 5000); // Oculta el mensaje después de 5 segundos
+      </script>
+    {% endif %}
     <table class="table table-striped table-hover">
       <thead>
         <tr>
@@ -78,8 +61,10 @@
         {% for registro in relaciones %}
           <tr>
             <td>
-              <a href="{% url 'editar_reclamo' registro.reclamo.id %}" class="btn btn-warning">Editar</a>
-              <a href="{% url 'borrar_reclamo' registro.reclamo.id %}" class="btn btn-danger">Borrar</a>
+              <a type="button" class="btn btn-warning" href="{% url 'editar_reclamo' registro.reclamo.id %}"><i class="fa-solid fa-pen-to-square"></i></a>
+              <!-- <a href="{% url 'editar_reclamo' registro.reclamo.id %}" class="btn btn-warning">Editar</a> -->
+              <!-- <a href="{% url 'borrar_reclamo' registro.reclamo.id %}" class="btn btn-danger">Borrar</a> -->
+              <a type="button" onclick="if(!confirm('¿Desea borrar el reclamo {{ registro.reclamo.numero }}?')) event.preventDefault()" class="btn btn-danger" href="{% url 'borrar_reclamo' registro.reclamo.id %}"><i class="fa-solid fa-trash"></i></a>
             </td>
             <td>{{ registro.reclamo.get_medio_display }}</td>
             <td>{{ registro.reclamo.numero }}</td>

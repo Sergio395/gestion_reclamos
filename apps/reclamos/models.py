@@ -1,5 +1,5 @@
 from django.db import models
-from ..base.choices import choices, calles_por_localidades
+from ..base.constants import choices
 
 
 # Create your models here.
@@ -46,11 +46,11 @@ class ReclamoModel(models.Model):
     localidad = models.CharField(max_length=50, verbose_name="Localidad",
                                  choices=choices.LocalidadChoices.choices,
                                  default=choices.LocalidadChoices.BLANK)
-    calle = models.CharField(max_length=100, verbose_name="Calle", choices=[])
+    calle = models.CharField(max_length=100, verbose_name="Calle")
     entre_calle_1 = models.CharField(max_length=100, blank=True, null=True,
-                                     verbose_name="Entre calle", choices=[])
+                                     verbose_name="Entre calle")
     entre_calle_2 = models.CharField(max_length=100, blank=True, null=True,
-                                     verbose_name="y calle", choices=[])
+                                     verbose_name="y calle")
     altura = models.IntegerField(verbose_name="Altura")
     edificio = models.CharField(max_length=50, blank=True, null=True, verbose_name="Edificio")
     departamento = models.CharField(max_length=50, blank=True, null=True, verbose_name="Departamento")
