@@ -90,9 +90,8 @@
             {% endfor %}
           {% endif %}
 
-          <form class="php-email-form" id="reclamo_form" name="reclamo_form" action="{% url 'reclamo_form' %}" method="POST" enctype="multipart/form-data" novalidate>
+          <form class="php-email-form" id="reclamo_form" name="reclamo_form" action="{{ action_url }}" method="POST" enctype="multipart/form-data" novalidate>
             {% csrf_token %}
-
 
             <!-- Bloque 1: Internos -->
             <h4>Datos Internos</h4>
@@ -170,5 +169,5 @@
   </section><!-- End Claim Section -->
 
   {% load static %}
-  <script src="{% static 'reclamos/js/mostrar_calles.js' %}"></script>
+  {% comment %} <script src="{% static 'reclamos/js/mostrar_calles.js' %}"></script> {% endcomment %}
 {% endblock contenido %}

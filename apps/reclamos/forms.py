@@ -2,6 +2,8 @@ from datetime import date
 from django import forms
 from django.core import validators
 from .models import ReclamoModel, DenuncianteModel
+from ..base.choices import choices, calles_por_localidades
+
 
 
 def validate_only_alphabetic(value):
@@ -51,17 +53,17 @@ class ReclamoForm(forms.ModelForm):
         model = ReclamoModel
         fields = [
             'medio', 'numero', 'fuente', 'fecha', 'localidad', 'calle', 'entre_calle_1',
-            'entre_calle_2', 'altura', 'edificio', 'departamento', 'reclamo', 'urgencia', 'foto', 'detalle'
+            'entre_calle_2', 'altura', 'edificio', 'departamento', 'reclamo', 'urgencia', 'detalle'
         ]
         widgets = {
             'medio': forms.Select(attrs=Styles.input_styles({}),
-                                    choices=ReclamoModel.MedioChoices.choices),
+                                    choices=choices.MedioChoices.choices),
             'numero': forms.NumberInput(attrs=Styles.input_styles({})),
             'fuente': forms.Select(attrs=Styles.input_styles({}),
-                                    choices=ReclamoModel.FuenteChoices.choices),
+                                    choices=choices.FuenteChoices.choices),
             # 'fecha': forms.DateInput(),
             'localidad': forms.Select(attrs=Styles.input_styles({'id': 'localidad-select'}),
-                                        choices=ReclamoModel.LocalidadChoices.choices),
+                                        choices=choices.LocalidadChoices.choices),
             'calle': forms.Select(attrs=Styles.input_styles({
                 'class': 'form-control calle-select'})),
             'altura': forms.NumberInput(attrs=Styles.input_styles({})),
@@ -72,11 +74,11 @@ class ReclamoForm(forms.ModelForm):
             'entre_calle_2': forms.Select(attrs=Styles.input_styles({
                 'class': 'form-control calle-select'})),
             'reclamo': forms.Select(attrs=Styles.input_styles({}),
-                                    choices=ReclamoModel.ReclamoChoices.choices),
+                                    choices=choices.ReclamoChoices.choices),
             'urgencia': forms.Select(attrs=Styles.input_styles({}),
-                                        choices=ReclamoModel.UrgenciaChoices.choices),
-            'foto': forms.ClearableFileInput(attrs=Styles.input_styles({
-                'accept': 'image/*', 'multiple': True})),
+                                        choices=choices.UrgenciaChoices.choices),
+            # 'foto': forms.ClearableFileInput(attrs=Styles.input_styles({
+            #     'accept': 'image/*', 'multiple': True})),
             'detalle': forms.Textarea(attrs=Styles.input_styles({'placeholder': 'Detalles del reclamo',
                                                                     'style': 'height: 10em; border-radius: .375rem;',
                                                                     'rows': 3})),

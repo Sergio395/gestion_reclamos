@@ -79,7 +79,7 @@
           <tr>
             <td>
               <a href="{% url 'editar_reclamo' registro.reclamo.id %}" class="btn btn-warning">Editar</a>
-              <a href="{% url 'editar_reclamo' registro.reclamo.id %}" class="btn btn-danger">Borrar</a>
+              <a href="{% url 'borrar_reclamo' registro.reclamo.id %}" class="btn btn-danger">Borrar</a>
             </td>
             <td>{{ registro.reclamo.get_medio_display }}</td>
             <td>{{ registro.reclamo.numero }}</td>
@@ -101,17 +101,9 @@
             <td>{{ registro.reclamo.get_reclamo_display }}</td>
             <td>{{ registro.reclamo.get_urgencia_display }}</td>
             <td>{{ registro.reclamo.detalle }}</td>
-            {% comment %} <td>
-              {% for image in images %}
-                <img src="{{ image.url }}" alt="Imagen" style="width:150px;">
-              {% endfor %}
-            </td> {% endcomment %}
           </tr>
-        {% empty %}
-          <h5>No se encontraron reclamos</h5>
         {% endfor %}
       </tbody>
     </table>
   </div>
 {% endblock contenido %}
-
