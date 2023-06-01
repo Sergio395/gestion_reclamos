@@ -207,4 +207,4 @@ class Reclamo(models.Model):
     detalle = models.CharField(max_length=500, verbose_name="Detalles", null=True)
      
     def __str__(self):
-        return f'{self.numero} {self.fuente}'
+        return f'{self.numero}'

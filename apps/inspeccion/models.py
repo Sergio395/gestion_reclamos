@@ -70,7 +70,7 @@ class inspecciones(models.Model):
     eliminado=models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.reclamo} {self.codigo_trabajo} {self.arbol}"
+        return f"{self.reclamo}"
 
     def soft_delete(self):
         self.eliminado = True
@@ -80,6 +80,13 @@ class inspecciones(models.Model):
     def restore(self):
         self.eliminado = False
         super().save()
+        
+
+        
+        
+        
+        
+        
         
     
     
