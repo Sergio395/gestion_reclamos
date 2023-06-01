@@ -1,0 +1,25 @@
+{% load custom_filters %}
+
+<label class="form-label" for="{{ campo.name }}">{{ campo.label }}{% if campo.field.required %}*{% endif %}</label>
+{% if campo.form.is_bound %}
+
+  {% if campo.errors %}
+    {% if campo.name == 'calle' or campo.name == 'entre_calle_1' or campo.name == 'entre_calle_2' %}
+      {{ campo|add_class:"form-control is-invalid calle-select" }}
+    {% else %}
+      {{ campo|add_class:"form-control is-invalid" }}
+    {% endif %}
+    <div class="invalid-feedback">{{campo.errors}}</div>
+  {% elif not campo.field.required %}
+      {{ campo }}
+  {% else %}
+    {% if campo.name == 'calle' or campo.name == 'entre_calle_1' or campo.name == 'entre_calle_2' %}
+      {{ campo|add_class:"form-control is-valid calle-select" }}
+    {% else %}
+      {{ campo|add_class:"form-control is-valid" }}
+    {% endif %}
+  {% endif %}
+
+{% else %}
+  {{ campo }}
+{% endif %}

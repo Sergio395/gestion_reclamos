@@ -1,0 +1,8 @@
+-- Active: 1680133907613@@127.0.0.1@5432@postgres
+-- CREAR BASE DE DATOS
+CREATE DATABASE "gestion_reclamos_db"
+WITH OWNER "postgres"
+ENCODING 'UTF8'
+
+
+-- EJEMPLO DE DATASET

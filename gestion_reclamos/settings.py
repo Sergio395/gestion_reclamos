@@ -137,7 +137,14 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-# Send mail
+# Media files
+# https://docs.djangoproject.com/en/3.2/topics/files/
+
+MEDIA_URL = '/media/' # Base url to serve media files
+MEDIA_ROOT = BASE_DIR / 'media' # Path where media is stored
+
+
+# Send email
 # https://docs.djangoproject.com/en/3.2/topics/email/
 
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

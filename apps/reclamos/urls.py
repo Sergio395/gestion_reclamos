@@ -3,8 +3,9 @@ from . import views
 
 
 urlpatterns = [
-    # path('nuevo/', views.NuevoReclamoView, name='nuevo_reclamo'), # CBV
-    path('nuevo/', views.nuevo_reclamo, name='nuevo_reclamo'), # FVB
-    path('seguimiento/', views.seguimiento, name='seguimiento'),
-    path('seguimiento/<int:nro_reclamo>/', views.seguimiento_reclamo, name='seguimiento-reclamo')
+    path('nuevo/', views.ReclamoCreateView.as_view(), name='reclamo_form'),
+    path('seguimiento/', views.ReclamoListView.as_view(), name='seguimiento'),
+    path('editar/<int:pk>/', views.ReclamoUpdateView.as_view(), name='editar_reclamo'),
+    path('borrar/<int:id_reclamo>/', views.reclamo_delete, name='borrar_reclamo'),
+    # path('api/calles/', views.ObtenerCallesView.as_view(), name='obtener_calles'), # Para obtener calles de OSM
 ]

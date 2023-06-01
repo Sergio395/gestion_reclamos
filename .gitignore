@@ -1,6 +1,5 @@
 *.bat
 __pycache__
-cache
 .vscode
 .env
 BBDD.txt

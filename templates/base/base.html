@@ -54,7 +54,7 @@
       <nav id="navbar" class="navbar">
         <ul>
           <li><a href="{% url 'index' %}">Inicio</a></li>
-          <li><a href="{% url 'nuevo_reclamo' %}">Nuevo Reclamo</a></li>
+          <li><a href="{% url 'reclamo_form' %}">Nuevo Reclamo</a></li>
           <li><a href="{% url 'seguimiento' %}">Seguimiento</a></li>
           <li class="dropdown">
             <a href="{% url 'index_inspeccion' %}"><span>Inspección</span></a>
@@ -117,7 +117,7 @@
   <!-- Template Main JS File -->
   <script src="{% static 'assets/js/main.js' %}"></script>
   <script src="{% static 'assets/js/inspeccion_index.js' %}"></script>
-  {%block javascript%}{%endblock javascript%}
+  {% block javascript %}{% endblock javascript %}
 
 </body>
 
