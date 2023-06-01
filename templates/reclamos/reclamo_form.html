@@ -84,10 +84,16 @@
 
           {% if messages %}
             {% for message in messages %}
-              <div class="alert alert-{% if message.tags == 'error' %}warning{% else %}{{ message.tags }}{% endif %}" role="alert">
+              <div class="messages alert alert-{% if message.tags == 'error' %}warning{% else %}{{ message.tags }}{% endif %}" role="alert">
                 {{message}}
               </div>
             {% endfor %}
+            <script>
+              setTimeout(function() {
+                  var messages = document.getElementsByClassName('messages')[0];
+                  messages.style.display = 'none';
+              }, 5000); // Oculta el mensaje después de 5 segundos
+            </script>
           {% endif %}
 
           <form class="php-email-form" id="reclamo_form" name="reclamo_form" action="{{ action_url }}" method="POST" enctype="multipart/form-data" novalidate>
@@ -169,5 +175,21 @@
   </section><!-- End Claim Section -->
 
   {% load static %}
-  {% comment %} <script src="{% static 'reclamos/js/mostrar_calles.js' %}"></script> {% endcomment %}
+  {% comment %} {% block javascript %} {% endcomment %}
+    {% if accion == 'actualizar' %}
+      <script>
+        // Asignar el valor de las calles seleccionadas a una variable JavaScript
+        var accion = {{ accion }};
+        var calle0 = {{ calle0 }};
+        var calle1 = {{ calle1 }};
+        var calle2 = {{ calle2 }};
+      </script>
+    {% else %}
+      <script>
+        var accion = 'crear';
+      </script>
+    {% endif %}
+  {% comment %} {% endblock javascript %} {% endcomment %}
+
+  <script src="{% static 'reclamos/js/mostrar_calles.js' %}"></script>
 {% endblock contenido %}

@@ -22,35 +22,38 @@ const LOCALIDAD_SELECT = document.querySelector('#localidad-select');
 // Acceder al elemento select de calles
 const CALLE_SELECT = document.querySelectorAll('.calle-select');
 
+// Crear un array con los valores de las calles
+if (accion == 'actualizar') {
+    const calles = [calle0, calle1, calle2];
+}
+
 // Función para actualizar las opciones del select de calles
 function updateCalleOptions(localidad) {
     // Iterar sobre cada campo de selección de calles utilizando 'forEach'
-    CALLE_SELECT.forEach(function (calleSelect) {
+    CALLE_SELECT.forEach(function (calleSelect, index) {
         // Limpiar las opciones existentes del campo de selección de calles actual
         calleSelect.innerHTML = '';
 
         // Obtener las calles para la localidad seleccionada
         const CALLES = CALLES_DATA[localidad];
 
-        if (localidad === '') {
-            calleSelect.innerHTML = '';
-        } else {
+        if (localidad !== '' && CALLES) {
             // Agregar las opciones de calles al campo de selección de calles actual
             CALLES.forEach((calle, indice) => {
                 const option = document.createElement('option');
                 option.value = indice;
                 option.textContent = calle;
+                // Verificar si el valor de la opción coincide con el valor del campo
+                if (accion == 'actualizar') {
+                    if (indice == calles[index]) {
+                        option.selected = true; // Establecer como seleccionada la opción correspondiente
+                    }
+                }
                 calleSelect.appendChild(option);
             });
         }
     });
 }
-
-// // Agregar un evento de cambio al select de localidad
-// LOCALIDAD_SELECT.addEventListener('change', () => {
-//     const SELECTED_LOCALIDAD = LOCALIDAD_SELECT.value;
-//     updateCalleOptions(SELECTED_LOCALIDAD);
-// });
 
 // Función para manejar el evento de cambio en el select de localidad
 function handleLocalidadChange() {

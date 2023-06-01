@@ -1,13 +1,13 @@
-from datetime import datetime
+# from datetime import datetime
 # from django.conf import settings
-from django.views import View
+# from django.views import View
 from django.views.generic import edit, ListView, UpdateView
 
 from django.contrib import messages
 # from django.core.mail import send_mail
 # from django.conf import settings
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 # from django.utils.text import get_valid_filename
 
 from django.urls import reverse_lazy
@@ -28,7 +28,7 @@ class ReclamoCreateView(edit.CreateView):
     success_url = reverse_lazy('reclamo_form')
 
     def get_context_data(self, **kwargs):
-         """
+        """
         Obtiene los datos del contexto para la vista.
         Retorna el contexto actualizado con la acción "crear" y la URL de acción.
         """
@@ -163,6 +163,9 @@ class ReclamoUpdateView(UpdateView):
         context['accion'] = 'actualizar'
         context['action_url'] = reverse_lazy('editar_reclamo', kwargs={'pk': reclamo.pk})
         context['numero_reclamo'] = reclamo.numero
+        context['calle0'] = reclamo.calle
+        context['calle1'] = reclamo.entre_calle_1
+        context['calle2'] = reclamo.entre_calle_2
         return context
 
     def post(self, request, *args, **kwargs):
@@ -184,7 +187,7 @@ class ReclamoUpdateView(UpdateView):
         Guarda los datos actualizados del reclamo y denunciante.
         Redirige a la página de seguimiento después de guardar los cambios y muestra un mensaje de éxito.
         """
-        #! messages.success(self.request, 'Reclamo editado con éxito') # agregar en seguimiento
+        messages.success(self.request, 'Reclamo actualizado con éxito')
         reclamo = reclamo_form.save(commit=False)
         denunciante = denunciante_form.save(commit=False)
         reclamo.denunciantes.clear()
@@ -209,10 +212,10 @@ def reclamo_delete(request, id_reclamo):
     Si el reclamo no existe, se muestra una página de error 404.
     """
     reclamo = get_object_or_404(ReclamoModel, pk=id_reclamo)
-    
+
     try:
         reclamo.soft_delete()
-        messages.success(request, f'El reclamo con pk {reclamo.numero} se ha eliminado exitosamente.')
+        messages.success(request, f'El reclamo {reclamo.numero} se ha eliminado exitosamente.')
     except Exception as e:
         messages.error(request, f'Error al eliminar el reclamo {reclamo.numero}: {str(e)}')
     return redirect('seguimiento')
@@ -258,4 +261,3 @@ def reclamo_delete(request, id_reclamo):
 #     }
 
 #     return render(request, 'reclamos/reclamo_form.html', context)
-
