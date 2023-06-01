@@ -4,8 +4,8 @@ from ..base.constants import choices
 
 # Create your models here.
 class DenuncianteModel(models.Model):
-    """
-    Modelo que representa a la persona que realizó un reclamo.
+    """Modelo que representa a la persona que realizó un reclamo.
+
     Contiene información personal acerca del denunciante,
     como su nombre, apellido, DNI, número de celular,
     número de teléfono fijo y correo electrónico.
@@ -20,12 +20,14 @@ class DenuncianteModel(models.Model):
     telefono_fijo = models.BigIntegerField(blank=True, null=True, verbose_name="Teléfono fijo")
 
     def __str__(self):
+        """ Devuelve una representación en forma de cadena del denunciante.
+        """
         return f"{self.apellido}, {self.nombre} DNI: {self.dni}"
 
 
 class ReclamoModel(models.Model):
-    """
-    Modelo que representa un reclamo realizado por un denunciante.
+    """ Modelo que representa un reclamo realizado por un denunciante.
+
     Contiene información relevante acerca del reclamo,
     como su número de identificación, medio por el cual fue realizado,
     fuente del reclamo, fecha en que se realizó, datos del denunciante,
@@ -66,12 +68,18 @@ class ReclamoModel(models.Model):
     eliminado = models.BooleanField(default=False)
 
     def soft_delete(self):
+        """ Realiza una eliminación lógica del reclamo.
+        """
         self.eliminado=True
         super().save()
 
     def restore(self):
+        """ Restaura un reclamo previamente eliminado.
+        """
         self.eliminado = False
         super().save()
 
     def __str__(self):
+         """ Devuelve una representación en forma de cadena del reclamo.
+         """
         return f'Reclamo {self.numero}'

@@ -18,8 +18,7 @@ from .forms import ReclamoForm, DenuncianteForm
 
 # Create your views here.
 class ReclamoCreateView(edit.CreateView):
-    """
-    Vista para crear un reclamo.
+    """Vista para crear un reclamo.
     """
     model = ReclamoModel
     form_class = ReclamoForm
@@ -28,8 +27,8 @@ class ReclamoCreateView(edit.CreateView):
     success_url = reverse_lazy('reclamo_form')
 
     def get_context_data(self, **kwargs):
-        """
-        Obtiene los datos del contexto para la vista.
+        """Obtiene los datos del contexto para la vista.
+
         Retorna el contexto actualizado con la acción "crear" y la URL de acción.
         """
         context = super().get_context_data(**kwargs)
@@ -38,8 +37,8 @@ class ReclamoCreateView(edit.CreateView):
         return context
 
     def get(self, request, *args, **kwargs):
-        """
-        Maneja la solicitud GET para la vista.
+        """Maneja la solicitud GET para la vista.
+
         Retorna la página de creación de reclamo con los campos de formulario vacíos.
         """
         reclamo_form = self.form_class()
@@ -48,10 +47,9 @@ class ReclamoCreateView(edit.CreateView):
             'reclamo_form': reclamo_form, 'denunciante_form': denunciante_form})
 
     def post(self, request, *args, **kwargs):
-        """
-        Maneja la solicitud POST para la vista.
-        Valida los formularios de reclamo y denunciante.
-        Si son válidos, llama a form_valid(). De lo contrario, llama a form_invalid().
+        """Maneja la solicitud POST para la vista.
+
+        Valida los formularios de reclamo y denunciante. Si son válidos, llama a form_valid(). De lo contrario, llama a form_invalid().
         """
         reclamo_form = self.form_class(request.POST, request.FILES)
         denunciante_form = self.denunciante_form_class(request.POST)
@@ -62,15 +60,15 @@ class ReclamoCreateView(edit.CreateView):
             return self.form_invalid(reclamo_form, denunciante_form)
 
     def form_valid(self, reclamo_form, denunciante_form):
-        """
-        Guarda el reclamo y el denunciante en la base de datos.
+        """Guarda el reclamo y el denunciante en la base de datos.
+
         Muestra un mensaje de éxito y redirige a la URL de creación de reclamo con los campos vacíos.
         """
         messages.success(self.request, 'Reclamo creado con éxito')
         reclamo = reclamo_form.save(commit=False)
         denunciante = denunciante_form.save()
 
-# AGREGAR FOTOS (EN CONSTRUCCION) -------------------------------------
+# ? AGREGAR FOTOS (EN CONSTRUCCION) -------------------------------------
         # # Guardar las fotos
         # fotos = self.request.FILES.getlist('foto')
         # current_datetime = datetime.now().strftime('%Y%m%d_%H%M%S%f')
@@ -94,8 +92,8 @@ class ReclamoCreateView(edit.CreateView):
         return redirect(self.success_url)
 
     def form_invalid(self, reclamo_form, denunciante_form):
-        """
-        Maneja el caso en que los formularios son inválidos.
+        """Maneja el caso en que los formularios son inválidos.
+
         Muestra un mensaje de error y vuelve a renderizar la página de creación de reclamo.
         """
         messages.error(self.request, 'Revisa los campos del formulario')
@@ -104,8 +102,8 @@ class ReclamoCreateView(edit.CreateView):
 
 
 class ReclamoListView(ListView):
-    """
-    Vista para mostrar una lista de reclamos.
+    """Vista para mostrar una lista de reclamos.
+
     Muestra una lista de reclamos que no han sido eliminados.
     Cada reclamo está asociado a su primer denunciante.
     """
@@ -116,8 +114,8 @@ class ReclamoListView(ListView):
     ordering = ['numero']
 
     def get_context_data(self, **kwargs):
-        """
-        Obtiene los datos del contexto para la vista.
+        """Obtiene los datos del contexto para la vista.
+
         Retorna el contexto actualizado con las relaciones reclamo-denunciante.
         """
         context = super().get_context_data(**kwargs)
@@ -140,8 +138,8 @@ class ReclamoListView(ListView):
 
 
 class ReclamoUpdateView(UpdateView):
-    """
-    Vista para editar un reclamo existente.
+    """Vista para editar un reclamo existente.
+
     Permite editar los datos de un reclamo, incluido su denunciante.
     """
     model = ReclamoModel
@@ -151,8 +149,8 @@ class ReclamoUpdateView(UpdateView):
     success_url = reverse_lazy('seguimiento')
 
     def get_context_data(self, **kwargs):
-        """
-        Obtiene los datos del contexto para la vista.
+        """Obtiene los datos del contexto para la vista.
+
         Retorna el contexto actualizado con los formularios de reclamo y denunciante, así como los detalles adicionales para la vista de edición.
         """
         context = super().get_context_data(**kwargs)
@@ -169,8 +167,8 @@ class ReclamoUpdateView(UpdateView):
         return context
 
     def post(self, request, *args, **kwargs):
-        """
-        Procesa el formulario enviado por POST.
+        """Procesa el formulario enviado por POST.
+
         Si el formulario de reclamo y el formulario de denunciante son válidos, se guarda la información actualizada y se redirige a la página de seguimiento.
         """
         self.object = self.get_object()
@@ -183,8 +181,8 @@ class ReclamoUpdateView(UpdateView):
             return self.form_invalid(reclamo_form, denunciante_form)
 
     def form_valid(self, reclamo_form, denunciante_form):
-        """
-        Guarda los datos actualizados del reclamo y denunciante.
+        """Guarda los datos actualizados del reclamo y denunciante.
+
         Redirige a la página de seguimiento después de guardar los cambios y muestra un mensaje de éxito.
         """
         messages.success(self.request, 'Reclamo actualizado con éxito')
@@ -196,8 +194,8 @@ class ReclamoUpdateView(UpdateView):
         return redirect(self.success_url)
 
     def form_invalid(self, reclamo_form, denunciante_form):
-        """
-        Maneja el caso cuando el formulario es inválido.
+        """Maneja el caso cuando el formulario es inválido.
+
         Muestra un mensaje de error y renderiza nuevamente el formulario con los datos ingresados.
         """
         messages.error(self.request, 'Revisa los campos del formulario')
@@ -206,8 +204,8 @@ class ReclamoUpdateView(UpdateView):
 
 
 def reclamo_delete(request, id_reclamo):
-    """
-    Vista para la eliminación lógica de un reclamo.
+    """Vista para la eliminación lógica de un reclamo.
+
     Elimina el reclamo especificado y redirige a la página de seguimiento.
     Si el reclamo no existe, se muestra una página de error 404.
     """
@@ -220,7 +218,7 @@ def reclamo_delete(request, id_reclamo):
         messages.error(request, f'Error al eliminar el reclamo {reclamo.numero}: {str(e)}')
     return redirect('seguimiento')
 
-
+# * ENVIO DE EMAIL (EN CONSTRUCCION) --------------------------------------------------
 #             # if nuevo.correo_electronico:
 #             #     mensaje = f"""
 #             #         De : {nuevo.cleaned_data['nombre']} <{nuevo.cleaned_data['correo_electronico']}>
@@ -261,3 +259,4 @@ def reclamo_delete(request, id_reclamo):
 #     }
 
 #     return render(request, 'reclamos/reclamo_form.html', context)
+# --------------------------------------------------------------------

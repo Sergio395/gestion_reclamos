@@ -6,24 +6,19 @@ from ..base.constants import choices
 
 
 def validate_only_alphabetic(value):
-    """
-    Valida que el valor recibido contenga solo letras del alfabeto.
+    """Valida que el valor recibido contenga solo letras del alfabeto.
     """
     if not value.isalpha():
         raise forms.ValidationError('Este campo solo debe contener letras.')
 
 
 class Styles:
-    """
-    Clase de utilidad para personalizar los atributos de widget para el formulario.
+    """Clase de utilidad para personalizar los atributos de widget para el formulario.
     """
     @staticmethod
     def input_styles(attrs):
-        """
-        Devuelve un diccionario de atributos con valores por defecto.
-        Recibe un diccionario con los atributos y valores personalizados del campo y
-        actualiza los valores por defecto del diccionario 'default_attrs' para
-        devolverlos como un diccionario único.
+        """Devuelve un diccionario de atributos con valores por defecto.
+        Recibe un diccionario con los atributos y valores personalizados del campo y actualiza los valores por defecto del diccionario 'default_attrs' para devolverlos como un diccionario único.
         """
         default_attrs = {
             'class': 'form-control',
@@ -34,12 +29,10 @@ class Styles:
 
 
 class ReclamoForm(forms.ModelForm):
-    """
-    Formulario para crear o editar un reclamo.
+    """Formulario para crear o editar un reclamo.
     """
     class Meta:
-        """
-        Clase Meta para definir opciones adicionales para el formulario.
+        """Clase Meta para definir opciones adicionales para el formulario.
         """
         model = ReclamoModel
         fields = [
@@ -76,8 +69,7 @@ class ReclamoForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
-        """
-        Inicializa el formulario y personaliza algunos campos y validadores.
+        """Inicializa el formulario y personaliza algunos campos y validadores.
         """
         super().__init__(*args, **kwargs)
         self.fields['numero'].validators.append(validators.MinValueValidator(1))
@@ -91,12 +83,10 @@ class ReclamoForm(forms.ModelForm):
 
 
 class DenuncianteForm(forms.ModelForm):
-    """
-    Formulario para crear o editar un denunciante.
+    """Formulario para crear o editar un denunciante.
     """
     class Meta:
-        """
-        Clase Meta para definir opciones adicionales para el formulario.
+        """Clase Meta para definir opciones adicionales para el formulario.
         """
         model = DenuncianteModel
         fields = [
@@ -117,8 +107,7 @@ class DenuncianteForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
-        """
-        Inicializa el formulario y personaliza algunos campos y validadores.
+        """Inicializa el formulario y personaliza algunos campos y validadores.
         """
         super().__init__(*args, **kwargs)
         self.fields['dni'].validators.append(validators.MinValueValidator(1000000))

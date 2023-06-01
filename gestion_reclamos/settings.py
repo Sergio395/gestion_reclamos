@@ -140,10 +140,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Media files
 # https://docs.djangoproject.com/en/3.2/topics/files/
 
-# Base url to serve media files
-MEDIA_URL = '/media/'
-# Path where media is stored
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = '/media/' # Base url to serve media files
+MEDIA_ROOT = BASE_DIR / 'media' # Path where media is stored
 
 
 # Send email

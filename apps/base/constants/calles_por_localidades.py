@@ -4,6 +4,12 @@ from django.db.models import TextChoices
 
 # 9 de Abril
 class R2546787(TextChoices):
+    """Clase que representa las opciones de calles de la localidad 9 de Abril.
+
+    Las opciones son limitadas y predefinidas, y se utilizan para
+    restringir los valores permitidos en el campo 'urgencia' del modelo
+    Reclamo.
+    """
     BLANK = "", _("")
     CALLE_1 = "1", _("28 de Abril")
     CALLE_2 = "2", _("9 de Abril")
@@ -115,6 +121,12 @@ class R2546787(TextChoices):
 
 # Canning
 class R2546804(TextChoices):
+    """Clase que representa las opciones de calles de la localidad Canning.
+
+    Las opciones son limitadas y predefinidas, y se utilizan para
+    restringir los valores permitidos en el campo 'urgencia' del modelo
+    Reclamo.
+    """
     BLANK = "", _("")
     CALLE_1 = "1", _("Agustin Boulan")
     CALLE_2 = "2", _("Alejandro Graham Bell")
@@ -158,6 +170,12 @@ class R2546804(TextChoices):
 
 # El Jagüel
 class R2546834(TextChoices):
+    """Clase que representa las opciones de calles de la localidad El Jagüel.
+
+    Las opciones son limitadas y predefinidas, y se utilizan para
+    restringir los valores permitidos en el campo 'urgencia' del modelo
+    Reclamo.
+    """
     BLANK = "", _("")
     CALLE_1 = "1", _("12 de Octubre")
     CALLE_2 = "2", _("17 de Agosto")
@@ -297,6 +315,12 @@ class R2546834(TextChoices):
 
 # Luis Guillón
 class R2546803(TextChoices):
+    """Clase que representa las opciones de calles de la localidad Luis Guillón.
+
+    Las opciones son limitadas y predefinidas, y se utilizan para
+    restringir los valores permitidos en el campo 'urgencia' del modelo
+    Reclamo.
+    """
     BLANK = "", _("")
     CALLE_1 = "1", _("A. Vidal")
     CALLE_2 = "2", _("Alf. Varisco")
@@ -425,6 +449,12 @@ class R2546803(TextChoices):
 
 # Monte Grande
 class R2546842(TextChoices):
+    """Clase que representa las opciones de calles de la localidad Monte Grande.
+
+    Las opciones son limitadas y predefinidas, y se utilizan para
+    restringir los valores permitidos en el campo 'urgencia' del modelo
+    Reclamo.
+    """
     BLANK = "", _("")
     CALLE_1 = "1", _("12 de Octubre")
     CALLE_2 = "2", _("25 de Mayo")

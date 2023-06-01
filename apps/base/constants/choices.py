@@ -3,8 +3,8 @@ from django.db.models import TextChoices
 
 
 class MedioChoices(TextChoices):
-    """
-    Clase que representa las opciones de medio de un reclamo.
+    """Clase que representa las opciones de medio de un reclamo.
+
     Las opciones son limitadas y predefinidas, y se utilizan para
     restringir los valores permitidos en el campo 'medio' del modelo
     Reclamo.
@@ -22,8 +22,8 @@ class MedioChoices(TextChoices):
 
 
 class FuenteChoices(TextChoices):
-    """
-    Clase que representa las opciones de fuente de un reclamo.
+    """Clase que representa las opciones de fuente de un reclamo.
+
     Las opciones son limitadas y predefinidas, y se utilizan para
     restringir los valores permitidos en el campo 'fuente' del modelo
     Reclamo.
@@ -60,8 +60,8 @@ class FuenteChoices(TextChoices):
 
 
 class LocalidadChoices(TextChoices):
-    """
-    Clase que representa las opciones de localidad de un reclamo.
+    """Clase que representa las opciones de localidad de un reclamo.
+
     Las opciones son limitadas y predefinidas, y se utilizan para
     restringir los valores permitidos en el campo 'localidad' del modelo
     Reclamo.
@@ -75,8 +75,8 @@ class LocalidadChoices(TextChoices):
 
 
 class ReclamoChoices(TextChoices):
-    """
-    Clase que representa las opciones de tipo de reclamo.
+    """Clase que representa las opciones de tipo de reclamo.
+
     Las opciones son limitadas y predefinidas, y se utilizan para
     restringir los valores permitidos en el campo 'reclamo' del modelo
     Reclamo.
@@ -103,8 +103,8 @@ class ReclamoChoices(TextChoices):
 
 
 class UrgenciaChoices(TextChoices):
-    """
-    Clase que representa las opciones de urgencia de un reclamo.
+    """Clase que representa las opciones de urgencia de un reclamo.
+
     Las opciones son limitadas y predefinidas, y se utilizan para
     restringir los valores permitidos en el campo 'urgencia' del modelo
     Reclamo.
@@ -113,5 +113,3 @@ class UrgenciaChoices(TextChoices):
     BAJA = "1", _("Baja")
     MEDIA = "2", _("Media")
     ALTA = "3", _("Alta")
-
-

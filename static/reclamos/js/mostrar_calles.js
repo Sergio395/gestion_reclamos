@@ -1,4 +1,3 @@
-// Obtener el JSON de las calles desde una variable global
 const CALLES_DATA = {
     // 9 de Abril
     'R2546787': ['', '28 de Abril', '9 de Abril', '9 de Enero', '9 de Julio', 'A. Paez', 'Aconcagua', 'Alfa Centauro', 'Alfredo Lasalle', 'Aristoteles', 'Atlantida', 'Avenida Doctor Gilberto Elizalde', 'Avenida Luis Vernet', 'Avenida Olimpo', 'Avenida Roberto Oliver', 'Avenida de Mayo', 'Avenida de la Noria', 'Avenida de la Ribera', 'Avenida del Sur', 'Azopardo', 'B. Raffo', 'Belen', 'Biarritz', 'Blanco Encalada', 'Bouchard', 'Bristol', 'Cacique Telomian Condie', 'Camino de la Ribera Sud', 'Carlos Scaglia', 'Castellamare', 'Cerro Catedral', 'Cerro San Javier', 'Cerro Tronador', 'Chapadmalal', 'Colon', 'Colonia Monte Grande', 'Comandante Espora', 'Copacabana', 'Coronel Alvaro Barros', 'Cruz Montiel', 'Cruz del Sur', 'Daniel Defoe', 'Daytona', 'Del Progreso', 'Doctor Ernesto Restelli', 'Domingo Chimondegui', 'Don Segundo Sombra', "Edmundo D'Amicis", 'El Gaucho', 'El Partenon', 'El Resero', 'Emilio Salgari', 'Emilio Zola', 'Esparta', 'Esteban Echeverria', 'Eusebio Rebizo', 'Felix Picquart', 'Fortunato Lopez', 'General Jose Marinzio', 'Remedios de Escalada de San Martin', 'Republica del Peru', 'Ruta de la Tradicion', 'Saenz Valiente', 'San Agustin', 'San Andres', 'San Antonio', 'San Clemente del Tuyu', 'San Fernando', 'San Francisco de California', 'San Joaquin', 'San Juan', 'San Lucas', 'San Nicolas', 'San Pedro', 'San Remo', 'San Sebastian', 'Santa Adela', 'Santa Ana', 'Santa Bernardita', 'Santa Ines', 'Santa Magdalena', 'Santa Margarita', 'Santa Rita', 'Santa Teresita', 'Santiago Lumsden', 'Santos Vega', 'Sargento Mayor Jose Leon Lemos', 'Saturno', 'Sebastian Elcano', 'Sebastian Gaboto', 'Sierra De Velazco', 'Sierra de Ambato', 'Sierra de Fiambala', 'Sierra de Guasaya', 'Sierra de Velazco', 'Simon Sansinena', 'Socrates', 'Sorrento', 'Teniente Enrique Insua', 'Teniente Joaquin Castex', 'Tupungato', 'Urano', 'Valladolid', 'Venus', 'Villa Gesell', 'Vina del Mar', 'Volcan Lanin'],
@@ -24,8 +23,8 @@ const CALLE_SELECT = document.querySelectorAll('.calle-select');
 
 // Crear un array con los valores de las calles
 if (accion == 'actualizar') {
-    const calles = [calle0, calle1, calle2];
-}
+    const CAMPOS_CALLES = [calle0, calle1, calle2];
+};
 
 // Función para actualizar las opciones del select de calles
 function updateCalleOptions(localidad) {
@@ -45,7 +44,7 @@ function updateCalleOptions(localidad) {
                 option.textContent = calle;
                 // Verificar si el valor de la opción coincide con el valor del campo
                 if (accion == 'actualizar') {
-                    if (indice == calles[index]) {
+                    if (indice == CAMPOS_CALLES[index]) {
                         option.selected = true; // Establecer como seleccionada la opción correspondiente
                     }
                 }
@@ -59,7 +58,7 @@ function updateCalleOptions(localidad) {
 function handleLocalidadChange() {
     const SELECTED_LOCALIDAD = LOCALIDAD_SELECT.value;
     updateCalleOptions(SELECTED_LOCALIDAD);
-}
+};
 
 // Agregar un evento de cambio al select de localidad
 LOCALIDAD_SELECT.addEventListener('change', handleLocalidadChange);
