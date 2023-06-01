@@ -57,12 +57,12 @@
           <li><a href="{% url 'reclamo_form' %}">Nuevo Reclamo</a></li>
           <li><a href="{% url 'seguimiento' %}">Seguimiento</a></li>
           <li class="dropdown">
-            <a href="{% url 'index_inspeccion' %}"><span>Inspección</span></a>
+            <a href="{% url 'inspeccion' %}"><span>Inspección</span></a>
             <ul>
-              <li><a href="{% url 'carga_inspeccion' %}">Cargar de Inspección</a></li>
+              {% comment %} <li><a href=" url 'carga_inspeccion' ">Cargar de Inspección</a></li> {% endcomment %}
 
-              <li><a href="{% url 'carga_certificacion' %}">Cargar de Certificación</a></li>
-              <li><a href="{% url 'db_inspeccion' %}">Inspecciones realizadas db</a></li>
+              {% comment %} <li><a href=" url 'carga_certificacion' ">Cargar de Certificación</a></li> {% endcomment %}
+              {% comment %} <li><a href=" url 'db_inspeccion' ">Inspecciones realizadas db</a></li> {% endcomment %}
               
 
             </ul>

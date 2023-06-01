@@ -80,6 +80,6 @@ class ReclamoModel(models.Model):
         super().save()
 
     def __str__(self):
-         """ Devuelve una representación en forma de cadena del reclamo.
-         """
+        """ Devuelve una representación en forma de cadena del reclamo.
+        """
         return f'Reclamo {self.numero}'

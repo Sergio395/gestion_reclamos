@@ -32,7 +32,10 @@ class Arbol(models.Model):
         return texto.format(self.inspeccion)
     
 
-from apps.reclamos.models import  Reclamo, Arbol
+from apps.reclamos.models import ReclamoModel
+from apps.inspeccion.models import Arbol
+from ..base.constants import choices
+
 from apps.administracion.models import Usuario
  
 class Especies(models.Model):
@@ -82,7 +85,7 @@ class inspecciones(models.Model):
     #UrgenciaChoices = (('BLANK ' , ' '), ('BAJA','BAJA'),('MEDIA','MEDIA'),('ALTA','ALTA'))  
     no_requiere_inspeccion 	=  models.BooleanField(default=False)           
     fecha_de_inspeccion	=  models.DateField(auto_now_add=False, verbose_name="Fecha de inspeccion")
-    reclamo = models.ForeignKey(Reclamo, verbose_name=("Reclamo"), on_delete=models.CASCADE)
+    reclamo = models.ForeignKey(ReclamoModel, verbose_name=("Reclamo"), on_delete=models.CASCADE)
     disposicion = models.CharField(max_length=20 ,verbose_name=("Disposicion"), default="", choices=DisposicionChoices)    
     trabajo_a_realizar	=  models.ForeignKey(Trabajos, verbose_name=("trabajos"), on_delete=models.CASCADE,null=True) 
     especie=  models.ForeignKey(Especies, verbose_name=("Especie"), on_delete=models.CASCADE)       
@@ -91,8 +94,8 @@ class inspecciones(models.Model):
     cableado_cercano = models.CharField(max_length=50, verbose_name="Cableado_cercano",default="", null=True)
     construccion_cercana = models.CharField(max_length=50, verbose_name="Construccion_cercana", null=True)	
     observaciones_sitio= models.CharField(max_length=50, verbose_name="Observaciones" ,default="", null=True)	
-    urgencia_trabajo = models.CharField (max_length=5, verbose_name="Urgencia", choices=Reclamo.UrgenciaChoices.choices,
-                                        default=Reclamo.UrgenciaChoices.BLANK) 
+    urgencia_trabajo = models.CharField (max_length=5, verbose_name="Urgencia", choices=choices.UrgenciaChoices.choices,
+                                        default=choices.UrgenciaChoices.BLANK) 
     justificacion = models.CharField(max_length=50, verbose_name="Justificacion")	
     inspector = models.ForeignKey(Usuario,verbose_name=("inspector"),on_delete=models.CASCADE,default="") 	
     fecha_carga_inspeccion=	models.DateField(auto_now_add=False, verbose_name="Fecha_carga_inspeccion")

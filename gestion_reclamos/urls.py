@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 urlpatterns = [
@@ -26,7 +28,6 @@ urlpatterns = [
     path('gestion/', include('apps.gestion.urls')),
     path('admin/', include('apps.administracion.urls')),
     #path('gestion-inspeccion/',include('apps.inspeccion.urls'))
-    
 ]
 
 if settings.DEBUG:

@@ -14,14 +14,14 @@ from django.urls import reverse_lazy
 from .models import inspecciones
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
-from apps.reclamos.models import Reclamo 
-from apps.reclamos.forms import NuevoReclamo 
+from apps.reclamos.models import ReclamoModel 
+from apps.reclamos.forms import ReclamoForm 
  
 
 
-def db_inspeccion(request):
-    inspeccionesRealizadas = Inspeccion.objects.all()
-    return render (request, 'inspeccion/inspecciones.html',{'inspecciones':inspeccionesRealizadas  })
+# def db_inspeccion(request):
+#     inspeccionesRealizadas = Inspeccion.objects.all()
+#     return render (request, 'inspeccion/inspecciones.html',{'inspecciones':inspeccionesRealizadas  })
     
  
 
@@ -86,10 +86,10 @@ def delete_inspeccion(request, pk):
 def mostrar_reclamo(request, pk):
     
     try:
-        reclamo = Reclamo.objects.get(id=pk)
-    except Reclamo.DoesNotExist:
+        reclamo = ReclamoModel.objects.get(id=pk)
+    except ReclamoModel.DoesNotExist:
         return render(request, 'administracion/404_admin.html')
-    #formulario = NuevoReclamo(request.POST or None, request.FILES or None, instance=reclamo)
+    #formulario = ReclamoForm(request.POST or None, request.FILES or None, instance=reclamo)
     
 
 
@@ -223,6 +223,6 @@ def carga_certificacion(request):
 
 
 
-class InspeccionListView(ListView):
-    model = Inspeccion
-    template_name = 'inspeccion/gestion_inspecciones.html'
+# class InspeccionListView(ListView):
+#     model = Inspeccion
+#     template_name = 'inspeccion/gestion_inspecciones.html'
