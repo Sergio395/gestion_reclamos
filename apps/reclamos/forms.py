@@ -112,7 +112,5 @@ class DenuncianteForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['dni'].validators.append(validators.MinValueValidator(1000000))
         self.fields['dni'].validators.append(validators.MaxValueValidator(99999999))
-        self.fields['correo_electronico'].validators.append(
-            validators.EmailValidator(message='Introduce una dirección de correo electrónico válida'))
         self.fields['nombre'].validators.append(validate_only_alphabetic)
         self.fields['apellido'].validators.append(validate_only_alphabetic)

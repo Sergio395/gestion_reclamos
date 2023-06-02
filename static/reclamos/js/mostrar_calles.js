@@ -22,8 +22,9 @@ const LOCALIDAD_SELECT = document.querySelector('#localidad-select');
 const CALLE_SELECT = document.querySelectorAll('.calle-select');
 
 // Crear un array con los valores de las calles
+let CAMPOS_CALLES = [];
 if (accion == 'actualizar') {
-    const CAMPOS_CALLES = [calle0, calle1, calle2];
+    CAMPOS_CALLES = [calle0, calle1, calle2];
 };
 
 // Función para actualizar las opciones del select de calles
