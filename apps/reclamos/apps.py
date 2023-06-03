@@ -9,3 +9,10 @@ class ReclamosConfig(AppConfig):
     """
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'apps.reclamos'
+
+    def ready(self):
+        """Método llamado cuando la aplicación está lista.
+
+        Importa los módulos de señales de la aplicación 'reclamos' para asegurar que sean registrados y utilizados correctamente.
+        """
+        import apps.reclamos.utils.signals
