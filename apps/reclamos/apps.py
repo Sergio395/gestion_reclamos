@@ -15,4 +15,4 @@ class ReclamosConfig(AppConfig):
 
         Importa los módulos de señales de la aplicación 'reclamos' para asegurar que sean registrados y utilizados correctamente.
         """
-        import apps.reclamos.signals
+        import apps.reclamos.utils.signals

@@ -1,6 +1,6 @@
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
-from .models import ReclamoModel
+from ..models import ReclamoModel
 
 
 @receiver(pre_save, sender=ReclamoModel)

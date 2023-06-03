@@ -60,8 +60,8 @@
             <td>{{ registro.reclamo.fuente }}-{{ registro.reclamo.numero|stringformat:'07d' }}-{{ registro.reclamo.repitancia|stringformat:'02d' }}-01</td>
             <td>{{ registro.reclamo.get_medio_display }}</td>
             <td>{{ registro.reclamo.fecha }}</td>
-            <td><a class="" data-bs-toggle="collapse" data-bs-target="#contenido{{ registro.reclamo.pk }}-d">{{ registro.denunciante.dni }}</a></td>
-            <td><a class="" data-bs-toggle="collapse" data-bs-target="#contenido{{ registro.reclamo.pk }}-l">{{ registro.reclamo.get_localidad_display }}</a></td>
+            <td><a style="cursor: pointer;" class="" data-bs-toggle="collapse" data-bs-target="#contenido{{ registro.reclamo.pk }}-d">{{ registro.denunciante.dni }}</a></td>
+            <td><a style="cursor: pointer;" class="" data-bs-toggle="collapse" data-bs-target="#contenido{{ registro.reclamo.pk }}-l">{{ registro.reclamo.get_localidad_display }}</a></td>
             <td>{{ registro.reclamo.get_reclamo_display }}</td>
             <td class="text-{% if registro.reclamo.urgencia == '1' %}info{% elif registro.reclamo.urgencia == '2' %}warning{% else %}danger{% endif %}">{{ registro.reclamo.get_urgencia_display }}</td>
             <td>{{ registro.reclamo.detalle }}</td>
