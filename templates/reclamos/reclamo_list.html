@@ -38,7 +38,6 @@
           <th scope="col">Acciones</th>
           <th scope="col">Número</th>
           <th scope="col">Medio</th>
-          <th scope="col">Fuente</th>
           <th scope="col">Fecha</th>
           <th scope="col">Denunciante</th>
           <th scope="col">Localidad</th>
@@ -54,13 +53,12 @@
               <a href="{% url 'editar_reclamo' registro.reclamo.id %}" title="Editar">
                 <i class="fas fa-edit"></i>
               </a>
-              <a onclick="if(!confirm('¿Desea borrar el reclamo {{ registro.reclamo.numero }}?')) event.preventDefault()" href="{% url 'borrar_reclamo' registro.reclamo.id %}" title="Eliminar">
+              <a onclick="if(!confirm('¿Desea borrar el reclamo {{ registro.reclamo.fuente }}-{{ registro.reclamo.numero }}-00-01?')) event.preventDefault()" href="{% url 'borrar_reclamo' registro.reclamo.id %}" title="Eliminar">
                 <i class="far fa-trash-alt"></i>
               </a>
             </td>
-            <td>{{ registro.reclamo.numero }}</td>
+            <td>{{ registro.reclamo.fuente }}-{{ registro.reclamo.numero|stringformat:'07d' }}-{{ registro.reclamo.repitancia|stringformat:'02d' }}-01</td>
             <td>{{ registro.reclamo.get_medio_display }}</td>
-            <td>{{ registro.reclamo.get_fuente_display }}</td>
             <td>{{ registro.reclamo.fecha }}</td>
             <td><a class="" data-bs-toggle="collapse" data-bs-target="#contenido{{ registro.reclamo.pk }}-d">{{ registro.denunciante.dni }}</a></td>
             <td><a class="" data-bs-toggle="collapse" data-bs-target="#contenido{{ registro.reclamo.pk }}-l">{{ registro.reclamo.get_localidad_display }}</a></td>

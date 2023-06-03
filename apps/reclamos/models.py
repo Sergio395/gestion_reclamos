@@ -44,6 +44,7 @@ class ReclamoModel(models.Model):
                               choices=choices.FuenteChoices.choices,
                               default=choices.FuenteChoices.BLANK)
     fecha = models.DateField(verbose_name="Fecha del reclamo")
+    repitancia = models.IntegerField(default=1)
     denunciantes = models.ManyToManyField(DenuncianteModel, verbose_name="Denunciante")
     localidad = models.CharField(max_length=50, verbose_name="Localidad",
                                  choices=choices.LocalidadChoices.choices,
