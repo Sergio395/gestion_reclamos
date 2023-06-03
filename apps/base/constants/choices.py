@@ -7,7 +7,7 @@ class MedioChoices(TextChoices):
 
     Las opciones son limitadas y predefinidas, y se utilizan para
     restringir los valores permitidos en el campo 'medio' del modelo
-    Reclamo.
+    ReclamoModel.
     """
     BLANK = "", _("")
     CALLE = "06", _("Calle")
@@ -26,7 +26,7 @@ class FuenteChoices(TextChoices):
 
     Las opciones son limitadas y predefinidas, y se utilizan para
     restringir los valores permitidos en el campo 'fuente' del modelo
-    Reclamo.
+    ReclamoModel.
     """
     BLANK = "", _("")
     ARQ = "1", _("Arquitectura")
@@ -64,7 +64,7 @@ class LocalidadChoices(TextChoices):
 
     Las opciones son limitadas y predefinidas, y se utilizan para
     restringir los valores permitidos en el campo 'localidad' del modelo
-    Reclamo.
+    ReclamoModel.
     """
     BLANK = "", _("")
     NDAB = "R2546787", _("9 de Abril")
@@ -79,7 +79,7 @@ class ReclamoChoices(TextChoices):
 
     Las opciones son limitadas y predefinidas, y se utilizan para
     restringir los valores permitidos en el campo 'reclamo' del modelo
-    Reclamo.
+    ReclamoModel.
     """
     BLANK = "", _("")
     ACAI = "1", _("Árbol caído")
@@ -107,9 +107,67 @@ class UrgenciaChoices(TextChoices):
 
     Las opciones son limitadas y predefinidas, y se utilizan para
     restringir los valores permitidos en el campo 'urgencia' del modelo
-    Reclamo.
+    ReclamoModel.
     """
     BLANK = "", _("")
     BAJA = "1", _("Baja")
     MEDIA = "2", _("Media")
     ALTA = "3", _("Alta")
+
+
+class TrabajoChoices(TextChoices):
+    """Clase que representa las opciones de trabajos a realizar en un árbol.
+
+    Las opciones son limitadas y predefinidas, y se utilizan para
+    restringir los valores permitidos en el campo 'tipo_de_trabajo' del modelo
+    TrabajoModel.
+    """
+    BLANK = "", _("")
+    PODI = "PI", _("Poda Integral")
+    PODR = "PR", _("Poda Integral")
+    PODD = "PD", _("Poda Integral")
+    TALA = "T", _("Poda Integral")
+    COR = "CR", _("Poda Integral")
+    EXT = "E", _("Poda Integral")
+
+
+class AlturaChoices(TextChoices):
+    """Clase que representa las opciones altura de un árbol.
+
+    Las opciones son limitadas y predefinidas, y se utilizan para
+    restringir los valores permitidos en el campo 'altura_arbol' del modelo
+    TrabajoModel.
+    """
+    BLANK = "", _("")
+    AM4 = "1", _("Árbol < 4m")
+    A4Y8 = "2", _("4m < Árbol < 8m")
+    A8Y12 = "3", _("8m < Árbol < 12m")
+    A12Y16 = "4", _("12m < Árbol < 16m")
+    A16Y20 = "5", _("16m < Árbol < 20m")
+    AM20 = "6", _("Árbol > 20m")
+
+
+class DisposicionChoices(TextChoices):
+    """Clase que representa las opciones de disposición de un árbol.
+
+    Las opciones son limitadas y predefinidas, y se utilizan para
+    restringir los valores permitidos en el campo 'disposición' del modelo
+    TrabajoModel.
+    """
+    BLANK = "", _("")
+    LINE = "1", _("Lineal")
+    POINT = "2", _("Puntual")
+
+
+class RiesgoChoices(TextChoices):
+    """Clase que representa las opciones de riesgo de un árbol.
+
+    Las opciones son limitadas y predefinidas, y se utilizan para
+    restringir los valores permitidos en el campo 'riesgo' del modelo
+    InspeccionModel.
+    """
+    BLANK = "", _("")
+    # ! EJEMPLO
+    BAJO = "1", _("Bajo")
+    MEDIO = "2", _("Medio")
+    ALTO = "3", _("Alto")

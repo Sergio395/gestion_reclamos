@@ -12,8 +12,8 @@
     <title>{% block titulo %}{% endblock titulo %} | SGR.</title>
 
   <!-- Cargar estáticos-->
-  <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
   {% load static %}
+  <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
   <link href="{% static '/administracion/css/styles.css'%}" rel="stylesheet" />
   <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
 
@@ -116,7 +116,6 @@
   
   <!-- Template Main JS File -->
   <script src="{% static 'assets/js/main.js' %}"></script>
-  <script src="{% static 'assets/js/inspeccion_index.js' %}"></script>
   {% block javascript %}{% endblock javascript %}
 
 </body>
