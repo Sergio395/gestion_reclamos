@@ -44,6 +44,8 @@ class DenuncianteModel(models.Model):
     )
 
     class Meta:
+        """Clase Meta para la configuración de la clase DenuncianteModel.
+        """
         verbose_name = "Denunciante"
         verbose_name_plural = "Denunciantes"
 
@@ -159,6 +161,8 @@ class ReclamoModel(models.Model):
     )
 
     class Meta:
+        """Clase Meta para la configuración de la clase ReclamoModel.
+        """
         verbose_name = "Reclamo"
         verbose_name_plural = "Reclamos"
 

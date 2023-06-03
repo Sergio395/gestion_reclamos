@@ -1,11 +1,9 @@
 # from datetime import datetime
-# from django.conf import settings
-# from django.views import View
 from django.views.generic import edit, ListView, UpdateView
 
 from django.contrib import messages
-# from django.core.mail import send_mail
-# from django.conf import settings
+from django.core.mail import send_mail
+from decouple import config
 
 from django.shortcuts import render, redirect, get_object_or_404
 # from django.utils.text import get_valid_filename
@@ -62,7 +60,7 @@ class ReclamoCreateView(edit.CreateView):
     def form_valid(self, reclamo_form, denunciante_form):
         """Guarda el reclamo y el denunciante en la base de datos.
 
-        Muestra un mensaje de éxito y redirige a la URL de creación de reclamo con los campos vacíos.
+        Muestra un mensaje de éxito, envía un correo electrónico al denunciante con información sobre el reclamo y redirige a la URL de creación de reclamo con los campos vacíos.
         """
         messages.success(self.request, 'Reclamo creado con éxito')
         reclamo = reclamo_form.save(commit=False)
@@ -89,6 +87,33 @@ class ReclamoCreateView(edit.CreateView):
 # -----------------------------------------------------------------------
         reclamo.save()
         reclamo.denunciantes.add(denunciante)
+
+        email = denunciante_form.cleaned_data['correo_electronico']
+
+        if email:
+            # Envío de correo electrónico con texto plano.
+            subject = f"{denunciante_form.cleaned_data['nombre']} hemos registrado su reclamo"
+            message = f'''
+                Su número de reclamo es {reclamo_form.cleaned_data['numero']}.
+                Para realizar el seguimiento del mismo, por favor comunicarse con el municipio.
+            '''
+            from_email = config("EMAIL_HOST_USER")
+            to_email = email
+            send_mail(subject, message, from_email, [to_email])
+
+# ? EMAIL CON TEMPLATE PRESONALIZADO (EN COSNTRUCCIÓN)---------------------
+            # # Envío de correo electrónico con template personalizado
+            # subject = 'Su reclamo ha sido registrado con éxito'
+            # from_email = config("EMAIL_HOST_USER")
+            # to_email = email
+
+            # # Renderizar el contenido del template con los datos relevantes
+            # context = {'reclamo': reclamo, 'denunciante': denunciante}
+            # message = render_to_string('reclamos/email_template.html', context)
+
+            # # Enviar el correo electrónico
+            # send_mail(subject, message, from_email, [to_email], html_message=message)
+# --------------------------------------------------------------------------
         return redirect(self.success_url)
 
     def form_invalid(self, reclamo_form, denunciante_form):
@@ -111,7 +136,7 @@ class ReclamoListView(ListView):
     template_name = 'reclamos/reclamo_list.html'
     context_object_name = 'reclamos'
     queryset = ReclamoModel.objects.filter(eliminado=False)
-    ordering = ['numero']
+    ordering = ['numero', '-repitancia']
 
     def get_context_data(self, **kwargs):
         """Obtiene los datos del contexto para la vista.
@@ -217,46 +242,3 @@ def reclamo_delete(request, id_reclamo):
     except Exception as e:
         messages.error(request, f'Error al eliminar el reclamo {reclamo.numero}: {str(e)}')
     return redirect('seguimiento')
-
-# * ENVIO DE EMAIL (EN CONSTRUCCION) --------------------------------------------------
-#             # if nuevo.correo_electronico:
-#             #     mensaje = f"""
-#             #         De : {nuevo.cleaned_data['nombre']} <{nuevo.cleaned_data['correo_electronico']}>
-#             #         Asunto: {nuevo.cleaned_data['asunto']}
-#             #         Mensaje: {nuevo.cleaned_data['mensaje']}
-#             #     """
-#             #     mensaje_html = f"""
-#             #         <p>De: {nuevo.cleaned_data['nombre']} <a href="mailto:{nuevo.cleaned_data['correo_electronico']}">{nuevo.cleaned_data['email']}</a></p>
-#             #         <p>Asunto:  {nuevo.cleaned_data['asunto']}</p>
-#             #         <p>Mensaje: {nuevo.cleaned_data['mensaje']}</p>
-#             #     """
-#             #     asunto = "CONSULTA DESDE LA PAGINA - " + \
-#             #         nuevo.cleaned_data['asunto']
-#             #     send_mail(
-#             #         asunto, mensaje, settings.EMAIL_HOST_USER,
-#             #         [settings.RECIPIENT_ADDRESS],
-#             #         fail_silently=False,
-#             #         html_message=mensaje_html
-#             #     )
-
-#         # acción para mostrar los datos del formulario
-#         else:
-#             messages.error(
-#                 request,
-#                 'Revisa los errores en el formulario'
-#             )
-
-#     elif request.method == 'GET':
-#         nuevo = ReclamoForm()
-
-#     else:
-#         return HttpResponseNotAllowed(
-#             f"Método {request.method} no soportado"
-#         )
-
-#     context = {
-#         'reclamo_form': nuevo
-#     }
-
-#     return render(request, 'reclamos/reclamo_form.html', context)
-# --------------------------------------------------------------------

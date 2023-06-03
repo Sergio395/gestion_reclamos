@@ -148,10 +148,11 @@ MEDIA_ROOT = BASE_DIR / 'media' # Path where media is stored
 # Send email
 # https://docs.djangoproject.com/en/3.2/topics/email/
 
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = config("EMAIL_HOST")
-# EMAIL_PORT = config("EMAIL_PORT")
-# EMAIL_USE_TLS = config("EMAIL_USE_TLS")
-# EMAIL_HOST_USER = config("EMAIL_HOST_USER")
-# EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
-# RECIPIENT_ADDRESS = config("RECIPIENT_ADDRESS")
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = config("EMAIL_HOST")
+EMAIL_PORT = config("EMAIL_PORT")
+EMAIL_USE_TLS = config("EMAIL_USE_TLS")
+EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+RECIPIENT_ADDRESS = config("RECIPIENT_ADDRESS")
+DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL")
