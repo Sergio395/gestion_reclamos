@@ -11,8 +11,12 @@ urlpatterns = [
     path('editar/<int:id>', views.gestion_editar, name='gestion_editar'),
     path('eliminar/<int:id>', views.gestion_eliminar, name='gestion_eliminar'),
     
+    # -- VBC --
     path('lista/', views.GestionListView.as_view(), name='gestion_lista'),
+    path('nuevo/', views.GestionCreateView.as_view(), name='gestion_form'),
     
-    # path('', views.gestion_inicio, name='gestion'),
-    # path('editar/<int:nro_reclamo>/', views.gestion_editar_reclamo, name='gestion_editar_reclamo'),
+    # path('nuevo/', views.ReclamoCreateView.as_view(), name='reclamo_form'),
+    # path('seguimiento/', views.ReclamoListView.as_view(), name='seguimiento'),
+    # path('editar/<int:pk>/', views.ReclamoUpdateView.as_view(), name='editar_reclamo'),
+    # path('borrar/<int:id_reclamo>/', views.reclamo_delete, name='borrar_reclamo'),
 ]

@@ -75,7 +75,7 @@
           
           <!--- Tabla con los datos-->
           <div class="input-group mb-3">
-            <h2>Resultados tabla gestion</h2>
+            <h2>Resultados de Inspecciones</h2>
             <hr>
           </div>
           <div class="table-responsive">
@@ -136,7 +136,14 @@
                       <tr>
                         <!-- Datos de item -->
                         <td class="ancho-celda">
-                          <a href="{% url 'gestion_editar' item.id %}" class="btn btn-warning" role="button">
+                          {% comment %} <a href="{% url 'gestion_editar' item.id %}" class="btn btn-warning" role="button">
+                            Editar
+                          </a>
+                          <a href="{% url 'gestion_eliminar' item.id %}" class="btn btn-danger" role="button">Borrar
+                          </a> {% endcomment %}
+
+                          <!-- Empiezan las VBC -->
+                          <a href="{% url 'gestion_form' %}" class="btn btn-warning" role="button">
                             Editar
                           </a>
                           <a href="{% url 'gestion_eliminar' item.id %}" class="btn btn-danger" role="button">Borrar

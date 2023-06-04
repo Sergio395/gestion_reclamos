@@ -7,10 +7,11 @@ from django.contrib import messages
 from .forms import GestionForm, BusquedaForm
 from .models import GestionModel
 
-from django.views.generic import ListView
+from django.views.generic import ListView, edit
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from apps.inspeccion.models import inspecciones
+from apps.inspeccion.forms import NuevaInspeccion
 
 # Create your views here.    
 def gestion_index(request):
@@ -109,6 +110,9 @@ def preparar_filtro(criterio):
 #---------------------------
 
 class GestionListView(ListView):
+    '''
+    Muestra una lista de inspecciones
+    '''
     model = inspecciones
     context_object_name = 'Inspecciones'
     template_name = 'gestion/gestion_lista.html'
@@ -122,6 +126,70 @@ class GestionListView(ListView):
         context = super(GestionListView, self).get_context_data(**kwargs)
         context['form_busqueda'] = BusquedaForm()
         return context
+
+class GestionCreateView(edit.CreateView):
+    """Vista para asociar una inspeccion a un GestionForm.
+    """
+    model = GestionModel
+    form_class = GestionForm
+    inspecciones_form_class = NuevaInspeccion # estaria bueno que se llame NuevaInspeccionForm
+    template_name = 'gestion/gestion_form.html'
+    success_url = reverse_lazy('gestion_form')
+
+    def get_context_data(self, **kwargs):
+        """Obtiene los datos del contexto para la vista.
+
+        Retorna el contexto actualizado con la acción "crear" y la URL de acción.
+        """
+        context = super().get_context_data(**kwargs)
+        context['accion'] = 'crear'
+        context['action_url'] = reverse_lazy('gestion_form')
+        return context
+
+    def get(self, request, *args, **kwargs):
+        """Maneja la solicitud GET para la vista.
+
+        Retorna la página de creación de reclamo con los campos de formulario vacíos.
+        """
+        gestion_form = self.form_class()
+        inspecciones_form = self.denunciante_form_class()
+        return render(request, self.template_name, {
+            'gestion_form': gestion_form, 'inspecciones_form': inspecciones_form})
+
+    def post(self, request, *args, **kwargs):
+        """Maneja la solicitud POST para la vista.
+
+        Valida los formularios de reclamo y denunciante. Si son válidos, llama a form_valid(). De lo contrario, llama a form_invalid().
+        """
+        gestion_form = self.form_class(request.POST, request.FILES)
+        inspecciones_form = self.inspecciones_form_class(request.POST)
+
+        if gestion_form.is_valid() and inspecciones_form.is_valid():
+            return self.form_valid(gestion_form, inspecciones_form)
+        else:
+            return self.form_invalid(gestion_form, inspecciones_form)
+
+    def form_valid(self, gestion_form, inspecciones_form):
+        """Guarda el reclamo y el denunciante en la base de datos.
+
+        Muestra un mensaje de éxito y redirige a la URL de creación de reclamo con los campos vacíos.
+        """
+        messages.success(self.request, 'Reclamo creado con éxito')
+        gestion = gestion_form.save(commit=False)
+        inspecciones = inspecciones_form.save()
+        gestion.save()
+        # reclamo.denunciantes.add(denunciante) // No entiendo bien para que hace esto
+        return redirect(self.success_url)
+
+    def form_invalid(self, gestion_form, inspecciones_form):
+        """Maneja el caso en que los formularios son inválidos.
+
+        Muestra un mensaje de error y vuelve a renderizar la página de creación de reclamo.
+        """
+        messages.error(self.request, 'Revisa los campos del formulario')
+        return render(self.request, self.template_name, {
+            'gestion_form': gestion_form, 'inspecciones_form': inspecciones_form})
+
 
 #  mod_date = models.DateField(default=date.today)
 # ---- Así funcionaba con listas ----
