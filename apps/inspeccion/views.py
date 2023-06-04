@@ -19,12 +19,15 @@ from apps.reclamos.forms import ReclamoForm
  
 
 
-# def db_inspeccion(request):
-#     inspeccionesRealizadas = Inspeccion.objects.all()
-#     return render (request, 'inspeccion/inspecciones.html',{'inspecciones':inspeccionesRealizadas  })
+def db_inspeccion(request):
+    inspeccionesRealizadas = Inspeccion.objects.all()
+    return render (request, 'inspeccion/inspecciones.html',{'inspecciones':inspeccionesRealizadas  })
+    
+def carga_inspeccion(request):
+    inspeccionesRealizadas = Inspeccion.objects.all()
+    return render (request, 'inspeccion/inspecciones.html',{'inspecciones':inspeccionesRealizadas  })
     
  
-
 def inspeccion(request):
     mensaje = None
     if request.method == 'POST':
