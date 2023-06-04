@@ -5,22 +5,14 @@ from datetime import datetime
 from django.conf import settings
 from django.contrib import messages
 from .forms import GestionForm, BusquedaForm
-from .models import Gestion
+from .models import GestionModel
 
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from apps.inspeccion.models import inspecciones
 
-
-# Create your views here.
-
-# class GestionListView(ListView):
-#     model = Gestion
-#     context_object_name = 'Gestion'
-#     template_name = 'templates/gestion/gestion_index.html'
-#     queryset = Gestion.objects.filter(baja=False)
-#     ordering = ['estado']
-    
+# Create your views here.    
 def gestion_index(request):
     '''
     Por ahora trae los valores de la tabla Gestion, pero deberiamos definir en grupo que datos va a mostrar 
@@ -29,12 +21,12 @@ def gestion_index(request):
     '''
     form_busqueda = BusquedaForm(request.POST or None)
     try:
-        gestion = Gestion.objects.filter(baja=False)
-    except Gestion.DoesNotExist:
+        gestion = GestionModel.objects.filter(baja=False)
+    except GestionModel.DoesNotExist:
         return render(request, 'gestion/gestion_prueba.html')
     try:
-        fields = Gestion.objects.model._meta.get_fields()
-    except Gestion.DoesNotExist:
+        fields = GestionModel.objects.model._meta.get_fields()
+    except GestionModel.DoesNotExist:
         return render(request, 'gestion/gestion_prueba.html')
     return render(request, 'gestion/gestion_prueba.html', {'gestion': gestion, 'form_busqueda': form_busqueda, 'campos': fields})
 
@@ -46,14 +38,14 @@ def gestion_buscar(request):
     if formulario.is_valid():
         try:
             filtro = preparar_filtro(formulario.cleaned_data)
-            gestion = Gestion.objects.filter(**filtro)
-        except Gestion.DoesNotExist:
+            gestion = GestionModel.objects.filter(**filtro)
+        except GestionModel.DoesNotExist:
             return render(request, 'gestion/gestion_prueba.html')
     else:
         messages.warning(request, 'Revisa los campos')
         return render(request, 'gestion/gestion_prueba.html')
     
-    fields = Gestion.objects.model._meta.get_fields()
+    fields = GestionModel.objects.model._meta.get_fields()
     return render(request, 'gestion/gestion_prueba.html', {'gestion': gestion, 'form_busqueda': formulario, 'campos': fields})
 
 def gestion_nuevo(request):
@@ -68,12 +60,11 @@ def gestion_nuevo(request):
         return redirect('gestion_index')
     return render(request, 'gestion/gestion_nuevo.html', {'gestion_form': formulario, 'accion': titulo_accion})
 
-
 def gestion_editar(request, id):
     titulo_accion = 'Edición de registro'
     try:
-        gestion = Gestion.objects.get(pk=id)
-    except Gestion.DoesNotExist:
+        gestion = GestionModel.objects.get(pk=id)
+    except GestionModel.DoesNotExist:
         return render(request, 'gestion/gestion_prueba.html')
     formulario = GestionForm(request.POST or None, instance=gestion)
     if formulario.is_valid():
@@ -82,11 +73,10 @@ def gestion_editar(request, id):
         return redirect('gestion_index')
     return render(request, 'gestion/gestion_editar.html', {'gestion_form': formulario, 'accion':titulo_accion, 'id':id})
 
-
 def gestion_eliminar(request, id_registro):
     try:
-        gestion = Gestion.objects.get(id=id_registro)
-    except Gestion.DoesNotExist:
+        gestion = GestionModel.objects.get(id=id_registro)
+    except GestionModel.DoesNotExist:
         return render(request, 'gestion/gestion_prueba.html')
     messages.success(request, 'Se ha eliminado el curso correctamente')
     gestion.soft_delete()
@@ -114,6 +104,24 @@ def preparar_filtro(criterio):
     if criterio['criterio4_campo'] != 'none':
         filtro[criterio['criterio4_campo']] = criterio['criterio4_valor'].strftime('%Y-%m-%d')
     return filtro
+
+# Lo mismo pero con VBC
+#---------------------------
+
+class GestionListView(ListView):
+    model = inspecciones
+    context_object_name = 'Inspecciones'
+    template_name = 'gestion/gestion_lista.html'
+    queryset = inspecciones.objects.filter(eliminado=False)
+    ordering = ['arbol_id']
+    
+    def get_context_data(self, **kwargs):
+        '''
+        Agrego informacion al contexto
+        '''
+        context = super(GestionListView, self).get_context_data(**kwargs)
+        context['form_busqueda'] = BusquedaForm()
+        return context
 
 #  mod_date = models.DateField(default=date.today)
 # ---- Así funcionaba con listas ----

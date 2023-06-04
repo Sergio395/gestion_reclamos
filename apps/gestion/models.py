@@ -4,7 +4,7 @@ from typing import Iterable, Optional
 from django.contrib.auth.models import User
 
 # Create your models here.
-class Gestion(models.Model):
+class GestionModel(models.Model):
     """
     Modelo para la tabla gestion.
     Se relaciona con Arbol en una relación muchos a muchos, porque un arbol puede estar en solo una orden de trabajo, pero una orden de trabajo puede contener muchos árboles

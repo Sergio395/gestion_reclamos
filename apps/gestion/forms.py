@@ -1,6 +1,199 @@
 from django import forms
 from django.contrib.admin import widgets
-from .models import Gestion
+from .models import GestionModel
+
+class GestionForm(forms.ModelForm):
+    ESTADOS = (
+        ('A', 'Estado A'),
+        ('B', 'Estado B'),
+        ('C', 'Estado C')
+    )
+
+    estado = forms.ChoiceField(
+        label='Estado', 
+        widget=forms.Select(
+            attrs={
+                'placeholder' :'Seleccione un estado',
+                'class': 'form-control', 
+                'style': 'height: 2.5em'}), 
+            choices=ESTADOS)
+    gestion = forms.CharField(
+        label='Gestión', 
+        widget=forms.TextInput(
+            attrs={
+                'placeholder' :'Número de Gestion',
+                'class': 'form-control', 
+                'style': 'height: 2.5em;'})
+    )
+    detalle_gestion = forms.CharField(
+        label='Detalle de gestión', 
+        widget=forms.Textarea(
+            attrs={
+                'placeholder': 'Detalle de gestión', 
+                'class': 'form-control', 
+                'style': 'height: 2.5em;'}), 
+            required=False)
+    equipo_trabajo = forms.CharField(
+        label='Equipo de trabajo', 
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Equipo de trabajo', 
+                'class': 'form-control', 
+                'style': 'height: 2.5em;'}), 
+            required=False)
+    fecha_programada = forms.DateField(
+        widget=forms.DateInput(
+            attrs={
+                'type': 'date', 
+                'class': 'form-control'}))
+    fecha_solucion = forms.DateField(
+        widget=forms.DateInput(
+            attrs={
+                'type': 'date', 
+                'class': 'form-control'}))
+    orden_trabajo = forms.CharField(
+        label='Orden de trabajo', 
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Orden de trabajo', 
+                'class': 'form-control', 
+                'style': 'height: 2.5em'}), 
+            required=False)
+    arbol = forms.CharField(
+        label='Equipo de trabajo', 
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Arbol', 
+                'class': 'form-control', 
+                'style': 'height: 2.5em;'}), 
+            required=False)
+    baja = forms.BooleanField(
+        label='Baja',
+        # widget=forms.CharField(
+        #     attrs={
+        #         'placeholder': 'Baja', 
+        #         'class': 'form-control', 
+        #         'style': 'height: 2.5em;'}),
+            required=False)
+    
+    class Meta:
+        model = GestionModel
+        fields = '__all__'
+        
+class BusquedaForm(forms.Form):
+    campos = (
+        ('none',' --- '),
+        ('medio','medio'),
+        ('fuente','fuente'),
+        ('nombre','nombre'),
+        ('apellido','apellido'),
+        ('dni','dni'),
+        ('celular','celular'),
+        ('tel_fijo','teléfono fijo'),
+        ('mail','mail'),
+        ('calle','calle'),
+        ('altura','altura'),
+        ('edificio','edificio'),
+        ('departamento','departamento'),
+        ('entre_calle_1','entre calle 1'),
+        ('entre_calle_2','entre calle 2'),
+        ('localidad','localidad'),
+        ('urgencia','urgencia'),
+        ('detalle','detalle'),
+        ('lugar','lugar'),
+        ('nota','nota'),
+        ('numero_reclamo','numero de reclamo'),
+        ('reclamo_valido','reclamo valido'),
+        ('trabajo','trabajo'),
+        ('especie','especie'),
+        ('altura','altura'),
+        ('dap','dap'),
+        ('cableado','cableado'),
+        ('construccion','construccion'),
+        ('observaciones','observaciones'),
+        ('urgencia','urgencia'),
+        ('inspector','inspector'),
+        ('estado','estado'),
+        ('gestion','gestion'),
+        ('detalle_gestion','detalle de gestion'),
+        ('equipo_trabajo','equipo de trabajo'),
+        ('ordentrabajo','orden detrabajo')
+    )
+
+    fechas = (
+        ('none', ' --- '),
+        ('fecha', 'fecha'),
+        ('fecha_inspeccion', 'fecha de inspección'),
+        ('fecha_programada', 'fecha programada'),
+        ('fecha_solucion', 'fecha solución')
+    )
+    
+    criterio1_valor = forms.CharField( 
+        label='Criterio 1', 
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Texto a buscar en criterio 1',
+                'class': 'form-control', 
+                'style': 'height: 2.8em'}),
+            required=False)
+    criterio1_campo = forms.ChoiceField(
+        label='Campo', 
+        widget=forms.Select(
+            attrs={
+                'placeholder': 'Campo a filtrar', 
+                'class': 'form-control', 
+                'style': 'height: 2.5em'}), 
+            choices=campos)
+    
+    criterio2_valor = forms.CharField( 
+        label='Criterio 2', 
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Texto a buscar en criterio 2',
+                'class': 'form-control mx-auto', 
+                'style': 'height: 2.8em'}),
+                required=False)
+    criterio2_campo = forms.ChoiceField(
+        label='Campo', 
+        widget=forms.Select(
+            attrs={
+                'placeholder': 'Campo a filtrar', 
+                'class': 'form-control mx-auto', 
+                'style': 'height: 2.5em'}), 
+            choices=campos)
+    
+    criterio3_valor = forms.CharField( 
+        label='Criterio 3', 
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Texto a buscar en criterio 3',
+                'class': 'form-control mx-auto', 
+                'style': 'height: 2.8em'}),
+                required=False)
+    criterio3_campo = forms.ChoiceField(
+        label='Campo', 
+        widget=forms.Select(
+            attrs={
+                'placeholder': 'Campo a filtrar', 
+                'class': 'form-control mx-auto', 
+                'style': 'height: 2.5em'}), 
+            choices=campos)
+
+    criterio4_valor = forms.DateField(
+        widget=forms.DateInput(
+            attrs={
+                'type': 'date', 
+                'class': 'form-control mx-auto', 
+                'style': 'height: 2.8em'}),
+                required=False)
+    criterio4_campo = forms.ChoiceField(
+        label='Fecha a buscar', 
+        widget=forms.Select(
+            attrs={
+                'placeholder': 'Fecha a filtrar', 
+                'class': 'form-control mx-auto', 
+                'style': 'height: 2.5em'}), 
+            choices=fechas)
 
 class GesContacto(forms.Form):
     medio = forms.CharField(
@@ -150,7 +343,6 @@ class GesContacto(forms.Form):
                 'style': 'height: 10em'}),
         required=False)
 
-
 class GesInspector(forms.Form):
     nombre = forms.CharField(
         label='Inspector designado',
@@ -181,7 +373,6 @@ class GesInspector(forms.Form):
                 'class': 'form-control', 
                 'style': 'height: 10em'}), 
             required=False)
-
 
 class GesInspeccion(forms.Form):
     especies = (
@@ -311,197 +502,3 @@ class GesInspeccion(forms.Form):
                 'class': 'form-control', 
                 'style': 'height: 2.5em'}), 
             choices=inspectores)
-
-
-class GestionForm(forms.ModelForm):
-    ESTADOS = (
-        ('A', 'Estado A'),
-        ('B', 'Estado B'),
-        ('C', 'Estado C')
-    )
-
-    estado = forms.ChoiceField(
-        label='Estado', 
-        widget=forms.Select(
-            attrs={
-                'placeholder' :'Seleccione un estado',
-                'class': 'form-control', 
-                'style': 'height: 2.5em'}), 
-            choices=ESTADOS)
-    gestion = forms.CharField(
-        label='Gestión', 
-        widget=forms.TextInput(
-            attrs={
-                'placeholder' :'Número de Gestion',
-                'class': 'form-control', 
-                'style': 'height: 2.5em;'})
-    )
-    detalle_gestion = forms.CharField(
-        label='Detalle de gestión', 
-        widget=forms.Textarea(
-            attrs={
-                'placeholder': 'Detalle de gestión', 
-                'class': 'form-control', 
-                'style': 'height: 2.5em;'}), 
-            required=False)
-    equipo_trabajo = forms.CharField(
-        label='Equipo de trabajo', 
-        widget=forms.TextInput(
-            attrs={
-                'placeholder': 'Equipo de trabajo', 
-                'class': 'form-control', 
-                'style': 'height: 2.5em;'}), 
-            required=False)
-    fecha_programada = forms.DateField(
-        widget=forms.DateInput(
-            attrs={
-                'type': 'date', 
-                'class': 'form-control'}))
-    fecha_solucion = forms.DateField(
-        widget=forms.DateInput(
-            attrs={
-                'type': 'date', 
-                'class': 'form-control'}))
-    orden_trabajo = forms.CharField(
-        label='Orden de trabajo', 
-        widget=forms.TextInput(
-            attrs={
-                'placeholder': 'Orden de trabajo', 
-                'class': 'form-control', 
-                'style': 'height: 2.5em'}), 
-            required=False)
-    arbol = forms.CharField(
-        label='Equipo de trabajo', 
-        widget=forms.TextInput(
-            attrs={
-                'placeholder': 'Arbol', 
-                'class': 'form-control', 
-                'style': 'height: 2.5em;'}), 
-            required=False)
-    baja = forms.BooleanField(
-        label='Baja',
-        # widget=forms.CharField(
-        #     attrs={
-        #         'placeholder': 'Baja', 
-        #         'class': 'form-control', 
-        #         'style': 'height: 2.5em;'}),
-            required=False)
-    
-    class Meta:
-        model = Gestion
-        fields = '__all__'
-        
-class BusquedaForm(forms.Form):
-    campos = (
-        ('none',' --- '),
-        ('medio','medio'),
-        ('fuente','fuente'),
-        ('nombre','nombre'),
-        ('apellido','apellido'),
-        ('dni','dni'),
-        ('celular','celular'),
-        ('tel_fijo','teléfono fijo'),
-        ('mail','mail'),
-        ('calle','calle'),
-        ('altura','altura'),
-        ('edificio','edificio'),
-        ('departamento','departamento'),
-        ('entre_calle_1','entre calle 1'),
-        ('entre_calle_2','entre calle 2'),
-        ('localidad','localidad'),
-        ('urgencia','urgencia'),
-        ('detalle','detalle'),
-        ('lugar','lugar'),
-        ('nota','nota'),
-        ('numero_reclamo','numero de reclamo'),
-        ('reclamo_valido','reclamo valido'),
-        ('trabajo','trabajo'),
-        ('especie','especie'),
-        ('altura','altura'),
-        ('dap','dap'),
-        ('cableado','cableado'),
-        ('construccion','construccion'),
-        ('observaciones','observaciones'),
-        ('urgencia','urgencia'),
-        ('inspector','inspector'),
-        ('estado','estado'),
-        ('gestion','gestion'),
-        ('detalle_gestion','detalle de gestion'),
-        ('equipo_trabajo','equipo de trabajo'),
-        ('ordentrabajo','orden detrabajo')
-    )
-
-    fechas = (
-        ('none', ' --- '),
-        ('fecha', 'fecha'),
-        ('fecha_inspeccion', 'fecha de inspección'),
-        ('fecha_programada', 'fecha programada'),
-        ('fecha_solucion', 'fecha solución')
-    )
-    
-    criterio1_valor = forms.CharField( 
-        label='Criterio 1', 
-        widget=forms.TextInput(
-            attrs={
-                'placeholder': 'Texto a buscar en criterio 1',
-                'class': 'form-control', 
-                'style': 'height: 2.8em'}),
-            required=False)
-    criterio1_campo = forms.ChoiceField(
-        label='Campo', 
-        widget=forms.Select(
-            attrs={
-                'placeholder': 'Campo a filtrar', 
-                'class': 'form-control', 
-                'style': 'height: 2.5em'}), 
-            choices=campos)
-    
-    criterio2_valor = forms.CharField( 
-        label='Criterio 2', 
-        widget=forms.TextInput(
-            attrs={
-                'placeholder': 'Texto a buscar en criterio 2',
-                'class': 'form-control mx-auto', 
-                'style': 'height: 2.8em'}),
-                required=False)
-    criterio2_campo = forms.ChoiceField(
-        label='Campo', 
-        widget=forms.Select(
-            attrs={
-                'placeholder': 'Campo a filtrar', 
-                'class': 'form-control mx-auto', 
-                'style': 'height: 2.5em'}), 
-            choices=campos)
-    
-    criterio3_valor = forms.CharField( 
-        label='Criterio 3', 
-        widget=forms.TextInput(
-            attrs={
-                'placeholder': 'Texto a buscar en criterio 3',
-                'class': 'form-control mx-auto', 
-                'style': 'height: 2.8em'}),
-                required=False)
-    criterio3_campo = forms.ChoiceField(
-        label='Campo', 
-        widget=forms.Select(
-            attrs={
-                'placeholder': 'Campo a filtrar', 
-                'class': 'form-control mx-auto', 
-                'style': 'height: 2.5em'}), 
-            choices=campos)
-
-    criterio4_valor = forms.DateField(
-        widget=forms.DateInput(
-            attrs={
-                'type': 'date', 
-                'class': 'form-control mx-auto', 
-                'style': 'height: 2.8em'}),
-                required=False)
-    criterio4_campo = forms.ChoiceField(
-        label='Fecha a buscar', 
-        widget=forms.Select(
-            attrs={
-                'placeholder': 'Fecha a filtrar', 
-                'class': 'form-control mx-auto', 
-                'style': 'height: 2.5em'}), 
-            choices=fechas)
