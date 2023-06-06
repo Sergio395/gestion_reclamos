@@ -12,6 +12,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from apps.inspeccion.models import inspecciones
 from apps.inspeccion.forms import NuevaInspeccion
+from apps.reclamos.forms import DenuncianteForm, ReclamoForm
 
 # Create your views here.    
 def gestion_index(request):
@@ -22,7 +23,7 @@ def gestion_index(request):
     '''
     form_busqueda = BusquedaForm(request.POST or None)
     try:
-        gestion = GestionModel.objects.filter(baja=False)
+        gestion = GestionModel.objects.filter(eliminado=False)
     except GestionModel.DoesNotExist:
         return render(request, 'gestion/gestion_prueba.html')
     try:
@@ -94,7 +95,7 @@ def preparar_filtro(criterio):
 
     Model.objects.filter(**your_filters)
     '''
-    filtro = {'baja':False}
+    filtro = {'eliminado':False}
     
     if criterio['criterio1_campo'] != 'none':
         filtro[criterio['criterio1_campo']] = criterio['criterio1_valor']
@@ -128,11 +129,14 @@ class GestionListView(ListView):
         return context
 
 class GestionCreateView(edit.CreateView):
-    """Vista para asociar una inspeccion a un GestionForm.
+    """Vista para crear un numero de gestion asociada a un reclamo(inspeccion).
     """
+#--------------- Voy revisando por aca -----
     model = GestionModel
     form_class = GestionForm
-    inspecciones_form_class = NuevaInspeccion # estaria bueno que se llame NuevaInspeccionForm
+    denunciante_form_class = DenuncianteForm
+    reclamo_form_class = ReclamoForm
+    inspecciones_form_class = NuevaInspeccion # estaria bueno cambiarle el nombre
     template_name = 'gestion/gestion_form.html'
     success_url = reverse_lazy('gestion_form')
 
@@ -152,45 +156,51 @@ class GestionCreateView(edit.CreateView):
         Retorna la página de creación de reclamo con los campos de formulario vacíos.
         """
         gestion_form = self.form_class()
-        inspecciones_form = self.denunciante_form_class()
+        reclamo_form = self.reclamo_form_class()
+        denunciante_form = self.denunciante_form_class()
+        inspecciones_form = self.inspecciones_form_class()
         return render(request, self.template_name, {
-            'gestion_form': gestion_form, 'inspecciones_form': inspecciones_form})
+            'gestion_form': gestion_form,'reclamo_form': reclamo_form, 'denunciante_form': denunciante_form, 'inspecciones_form': inspecciones_form})
 
     def post(self, request, *args, **kwargs):
         """Maneja la solicitud POST para la vista.
 
         Valida los formularios de reclamo y denunciante. Si son válidos, llama a form_valid(). De lo contrario, llama a form_invalid().
         """
-        gestion_form = self.form_class(request.POST, request.FILES)
+        gestion_form = self.form_class(request.POST)
+        reclamo_form = self.reclamo_form_class(request.POST, request.FILES)
+        denunciante_form = self.denunciante_form_class(request.POST)
         inspecciones_form = self.inspecciones_form_class(request.POST)
 
-        if gestion_form.is_valid() and inspecciones_form.is_valid():
-            return self.form_valid(gestion_form, inspecciones_form)
+        if gestion_form.is_valid() and reclamo_form.is_valid() and denunciante_form.is_valid() and inspecciones_form.is_valid():
+            return self.form_valid(gestion_form, reclamo_form, denunciante_form, inspecciones_form)
         else:
-            return self.form_invalid(gestion_form, inspecciones_form)
+            return self.form_invalid(gestion_form, reclamo_form, denunciante_form, inspecciones_form)
 
-    def form_valid(self, gestion_form, inspecciones_form):
+    def form_valid(self, gestion_form, reclamo_form, denunciante_form, inspecciones_form):
         """Guarda el reclamo y el denunciante en la base de datos.
 
         Muestra un mensaje de éxito y redirige a la URL de creación de reclamo con los campos vacíos.
         """
         messages.success(self.request, 'Reclamo creado con éxito')
         gestion = gestion_form.save(commit=False)
+        reclamo = reclamo_form.save()
+        denunciante = denunciante_form.save()
         inspecciones = inspecciones_form.save()
         gestion.save()
-        # reclamo.denunciantes.add(denunciante) // No entiendo bien para que hace esto
+        gestion.inspecciones.add(inspecciones[pk])
         return redirect(self.success_url)
 
-    def form_invalid(self, gestion_form, inspecciones_form):
+    def form_invalid(self, gestion_form, reclamo_form, denunciante_form, inspecciones_form):
         """Maneja el caso en que los formularios son inválidos.
 
         Muestra un mensaje de error y vuelve a renderizar la página de creación de reclamo.
         """
         messages.error(self.request, 'Revisa los campos del formulario')
-        return render(self.request, self.template_name, {
-            'gestion_form': gestion_form, 'inspecciones_form': inspecciones_form})
+        return render(self.request, self.template_name, {self, gestion_form, reclamo_form, denunciante_form, inspecciones_form})
 
 
+#---------------------------
 #  mod_date = models.DateField(default=date.today)
 # ---- Así funcionaba con listas ----
 

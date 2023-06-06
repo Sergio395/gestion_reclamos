@@ -31,7 +31,7 @@ class GestionForm(forms.ModelForm):
             attrs={
                 'placeholder': 'Detalle de gestión', 
                 'class': 'form-control', 
-                'style': 'height: 2.5em;'}), 
+                'style': 'height: 10em;'}), 
             required=False)
     equipo_trabajo = forms.CharField(
         label='Equipo de trabajo', 
@@ -67,14 +67,23 @@ class GestionForm(forms.ModelForm):
                 'class': 'form-control', 
                 'style': 'height: 2.5em;'}), 
             required=False)
-    baja = forms.BooleanField(
-        label='Baja',
+    # inspecciones = forms.ChoiceField(
+    #     label='Inspecciones', 
+    #     widget=forms.Select(
+    #         attrs={
+    #             'placeholder' :'Seleccione una inspeccion',
+    #             'class': 'form-control', 
+    #             'style': 'height: 2.5em'}),
+    #         required=False)
+    
+    # baja = forms.BooleanField(
+    #     label='Baja',
         # widget=forms.CharField(
         #     attrs={
         #         'placeholder': 'Baja', 
         #         'class': 'form-control', 
         #         'style': 'height: 2.5em;'}),
-            required=False)
+            # required=False)
     
     class Meta:
         model = GestionModel

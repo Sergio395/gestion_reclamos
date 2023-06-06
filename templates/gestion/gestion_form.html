@@ -3,7 +3,7 @@
   {% if accion == 'actualizar' %}
     Inspecciones: {{ pk }}
   {% else %}
-    Nuevo reclamo
+    Nuevo Gestion
   {% endif %}
 {% endblock titulo %}
 
@@ -43,9 +43,9 @@
 <!-- ======= Breadcrumbs ======= -->
 {% block etiqueta %}
   {% if accion == 'actualizar' %}
-    Editar reclamo
+    Editar Gestion
   {% else %}
-    Nuevo reclamo
+    Nuevo Gestion
   {% endif %}
 {% endblock etiqueta %}
 {% block nav %}
@@ -96,54 +96,85 @@
             </script>
           {% endif %}
 
-          <form class="php-email-form" id="reclamo_form" name="reclamo_form" action="{{ action_url }}" method="POST" enctype="multipart/form-data" novalidate>
+          <form class="php-email-form" id="reclamo_form" name="gestion_form" action="{{ action_url }}" method="POST" enctype="multipart/form-data" novalidate>
             {% csrf_token %}
 
-            <!-- Bloque 1: Internos -->
-            <h4>Datos Internos</h4>
+            <!-- Bloque 1: Denunciante -->
+            <h4>Datos denunciante</h4>
             <hr>
             <div class="row">
-              {% for campo in gestion_form %}
-                {% if campo.name != 'detalle' and forloop.counter <= 4 %}
+              {% for campo in denunciante_form %}
+                {% if campo.name == 'detalle' or campo.name == 'detalles' or campo.name == 'observaciones' %}
+                  <div class="col-md-12 form-group mt-3 mt-md-0">
+                    <label class="form-label" for="{{ campo.name }}">{{ campo.label }}</label>
+                    <div> {{ campo }}</div> 
+                  </div>
+                {% else %}
                   <div class="col-md-6 form-group mb-1" >
-                    {% comment %} {% include 'reclamos/reclamo_form_validaciones.html' %} {% endcomment %}
+                    <label class="form-label" for="{{ campo.name }}">{{ campo.label }}</label>
+                    <div> {{ campo }} </div>
                   </div>
                 {% endif %}
               {% endfor %}
             </div>
 
-            <!-- Bloque 2: Denunciante -->
+            <!-- Bloque 2: Reclamo -->
             <br>
-            <h4>Datos de Inspeccion</h4>
+            <h4>Datos de reclamo</h4>
+            <hr>
+            <div class="row">
+              {% for campo in reclamo_form %}
+                {% if campo.name == 'detalle' or campo.name == 'detalles' or campo.name == 'observaciones' %}
+                  <div class="col-md-12 form-group mt-3 mt-md-0">
+                    <label class="form-label" for="{{ campo.name }}">{{ campo.label }}</label>
+                    <div> {{ campo }}</div>
+                  </div>
+                {% else %}
+                  <div class="col-md-6 form-group mb-1" >
+                    <label class="form-label" for="{{ campo.name }}">{{ campo.label }}</label>
+                    <div> {{ campo }}</div>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+
+            <!-- Bloque 3: Inspecciones -->
+            <br>
+            <h4>Datos de inspeccion</h4>
             <hr>
             <div class="row">
               {% for campo in inspecciones_form %}
-                <div class="col-md-6 form-group mb-1" >
-                  {% comment %} {% include 'reclamos/reclamo_form_validaciones.html' %} {% endcomment %}
-                </div>
+                {% if campo.name == 'detalle' or campo.name == 'detalles' or campo.name == 'observaciones_sitio' %}
+                  <div class="col-md-12 form-group mt-3 mt-md-0">
+                    <label class="form-label" for="{{ campo.name }}">{{ campo.label }}</label>
+                    <div> {{ campo }}</div>
+                  </div> 
+                {% else %}
+                  <div class="col-md-6 form-group mb-1" >
+                    <label class="form-label" for="{{ campo.name }}">{{ campo.label }}</label>
+                    <div> {{ campo }}</div>
+                  </div>
+                {% endif %}
               {% endfor %}
             </div>
-
-            <!-- Bloque 3: Reclamo -->
             <br>
-            <h4>Datos del Reclamo</h4>
+            <h4>Datos de Gestion</h4>
             <hr>
             <div class="row">
               {% for campo in gestion_form %}
-                {% if campo.name != 'detalle' and forloop.counter > 4 %}
-                  <div class="col-md-6 form-group mb-1" >
-                    {% comment %} {% include 'reclamos/reclamo_form_validaciones.html' %} {% endcomment %}
-                  </div>
-                {% endif %}
-
-                {% if campo.name == 'detalle' %}
+                {% if campo.name == 'detalle_gestion' or campo.name == 'detalles' or campo.name == 'observaciones' %}
                   <div class="col-md-12 form-group mt-3 mt-md-0">
-                    {% comment %} {% include 'reclamos/reclamo_form_validaciones.html' %} {% endcomment %}
+                    <label class="form-label" for="{{ campo.name }}">{{ campo.label }}</label>
+                    <div> {{ campo }}</div>
+                  </div> 
+                {% else %}
+                  <div class="col-md-6 form-group mb-1" >
+                    <label class="form-label" for="{{ campo.name }}">{{ campo.label }}</label>
+                    <div> {{ campo }}</div>
                   </div>
                 {% endif %}
               {% endfor %}
             </div>
-            <br>
             <div class="row">
               <div class="text-center col-md-4 form-group mt-3 mt-md-0">
                 <button id="btn-button" onclick="window.history.go(-1); return false;" type="button">

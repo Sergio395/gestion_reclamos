@@ -13,7 +13,8 @@ urlpatterns = [
     
     # -- VBC --
     path('lista/', views.GestionListView.as_view(), name='gestion_lista'),
-    path('nuevo/', views.GestionCreateView.as_view(), name='gestion_form'),
+    path('nuevo/<int:pk>/', views.GestionCreateView.as_view(), name='gestion_nuevo'),
+    # path('nuevo/', views.GestionCreateView.as_view(), name='gestion_form'),
     
     # path('nuevo/', views.ReclamoCreateView.as_view(), name='reclamo_form'),
     # path('seguimiento/', views.ReclamoListView.as_view(), name='seguimiento'),
