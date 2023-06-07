@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.admin import widgets
+from .models import Gestion
 
 class GesContacto(forms.Form):
     medio = forms.CharField(
@@ -312,71 +313,85 @@ class GesInspeccion(forms.Form):
             choices=inspectores)
 
 
-class GesGestion (forms.Form):
-    estados = (
-        (1, 'Estado A'),
-        (2, 'Estado B'),
-        (3, 'Estado C')
+class GestionForm(forms.ModelForm):
+    ESTADOS = (
+        ('A', 'Estado A'),
+        ('B', 'Estado B'),
+        ('C', 'Estado C')
     )
 
     estado = forms.ChoiceField(
-        label='inspector', 
+        label='Estado', 
         widget=forms.Select(
             attrs={
                 'placeholder' :'Seleccione un estado',
                 'class': 'form-control', 
                 'style': 'height: 2.5em'}), 
-            choices=estados)
-    
+            choices=ESTADOS)
     gestion = forms.CharField(
         label='Gestión', 
         widget=forms.TextInput(
             attrs={
-                'placeholder' :'No sé que va acá',
+                'placeholder' :'Número de Gestion',
                 'class': 'form-control', 
                 'style': 'height: 2.5em;'})
     )
-    
     detalle_gestion = forms.CharField(
         label='Detalle de gestión', 
         widget=forms.Textarea(
             attrs={
                 'placeholder': 'Detalle de gestión', 
                 'class': 'form-control', 
-                'style': 'height: 5em;'}), 
+                'style': 'height: 2.5em;'}), 
             required=False)
-    
     equipo_trabajo = forms.CharField(
         label='Equipo de trabajo', 
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'Equipo de trabajo', 
                 'class': 'form-control', 
-                'style': 'height: 5em;'}), 
+                'style': 'height: 2.5em;'}), 
             required=False)
-
     fecha_programada = forms.DateField(
         widget=forms.DateInput(
             attrs={
                 'type': 'date', 
                 'class': 'form-control'}))
-
     fecha_solucion = forms.DateField(
         widget=forms.DateInput(
             attrs={
                 'type': 'date', 
                 'class': 'form-control'}))
-        
-    ordentrabajo = forms.CharField(
+    orden_trabajo = forms.CharField(
         label='Orden de trabajo', 
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'Orden de trabajo', 
                 'class': 'form-control', 
-                'style': 'height: 5em'}), 
+                'style': 'height: 2.5em'}), 
             required=False)
+    arbol = forms.CharField(
+        label='Equipo de trabajo', 
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Arbol', 
+                'class': 'form-control', 
+                'style': 'height: 2.5em;'}), 
+            required=False)
+    baja = forms.BooleanField(
+        label='Baja',
+        # widget=forms.CharField(
+        #     attrs={
+        #         'placeholder': 'Baja', 
+        #         'class': 'form-control', 
+        #         'style': 'height: 2.5em;'}),
+            required=False)
+    
+    class Meta:
+        model = Gestion
+        fields = '__all__'
         
-class GesBusqueda(forms.Form):
+class BusquedaForm(forms.Form):
     campos = (
         ('none',' --- '),
         ('medio','medio'),

@@ -1,5 +1,41 @@
 from django.db import models
-from apps.reclamos.models import  Reclamo, Arbol
+
+from .choices import lugares, reclamo, trabajos, inspectores,especies,urgencias
+
+class Inspeccion(models.Model):
+        
+    fecha_inspeccion = models.DateField(verbose_name='Fecha de inspección')
+    reclamo = models.CharField(max_length=100, verbose_name="Reclamo a inspeccionar",choices=reclamo, default='01')
+    inspector = models.CharField(max_length=100, verbose_name="Inspector",choices=inspectores,default='01')
+    lugar = models.CharField(max_length=100, choices=lugares,default='ZN')
+    nota = models.CharField(max_length=300, verbose_name="nota",null=False,blank=True)
+    foto = models.ImageField(upload_to='img_reclamos', null=True, blank=True, verbose_name="Fotos")
+    especie=models.CharField(max_length=100, verbose_name="Especie",choices=especies,default='1')
+    trabajo = models.CharField(max_length=100, choices=trabajos,default='1')
+    def __str__(self):
+        return "{} - {}, {} // {} ".format(self.reclamo, self.inspector, self.lugar,self.fecha_inspeccion)
+    
+    class Meta:
+        verbose_name = "Inspeccion"
+        verbose_name_plural = "Inspecciones"
+        db_table = "inspeccion"
+        ordering = ['fecha_inspeccion','lugar', 'reclamo']
+    
+class Arbol(models.Model):
+    
+    inspeccion = models.ForeignKey(Inspeccion, null=True, blank=True, on_delete=models.CASCADE)
+    
+    
+    urgencia=models.CharField(max_length=100,choices=urgencias,default='1')
+    def __str__(self):
+        texto= '{} '
+        return texto.format(self.inspeccion)
+    
+
+from apps.reclamos.models import ReclamoModel
+#from apps.reclamos.models import Arbol
+from ..base.constants import choices
+
 from apps.administracion.models import Usuario
  
 class Especies(models.Model):
@@ -49,7 +85,7 @@ class inspecciones(models.Model):
     #UrgenciaChoices = (('BLANK ' , ' '), ('BAJA','BAJA'),('MEDIA','MEDIA'),('ALTA','ALTA'))  
     no_requiere_inspeccion 	=  models.BooleanField(default=False)           
     fecha_de_inspeccion	=  models.DateField(auto_now_add=False, verbose_name="Fecha de inspeccion")
-    reclamo = models.ForeignKey(Reclamo, verbose_name=("Reclamo"), on_delete=models.CASCADE)
+    reclamo = models.ForeignKey(ReclamoModel, verbose_name=("Reclamo"), on_delete=models.CASCADE)
     disposicion = models.CharField(max_length=20 ,verbose_name=("Disposicion"), default="", choices=DisposicionChoices)    
     trabajo_a_realizar	=  models.ForeignKey(Trabajos, verbose_name=("trabajos"), on_delete=models.CASCADE,null=True) 
     especie=  models.ForeignKey(Especies, verbose_name=("Especie"), on_delete=models.CASCADE)       
@@ -58,13 +94,13 @@ class inspecciones(models.Model):
     cableado_cercano = models.CharField(max_length=50, verbose_name="Cableado_cercano",default="", null=True)
     construccion_cercana = models.CharField(max_length=50, verbose_name="Construccion_cercana", null=True)	
     observaciones_sitio= models.CharField(max_length=50, verbose_name="Observaciones" ,default="", null=True)	
-    urgencia_trabajo = models.CharField (max_length=5, verbose_name="Urgencia", choices=Reclamo.UrgenciaChoices.choices,
-                                        default=Reclamo.UrgenciaChoices.BLANK) 
+    urgencia_trabajo = models.CharField (max_length=5, verbose_name="Urgencia", choices=choices.UrgenciaChoices.choices,
+                                        default=choices.UrgenciaChoices.BLANK) 
     justificacion = models.CharField(max_length=50, verbose_name="Justificacion")	
-    inspector = models.ForeignKey(Usuario,verbose_name=("inspector"),on_delete=models.CASCADE,default="") 	
+    inspector = models.ForeignKey(Usuario,verbose_name=("inspector"),on_delete=models.CASCADE,default="",null=True) 	
     fecha_carga_inspeccion=	models.DateField(auto_now_add=False, verbose_name="Fecha_carga_inspeccion")
     codigo_trabajo = models.CharField(max_length=50, verbose_name="Codigo_trabajo")
-    arbol = models.ForeignKey(Arbol,verbose_name=("arbol"), on_delete=models.CASCADE,null=True)
+    arbol = models.ForeignKey(Arbol,verbose_name=("arbol"), on_delete=models.CASCADE,null=True,blank="")
     foto = models.ImageField(upload_to='img_reclamos', null=True,
                             blank=True, verbose_name="Fotos") # img_reclamos define la ruta donde se almacenan las fotos
     eliminado=models.BooleanField(default=False)
@@ -80,13 +116,4 @@ class inspecciones(models.Model):
     def restore(self):
         self.eliminado = False
         super().save()
-        
 
-        
-        
-        
-        
-        
-        
-    
-    

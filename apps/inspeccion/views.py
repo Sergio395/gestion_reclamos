@@ -1,11 +1,12 @@
 # from datetime import datetime
 # from django.contrib import messages
 # from django.forms import ValidationError
-# from django.http import HttpResponse
+from django.http import HttpResponse
 # from django.template import loader
 from django.shortcuts import render,redirect
 from django.http import HttpResponseNotAllowed
 from .forms import ContactoForm, NuevaInspeccion, NuevaCertificacion
+
 from django.http import HttpResponseNotAllowed, HttpResponseRedirect
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -13,11 +14,16 @@ from django.urls import reverse_lazy
 from .models import inspecciones
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
-from apps.reclamos.models import Reclamo 
-from apps.reclamos.forms import NuevoReclamo 
+from apps.reclamos.models import ReclamoModel 
+from apps.reclamos.forms import ReclamoForm 
+ 
 
 
-
+# def db_inspeccion(request):
+#     inspeccionesRealizadas = Inspeccion.objects.all()
+#     return render (request, 'inspeccion/inspecciones.html',{'inspecciones':inspeccionesRealizadas  })
+    
+ 
 
 def inspeccion(request):
     mensaje = None
@@ -81,28 +87,78 @@ def delete_inspeccion(request, pk):
 def mostrar_reclamo(request, pk):
     
     try:
-        reclamo = Reclamo.objects.get(id=pk)
-    except Reclamo.DoesNotExist:
+        reclamo = ReclamoModel.objects.get(id=pk)
+    except ReclamoModel.DoesNotExist:
         return render(request, 'administracion/404_admin.html')
-    return render(request, 'inspeccion/inspeccion_mostrar.html', {'form': reclamo})
-
-
-def grabar_numero(request, pk):
-    # busco los codigos de trabajo que existan en la bbdd que coinciden con el numero de raclamo quee estoy cargando
-    lista_codigos = list(inspecciones.objects.filter(reclamo_id=pk))
-    valor = lista_codigos
+    #formulario = ReclamoForm(request.POST or None, request.FILES or None, instance=reclamo)
     
+
+
+    return render(request, 'inspeccion/inspeccion_mostrar.html', {'form': reclamo})
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    
-    #reclamo=lista_codigos.numeros
-        
-    #obtengo el codigo de trabajo con ams alta repitancia en la lista codigo de trabajos y le sumo uno.
-    # for codigo in lista_codigos:    
-        # valor=codigo[1]
-        # for i in valor:
-            # reclamo = i
-    return render(request, 'inspeccion/ver.html', {'valor': valor})
-                    
-        
+   
+   
+   
+   
+   
+   
+   
+ 
+    
+    # class InspeccionesDeleteView(DeleteView):
+    
+        # model = inspecciones
+        # template_name = 'inspeccion/inspeccion_listar.html'
+        # success_url = reverse_lazy('inspeccion')
+
+        # # se puede sobreescribir el metodo delete por defecto de la VBC, para que no se realice una baja fisica
+        # def delete(self, request, *args, **kwargs):
+            # self.object = self.get_object()
+            # self.object.soft_delete()  # Llamada al método soft_delete() del modelo
+            # return HttpResponseRedirect(self.get_success_url())
+
+    
+    
+    
     
 
 #------------------------------------------------------------------------------------------------------------------------------
@@ -132,4 +188,8 @@ def carga_certificacion(request):
 
     return render(request, 'inspeccion/nueva_certificacion.html', context)
 
-#------------------------------------------------------------------------------------------------------------------------------
+
+
+# class InspeccionListView(ListView):
+#     model = Inspeccion
+#     template_name = 'inspeccion/gestion_inspecciones.html'

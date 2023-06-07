@@ -13,50 +13,15 @@
 
             <form action="" method="post" role="form" class="php-email-form">
                 {% csrf_token %}
-                <hr>
-                <div class="row form-group mb-2">
-                    <label class="col-2 col form-label"><b>Usuario:</b></label>
-                    <div class="col-10">
-                    <input class="form-control"type="text" value="{{usuario.0}}"  name="usuario" id=""></div>
-                </div>  
-                <hr>
-                <div class="row form-group mb-2">
-                    <label class="col-2 col form-label"><b>Nombre:</b></label>
-                    <div class="col-10">
-                    <input class="form-control"type="text" value="{{usuario.1}}"  name="nombre" id=""></div>
-                </div>  
-                <hr>
-                <div class="row form-group mb-2">
-                    <label class="col-2 col form-label"><b>Apellido:</b></label>
-                    <div class="col-10">
-                    <input class="form-control"type="text" value="{{usuario.2}}"  name="apellido" id=""></div>
-                </div>  
-                <hr>
-                <div class="row form-group mb-2">
-                    <label class="col-2 col form-label"><b>Contraseña:</b></label>
-                    <div class="col-10">
-                    <input class="form-control"type="text" value="{{usuario.3}}"  name="contraseña" id=""></div>
-                </div> 
-                <hr>
-                <div class="row  form-group mb-2">
-                    <label class="col-2 col form-label"><b>Permisos:</b></label>
-                    <div class="col-10">
-                    <input class="form-control"type="text" value="{{usuario.4}}"  name="permisos" id=""></div>
-                </div>  
-                <hr> 
-                <div class="row form-group mb-2">
-                    <label class="col-2 col form-label"><b>Legajo:</b></label>
-                    <div class="col-10">
-                    <input class="form-control"type="text" value="{{usuario.5}}"  name="legajo" id=""></div>
-                </div> 
-                <hr> 
-
+                <table class="table">
+                  {{form.as_table }}
+                </table>          
                 <div class="row mt-5">
-                    <div class="text-center col-md-4 mt-5 mt-md-0"><button type="submit" class="btn btn-success">Grabar</button></div>
-                    <div class="text-center col-md-4 mt-5 mt-md-0"><a href="{%url 'usuario'%}"><button type="button"
-                    class="btn btn-primary">Volver</button></a></div>
-                </div>           
-
+                  <div class="text-center col-md-2 form-group mt-5 mt-md-0"><a href="{%url 'orden_compra'%}"><button
+                        type="button" class="btn btn-primary">Volver</button></a></div>
+                  <div class="text-center col-md-2 form-group mt-5 mt-md-0"><button type="submit"
+                      class="btn btn-success">Cargar</button></div>
+                </div>    
             </form>
           </div>
         </div>

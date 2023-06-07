@@ -1,0 +1,193 @@
+{% extends 'base/base.html' %}
+{% block titulo %}
+  {% if accion == 'actualizar' %}
+    Reclamo: {{ numero_reclamo }}
+  {% else %}
+    Nuevo reclamo
+  {% endif %}
+{% endblock titulo %}
+
+{% block css %}
+  <style>
+    label {
+      color: #008375;
+    }
+    div.text-center button {
+      width: 180px;
+    }
+    button#btn-reset {
+      background: DarkTurquoise;
+      border: 0;
+      padding: 14px 45px;
+      color: #fff;
+      transition: 0.4s;
+      border-radius: 50px;
+    }
+    button#btn-reset:hover {
+      background: Turquoise;
+    }
+    button#btn-button {
+      background: Crimson;
+      border: 0;
+      padding: 14px 45px;
+      color: #fff;
+      transition: 0.4s;
+      border-radius: 50px;
+    }
+    button#btn-button:hover {
+      background: Red;
+    }
+  </style>
+{% endblock css %}
+
+<!-- ======= Breadcrumbs ======= -->
+{% block etiqueta %}
+  {% if accion == 'actualizar' %}
+    Editar reclamo
+  {% else %}
+    Nuevo reclamo
+  {% endif %}
+{% endblock etiqueta %}
+{% block nav %}
+  {% if accion == 'actualizar' %}
+    <nav>
+      <div class="container">   
+        <ol>
+          <li><a href="{% url 'index' %}">Inicio</a></li>
+          <li><a href="{% url 'seguimiento' %}">Seguimiento</a></li>
+          <li>{{ numero_reclamo }}</li>
+        </ol>
+      </div>
+    </nav>
+  {% else %}
+    <nav>
+      <div class="container">   
+        <ol>
+          <li><a href="{% url 'index' %}">Inicio</a></li>
+          <li>Nuevo reclamo</li>
+        </ol>
+      </div>
+    </nav>
+  {% endif %}
+{% endblock nav %}
+
+<!-- End Breadcrumbs -->
+
+{% block contenido %}
+  {% load custom_filters %}
+  <!-- ======= Claim Section ======= -->
+  <section id="contact" class="contact">
+    <div class="container" data-aos="fade-up">
+      <div class="row gx-lg-0 gy-4">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8">
+
+          {% if messages %}
+            {% for message in messages %}
+              <div class="messages alert alert-{% if message.tags == 'error' %}warning{% else %}{{ message.tags }}{% endif %}" role="alert">
+                {{message}}
+              </div>
+            {% endfor %}
+            <script>
+              setTimeout(function() {
+                  var messages = document.getElementsByClassName('messages')[0];
+                  messages.style.display = 'none';
+              }, 5000); // Oculta el mensaje después de 5 segundos
+            </script>
+          {% endif %}
+
+          <form class="php-email-form" id="reclamo_form" name="reclamo_form" action="{{ action_url }}" method="POST" enctype="multipart/form-data" novalidate>
+            {% csrf_token %}
+
+            <!-- Bloque 1: Internos -->
+            <h4>Datos Internos</h4>
+            <hr>
+            <div class="row">
+              {% for campo in reclamo_form %}
+                {% if campo.name != 'detalle' and forloop.counter <= 4 %}
+                  <div class="col-md-6 form-group mb-1" >
+                    {% include 'reclamos/reclamo_form_validaciones.html' %}
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+
+            <!-- Bloque 2: Denunciante -->
+            <br>
+            <h4>Datos del Denunciante</h4>
+            <hr>
+            <div class="row">
+              {% for campo in denunciante_form %}
+                <div class="col-md-6 form-group mb-1" >
+                  {% include 'reclamos/reclamo_form_validaciones.html' %}
+                </div>
+              {% endfor %}
+            </div>
+
+            <!-- Bloque 3: Reclamo -->
+            <br>
+            <h4>Datos del Reclamo</h4>
+            <hr>
+            <div class="row">
+              {% for campo in reclamo_form %}
+                {% if campo.name != 'detalle' and forloop.counter > 4 %}
+                  <div class="col-md-6 form-group mb-1" >
+                    {% include 'reclamos/reclamo_form_validaciones.html' %}
+                  </div>
+                {% endif %}
+
+                {% if campo.name == 'detalle' %}
+                  <div class="col-md-12 form-group mt-3 mt-md-0">
+                    {% include 'reclamos/reclamo_form_validaciones.html' %}
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+            <br>
+            <div class="row">
+              <div class="text-center col-md-4 form-group mt-3 mt-md-0">
+                <button id="btn-button" onclick="window.history.go(-1); return false;" type="button">
+                  {% if accion == 'actualizar' %}
+                    Cancelar
+                  {% else %}
+                    Atrás
+                  {% endif %}
+                </button>
+              </div>
+              <div class="text-center col-md-4 form-group mt-3 mt-md-0">
+                <button id="btn-reset" type="reset">Limpiar</button>
+              </div>
+              <div class="text-center col-md-4 form-group mt-3 mt-md-0">
+                <button type="submit">
+                  {% if accion == 'actualizar' %}
+                    Actualizar
+                  {% else %}
+                    Crear
+                  {% endif %}
+                </button>
+              </div>
+            </div>
+            
+          </form>
+        </div>
+      </div>
+    </div>
+  </section><!-- End Claim Section -->
+
+  {% load static %}
+  {% if accion == 'actualizar' %}
+    <script>
+      // Asignar el valor de las calles seleccionadas a una variable JavaScript
+      var accion = {{ accion }};
+      var calle0 = {{ calle0 }};
+      var calle1 = {{ calle1 }};
+      var calle2 = {{ calle2 }};
+    </script>
+  {% else %}
+    <script>
+      var accion = 'crear';
+    </script>
+  {% endif %}
+
+  <script src="{% static 'reclamos/js/mostrar_calles.js' %}"></script>
+{% endblock contenido %}

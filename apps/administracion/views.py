@@ -1,13 +1,14 @@
 # from datetime import datetime
 # from django.http import HttpResponse
 # from django.template import loader
+from typing import Any
 from django.shortcuts import render, redirect
-from django.http import HttpResponseNotAllowed, HttpResponseRedirect
+from django.http import HttpRequest, HttpResponse, HttpResponseNotAllowed, HttpResponseRedirect
 from .forms import Userform, AdminForm, Nuevaform ,Newuserform, Edituserform, Empresaform, OrdencompraForm
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
-from .models import Empresa, OrdenCompra
+from .models import Empresa, OrdenCompra, Usuario
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
 
@@ -18,28 +19,68 @@ def admin(request):
     return render(request, 'administracion/admin_index.html', {})
 
 
-def usuario(request):
-    users = [("Chavodelocho", "Chavo", "delocho", 8888, "Admin", 14000),
-             ("kiko", "Federdo", "Garcia", 3333, "Inspector", 14001),
-             ("candelaylamoto?", "Candela", "Moto", 2222, "Gestor", 14002),
-             ("chilindrina", "Chili", "Peppers", 1111, "basico", 14003)]
-    mensaje = None
-    if request.method == 'POST':
-        User_form = Userform(request.POST)
-        mensaje = 'Hemos recibido tus datos'
+"""
+    IMPLEMENTACION DE CRUD DE CATEGORIA POR MEDIO DE VISTAS BASADAS EN CLASES (VBC)
+"""
 
-    elif request.method == 'GET':
-        User_form = Userform()
-    else:
-        return HttpResponseNotAllowed(f"Método {request.method} no soportado")
+#------------------------------------crud usuario-----------------------------------------------------------------------   
 
-    context = {
-        'users': users,
-        'mensaje': mensaje,
-        'Userform': User_form
-    }
-    return render(request, 'administracion/usuarios.html', context)
+class UserListView(ListView):
+    model = Usuario
+    context_object_name = 'users'
+    template_name = 'administracion/usuarios.html'
+    queryset = Usuario.objects.filter(eliminado=False)
+    #ordering = ['apellido']
 
+
+class UserCreateView(CreateView):
+    model = Usuario
+    form_class = Userform
+    template_name = 'administracion/nuevo_usuario.html'
+    success_url = reverse_lazy('usuario')
+    
+ 
+
+class UserUpdateView(UpdateView):
+    
+    model = Usuario
+    form_class = Userform
+    template_name = 'administracion/edit_usuario.html'
+    success_url = reverse_lazy('usuario')
+    
+    #Si queremos sobrescribir la obtención del objeto
+    def get_object(self, queryset=None):
+        pk = self.kwargs.get(self.pk_url_kwarg)
+        obj = get_object_or_404(Usuario, pk=pk)        
+        return obj
+    
+    def post(self, request,*args,**kwargs):
+        pk = self.kwargs.get(self.pk_url_kwarg) 
+        usuario = Usuario.objects.get(pk=pk)
+        formulario = Userform(request.POST or None, request.FILES or None, instance=usuario)
+        
+        if Usuario.eliminado == True:
+            messages.warning(request, 'El registro ha sido eliminado de la base de datos')      
+            return redirect('usuario')
+
+        if formulario.is_valid():
+            formulario.save()
+            messages.success(self.request, 'Se ha editado el usuario correctamente')
+            return redirect('usuario')
+        
+def delete_usuario(request,pk):
+    try:
+        usuario = Usuario.objects.get(pk=pk)
+    except Usuario.DoesNotExist:
+        return render(request, 'administracion/404_admin.html')
+    usuario.soft_delete()
+    messages.warning(request, 'Se ha eliminado  el registro correctamente')
+    return redirect('usuario')
+
+
+
+
+#------------------------------------inicio crud empresa---------------------------------------------------------------------------
 
 class ListarEmpresas(ListView):
     model = Empresa
@@ -100,11 +141,7 @@ def delete_empresa(request, id_empresa):
 
 
 
-
-# --------------------------------------------------------------------------------------------------------------------------
-"""
-    IMPLEMENTACION DE CRUD DE CATEGORIA POR MEDIO DE VISTAS BASADAS EN CLASES (VBC)
-"""
+#------------------------------------inicio crud OC------------------------------------------------------------------------------
 
 
 class OrdencompraListView(ListView):
@@ -147,11 +184,46 @@ class OrdencompraUpdateView(UpdateView):
 def delete_oc(request, pk):
     try:
         oc = OrdenCompra.objects.get(pk=pk)
-    except Empresa.DoesNotExist:
+    except OrdenCompra.DoesNotExist:
         return render(request, 'administracion/404_admin.html')
     oc.soft_delete()
     messages.warning(request, 'Se ha eliminado  el registro correctamente')
     return redirect('orden_compra')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # class OrdencompraDeleteView(DeleteView):
     # model = OrdenCompra
@@ -179,24 +251,24 @@ def delete_oc(request, pk):
 
 
 
-def nuevo_usuario(request):
-    mensaje = None
-    if request.method == 'POST':
-        nuevo_usuario_form = Newuserform(request.POST)
-        mensaje = 'Hemos recibido tus datos'
+# def nuevo_usuario(request):
+    # mensaje = None
+    # if request.method == 'POST':
+        # nuevo_usuario_form = Newuserform(request.POST)
+        # mensaje = 'Hemos recibido tus datos'
 
-    elif request.method == 'GET':
-        nuevo_usuario_form = Newuserform()
-    else:
-        return HttpResponseNotAllowed(f"Método {request.method} no soportado")
+    # elif request.method == 'GET':
+        # nuevo_usuario_form = Newuserform()
+    # else:
+        # return HttpResponseNotAllowed(f"Método {request.method} no soportado")
 
-    context = {
+    # context = {
 
-        'mensaje': mensaje,
-        'nuevo_usuario': nuevo_usuario_form
-    }
-    return render(request, 'administracion/nuevo_usuario.html', context)
-# -----------------------------------------------------------------------------------------------------------------------------
+        # 'mensaje': mensaje,
+        # 'nuevo_usuario': nuevo_usuario_form
+    # }
+    # return render(request, 'administracion/nuevo_usuario.html', context)
+# # -----------------------------------------------------------------------------------------------------------------------------
 
 
 # def nueva_empresa(request):
@@ -218,54 +290,54 @@ def nuevo_usuario(request):
     # return render(request, 'administracion/nueva_empresa.html', context)
 
 
-def edit_usuario(request, usuario_num):
-    users = [("Chavodelocho", "Chavo", "delocho", 8888, "Admin", 14000),
-             ("kiko", "Federdo", "Garcia", 3333, "Inspector", 14001),
-             ("candelaylamoto?", "Candela", "Moto", 2222, "Gestor", 14002),
-             ("chilindrina", "Chili", "Peppers", 1111, "basico", 14003)]
-    lista = users[usuario_num - 1]
-    mensaje = None
-    if request.method == 'POST':
-        edit_usuario_form = Edituserform(request.POST)
-        mensaje = 'Hemos recibido tus datos'
+# def edit_usuario(request, usuario_num):
+    # users = [("Chavodelocho", "Chavo", "delocho", 8888, "Admin", 14000),
+            #  ("kiko", "Federdo", "Garcia", 3333, "Inspector", 14001),
+            #  ("candelaylamoto?", "Candela", "Moto", 2222, "Gestor", 14002),
+            #  ("chilindrina", "Chili", "Peppers", 1111, "basico", 14003)]
+    # lista = users[usuario_num - 1]
+    # mensaje = None
+    # if request.method == 'POST':
+        # edit_usuario_form = Edituserform(request.POST)
+        # mensaje = 'Hemos recibido tus datos'
 
-    elif request.method == 'GET':
-        edit_usuario_form = Edituserform()
-    else:
-        return HttpResponseNotAllowed(f"Método {request.method} no soportado")
+    # elif request.method == 'GET':
+        # edit_usuario_form = Edituserform()
+    # else:
+        # return HttpResponseNotAllowed(f"Método {request.method} no soportado")
 
-    context = {
-        'usuario': lista,
-        'mensaje': mensaje,
-        'edit_usuario': edit_usuario_form
-    }
-    return render(request, 'administracion/edit_usuario.html', context)
+    # context = {
+        # 'usuario': lista,
+        # 'mensaje': mensaje,
+        # 'edit_usuario': edit_usuario_form
+    # }
+    # return render(request, 'administracion/edit_usuario.html', context)
 # -----------------------------------------------------------------------------------------------------------------------------
 
 
-def delete_usuario(request, usuario_num):
-    users = [("Chavodelocho", "Chavo", "delocho", 8888, "Admin", 14000),
-             ("kiko", "Federdo", "Garcia", 3333, "Inspector", 14001),
-             ("candelaylamoto?", "Candela", "Moto", 2222, "Gestor", 14002),
-             ("chilindrina", "Chili", "Peppers", 1111, "basico", 14003)]
-    del users[usuario_num-1]
+# def delete_usuario(request, usuario_num):
+    # users = [("Chavodelocho", "Chavo", "delocho", 8888, "Admin", 14000),
+            #  ("kiko", "Federdo", "Garcia", 3333, "Inspector", 14001),
+            #  ("candelaylamoto?", "Candela", "Moto", 2222, "Gestor", 14002),
+            #  ("chilindrina", "Chili", "Peppers", 1111, "basico", 14003)]
+    # del users[usuario_num-1]
 
-    mensaje = None
-    if request.method == 'POST':
-        User_form = Userform(request.POST)
-        mensaje = 'Hemos recibido tus datos'
-    elif request.method == 'GET':
-        User_form = Userform()
-    else:
-        return HttpResponseNotAllowed(f"Método {request.method} no soportado")
+    # mensaje = None
+    # if request.method == 'POST':
+        # User_form = Userform(request.POST)
+        # mensaje = 'Hemos recibido tus datos'
+    # elif request.method == 'GET':
+        # User_form = Userform()
+    # else:
+        # return HttpResponseNotAllowed(f"Método {request.method} no soportado")
 
-    context = {
-        'users': users,
-        'mensaje': mensaje,
-        'Userform': User_form
-    }
-    return render(request, 'administracion/usuarios.html', context)
-# --------------------------------------------------------------------------------------------------------------------------
+    # context = {
+        # 'users': users,
+        # 'mensaje': mensaje,
+        # 'Userform': User_form
+    # }
+    # return render(request, 'administracion/usuarios.html', context)
+# # --------------------------------------------------------------------------------------------------------------------------
 
 
 

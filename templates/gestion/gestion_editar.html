@@ -1,0 +1,54 @@
+{% extends 'base/base.html' %}
+{% block titulo %}Gestión{% endblock titulo %}
+
+<!-- ======= Breadcrumbs ======= -->
+{% block etiqueta %}Gestión{% endblock etiqueta %}
+{% block nav %}
+  <nav>
+    <div class="container">
+      <ol>
+        <li><a href="{% url 'index' %}">Inicio</a></li>
+        <li>Gestión</li>
+      </ol>
+    </div>
+  </nav>
+  {% endblock nav %}
+<!-- End Breadcrumbs -->
+    
+  {% block contenido %}
+  
+    <section id="contact" class="contact">
+      <div class="container" data-aos="fade-up">
+        <!-- <div class="row gx-lg-0 gy-4"> -->
+
+          <!--filtros-->
+          <div class="input-group mb-3">
+            <h2>{{ accion }}</h2>
+            <hr>
+          </div>
+          
+          <!-- Segunda propuesta -->
+          <div class="input-group mb-3">
+            <form class="php-email-form" id="" name="" action="{% url 'gestion_editar' id %}" method="POST" >
+              {% csrf_token %}
+
+          <!-- Formulario Busqueda -->
+            <div class="input-group mb-3">
+                <table>
+                    {{ gestion_form.as_table }}
+                </table>
+            </div>
+              <div class="input-group-append">
+                <button class="btn btn-warning" type="reset">Limpiar</button>
+                <button class="btn btn-primary" type="submit">Guardar</button>
+              </div>
+            </form>           
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </section>
+  </main>
+  
+{% endblock contenido %}
