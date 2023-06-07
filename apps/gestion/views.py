@@ -132,13 +132,18 @@ class GestionCreateView(edit.CreateView):
     """Vista para crear un numero de gestion asociada a un reclamo(inspeccion).
     """
 #--------------- Voy revisando por aca -----
-    model = GestionModel
+    model = inspecciones
     form_class = GestionForm
     denunciante_form_class = DenuncianteForm
     reclamo_form_class = ReclamoForm
     inspecciones_form_class = NuevaInspeccion # estaria bueno cambiarle el nombre
     template_name = 'gestion/gestion_form.html'
     success_url = reverse_lazy('gestion_form')
+
+    def dispatch(self, request, *args, **kwargs):
+        inspeccion_pk = self.kwargs['pk']
+        self.inspeccion = inspecciones.objects.get (pk=inspeccion_pk)
+        return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         """Obtiene los datos del contexto para la vista.
@@ -147,6 +152,7 @@ class GestionCreateView(edit.CreateView):
         """
         context = super().get_context_data(**kwargs)
         context['accion'] = 'crear'
+        context['inspeccion'] = self.inspeccion
         context['action_url'] = reverse_lazy('gestion_form')
         return context
 
