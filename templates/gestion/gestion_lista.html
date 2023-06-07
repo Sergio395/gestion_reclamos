@@ -135,18 +135,12 @@
                     {% for item in Inspecciones %}
                       <tr>
                         <!-- Datos de item -->
-                        <td class="ancho-celda">
-                          {% comment %} <a href="{% url 'gestion_editar' item.id %}" class="btn btn-warning" role="button">
-                            Editar
+                        <!-- Empiezan las VBC -->
+                        <td>
+                          <a href="{% url 'gestion_nuevo' item.id %}" class="btn btn-success" role="button">
+                            Asociar
                           </a>
-                          <a href="{% url 'gestion_eliminar' item.id %}" class="btn btn-danger" role="button">Borrar
-                          </a> {% endcomment %}
-
-                          <!-- Empiezan las VBC -->
-                          <a href="{% url 'gestion_nuevo' item.id %}" class="btn btn-warning" role="button">
-                            Nuevo
-                          </a>
-                          <a href="" class="btn btn-warning" role="button">
+                          <a href="{% url 'gestion_form' item.id %}" class="btn btn-warning" role="button">
                             Editar
                           </a>
                           <a href="{% url 'gestion_eliminar' item.id %}" class="btn btn-danger" role="button">Borrar
