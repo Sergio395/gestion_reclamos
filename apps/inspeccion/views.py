@@ -74,6 +74,7 @@ class InspeccionesUpdateView(UpdateView):
            
         
 def delete_inspeccion(request, pk):
+    
     try:
         inspeccion = inspecciones.objects.get(pk=pk)
     except inspecciones.DoesNotExist:
