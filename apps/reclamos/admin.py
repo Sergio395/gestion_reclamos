@@ -1,3 +1,6 @@
 from django.contrib import admin
+from .models import ReclamoModel, DenuncianteModel
 
-# Register your models here.
+
+admin.site.register(ReclamoModel)
+admin.site.register(DenuncianteModel)

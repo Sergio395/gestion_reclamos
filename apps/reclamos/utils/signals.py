@@ -16,8 +16,15 @@ def actualizar_repitancia(sender, instance, **kwargs):
 
     Comportamiento:
     - Si el reclamo es nuevo (no tiene una clave primaria asignada), actualiza el campo 'repitancia' basado en la cantidad de reclamos existentes con el mismo valor (en el ejemplo, el campo 'numero') incrementado en 1.
+    - Si el reclamo es existente (tiene una clave primaria asignada), verifica si el valor del campo 'numero' ha cambiado. Si ha cambiado, actualiza la 'repitancia' basado en la cantidad de reclamos existentes con el nuevo valor de 'numero' incrementado en 1.
     """
     if not instance.pk:
         # Es un nuevo reclamo, actualiza la repitancia
         repitancia = ReclamoModel.objects.filter(numero=instance.numero).count() + 1
         instance.repitancia = repitancia
+    else:
+        # Es un reclamo existente, verifica si el número ha cambiado
+        if instance.numero != ReclamoModel.objects.get(pk=instance.pk).numero:
+            # El número ha cambiado, actualiza la repitancia
+            repitancia = ReclamoModel.objects.filter(numero=instance.numero).count() + 1
+            instance.repitancia = repitancia

@@ -55,23 +55,23 @@ class ArbolModel(models.Model):
         auto_now=True,
         verbose_name="Fecha de edición"
     )
-    codigo_arbol = models.CharField()
+    codigo_arbol = models.CharField(max_length=50,)
     especie = models.ForeignKey(
         EspecieArbolModel,
         on_delete=models.CASCADE
     )
-    altura = models.CharField()
-    dap = models.CharField()
-    latitud = models.CharField()
-    longitud = models.CharField()
-    inclinacion = models.CharField()
-    estado_copa = models.CharField()
-    estado_tronco = models.CharField()
-    estado_raiz = models.CharField()
-    estado_plantera = models.CharField()
-    estado_vereda = models.CharField()
-    interferencias = models.CharField()
-    enfermedades = models.CharField()
+    altura = models.CharField(max_length=50,)
+    dap = models.CharField(max_length=50,)
+    latitud = models.CharField(max_length=50,)
+    longitud = models.CharField(max_length=50,)
+    inclinacion = models.CharField(max_length=50,)
+    estado_copa = models.CharField(max_length=50,)
+    estado_tronco = models.CharField(max_length=50,)
+    estado_raiz = models.CharField(max_length=50,)
+    estado_plantera = models.CharField(max_length=50,)
+    estado_vereda = models.CharField(max_length=50,)
+    interferencias = models.CharField(max_length=50,)
+    enfermedades = models.CharField(max_length=50,)
     riesgo = models.CharField(
         max_length = 100,
         choices = choices.RiesgoChoices.choices,
