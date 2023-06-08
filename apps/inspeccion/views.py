@@ -16,18 +16,21 @@ from django.shortcuts import get_object_or_404
 from django.contrib import messages
 from apps.reclamos.models import ReclamoModel 
 from apps.reclamos.forms import ReclamoForm 
+from django.contrib.auth import mixins
+from django.contrib.auth.decorators import login_required
  
 
-
+@login_required
 def db_inspeccion(request):
     inspeccionesRealizadas = Inspeccion.objects.all()
     return render (request, 'inspeccion/inspecciones.html',{'inspecciones':inspeccionesRealizadas  })
-    
+
+@login_required    
 def carga_inspeccion(request):
     inspeccionesRealizadas = Inspeccion.objects.all()
     return render (request, 'inspeccion/inspecciones.html',{'inspecciones':inspeccionesRealizadas  })
     
- 
+ @login_required
 def inspeccion(request):
     mensaje = None
     if request.method == 'POST':
@@ -48,20 +51,20 @@ def inspeccion(request):
 
  #-------------------------------------------CRUD inspecciones---------------------------------------------------------------
  
-class InspeccionListView(ListView):
+class InspeccionListView(mixins.LoginRequiredMixin, ListView):
     model = inspecciones
     context_object_name = 'inspeccion'
     template_name = 'inspeccion/inspeccion_listar.html'
     queryset = inspecciones.objects.filter(eliminado=False)
     #ordering = ['numero']
 
-class InspeccionesCreateView(CreateView):
+class InspeccionesCreateView(mixins.LoginRequiredMixin, CreateView):
     model = inspecciones
     form_class = NuevaInspeccion
     template_name = 'inspeccion/nueva_inspeccion.html'
     success_url = reverse_lazy('inspeccion')
     
-class InspeccionesUpdateView(UpdateView):
+class InspeccionesUpdateView(mixins.LoginRequiredMixin, UpdateView):
     model = inspecciones
     #fields = '__all__'    
     #exclude=['eliminado']
@@ -75,7 +78,7 @@ class InspeccionesUpdateView(UpdateView):
         obj = get_object_or_404(inspecciones, pk=pk)
         return obj
            
-        
+@login_required
 def delete_inspeccion(request, pk):
     try:
         inspeccion = inspecciones.objects.get(pk=pk)
@@ -85,7 +88,7 @@ def delete_inspeccion(request, pk):
     messages.warning(request, 'Se ha eliminado  el registro correctamente')
     return redirect('inspeccion')
 
-
+@login_required
 def mostrar_reclamo(request, pk):
     
     try:
@@ -204,7 +207,7 @@ def mostrar_reclamo(request, pk):
 
     # return render(request, 'inspeccion/nueva_inspeccion.html', context)
 
-
+@login_required
 def carga_certificacion(request):
     mensaje = None
     if request.method == 'POST':

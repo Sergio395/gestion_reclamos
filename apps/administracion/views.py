@@ -10,14 +10,16 @@ from django.urls import reverse_lazy
 from .models import Empresa, OrdenCompra
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
+from django.contrib.auth import mixins
+from django.contrib.auth.decorators import login_required
 
 
 
-# Create your views here.
+@login_required
 def admin(request):
     return render(request, 'administracion/admin_index.html', {})
 
-
+@login_required
 def usuario(request):
     users = [("Chavodelocho", "Chavo", "delocho", 8888, "Admin", 14000),
              ("kiko", "Federdo", "Garcia", 3333, "Inspector", 14001),
@@ -41,14 +43,14 @@ def usuario(request):
     return render(request, 'administracion/usuarios.html', context)
 
 
-class ListarEmpresas(ListView):
+class ListarEmpresas(mixins.LoginRequiredMixin, ListView):
     model = Empresa
     template_name = 'administracion/empresas.html'
     context_object_name = 'proveedores'    
     queryset = Empresa.objects.filter(eliminado=False)
     
 
-
+@login_required
 def nueva_empresa(request):
 
 
@@ -64,7 +66,7 @@ def nueva_empresa(request):
         formulario = Nuevaform()
     return render(request, 'administracion/nueva_empresa.html', {'empresaform': formulario})
 
-
+@login_required
 def editar_empresa(request, id_empresa):
     
     try:
@@ -87,7 +89,7 @@ def editar_empresa(request, id_empresa):
 
 
 
-
+@login_required
 def delete_empresa(request, id_empresa):
     try:
         empresa = Empresa.objects.get(pk=id_empresa)
@@ -107,7 +109,7 @@ def delete_empresa(request, id_empresa):
 """
 
 
-class OrdencompraListView(ListView):
+class OrdencompraListView(mixins.LoginRequiredMixin, ListView):
     model = OrdenCompra
     context_object_name = 'oc'
     template_name = 'administracion/ordenes_compra.html'
@@ -115,7 +117,7 @@ class OrdencompraListView(ListView):
     ordering = ['numero']
 
 
-class OrdencompraCreateView(CreateView):
+class OrdencompraCreateView(mixins.LoginRequiredMixin, CreateView):
     model = OrdenCompra
     fields = '__all__'
     #form_class = OrdencompraForm
@@ -124,7 +126,7 @@ class OrdencompraCreateView(CreateView):
     
     
 
-class OrdencompraUpdateView(UpdateView):
+class OrdencompraUpdateView(mixins.LoginRequiredMixin, UpdateView):
     model = OrdenCompra
     fields = '__all__'    
     exclude=['eliminado']
@@ -143,7 +145,7 @@ class OrdencompraUpdateView(UpdateView):
         messages.warning(request, 'Se ha editado  el registro correctamente')
     
 
-
+@login_required
 def delete_oc(request, pk):
     try:
         oc = OrdenCompra.objects.get(pk=pk)
@@ -178,7 +180,7 @@ def delete_oc(request, pk):
 
 
 
-
+@login_required
 def nuevo_usuario(request):
     mensaje = None
     if request.method == 'POST':
@@ -217,7 +219,7 @@ def nuevo_usuario(request):
     # }
     # return render(request, 'administracion/nueva_empresa.html', context)
 
-
+@login_required
 def edit_usuario(request, usuario_num):
     users = [("Chavodelocho", "Chavo", "delocho", 8888, "Admin", 14000),
              ("kiko", "Federdo", "Garcia", 3333, "Inspector", 14001),
@@ -242,7 +244,7 @@ def edit_usuario(request, usuario_num):
     return render(request, 'administracion/edit_usuario.html', context)
 # -----------------------------------------------------------------------------------------------------------------------------
 
-
+@login_required
 def delete_usuario(request, usuario_num):
     users = [("Chavodelocho", "Chavo", "delocho", 8888, "Admin", 14000),
              ("kiko", "Federdo", "Garcia", 3333, "Inspector", 14001),

@@ -10,6 +10,7 @@ from .models import Gestion
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -20,7 +21,8 @@ from django.urls import reverse_lazy
 #     template_name = 'templates/gestion/gestion_index.html'
 #     queryset = Gestion.objects.filter(baja=False)
 #     ordering = ['estado']
-    
+
+@login_required
 def gestion_index(request):
     '''
     Por ahora trae los valores de la tabla Gestion, pero deberiamos definir en grupo que datos va a mostrar 
@@ -38,6 +40,7 @@ def gestion_index(request):
         return render(request, 'gestion/gestion_prueba.html')
     return render(request, 'gestion/gestion_prueba.html', {'gestion': gestion, 'form_busqueda': form_busqueda, 'campos': fields})
 
+@login_required
 def gestion_buscar(request):
     '''
     Tomar los valores del formulario busqueda, y va a realizar la consulta a la DB, para traer y mostrar los resultados
@@ -56,6 +59,7 @@ def gestion_buscar(request):
     fields = Gestion.objects.model._meta.get_fields()
     return render(request, 'gestion/gestion_prueba.html', {'gestion': gestion, 'form_busqueda': formulario, 'campos': fields})
 
+@login_required
 def gestion_nuevo(request):
     # forma de resumida de instanciar un formulario basado en model con los
     # datos recibidos por POST si la petición es por POST o bien vacio(None)
@@ -68,7 +72,7 @@ def gestion_nuevo(request):
         return redirect('gestion_index')
     return render(request, 'gestion/gestion_nuevo.html', {'gestion_form': formulario, 'accion': titulo_accion})
 
-
+@login_required
 def gestion_editar(request, id):
     titulo_accion = 'Edición de registro'
     try:
@@ -82,7 +86,7 @@ def gestion_editar(request, id):
         return redirect('gestion_index')
     return render(request, 'gestion/gestion_editar.html', {'gestion_form': formulario, 'accion':titulo_accion, 'id':id})
 
-
+@login_required
 def gestion_eliminar(request, id_registro):
     try:
         gestion = Gestion.objects.get(id=id_registro)
@@ -92,6 +96,7 @@ def gestion_eliminar(request, id_registro):
     gestion.soft_delete()
     return redirect('gestion_index')
 
+@login_required
 def preparar_filtro(criterio):
     '''
     Recibe los criterios y compaa si son distintos de 'none', y los agrega al diccionario que luego se pasará como filtro por los parametros **kwargs
