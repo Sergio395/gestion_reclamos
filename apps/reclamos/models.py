@@ -1,5 +1,5 @@
 from django.db import models
-from ..base.constants import choices
+from ..base.constants import choices, calles_choices
 
 
 # Create your models here.
@@ -90,7 +90,10 @@ class ReclamoModel(models.Model):
     fecha = models.DateField(
         verbose_name="Fecha del reclamo"
     )
-    repitancia = models.IntegerField(default=1)
+    repitancia = models.IntegerField(
+        verbose_name="Repitancia del reclamo",
+        default=1
+        )
     denunciantes = models.ManyToManyField(
         DenuncianteModel,
         verbose_name="Denunciante"
@@ -103,19 +106,25 @@ class ReclamoModel(models.Model):
     )
     calle = models.CharField(
         max_length=100,
-        verbose_name="Calle"
+        verbose_name="Calle",
+        choices=calles_choices.Calles.choices,
+        default=calles_choices.Calles.BLANK
     )
     entre_calle_1 = models.CharField(
         max_length=100,
         blank=True,
         null=True,
-        verbose_name="Entre calle 1"
+        verbose_name="Entre calle 1",
+        choices=calles_choices.Calles.choices,
+        default=calles_choices.Calles.BLANK
     )
     entre_calle_2 = models.CharField(
         max_length=100,
         blank=True,
         null=True,
-        verbose_name="Entre calle 2"
+        verbose_name="Entre calle 2",
+        choices=calles_choices.Calles.choices,
+        default=calles_choices.Calles.BLANK
     )
     altura = models.IntegerField(
         verbose_name="Altura"

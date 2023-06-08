@@ -2,7 +2,7 @@ from datetime import date
 from django import forms
 from django.core import validators
 from .models import ReclamoModel, DenuncianteModel
-from ..base.constants import choices
+from ..base.constants import choices, calles_choices
 
 
 def validate_only_alphabetic(value):
@@ -49,14 +49,17 @@ class ReclamoForm(forms.ModelForm):
             'localidad': forms.Select(attrs=Styles.input_styles({'id': 'localidad-select'}),
                                         choices=choices.LocalidadChoices.choices),
             'calle': forms.Select(attrs=Styles.input_styles({
-                'class': 'form-control calle-select'})),
+                'class': 'form-control calle-select'}),
+                                  choices=calles_choices.Calles.choices),
             'altura': forms.NumberInput(attrs=Styles.input_styles({})),
             'edificio': forms.TextInput(attrs=Styles.input_styles({})),
             'departamento': forms.TextInput(attrs=Styles.input_styles({})),
             'entre_calle_1': forms.Select(attrs=Styles.input_styles({
-                'class': 'form-control calle-select'})),
+                'class': 'form-control calle-select'}),
+                                          choices=calles_choices.Calles.choices),
             'entre_calle_2': forms.Select(attrs=Styles.input_styles({
-                'class': 'form-control calle-select'})),
+                'class': 'form-control calle-select'}),
+                                          choices=calles_choices.Calles.choices),
             'reclamo': forms.Select(attrs=Styles.input_styles({}),
                                     choices=choices.ReclamoChoices.choices),
             'urgencia': forms.Select(attrs=Styles.input_styles({}),
@@ -74,12 +77,12 @@ class ReclamoForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['numero'].validators.append(validators.MinValueValidator(1))
         self.fields['fecha'].validators.append(validators.MaxValueValidator(date.today()))
-        self.fields['detalle'].validators.append(validators.MinLengthValidator(10))
         self.fields['fecha'].widget = forms.TextInput(
             attrs=Styles.input_styles({
                 'type': 'date',
                 'value': self.instance.fecha.strftime('%Y-%m-%d') if self.instance.fecha else date.today().strftime('%Y-%m-%d')
         }))
+        self.fields['detalle'].validators.append(validators.MinLengthValidator(10))
 
 
 class DenuncianteForm(forms.ModelForm):

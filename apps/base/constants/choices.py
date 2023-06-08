@@ -67,11 +67,11 @@ class LocalidadChoices(TextChoices):
     ReclamoModel.
     """
     BLANK = "", _("")
-    NDAB = "R2546787", _("9 de Abril")
-    CANN = "R2546804", _("Canning")
-    EJAG = "R2546834", _("El Jagüel")
-    LGUI = "R2546803", _("Luis Guillón")
-    MGRA = "R2546842", _("Monte Grande")
+    NDAB = "9A", _("9 de Abril")
+    CANN = "CA", _("Canning")
+    EJAG = "EJ", _("El Jagüel")
+    LGUI = "LG", _("Luis Guillón")
+    MGRA = "MG", _("Monte Grande")
 
 
 class ReclamoChoices(TextChoices):
@@ -124,11 +124,11 @@ class TrabajoChoices(TextChoices):
     """
     BLANK = "", _("")
     PODI = "PI", _("Poda Integral")
-    PODR = "PR", _("Poda Integral")
-    PODD = "PD", _("Poda Integral")
-    TALA = "T", _("Poda Integral")
-    COR = "CR", _("Poda Integral")
-    EXT = "E", _("Poda Integral")
+    PODR = "PR", _("Poda Reductiva")
+    PODD = "PD", _("Poda de Despeje")
+    TALA = "T", _("Tala")
+    COR = "CR", _("Corte de Raíces")
+    EXT = "E", _("Extracción")
 
 
 class AlturaChoices(TextChoices):
@@ -154,9 +154,8 @@ class DisposicionChoices(TextChoices):
     restringir los valores permitidos en el campo 'disposición' del modelo
     TrabajoModel.
     """
-    BLANK = "", _("")
-    LINE = "1", _("Lineal")
-    POINT = "2", _("Puntual")
+    LINE = "", _("Lineal")
+    POINT = "*", _("Puntual")
 
 
 class RiesgoChoices(TextChoices):
