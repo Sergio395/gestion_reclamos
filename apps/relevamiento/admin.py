@@ -1,3 +1,6 @@
 from django.contrib import admin
+from .models import ArbolModel, EspecieArbolModel
 
-# Register your models here.
+
+admin.site.register(ArbolModel)
+admin.site.register(EspecieArbolModel)

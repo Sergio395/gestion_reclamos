@@ -57,7 +57,7 @@
                 <i class="far fa-trash-alt"></i>
               </a>
             </td>
-            <td>{{ registro.reclamo.fuente }} - {{ registro.reclamo.numero|stringformat:'07d' }} - {{ registro.reclamo.repitancia|stringformat:'02d' }} - 01</td>
+            <td>{{ registro.reclamo.fuente }} - {{ registro.reclamo.numero|stringformat:'05d' }} - {{ registro.reclamo.repitancia|stringformat:'02d' }}</td>
             <td>{{ registro.reclamo.get_medio_display }}</td>
             <td>{{ registro.reclamo.fecha }}</td>
             <td><a style="cursor: pointer;" class="" data-bs-toggle="collapse" data-bs-target="#contenido{{ registro.reclamo.pk }}-d">{{ registro.denunciante.dni }}</a></td>
@@ -102,10 +102,10 @@
                   <th scope="col">Departamento</th>
                 </tr>
                 <tr>
-                  <td>{{ registro.reclamo.calle }}</td>
+                  <td>{{ registro.reclamo.get_calle_display }}</td>
                   <td>{{ registro.reclamo.altura }}</td>
-                  <td>{{ registro.reclamo.entre_calle_1 }}</td>
-                  <td>{{ registro.reclamo.entre_calle_2 }}</td>
+                  <td>{{ registro.reclamo.get_entre_calle_1_display }}</td>
+                  <td>{{ registro.reclamo.get_entre_calle_2_display }}</td>
                   <td>{{ registro.reclamo.edificio }}</td>
                   <td>{{ registro.reclamo.departamento }}</td>
                 </tr>

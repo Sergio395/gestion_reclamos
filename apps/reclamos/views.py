@@ -12,10 +12,12 @@ from django.urls import reverse_lazy
 
 from .models import ReclamoModel
 from .forms import ReclamoForm, DenuncianteForm
+from django.contrib.auth import mixins
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
-class ReclamoCreateView(edit.CreateView):
+class ReclamoCreateView(mixins.LoginRequiredMixin, edit.CreateView):
     """Vista para crear un reclamo.
     """
     model = ReclamoModel
@@ -126,7 +128,7 @@ class ReclamoCreateView(edit.CreateView):
             'reclamo_form': reclamo_form, 'denunciante_form': denunciante_form})
 
 
-class ReclamoListView(ListView):
+class ReclamoListView(mixins.LoginRequiredMixin, ListView):
     """Vista para mostrar una lista de reclamos.
 
     Muestra una lista de reclamos que no han sido eliminados.
@@ -162,7 +164,7 @@ class ReclamoListView(ListView):
         return context
 
 
-class ReclamoUpdateView(UpdateView):
+class ReclamoUpdateView(mixins.LoginRequiredMixin, UpdateView):
     """Vista para editar un reclamo existente.
 
     Permite editar los datos de un reclamo, incluido su denunciante.
@@ -228,6 +230,7 @@ class ReclamoUpdateView(UpdateView):
             reclamo_form=reclamo_form, denunciante_form=denunciante_form))
 
 
+@login_required
 def reclamo_delete(request, id_reclamo):
     """Vista para la eliminación lógica de un reclamo.
 
