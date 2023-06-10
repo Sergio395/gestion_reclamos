@@ -171,9 +171,29 @@ class RiesgoChoices(TextChoices):
     MEDIO = "2", _("Medio")
     ALTO = "3", _("Alto")
     
-class EfectivasChoices(TextChoices):
-        BLANCK='',_('')  
-        ESTE='1',_('Zona Este')
-        OESTE='2', _('Zona Oeste')
-        NORTE='3', _('Zona Norte')
-        SUR='4', _('Zona Sur')
+class EfectivaChoices(TextChoices):
+    
+    BLANK='',_('')  
+    ESTE='1',_('Zona Este')
+    OESTE='2', _('Zona Oeste')
+    NORTE='3', _('Zona Norte')
+    SUR='4', _('Zona Sur')
+        
+class InspectorChoices(TextChoices):
+    
+    BLANK='',_('')  
+    UNO='1',_('Pepe Guardiola')
+    DOS='2', _('Miguel conejito Alejandro')
+    TRES='3', _('Angela Merkel')
+
+class EspecieChoices(TextChoices):
+    BLANK='',_('')  
+    J = '1',_('Jacarandá')
+    C = '2', _('Ceibo')
+    L = '3', _('Lapacho')
+    
+    
+
+    
+
+    
