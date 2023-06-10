@@ -30,7 +30,7 @@ def carga_inspeccion(request):
     inspeccionesRealizadas = Inspeccion.objects.all()
     return render (request, 'inspeccion/inspecciones.html',{'inspecciones':inspeccionesRealizadas  })
     
- @login_required
+@login_required
 def inspeccion(request):
     mensaje = None
     if request.method == 'POST':
