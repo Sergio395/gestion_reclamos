@@ -170,3 +170,10 @@ class RiesgoChoices(TextChoices):
     BAJO = "1", _("Bajo")
     MEDIO = "2", _("Medio")
     ALTO = "3", _("Alto")
+    
+class EfectivasChoices(TextChoices):
+        BLANCK='',_('')  
+        ESTE='1',_('Zona Este')
+        OESTE='2', _('Zona Oeste')
+        NORTE='3', _('Zona Norte')
+        SUR='4', _('Zona Sur')
