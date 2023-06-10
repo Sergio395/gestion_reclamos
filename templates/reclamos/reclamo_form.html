@@ -175,9 +175,19 @@
   </section><!-- End Claim Section -->
 
   {% load static %}
+    <script>
+      const CALLES_DATA = [
+        {% for calle in calles_data %}
+            {
+                {% for key, value in calle.items %}
+                    '{{ key }}': '{{ value }}'{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            }{% if not forloop.last %},{% endif %}
+        {% endfor %}
+      ];
+    </script>
   {% if accion == 'actualizar' %}
     <script>
-      // Asignar el valor de las calles seleccionadas a una variable JavaScript
       var accion = 'actualizar';
       var calle0 = {{ calle0 }};
       var calle1 = {{ calle1 }};

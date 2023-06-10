@@ -1,8 +1,8 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 from ..base.constants import choices, calles_choices
 
 
-# Create your models here.
 class DenuncianteModel(models.Model):
     """Modelo que representa a la persona que realizó un reclamo.
 
@@ -46,13 +46,13 @@ class DenuncianteModel(models.Model):
     class Meta:
         """Clase Meta para la configuración de la clase DenuncianteModel.
         """
-        verbose_name = "Denunciante"
-        verbose_name_plural = "Denunciantes"
+        verbose_name = _("Denunciante")
+        verbose_name_plural = _("Denunciantes")
 
     def __str__(self):
         """ Devuelve una representación en forma de cadena del denunciante.
         """
-        return f"{self.apellido}, {self.nombre} DNI: {self.dni}"
+        return f"{self.dni} - {self.apellido}, {self.nombre}"
 
 
 class ReclamoModel(models.Model):
@@ -172,8 +172,8 @@ class ReclamoModel(models.Model):
     class Meta:
         """Clase Meta para la configuración de la clase ReclamoModel.
         """
-        verbose_name = "Reclamo"
-        verbose_name_plural = "Reclamos"
+        verbose_name = _("Reclamo")
+        verbose_name_plural = _("Reclamos")
 
     def soft_delete(self):
         """ Realiza una eliminación lógica del reclamo.
