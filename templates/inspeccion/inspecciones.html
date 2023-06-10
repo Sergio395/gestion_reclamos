@@ -42,11 +42,11 @@
                     {% for i in inspecciones %}
                     <tr>
                         <td>{{forloop.counter}}</td>
-                        <td>{{i.reclamo}}</td>
-                        <td>{{i.inspector}}</td>
+                        <td>{{i.get_reclamo_display}}</td>
+                        <td>{{i.get_inspector_display}}</td>
                         <td>{{i.get_lugar_display}}</td>
                         <td>{{i.fecha_inspeccion}}</td>
-                        <td>{{i.trabajo}}</td>
+                        <td>{{i.get_trabajo_display}}</td>
                     </tr>
                     {% endfor %}
             </tbody>
