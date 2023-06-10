@@ -1,5 +1,8 @@
 # from datetime import datetime
 from django.views.generic import edit, ListView, UpdateView
+from django.contrib.auth import mixins
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 
 from django.contrib import messages
 from django.core.mail import send_mail
@@ -10,13 +13,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from django.urls import reverse_lazy
 
+from ..base.decorators.decorators import group_required
 from .models import ReclamoModel
 from .forms import ReclamoForm, DenuncianteForm
-from django.contrib.auth import mixins
-from django.contrib.auth.decorators import login_required
 
 
-# Create your views here.
 class ReclamoCreateView(mixins.LoginRequiredMixin, edit.CreateView):
     """Vista para crear un reclamo.
     """
@@ -164,6 +165,7 @@ class ReclamoListView(mixins.LoginRequiredMixin, ListView):
         return context
 
 
+@method_decorator([login_required, group_required('gestor',)], name='dispatch')
 class ReclamoUpdateView(mixins.LoginRequiredMixin, UpdateView):
     """Vista para editar un reclamo existente.
 
@@ -231,6 +233,7 @@ class ReclamoUpdateView(mixins.LoginRequiredMixin, UpdateView):
 
 
 @login_required
+@group_required('gestor',)
 def reclamo_delete(request, id_reclamo):
     """Vista para la eliminación lógica de un reclamo.
 

@@ -29,7 +29,7 @@ urlpatterns = [
     path('admin/', include('apps.administracion.urls')),
     #path('gestion-inspeccion/',include('apps.inspeccion.urls'))
     path('accounts/login/', auth_views.LoginView.as_view()),
-    path('accounts/logout/', auth_views.LogoutView.as_view()),
+    path('accounts/logout/', auth_views.LogoutView.as_view(template_name='login.html'), name='logout'),
     path('accounts/change-password/', auth_views.PasswordChangeView.as_view(
         template_name='change-password.html')),
 ]

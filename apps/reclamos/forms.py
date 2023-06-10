@@ -97,8 +97,7 @@ class DenuncianteForm(forms.ModelForm):
             'celular', 'telefono_fijo'
         ]
         widgets = {
-            'dni': forms.NumberInput(attrs=Styles.input_styles({
-                'placeholder': 'e.g. 12345678'})),
+            'dni': forms.NumberInput(attrs=Styles.input_styles({})),
             'correo_electronico': forms.EmailInput(attrs=Styles.input_styles({
                 'placeholder': 'e.g. johndoe@ejemplomail.com'})),
             'nombre': forms.TextInput(attrs=Styles.input_styles({})),
