@@ -11,12 +11,12 @@ inspectores = (
         ("Angela Merkel", "Angela Merkel"),
     )
 
-lugares=(
-    ('Zona Este', 'Zona Este'),
-    ('Zona Oeste', 'Zona Oeste'),
-    ('Zona Norte', 'Zona Norte'),
-    ('Zona Sur', 'Zona Sur'),
-)
+# lugares=(
+#     ('Zona Este', 'Zona Este'),
+#     ('Zona Oeste', 'Zona Oeste'),
+#     ('Zona Norte', 'Zona Norte'),
+#     ('Zona Sur', 'Zona Sur'),
+# )
 reclamo = (
         ("01",""),
         ("00-283706-01 Arbol caido", "00-283706-01 Arbol caido"),

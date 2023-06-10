@@ -18,7 +18,7 @@ from apps.reclamos.models import ReclamoModel
 from apps.reclamos.forms import ReclamoForm 
 from django.contrib.auth import mixins
 from django.contrib.auth.decorators import login_required
- 
+from apps.inspeccion.models import Inspeccion 
 
 @login_required
 def db_inspeccion(request):

@@ -1,13 +1,22 @@
 from django.db import models
-
-from .choices import lugares, reclamo, trabajos, inspectores,especies,urgencias
-
+from django.utils.translation import gettext_lazy as _
+from ..base.constants import choices, calles_choices
+# Create your models here.
+from .choices import reclamo, trabajos, inspectores,especies,urgencias
+import datetime
 class Inspeccion(models.Model):
+    #class Efectivas(models.TextChoices):
+        # BLANCK='',_(''),   
+        # ESTE='1',_('Zona Este'),
+        # OESTE='2', _('Zona Oeste'),
+        # NORTE='3', _('Zona Norte'),
+        # SUR='4', _('Zona Sur')
+    lugar = models.CharField(max_length=100, choices=choices.EfectivasChoices.choices,default=choices.EfectivasChoices.BLANCK)
         
     fecha_inspeccion = models.DateField(verbose_name='Fecha de inspección')
     reclamo = models.CharField(max_length=100, verbose_name="Reclamo a inspeccionar",choices=reclamo, default='01')
     inspector = models.CharField(max_length=100, verbose_name="Inspector",choices=inspectores,default='01')
-    lugar = models.CharField(max_length=100, choices=lugares,default='ZN')
+    #lugar = models.CharField(max_length=100, choices=lugares,default='ZN')
     nota = models.CharField(max_length=300, verbose_name="nota",null=False,blank=True)
     foto = models.ImageField(upload_to='img_reclamos', null=True, blank=True, verbose_name="Fotos")
     especie=models.CharField(max_length=100, verbose_name="Especie",choices=especies,default='1')
