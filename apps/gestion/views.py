@@ -7,7 +7,7 @@ from django.contrib import messages
 from .forms import GestionForm, BusquedaForm
 from .models import GestionModel
 
-from django.views.generic import ListView, edit
+from django.views.generic import ListView, DetailView, edit
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from apps.inspeccion.models import inspecciones
@@ -134,26 +134,55 @@ class GestionCreateView(CreateView):
     template_name = 'gestion/gestion_nuevo.html'
     success_url = reverse_lazy('gestion_lista')
 
+class EditarPruebaDetailView(DetailView):
+    '''
+    Muestra una lista de inspecciones
+    '''
+    model = GestionModel
+    template_name = 'gestion/editar_prueba.html'
+    queryset = GestionModel.objects.select_related().filter(eliminado=False)
+    ordering = ['id']
+    
+    def get_context_data(self, **kwargs):
+        '''
+        Agrego informacion al contexto
+        '''
+        context = super(EditarPruebaDetailView, self).get_context_data(**kwargs)
+        # instancia de los distintos modelos
+        denunciante = self.object.inspecciones.reclamo.denunciantes.first()
+        reclamo = self.object.inspecciones.reclamo
+        inspeccion = self.object.inspecciones
+        gestion = self.object
+        context['denunciante_form'] = DenuncianteForm(instance=denunciante)
+        context['reclamo_form'] = ReclamoForm(instance=reclamo)
+        context['inspeccion_form'] = NuevaInspeccion(instance=inspeccion)
+        context['gestion_form'] = GestionForm(instance=gestion)
+        # context['gestion_form'] = GestionForm(instance=self.get_object(self.queryset))
+        # context['prueba'] = context.gestionmodel.inspecciones.reclamo.denunciantes
+        return context
+
 class GestionUpdateView(UpdateView):
     model = GestionModel
     fields = '__all__'
     # form_class = NuevaInspeccion
+    # queryset = GestionModel.objects.all().filter(eliminado=False)
     template_name = 'gestion/gestion_form.html'
     success_url = reverse_lazy('gestion_lista')
 
-        # def get_context_data(self, **kwargs):
-        # """Obtiene los datos del contexto para la vista.
+    def get_context_data(self, **kwargs):
+        """Obtiene los datos del contexto para la vista.
 
-        # Retorna el contexto actualizado con la acción "crear" y la URL de acción.
-        # """
-        # context = super().get_context_data(**kwargs)
-        # context['accion'] = 'crear'
+        Retorna el contexto actualizado con la acción "crear" y la URL de acción.
+        """
+        context = super().get_context_data(**kwargs)
+        context['accion'] = 'crear'
+        context['gestion'] = GestionModel.objects.select_related()
         # context['denunciante_form'] = DenuncianteForm
         # context['reclamo_form'] = ReclamoForm
         # context['inspeccion_form'] = NuevaInspeccion
         # context['gestion_form'] = GestionForm
-        # context['action_url'] = reverse_lazy('gestion_form')
-        # return context
+        context['action_url'] = reverse_lazy('gestion_lista')
+        return context
 
     # Si queremos sobrescribir la obtención del objeto
     # def get_object(self, queryset=None):

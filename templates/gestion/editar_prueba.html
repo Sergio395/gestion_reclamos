@@ -103,19 +103,22 @@
             <h4>Datos denunciante</h4>
             <hr>
             <div class="row">
-              {% for campo in object.inspecciones_set.first %}
-                {% if campo.name == 'detalle' or campo.name == 'detalles' or campo.name == 'observaciones' %}
-                  <div class="col-md-12 form-group mt-3 mt-md-0">
+              
+                  <!-- <div class="col-md-12 form-group mt-3 mt-md-0">
                     <label class="form-label" for="{{ campo.name }}">{{ campo.label }}</label>
                     <div> {{ campo }}</div> 
-                  </div>
-                {% else %}
+                  </div> -->
+                  {% for item in object.inspecciones.reclamo.denunciantes.all %}
+                  <div> {{item}} </div>
+                  {% for key, value in item.items %}
                   <div class="col-md-6 form-group mb-1" >
                     <label class="form-label" for="{{ campo.name }}">{{ campo.label }}</label>
-                    <div> {{ campo }} </div>
+                    <div> {{key}} </div>
+                    <div> {{value}} </div>
+                    <div> {{campo}} </div>
                   </div>
-                {% endif %}
-              {% endfor %}
+                  {% endfor %}
+                  {% endfor %}
             </div>
 
             <!-- Bloque 2: Reclamo -->
@@ -201,6 +204,40 @@
             
           </form>
         </div>
+
+        <div class="input-group mb-3">
+            <h3>Primer form</h3>
+            <form class="php-email-form" id="" name="gestion_form" action="{% url 'gestion_nuevo' %}" method="POST" >
+              
+
+          <!-- Formulario Busqueda -->
+            <div class="input-group mb-3">
+                <table>
+                {{ denunciante_form.as_table }}
+                </table>
+            </div>
+            <div class="input-group mb-3">
+                <table>
+                {{ reclamo_form.as_table }}
+                </table>
+            </div>
+            <div class="input-group mb-3">
+                <table>
+                {{ inspeccion_form.as_table }}
+                </table>
+            </div>
+            <div class="input-group mb-3">
+                <table>
+                {{ gestion_form.as_table }}
+                </table>
+            </div>
+              <div class="input-group-append">
+                <button class="btn btn-warning" type="reset">Limpiar</button>
+                <button class="btn btn-primary" type="submit">Enviar</button>
+              </div>
+            </form>           
+          </div>
+
       </div>
     </div>
   </section><!-- End Claim Section -->

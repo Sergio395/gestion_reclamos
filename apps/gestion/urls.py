@@ -15,6 +15,7 @@ urlpatterns = [
     path('lista/', views.GestionListView.as_view(), name='gestion_lista'),
     path('nuevo/<int:pk>/', views.GestionCreateView.as_view(), name='gestion_nuevo'),
     path('editar/<int:pk>/', views.GestionUpdateView.as_view(), name='gestion_form'),
+    path('ep/<int:pk>/', views.EditarPruebaDetailView.as_view(), name='editar_prueba'),
     
     # path('nuevo/', views.ReclamoCreateView.as_view(), name='reclamo_form'),
     # path('seguimiento/', views.ReclamoListView.as_view(), name='seguimiento'),
