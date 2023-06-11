@@ -1,24 +1,28 @@
+import django_filters
 # from datetime import datetime
 from django.views.generic import edit, ListView, UpdateView
-from django.contrib.auth import mixins
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 
 from django.contrib import messages
+from django.utils.html import format_html
 from django.core.mail import send_mail
 from decouple import config
+from django.urls import reverse_lazy
 
 from django.shortcuts import render, redirect, get_object_or_404
 # from django.utils.text import get_valid_filename
 
-from django.urls import reverse_lazy
-
-from ..base.decorators.decorators import group_required
 from .models import ReclamoModel
 from .forms import ReclamoForm, DenuncianteForm
+from .utils.log_filters import ReclamoFilter
+from ..base.utils.decorators import group_required
 
 
-class ReclamoCreateView(mixins.LoginRequiredMixin, edit.CreateView):
+AUTORIZED_GROUPS = 'operador', 'inspector', 'gestor', 'administrador'
+
+@method_decorator([login_required, group_required(*AUTORIZED_GROUPS)], name='dispatch')
+class ReclamoCreateView(edit.CreateView):
     """Vista para crear un reclamo.
     """
     model = ReclamoModel
@@ -129,7 +133,8 @@ class ReclamoCreateView(mixins.LoginRequiredMixin, edit.CreateView):
             'reclamo_form': reclamo_form, 'denunciante_form': denunciante_form})
 
 
-class ReclamoListView(mixins.LoginRequiredMixin, ListView):
+@method_decorator([login_required, group_required(*AUTORIZED_GROUPS)], name='dispatch')
+class ReclamoListView(ListView):
     """Vista para mostrar una lista de reclamos.
 
     Muestra una lista de reclamos que no han sido eliminados.
@@ -140,6 +145,11 @@ class ReclamoListView(mixins.LoginRequiredMixin, ListView):
     context_object_name = 'reclamos'
     queryset = ReclamoModel.objects.filter(eliminado=False)
     ordering = ['numero', '-repitancia']
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        reclamo_filter = ReclamoFilter(self.request.GET, queryset=queryset)
+        return reclamo_filter.qs
 
     def get_context_data(self, **kwargs):
         """Obtiene los datos del contexto para la vista.
@@ -162,11 +172,12 @@ class ReclamoListView(mixins.LoginRequiredMixin, ListView):
             relaciones.append(relacion)
 
         context['relaciones'] = relaciones
+        context['reclamo_filter'] = ReclamoFilter(self.request.GET, queryset=self.get_queryset())
         return context
 
 
-@method_decorator([login_required, group_required('gestor',)], name='dispatch')
-class ReclamoUpdateView(mixins.LoginRequiredMixin, UpdateView):
+@method_decorator([login_required, group_required(*AUTORIZED_GROUPS)], name='dispatch')
+class ReclamoUpdateView(UpdateView):
     """Vista para editar un reclamo existente.
 
     Permite editar los datos de un reclamo, incluido su denunciante.
@@ -233,7 +244,7 @@ class ReclamoUpdateView(mixins.LoginRequiredMixin, UpdateView):
 
 
 @login_required
-@group_required('gestor',)
+@group_required(*AUTORIZED_GROUPS)
 def reclamo_delete(request, id_reclamo):
     """Vista para la eliminación lógica de un reclamo.
 
@@ -244,7 +255,9 @@ def reclamo_delete(request, id_reclamo):
 
     try:
         reclamo.soft_delete()
-        messages.success(request, f'El reclamo {reclamo.numero} se ha eliminado exitosamente.')
+        mensaje_exito = format_html('El reclamo <strong>{}</strong> se ha eliminado exitosamente.', reclamo.numero)
+        messages.success(request, mensaje_exito)
     except Exception as e:
-        messages.error(request, f'Error al eliminar el reclamo {reclamo.numero}: {str(e)}')
+        mensaje_error = format_html('Error al eliminar el reclamo <strong>{}</strong>: {}', reclamo.numero, str(e))
+        messages.error(request, mensaje_error)
     return redirect('seguimiento')

@@ -107,6 +107,9 @@ gestion_reclamos/
 │   │   │   ├── __init__.py
 │   │   │   ├── calles_choices.py
 │   │   │   └── choices.py
+│   │   ├── decorators/
+│   │   │   ├── __init__.py
+│   │   │   ├── decorators.py
 │   │   ├── migrations/
 │   │   ├── __init__.py
 │   │   ├── admin.py

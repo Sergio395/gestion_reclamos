@@ -175,7 +175,7 @@
   </section><!-- End Claim Section -->
 
   {% load static %}
-    <script>
+    {% comment %} <script>
       const CALLES_DATA = [
         {% for calle in calles_data %}
             {
@@ -185,19 +185,18 @@
             }{% if not forloop.last %},{% endif %}
         {% endfor %}
       ];
-    </script>
+    </script> {% endcomment %}
   {% if accion == 'actualizar' %}
     <script>
       var accion = 'actualizar';
-      var calle0 = {{ calle0 }};
-      var calle1 = {{ calle1 }};
-      var calle2 = {{ calle2 }};
+      var calle0 = '{{ calle0 }}';
+      var calle1 = '{{ calle1 }}';
+      var calle2 = '{{ calle2 }}';
     </script>
   {% else %}
     <script>
       var accion = 'crear';
     </script>
   {% endif %}
-
   <script src="{% static 'reclamos/js/mostrar_calles.js' %}"></script>
 {% endblock contenido %}

@@ -11,14 +11,14 @@ from django.http import HttpResponseNotAllowed, HttpResponseRedirect
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
-from .models import inspecciones
+from .models import inspecciones, Inspeccion
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
 from apps.reclamos.models import ReclamoModel 
 from apps.reclamos.forms import ReclamoForm 
 from django.contrib.auth import mixins
 from django.contrib.auth.decorators import login_required
- 
+
 
 @login_required
 def db_inspeccion(request):

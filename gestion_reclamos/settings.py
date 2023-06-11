@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'apps.inspeccion.apps.InspeccionConfig',
     'apps.gestion.apps.GestionConfig',
     'apps.administracion.apps.AdministracionConfig',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -132,6 +133,13 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
 
+
+# Deploying static files
+# https://docs.djangoproject.com/en/3.2/howto/static-files/deployment/
+
+STATIC_ROOT = BASE_DIR / 'static_root'
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
@@ -156,7 +164,16 @@ EMAIL_HOST_USER = config("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
 RECIPIENT_ADDRESS = config("RECIPIENT_ADDRESS")
 
+
+# Substituting a custom User model
+# https://docs.djangoproject.com/en/3.2/topics/auth/customizing/#substituting-a-custom-user-model
+
 # AUTH_USER_MODEL = 'administracion.Usuario'
+
+
+# Settings for django.contrib.auth
+# https://docs.djangoproject.com/en/3.2/ref/settings/#auth
 
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = "index"
+LOGOUT_REDIRECT_URL = "index"
