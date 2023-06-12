@@ -1,0 +1,179 @@
+{% extends 'base/base.html' %}
+{% block titulo %}
+  {% if accion == 'actualizar' %}
+    Inspecciones: {{ pk }}
+  {% else %}
+    Edición Gestion
+  {% endif %}
+{% endblock titulo %}
+
+{% block css %}
+  <style>
+    label {
+      color: #008375;
+    }
+    div.text-center button {
+      width: 180px;
+    }
+    button#btn-reset {
+      background: DarkTurquoise;
+      border: 0;
+      padding: 14px 45px;
+      color: #fff;
+      transition: 0.4s;
+      border-radius: 50px;
+    }
+    button#btn-reset:hover {
+      background: Turquoise;
+    }
+    button#btn-button {
+      background: Crimson;
+      border: 0;
+      padding: 14px 45px;
+      color: #fff;
+      transition: 0.4s;
+      border-radius: 50px;
+    }
+    button#btn-button:hover {
+      background: Red;
+    }
+  </style>
+{% endblock css %}
+
+<!-- ======= Breadcrumbs ======= -->
+{% block etiqueta %}
+  {% if accion == 'actualizar' %}
+    Editar Gestion
+  {% else %}
+    Nuevo Gestion
+  {% endif %}
+{% endblock etiqueta %}
+{% block nav %}
+  {% if accion == 'actualizar' %}
+    <nav>
+      <div class="container">   
+        <ol>
+          <li><a href="{% url 'index' %}">Inicio</a></li>
+          <li><a href="{% url 'seguimiento' %}">Seguimiento</a></li>
+          <li>{{ numero_reclamo }}</li>
+        </ol>
+      </div>
+    </nav>
+  {% else %}
+    <nav>
+      <div class="container">   
+        <ol>
+          <li><a href="{% url 'index' %}">Inicio</a></li>
+          <li>Gestion Edición</li>
+        </ol>
+      </div>
+    </nav>
+  {% endif %}
+{% endblock nav %}
+
+<!-- End Breadcrumbs -->
+
+{% block contenido %}
+  {% load custom_filters %}
+  <!-- ======= Claim Section ======= -->
+  <section id="contact" class="contact">
+    <div class="container" data-aos="fade-up">
+      <div class="row gx-lg-0 gy-4">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8">
+
+          {% if messages %}
+            {% for message in messages %}
+              <div class="messages alert alert-{% if message.tags == 'error' %}warning{% else %}{{ message.tags }}{% endif %}" role="alert">
+                {{message}}
+              </div>
+            {% endfor %}
+            <script>
+              setTimeout(function() {
+                  var messages = document.getElementsByClassName('messages')[0];
+                  messages.style.display = 'none';
+              }, 5000); // Oculta el mensaje después de 5 segundos
+            </script>
+          {% endif %}
+
+          <form class="php-email-form" id="reclamo_form" name="gestion_form" action="{{ action_url }}" method="POST" enctype="multipart/form-data" novalidate>
+            {% csrf_token %}
+
+            <!-- Denunciante Formularios -->
+            <br>
+            <h4>Datos de Denunciante</h4>
+            <hr>
+            <div class="input-group mb-3">
+              <table>
+              {{ denunciante_form.as_table }}
+              </table>
+            </div>
+            <div class="input-group-append">
+              <button class="btn btn-warning" type="reset">Limpiar</button>
+              <button class="btn btn-primary" type="submit" onclick="{{ url_denunciante }}">Editar</button>
+            </div>
+            <!-- Reclamo formulario -->
+            <br>
+            <h4>Datos de Reclamo</h4>
+            <hr>
+            <div class="input-group mb-3">
+              <table>
+              {{ reclamo_form.as_table }}
+              </table>
+            </div>
+            <div class="input-group-append">
+              <button class="btn btn-warning" type="reset">Limpiar</button>
+              <button class="btn btn-primary" type="submit" onclick="{{ url_reclamo }}">Editar</button>
+            </div>
+            
+            <!-- Inspeccion Formulario -->
+            <br>
+            <h4>Datos de Inspección</h4>
+            <hr>
+            <div class="input-group mb-3">
+              <table>
+              {{ inspeccion_form.as_table }}
+              </table>
+            </div>
+            <div class="input-group-append">
+              <button class="btn btn-warning" type="reset">Limpiar</button>
+              <button class="btn btn-primary" type="submit" onclick="{{ url_inspeccion }}">Editar</button>
+            </div>
+
+            <!-- Gestion formulario -->
+            <br>
+            <h4>Datos de Gestión</h4>
+            <hr>
+            <div class="input-group mb-3">
+              <table>
+              {{ gestion_form.as_table }}
+              </table>
+            </div>
+            <div class="input-group-append">
+              <button class="btn btn-warning" type="reset">Limpiar</button>
+              <button class="btn btn-primary" type="submit" onclick="{{ url_gestion }}">Editar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section><!-- End Claim Section -->
+
+  {% load static %}
+  {% if accion == 'actualizar' %}
+  <script>
+    // Asignar el valor de las calles seleccionadas a una variable JavaScript
+    var accion = 'actualizar';
+    var calle0 = {{ calle0 }};
+    var calle1 = {{ calle1 }};
+    var calle2 = {{ calle2 }};
+  </script>
+  {% else %}
+  <script>
+    var accion = 'crear';
+  </script>
+  {% endif %}
+
+
+  <script src="{% static 'reclamos/js/mostrar_calles.js' %}"></script>
+{% endblock contenido %}

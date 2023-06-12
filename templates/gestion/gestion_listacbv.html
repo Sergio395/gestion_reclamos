@@ -33,48 +33,55 @@
           <!-- Segunda propuesta -->
           <div class="input-group mb-3">
             
-            <form class="php-email-form" id="" name="" action="" method="POST" >
+          <form class="php-email-form" id="" name="" action="" method="POST" >
               {% csrf_token %}
 
           <!-- Formulario Busqueda -->
-            <div class="input-group mb-3">
+        <div class="container-fluid">    
+        <div class="row">  
+          <div class="col">
+            <div class="input-group col-md-6 mb-1">
                 {{ form_busqueda.criterio1_valor }}
                 <div class="input-group-append">
                   {{ form_busqueda.criterio1_campo }}
                 </div>            
             </div>
 
-            <div class="input-group mb-3">
+            <div class="input-group col-md-6 mb-1">
               {{ form_busqueda.criterio2_valor }}
               <div class="input-group-append">
                 {{ form_busqueda.criterio2_campo }}
               </div>            
             </div>
-
-            <div class="input-group mb-3">
+          </div>
+          <div class="col">
+            <div class="input-group col-md-6 form-group mb-1">
               {{ form_busqueda.criterio3_valor }}
               <div class="input-group-append">
                 {{ form_busqueda.criterio3_campo }}
               </div>            
             </div>
 
-            <div class="input-group mb-3">
+            <div class="input-group col-md-6 form-group mb-1">
               {{ form_busqueda.criterio4_valor }}
               <div class="input-group-append">
                 {{ form_busqueda.criterio4_campo }}
               </div>            
             </div>
-
-              <div class="input-group-append">
-                <button class="btn btn-warning" type="reset">Limpiar</button>
-                <button class="btn btn-primary" type="submit">Buscar</button>
-              </div>
-            </form>           
           </div>
+        </div>
+        </div>
+        <div class="input-group-append">
+          <button class="btn btn-warning" type="reset">Limpiar</button>
+          <button class="btn btn-primary" type="submit">Buscar</button>
+        </div>
+        </form>           
+        </div>
           <!--fin filtros-->
           
           <!--- Tabla con los datos-->
           <div class="input-group mb-3">
+            <hr>
             <h2>Resultados de Inspecciones</h2>
             <hr>
           </div>
@@ -88,7 +95,7 @@
             {% endfor %}
             {% endif %}
 
-            {% if Inspecciones.len < 1 %}
+            {% if object_list.len < 1 %}
               <div class="messages alert" role="alert">
                 <p>No hay inspecciones con esas características</p>
               </div>
@@ -131,7 +138,7 @@
                 <!-- Datos de tabla   -->
                 <tbody>
                     <!-- Por cada reclamo en la lista reclamos -->
-                    {% for item in Inspecciones %}
+                    {% for item in inspecciones_list %}
                       <tr>
                         <!-- Datos de item -->
                         <!-- Empiezan las CBV -->
@@ -231,20 +238,42 @@
     </div>
 
       <!-- pagination -->
+      <!-- <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+    
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+    
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div> -->
+      <!-- Ejemplo-->
       <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
           <li class="page-item disabled">
-            <a class="page-link" href="#" tabindex="-1">Anterior</a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="#">1</a></li>
-          <li class="page-item">
-            <a class="page-link" href="#">2</a></li>
-          <li class="page-item">
-            <a class="page-link" href="#">3</a></li>
-          <li class="page-item">
-            <a class="page-link" href="#">Próximo</a>
-          </li>
+            <a class="page-link" href="#" tabindex="-1">Anterior</a></li>
+            {% if page_obj.has_previous %}
+              <li class="page-item">
+                <a class="page-link" tabindex="-1" href="?page=1"> 1</a></li>
+              <li class="page-item">
+                <a href="?page={{ page_obj.previous_page_number }}">Anterior</a></li>
+            {% endif %}
+              <li class="page-item">
+                <a class="page-link" href="#">{{ page_obj.number }}</a></li>
+            {% if page_obj.has_next %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ page_obj.next_page_number }}">Próximo</a></li>
+            {% endif %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Último</a></li>
         </ul>
       </nav>
 
