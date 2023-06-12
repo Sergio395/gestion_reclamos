@@ -12,11 +12,11 @@ urlpatterns = [
     path('eliminar/<int:id>', views.gestion_eliminar, name='gestion_eliminar'),
     
     # -- CBV --
-    path('listacbv/', views.GestionListView.as_view(), name='gestioncbv_lista'),
-    path('nuevocbv/<int:pk>/', views.GestionCreateView.as_view(), name='gestioncbv_nuevo'),
-    path('detallecbv/<int:pk>/', views.GestionDetailView.as_view(), name='gestioncbv_detalle'),
-    path('editarcbv/<int:pk>/', views.GestionUpdateView.as_view(), name='gestioncbv_editar'),
-    path('borrarcbv/<int:pk>/', views.GestionDeleteView.as_view(), name='gestiocbv_borrar'),
+    path('cbvlista/', views.GestionListView.as_view(), name='gestioncbv_lista'),
+    path('cbvnuevo/<int:pk>/', views.GestionCreateView.as_view(), name='gestioncbv_nuevo'),
+    path('cbvdetalle/<int:pk>/', views.GestionDetailView.as_view(), name='gestioncbv_detalle'),
+    path('cbveditar/<int:pk>/', views.GestionUpdateView.as_view(), name='gestioncbv_editar'),
+    path('cbvborrar/<int:pk>/', views.GestionDeleteView.as_view(), name='gestiocbv_borrar'),
     
     # path('nuevo/', views.ReclamoCreateView.as_view(), name='reclamo_form'),
     # path('seguimiento/', views.ReclamoListView.as_view(), name='seguimiento'),

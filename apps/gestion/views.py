@@ -117,13 +117,13 @@ class GestionListView(ListView):
     '''
     model = inspecciones
     paginate_by = 10
-    template_name = 'gestion/gestion_listacbv.html'
+    template_name = 'gestion/gestioncbv_lista.html'
     queryset = inspecciones.objects.filter(eliminado=False).all()
     ordering = ['id']
     
     def get_context_data(self, **kwargs):
         '''
-        Agrego informacion al contexto
+        Agrega el formulario de busqueda al contexto
         '''
         context = super(GestionListView, self).get_context_data(**kwargs)
         context['form_busqueda'] = BusquedaForm()
@@ -135,47 +135,51 @@ class GestionListView(ListView):
         Si el formulario de busqueda es validos, se filtran las inspecciones y se devuelve a la lista.
         """
         # carga las instancias de los formularios
-        self.object = self.get_object()
-        busqueda_form = self.busqueda_form_class(request.POST, instance=self.object)
-        reclamo_form = self.reclamo_form_class(request.POST, instance=self.object.inspecciones.reclamo)
-        inspeccion_form = self.reclamo_form_class(request.POST, instance=self.object.inspecciones)
-        gestion_form = self.get_form()
+        # self.object = self.get_object()
+        # busqueda_form = BusquedaForm(request.POST, instance=self.object)
+        busqueda_form = BusquedaForm(request.POST)
+        # reclamo_form = self.reclamo_form_class(request.POST, instance=self.object.inspecciones.reclamo)
+        # inspeccion_form = self.reclamo_form_class(request.POST, instance=self.object.inspecciones)
+        # gestion_form = self.get_form()
         # consulta si son validos
-        if denunciante_form.is_valid() and reclamo_form.is_valid() and inspeccion_form.is_valid() and gestion_form.is_valid():
-            return self.form_valid(denunciante_form, reclamo_form, inspeccion_form, gestion_form)
+        if busqueda_form.is_valid():
+            return self.form_valid(busqueda_form)
         else:
-            return self.form_invalid(denunciante_form, reclamo_form, inspeccion_form, gestion_form)
+            return self.form_invalid(busqueda_form)
+        
+# ------------ voy x aca -----------
 
-    def form_valid(self, denunciante_form, reclamo_form, inspeccion_form, gestion_form):
+    def form_valid(self, busqueda_form):
         """Guarda los datos actualizados del reclamo y denunciante.
 
         Redirige a la página de seguimiento después de guardar los cambios y muestra un mensaje de éxito.
         """
-        messages.success(self.request, 'Información actualizado con éxito')
-        denunciante = denunciante_form.save(commit=False)
-        reclamo = reclamo_form.save(commit=False)
-        reclamo.denunciantes.clear()
-        reclamo.denunciantes.add(denunciante)
-        reclamo.save()
-        inspeccion = inspeccion_form.save(commit=False)
-        inspeccion.save()
-        gestion = gestion_form.save(commit=False)
-        gestion.save()
-        return redirect(self.success_url)
+        messages.success(self.request, 'Resultados de la busqueda')
+        filtro = preparar_filtro(busqueda_form.cleaned_data)
+        inspeccion = inspecciones.objects.filter(**filtro)
+        # busqueda_form = denunciante_form.save(commit=False)
+        # reclamo = reclamo_form.save(commit=False)
+        # reclamo.denunciantes.clear()
+        # reclamo.denunciantes.add(denunciante)
+        # reclamo.save()
+        # inspeccion = inspeccion_form.save(commit=False)
+        # inspeccion.save()
+        # gestion = gestion_form.save(commit=False)
+        # gestion.save()
+        return (inspeccion)
 
-    def form_invalid(self, denunciante_form, reclamo_form, inspeccion_form, gestion_form):
+    def form_invalid(self, busqueda_form):
         """Maneja el caso cuando el formulario es inválido.
 
         Muestra un mensaje de error y renderiza nuevamente el formulario con los datos ingresados.
         """
         messages.error(self.request, 'Revisa los campos del formulario')
-        return self.render_to_response(self.get_context_data(
-            reclamo_form=reclamo_form, denunciante_form=denunciante_form, inspeccion_form=inspeccion_form, gestion_form=gestion_form))
+        return self.render_to_response(self.get_context_data(busqueda_form))
 
 class GestionCreateView(CreateView):
     model = GestionModel
     form_class = GestionForm
-    template_name = 'gestion/gestion_nuevo.html'
+    template_name = 'gestion/gestioncbv_nuevo.html'
     success_url = reverse_lazy('gestioncbv_lista')
 
 class GestionDetailView(DetailView):
@@ -183,7 +187,7 @@ class GestionDetailView(DetailView):
     Muestra una detalles de gestion
     '''
     model = GestionModel
-    template_name = 'gestion/gestion_detalle.html'
+    template_name = 'gestion/gestioncbv_detalle.html'
     queryset = GestionModel.objects.select_related().filter(eliminado=False)
     ordering = ['id']
     
@@ -295,7 +299,6 @@ class GestionUpdateView(UpdateView):
         return self.render_to_response(self.get_context_data(
             reclamo_form=reclamo_form, denunciante_form=denunciante_form, inspeccion_form=inspeccion_form, gestion_form=gestion_form))
 
-    
 class GestionDeleteView(DeleteView):
     model = GestionModel
     success_url = reverse_lazy("gestioncbv_lista")
