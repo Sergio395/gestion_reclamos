@@ -36,6 +36,7 @@ class Arbol(models.Model):
     
 
 from apps.reclamos.models import ReclamoModel
+#from apps.reclamos.models import Arbol
 from ..base.constants import choices
 
 from apps.administracion.models import Usuario
@@ -100,10 +101,10 @@ class inspecciones(models.Model):
     urgencia_trabajo = models.CharField (max_length=10, verbose_name="Urgencia", choices=UrgenciaChoices,
                                         default='') 
     justificacion = models.CharField(max_length=50, verbose_name="Justificacion")	
-    inspector = models.ForeignKey(Usuario,verbose_name=("inspector"),on_delete=models.CASCADE,default="") 	
+    inspector = models.ForeignKey(Usuario,verbose_name=("inspector"),on_delete=models.CASCADE,default="",null=True) 	
     fecha_carga_inspeccion=	models.DateField(auto_now_add=False, verbose_name="Fecha_carga_inspeccion")
     codigo_trabajo = models.CharField(max_length=50, verbose_name="Codigo_trabajo")
-    arbol = models.ForeignKey(Arbol,verbose_name=("arbol"), on_delete=models.CASCADE,null=True)
+    arbol = models.ForeignKey(Arbol,verbose_name=("arbol"), on_delete=models.CASCADE,null=True,blank="")
     foto = models.ImageField(upload_to='img_reclamos', null=True,
                             blank=True, verbose_name="Fotos") # img_reclamos define la ruta donde se almacenan las fotos
     eliminado=models.BooleanField(default=False)

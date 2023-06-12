@@ -80,6 +80,7 @@ class InspeccionesUpdateView(mixins.LoginRequiredMixin, UpdateView):
            
 @login_required
 def delete_inspeccion(request, pk):
+    
     try:
         inspeccion = inspecciones.objects.get(pk=pk)
     except inspecciones.DoesNotExist:

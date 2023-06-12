@@ -79,10 +79,11 @@
       </tbody>
     </table>
     <div class="row mt-5">
-      <div class="text-center col-md-4 form-group mt-5 mt-md-0"><a href=""><button type="button"
+      <div class="text-center col-md-4 form-group mt-5 mt-md-0"><a href="{% url 'carga_inspeccion' %}"><button type="button"
             class="btn btn-success">Nueva</button></a></div>
-      <div class="text-center col-md-4 form-group mt-5 mt-md-0"><a href=""><button type="button"
-            class="btn btn-primary">Volver</button></a></div>
+      <div class="text-center col-md-4 form-group mt-5 mt-md-0"> 
+        <button id="btn btn-success" type="button" onclick= "window.history.go(-1); return false;">Volver</button></div>
+
     </div>
   </form>
 </div>

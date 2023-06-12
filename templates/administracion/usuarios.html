@@ -6,7 +6,11 @@
     <hr>
     <div class="titulo_tabla">Usuario registrados</div>
     <hr>
-
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}" role="alert">
+        {{message}}
+    </div>
+    {% endfor %}
     <form id="contact-form" name="contact-form" action="" method="POST">
       {% csrf_token %}
       <table class="table  table-hover ">
@@ -25,18 +29,30 @@
         <tbody>
           {% for data in users %}
           <tr>
-            <td>{{data.0}}</td>
-            <td>{{data.1}}</td>
-            <td>{{data.2}}</td>
-            <td>{{data.3}}</td>
-            <td>{{data.4}}</td>
-            <td>{{data.5}}</td>
+            <td>{{data.usuario}}</td>
+            <td>{{data.nombre}}</td>
+            <td>{{data.apellido}}</td>
+            <td>{{data.clave}}</td>
+            <td>{{data.permiso}}</td>
+            <td>{{data.legajo}}</td>
 
             <td class="text-center ">
-              <a href="{% url 'editar_usuario' forloop.counter %}"><span class="	fas fa-edit"></span></a> |
-              <a onclick="" href="{% url 'eliminar_usuario' forloop.counter %}"><span class="far fa-trash-alt"></span></a>
+              <a href="{% url 'editar_usuario' data.id %}"><span class="	fas fa-edit"></span></a> |
+              <a href="{% url 'eliminar_usuario' data.id %}"  onclick="return confirmacion()" title="Eliminar"><span class="far fa-trash-alt"></span></a>
             </td>
           </tr>
+          <script>
+            function confirmacion() {
+                var respuesta = confirm ("¿Desea ELIMINAR el registro de forma permanente?");
+                
+                if (respuesta == true) {
+                    return true;
+                }
+                 else{
+                    return false;
+                 }  
+            }
+          </script>
           {% endfor %}
         </tbody>
       </table>
@@ -48,4 +64,4 @@
       </div>
     </form>
   </div>
-{% endblock contenido %}
+  {% endblock contenido %}
