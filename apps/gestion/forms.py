@@ -92,49 +92,23 @@ class GestionForm(forms.ModelForm):
 class BusquedaForm(forms.Form):
     campos = (
         ('none',' --- '),
-        ('medio','medio'),
-        ('fuente','fuente'),
-        ('nombre','nombre'),
-        ('apellido','apellido'),
-        ('dni','dni'),
-        ('celular','celular'),
-        ('tel_fijo','teléfono fijo'),
-        ('mail','mail'),
-        ('calle','calle'),
-        ('altura','altura'),
-        ('edificio','edificio'),
-        ('departamento','departamento'),
-        ('entre_calle_1','entre calle 1'),
-        ('entre_calle_2','entre calle 2'),
-        ('localidad','localidad'),
-        ('urgencia','urgencia'),
-        ('detalle','detalle'),
-        ('lugar','lugar'),
-        ('nota','nota'),
-        ('numero_reclamo','numero de reclamo'),
-        ('reclamo_valido','reclamo valido'),
-        ('trabajo','trabajo'),
-        ('especie','especie'),
-        ('altura','altura'),
-        ('dap','dap'),
-        ('cableado','cableado'),
-        ('construccion','construccion'),
-        ('observaciones','observaciones'),
-        ('urgencia','urgencia'),
-        ('inspector','inspector'),
-        ('estado','estado'),
-        ('gestion','gestion'),
-        ('detalle_gestion','detalle de gestion'),
-        ('equipo_trabajo','equipo de trabajo'),
-        ('ordentrabajo','orden detrabajo')
+        ('id','Inspeccion Nro'),
+        ('inspector','Inspector'),
+        ('reclamo','Reclamo'),
+        ('trabajo_a_realizar','Trabajo a realizar'),
+        ('urgencia_trabajo','Urgencia de trabajo'),
+        ('arbol','Árbol'),
+        ('especie','Especie'),
+        ('especie_altura','Especie altura'),
+        ('justificacion','Justificación'),
+        ('no_requiere_inspecion','No requiere inspección'),
+        ('observaciones','Observaciones'),
     )
 
     fechas = (
         ('none', ' --- '),
-        ('fecha', 'fecha'),
-        ('fecha_inspeccion', 'fecha de inspección'),
-        ('fecha_programada', 'fecha programada'),
-        ('fecha_solucion', 'fecha solución')
+        ('fecha_carga_de_inspeccion','Fecha carga de inspección'),
+        ('fecha_de_inspeccion','Fecha de inspección'),
     )
     
     criterio1_valor = forms.CharField( 
@@ -143,14 +117,14 @@ class BusquedaForm(forms.Form):
             attrs={
                 'placeholder': 'Texto a buscar en criterio 1',
                 'class': 'form-control', 
-                'style': 'height: 2.8em'}),
+                'style': 'height: 2.5em'}),
             required=False)
     criterio1_campo = forms.ChoiceField(
         label='Campo', 
         widget=forms.Select(
             attrs={
                 'placeholder': 'Campo a filtrar', 
-                'class': 'form-control', 
+                'class': 'form-control-desplegable mx-auto', 
                 'style': 'height: 2.5em'}), 
             choices=campos)
     
@@ -160,14 +134,14 @@ class BusquedaForm(forms.Form):
             attrs={
                 'placeholder': 'Texto a buscar en criterio 2',
                 'class': 'form-control mx-auto', 
-                'style': 'height: 2.8em'}),
+                'style': 'height: 2.5em'}),
                 required=False)
     criterio2_campo = forms.ChoiceField(
         label='Campo', 
         widget=forms.Select(
             attrs={
                 'placeholder': 'Campo a filtrar', 
-                'class': 'form-control mx-auto', 
+                'class': 'form-control-desplegable mx-auto', 
                 'style': 'height: 2.5em'}), 
             choices=campos)
     
@@ -177,14 +151,14 @@ class BusquedaForm(forms.Form):
             attrs={
                 'placeholder': 'Texto a buscar en criterio 3',
                 'class': 'form-control mx-auto', 
-                'style': 'height: 2.8em'}),
+                'style': 'height: 2.5em'}),
                 required=False)
     criterio3_campo = forms.ChoiceField(
         label='Campo', 
         widget=forms.Select(
             attrs={
                 'placeholder': 'Campo a filtrar', 
-                'class': 'form-control mx-auto', 
+                'class': 'form-control-desplegable mx-auto', 
                 'style': 'height: 2.5em'}), 
             choices=campos)
 
@@ -193,14 +167,14 @@ class BusquedaForm(forms.Form):
             attrs={
                 'type': 'date', 
                 'class': 'form-control mx-auto', 
-                'style': 'height: 2.8em'}),
+                'style': 'height: 2.5em'}),
                 required=False)
     criterio4_campo = forms.ChoiceField(
         label='Fecha a buscar', 
         widget=forms.Select(
             attrs={
                 'placeholder': 'Fecha a filtrar', 
-                'class': 'form-control mx-auto', 
+                'class': 'form-control-desplegable mx-auto', 
                 'style': 'height: 2.5em'}), 
             choices=fechas)
 

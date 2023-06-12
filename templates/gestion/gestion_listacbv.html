@@ -1,5 +1,64 @@
 {% extends 'base/base.html' %}
 {% block titulo %}Gestión{% endblock titulo %}
+<!--==== Estilop CSS para la tabla de resultados ====-->
+
+{% block css %}
+  <style>
+    .ancho-celda {
+      min-width: 14em;
+    }
+    .acciones-celda {
+      min-width: 20em;
+    }
+    .form-control-desplegable {
+      display: block;
+      width: 100%;
+      padding: 0.375rem 0.75rem;
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.5;
+      color: #212529;
+      background-color: #fff;
+      background-clip: padding-box;
+      border: 1px solid #ced4da;
+      border: 1px solid #ced4da;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      /* border-top-left-radius: 0.375rem; */
+      border-top-right-radius: 0.375rem;
+      border-bottom-right-radius: 0.375rem;
+      /* border-bottom-left-radius: 0.375rem; */
+      transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    }
+    
+    /* div.text-center button {
+      width: 180px;
+    }
+    button#btn-reset {
+      background: DarkTurquoise;
+      border: 0;
+      padding: 14px 45px;
+      color: #fff;
+      transition: 0.4s;
+      border-radius: 50px;
+    }
+    button#btn-reset:hover {
+      background: Turquoise;
+    }
+    button#btn-button {
+      background: Crimson;
+      border: 0;
+      padding: 14px 45px;
+      color: #fff;
+      transition: 0.4s;
+      border-radius: 50px;
+    }
+    button#btn-button:hover {
+      background: Red;
+    } */
+  </style>
+{% endblock css %}
 
 <!-- ======= Breadcrumbs ======= -->
 {% block etiqueta %}Gestión{% endblock etiqueta %}
@@ -22,19 +81,21 @@
         <!-- <div class="row gx-lg-0 gy-4"> -->
 
           <!--filtros-->
-          <div class="input-group mb-3">
+          <div class="mb-3">
             <h2>Buscar</h2>
             <hr>
           </div>
           
-          <!-- Primera propuesta -->
-          <!--caja de busqueda -->
-
-          <!-- Segunda propuesta -->
-          <div class="input-group mb-3">
+          
+          <!-- Marco de busqueda -->
+          <div class="mb-3"> 
             
-          <form class="php-email-form" id="" name="" action="{% url 'gestioncbv_lista' %}" method="POST" >
+          <form class="" id="" name="" action="{% url 'gestioncbv_lista' %}" method="POST" >
               {% csrf_token %}
+              <div class="input-group mb-3">
+                <h4>Criterios de búsqueda</h4>
+                <hr>
+              </div>
 
           <!-- Formulario Busqueda -->
         <div class="container-fluid">    
@@ -71,17 +132,17 @@
           </div>
         </div>
         </div>
-        <div class="input-group-append">
+        <br>
+        <div class="input-group-append espacio-botones">
           <button class="btn btn-warning" type="reset" onclick="window.history.go(-1); return false;">Limpiar</button>
-          <button class="btn btn-primary" type="submit">Buscar</button>
+          <button class="btn btn-success" type="submit">Buscar</button>
         </div>
         </form>           
         </div>
           <!--fin filtros-->
-          
+          <br>
           <!--- Tabla con los datos-->
-          <div class="input-group mb-3">
-            <hr>
+          <div class="mb-3">
             <h2>Resultados de Inspecciones</h2>
             <hr>
           </div>
@@ -107,31 +168,21 @@
                 <!-- Titulos -->
                 <thead>
                   <tr>
-                    <th class="ancho-celda">Acciones</th>
-                    <th class="ancho-celda">Arbol</th>
-                    <th class="ancho-celda">Arbol id</th>
-                    <th class="ancho-celda">Cableado cercano</th>
-                    <th class="ancho-celda">Código de trabajo</th>
-                    <th class="ancho-celda">Construcción cercana</th>
-                    <th class="ancho-celda">DAP</th>
-                    <th class="ancho-celda">Disposición</th>
-                    <th class="ancho-celda">Especie</th>
-                    <th class="ancho-celda">Especie Altura</th>
-                    <th class="ancho-celda">Especie Id</th>
+                    <th class="acciones-celda">Acciones</th>
+                    <th class="ancho-celda">Inspeccion Nro</th>
                     <th class="ancho-celda">Fecha carga de inspeccion</th>
                     <th class="ancho-celda">Fecha de inspeccion</th>
-                    <th class="ancho-celda">Foto</th>
-                    <th class="ancho-celda">Id</th>
                     <th class="ancho-celda">Inspector</th>
-                    <th class="ancho-celda">Inspector Id</th>
+                    <th class="ancho-celda">Reclamo</th>
+                    <th class="ancho-celda">Trabajo a realizar</th>
+                    <th class="ancho-celda">Urgencia trabajo</th>
+                    <th class="ancho-celda">Arbol</th>
+                    <th class="ancho-celda">Especie</th>
+                    <th class="ancho-celda">Especie Altura</th>
                     <th class="ancho-celda">Justificación</th>
                     <th class="ancho-celda">No Requiere Inspeccion</th>
                     <th class="ancho-celda">Observaciones sitio</th>
-                    <th class="ancho-celda">Reclamo</th>
-                    <th class="ancho-celda">Reclamo Id</th>
-                    <th class="ancho-celda">Trabajo a realizar</th>
-                    <th class="ancho-celda">Trabajo a realizar Id</th>
-                    <th class="ancho-celda">Urgencia trabajo</th>
+                    
                   </tr>
                 </thead>
                 
@@ -143,90 +194,43 @@
                         <!-- Datos de item -->
                         <!-- Empiezan las CBV -->
                         <td>
-                          <a href="{% url 'gestioncbv_nuevo' item.id %}" class="btn btn-success" role="button">
-                            Asociar
-                          </a>
-                          <a href="{% url 'gestioncbv_detalle' item.id %}" class="btn btn-warning" role="button">
-                            Editar
-                          </a>
-                          <a href="" class="btn btn-danger" role="button">Borrar
-                          </a>
+                          <a href="{% url 'gestioncbv_nuevo' item.id %}" class="btn btn-sm btn-outline-success" role="button">
+                            Asociar</a>
+                          <a href="{% url 'gestioncbv_detalle' item.id %}" class="btn btn-sm btn-outline-success" role="button">
+                            Editar</a>
+                          <a href="" class="btn btn-sm btn-outline-warning" role="button">
+                            Borrar</a>
+                          <a href="{% url 'gestioncbv_detalle' item.id %}" class="btn btn-sm btn-outline-success" role="button">
+                            Ver</a>
                         </td>
                         <td class="ancho-celda">
-                          {{ item.arbol }}
-                        </td>
+                          {{ item.id }}</td>
                         <td class="ancho-celda">
-                            {{ item.arbol_id }}
-                          </td>
+                          {{ item.fecha_carga_inspeccion }}</td>
                         <td class="ancho-celda">
-                          {{ item.cableado_cercano }}
-                        </td>
+                          {{ item.fecha_de_inspeccion }}</td>
                         <td class="ancho-celda">
-                          {{ item.codigo_trabajo }}
-                        </td> 
+                          {{ item.inspector }}</td>
                         <td class="ancho-celda">
-                          {{ item.construccion_cercana }}
-                        </td> 
+                          {{ item.reclamo }}</td>
                         <td class="ancho-celda">
-                          {{ item.dap }}
-                        </td> 
+                          {{ item.trabajo_a_realizar }}</td>
                         <td class="ancho-celda">
-                          {{ item.disposicion }}
-                        </td> 
+                          {{ item.urgencia_trabajo }}</td>
                         <td class="ancho-celda">
-                          {{ item.especie }}
-                        </td> 
+                          {{ item.arbol }}</td>
                         <td class="ancho-celda">
-                          {{ item.especie_altura }}
-                        </td> 
+                          {{ item.especie }}</td> 
                         <td class="ancho-celda">
-                          {{ item.especie_id }}
-                        </td>
+                          {{ item.especie_altura }}</td>
                         <td class="ancho-celda">
-                          {{ item.fecha_carga_inspeccion }}
-                        </td>
+                          {{ item.inspector }}</td>
                         <td class="ancho-celda">
-                          {{ item.fecha_de_inspeccion }}
-                        </td>
+                          {{ item.justificacion }}</td>
                         <td class="ancho-celda">
-                          {{ item.foto }}
-                        </td>
+                          {{ item.no_requiere_inspeccion }}</td>
                         <td class="ancho-celda">
-                            {{ item.id }}
-                          </td>
-                        <td class="ancho-celda">
-                          {{ item.inspector }}
-                        </td>
-                        <td class="ancho-celda">
-                          {{ item.inspector_id }}
-                        </td>
-                        <td class="ancho-celda">
-                          {{ item.justificacion }}
-                        </td>
-                        <td class="ancho-celda">
-                          {{ item.no_requiere_inspeccion }}
-                        </td>
-                        <td class="ancho-celda">
-                          {{ item.observaciones_sitio }}
-                        </td>
-                        <td class="ancho-celda">
-                          {{ item.reclamo }}
-                        </td>
-                        <td class="ancho-celda">
-                            {{ item.reclamo_id }}
-                          </td>
-                        <td class="ancho-celda">
-                            {{ item.trabajo_a_realizar }}
-                          </td>
-                        <td class="ancho-celda">
-                          {{ item.trabajo_a_realizar_id }}
-                        </td>
-                        <td class="ancho-celda">
-                          {{ item.urgencia_trabajo }}
-                        </td>
-                        <td class="ancho-celda">
-                          {{ item.eliminado }}
-                        </td>                        
+                          {{ item.observaciones_sitio }}</td>                       
                       </tr>
                     {% endfor %} 
                     <!-- fin de recorrer cada reclamo -->
