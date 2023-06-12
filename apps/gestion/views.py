@@ -134,14 +134,7 @@ class GestionListView(ListView):
 
         Si el formulario de busqueda es validos, se filtran las inspecciones y se devuelve a la lista.
         """
-        # carga las instancias de los formularios
-        # self.object = self.get_object()
-        # busqueda_form = BusquedaForm(request.POST, instance=self.object)
         busqueda_form = BusquedaForm(request.POST)
-        # reclamo_form = self.reclamo_form_class(request.POST, instance=self.object.inspecciones.reclamo)
-        # inspeccion_form = self.reclamo_form_class(request.POST, instance=self.object.inspecciones)
-        # gestion_form = self.get_form()
-        # consulta si son validos
         if busqueda_form.is_valid():
             return self.form_valid(busqueda_form)
         else:
@@ -157,16 +150,8 @@ class GestionListView(ListView):
         messages.success(self.request, 'Resultados de la busqueda')
         filtro = preparar_filtro(busqueda_form.cleaned_data)
         inspeccion = inspecciones.objects.filter(**filtro)
-        # busqueda_form = denunciante_form.save(commit=False)
-        # reclamo = reclamo_form.save(commit=False)
-        # reclamo.denunciantes.clear()
-        # reclamo.denunciantes.add(denunciante)
-        # reclamo.save()
-        # inspeccion = inspeccion_form.save(commit=False)
-        # inspeccion.save()
-        # gestion = gestion_form.save(commit=False)
-        # gestion.save()
-        return (inspeccion)
+        self.success_url = reverse_lazy('gestioncbv_lista')
+        return redirect(self.success_url, inspecciones=inspeccion)
 
     def form_invalid(self, busqueda_form):
         """Maneja el caso cuando el formulario es inválido.

@@ -154,9 +154,14 @@
                 {{message}}
               </div>
             {% endfor %}
+            <script>
+              setTimeout(function() {
+                  var messages = document.getElementsByClassName('messages')[0];
+                  messages.style.display = 'none';}, 5000); // Oculta el mensaje después de 5 segundos
+            </script>
             {% endif %}
 
-            {% if object_list.len < 1 %}
+            {% if inspecciones_list.len < 1 %}
               <div class="messages alert" role="alert">
                 <p>No hay inspecciones con esas características</p>
               </div>
