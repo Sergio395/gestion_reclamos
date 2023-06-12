@@ -129,6 +129,49 @@ class GestionListView(ListView):
         context['form_busqueda'] = BusquedaForm()
         return context
 
+    def post(self, request, *args, **kwargs):
+        """Procesa el formulario enviado por POST.
+
+        Si el formulario de busqueda es validos, se filtran las inspecciones y se devuelve a la lista.
+        """
+        # carga las instancias de los formularios
+        self.object = self.get_object()
+        busqueda_form = self.busqueda_form_class(request.POST, instance=self.object)
+        reclamo_form = self.reclamo_form_class(request.POST, instance=self.object.inspecciones.reclamo)
+        inspeccion_form = self.reclamo_form_class(request.POST, instance=self.object.inspecciones)
+        gestion_form = self.get_form()
+        # consulta si son validos
+        if denunciante_form.is_valid() and reclamo_form.is_valid() and inspeccion_form.is_valid() and gestion_form.is_valid():
+            return self.form_valid(denunciante_form, reclamo_form, inspeccion_form, gestion_form)
+        else:
+            return self.form_invalid(denunciante_form, reclamo_form, inspeccion_form, gestion_form)
+
+    def form_valid(self, denunciante_form, reclamo_form, inspeccion_form, gestion_form):
+        """Guarda los datos actualizados del reclamo y denunciante.
+
+        Redirige a la página de seguimiento después de guardar los cambios y muestra un mensaje de éxito.
+        """
+        messages.success(self.request, 'Información actualizado con éxito')
+        denunciante = denunciante_form.save(commit=False)
+        reclamo = reclamo_form.save(commit=False)
+        reclamo.denunciantes.clear()
+        reclamo.denunciantes.add(denunciante)
+        reclamo.save()
+        inspeccion = inspeccion_form.save(commit=False)
+        inspeccion.save()
+        gestion = gestion_form.save(commit=False)
+        gestion.save()
+        return redirect(self.success_url)
+
+    def form_invalid(self, denunciante_form, reclamo_form, inspeccion_form, gestion_form):
+        """Maneja el caso cuando el formulario es inválido.
+
+        Muestra un mensaje de error y renderiza nuevamente el formulario con los datos ingresados.
+        """
+        messages.error(self.request, 'Revisa los campos del formulario')
+        return self.render_to_response(self.get_context_data(
+            reclamo_form=reclamo_form, denunciante_form=denunciante_form, inspeccion_form=inspeccion_form, gestion_form=gestion_form))
+
 class GestionCreateView(CreateView):
     model = GestionModel
     form_class = GestionForm

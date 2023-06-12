@@ -33,7 +33,7 @@
           <!-- Segunda propuesta -->
           <div class="input-group mb-3">
             
-          <form class="php-email-form" id="" name="" action="" method="POST" >
+          <form class="php-email-form" id="" name="" action="{% url 'gestioncbv_lista' %}" method="POST" >
               {% csrf_token %}
 
           <!-- Formulario Busqueda -->
@@ -72,7 +72,7 @@
         </div>
         </div>
         <div class="input-group-append">
-          <button class="btn btn-warning" type="reset">Limpiar</button>
+          <button class="btn btn-warning" type="reset" onclick="window.history.go(-1); return false;">Limpiar</button>
           <button class="btn btn-primary" type="submit">Buscar</button>
         </div>
         </form>           
