@@ -27,7 +27,7 @@ def admin(request):
 
 #------------------------------------crud usuario-----------------------------------------------------------------------   
 
-class UserListView(ListView):
+class UserListView(mixins.LoginRequiredMixin, ListView):
     model = Usuario
     context_object_name = 'users'
     template_name = 'administracion/usuarios.html'
@@ -35,7 +35,7 @@ class UserListView(ListView):
     #ordering = ['apellido']
 
 
-class UserCreateView(CreateView):
+class UserCreateView(mixins.LoginRequiredMixin,CreateView):
     model = Usuario
     form_class = Userform
     template_name = 'administracion/nuevo_usuario.html'
@@ -43,7 +43,7 @@ class UserCreateView(CreateView):
     
  
 
-class UserUpdateView(UpdateView):
+class UserUpdateView(mixins.LoginRequiredMixin, UpdateView):
     
     model = Usuario
     form_class = Userform
@@ -67,9 +67,10 @@ class UserUpdateView(UpdateView):
 
         if formulario.is_valid():
             formulario.save()
-            messages.success(self.request, 'Se ha editado el usuario correctamente')
+            messages.success(self.request, 'Se ha editado el usuario correctamente')            
             return redirect('usuario')
         
+@login_required     
 def delete_usuario(request,pk):
     try:
         usuario = Usuario.objects.get(pk=pk)

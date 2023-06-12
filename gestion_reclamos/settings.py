@@ -156,7 +156,7 @@ MEDIA_ROOT = BASE_DIR / 'media' # Path where media is stored
 # EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
 # RECIPIENT_ADDRESS = config("RECIPIENT_ADDRESS")
 
-# AUTH_USER_MODEL = 'administracion.Usuario'
+#AUTH_USER_MODEL = 'administracion.Usuario'
 
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = "index"
