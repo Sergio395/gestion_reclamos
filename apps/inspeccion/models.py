@@ -1,39 +1,41 @@
 from django.db import models
+from apps.administracion.models import Usuario
 
-from .choices import lugares, reclamo, trabajos, inspectores,especies,urgencias
+from apps.reclamos.models import ReclamoModel
+from apps.base.constants.choices import  ReclamoChoices, UrgenciaChoices
+# from base.constants.choices import LugaresChoices, ReclamoChoices, TrabajosChoices, InspectoresChoices,especies,UrgenciaChoices
 
 class Inspeccion(models.Model):
         
     fecha_inspeccion = models.DateField(verbose_name='Fecha de inspección')
-    reclamo = models.CharField(max_length=100, verbose_name="Reclamo a inspeccionar",choices=reclamo, default='01')
-    inspector = models.CharField(max_length=100, verbose_name="Inspector",choices=inspectores,default='01')
-    lugar = models.CharField(max_length=100, choices=lugares,default='ZN')
-    nota = models.CharField(max_length=300, verbose_name="nota",null=False,blank=True)
-    foto = models.ImageField(upload_to='img_reclamos', null=True, blank=True, verbose_name="Fotos")
-    especie=models.CharField(max_length=100, verbose_name="Especie",choices=especies,default='1')
-    trabajo = models.CharField(max_length=100, choices=trabajos,default='1')
-    def __str__(self):
-        return "{} - {}, {} // {} ".format(self.reclamo, self.inspector, self.lugar,self.fecha_inspeccion)
+    # reclamo = models.CharField(max_length=100, verbose_name="Reclamo a inspeccionar",choices=reclamo, default='01')
+    # inspector = models.CharField(max_length=100, verbose_name="Inspector",choices=inspectores,default='01')
+    # lugar = models.CharField(max_length=100, choices=lugares,default='ZN')
+    # nota = models.CharField(max_length=300, verbose_name="nota",null=False,blank=True)
+    # foto = models.ImageField(upload_to='img_reclamos', null=True, blank=True, verbose_name="Fotos")
+    # especie=models.CharField(max_length=100, verbose_name="Especie",choices=especies,default='1')
+    # trabajo = models.CharField(max_length=100, choices=trabajos,default='1')
+    # def __str__(self):
+        # return "{} - {}, {} // {} ".format(self.reclamo, self.inspector, self.lugar,self.fecha_inspeccion)
     
-    class Meta:
-        verbose_name = "Inspeccion"
-        verbose_name_plural = "Inspecciones"
-        db_table = "inspeccion"
-        ordering = ['fecha_inspeccion','lugar', 'reclamo']
+    # class Meta:
+        # verbose_name = "Inspeccion"
+        # verbose_name_plural = "Inspecciones"
+        # db_table = "inspeccion"
+        # ordering = ['fecha_inspeccion','lugar', 'reclamo']
     
 class Arbol(models.Model):
     
     inspeccion = models.ForeignKey(Inspeccion, null=True, blank=True, on_delete=models.CASCADE)
     
     
-    urgencia=models.CharField(max_length=100,choices=urgencias,default='1')
-    def __str__(self):
-        texto= '{} '
-        return texto.format(self.inspeccion)
+    # urgencia=models.CharField(max_length=100,choices=urgencias,default='1')
+    # def __str__(self):
+        # texto= '{} '
+        # return texto.format(self.inspeccion)
     
 
 from apps.reclamos.models import ReclamoModel
-from apps.inspeccion.models import Arbol
 from ..base.constants import choices
 
 from apps.administracion.models import Usuario
@@ -82,7 +84,8 @@ class inspecciones(models.Model):
      """
     DisposicionChoices = (('BLANK ' , ''), ('PUNTUAL','Puntual'),('LINEAL','Lineal'))  
      
-    #UrgenciaChoices = (('BLANK ' , ' '), ('BAJA','BAJA'),('MEDIA','MEDIA'),('ALTA','ALTA'))  
+    UrgenciaChoices = (('BLANK ' , ' '), ('BAJA','BAJA'),('MEDIA','MEDIA'),('ALTA','ALTA')) 
+     
     no_requiere_inspeccion 	=  models.BooleanField(default=False)           
     fecha_de_inspeccion	=  models.DateField(auto_now_add=False, verbose_name="Fecha de inspeccion")
     reclamo = models.ForeignKey(ReclamoModel, verbose_name=("Reclamo"), on_delete=models.CASCADE)
@@ -94,8 +97,8 @@ class inspecciones(models.Model):
     cableado_cercano = models.CharField(max_length=50, verbose_name="Cableado_cercano",default="", null=True)
     construccion_cercana = models.CharField(max_length=50, verbose_name="Construccion_cercana", null=True)	
     observaciones_sitio= models.CharField(max_length=50, verbose_name="Observaciones" ,default="", null=True)	
-    urgencia_trabajo = models.CharField (max_length=5, verbose_name="Urgencia", choices=choices.UrgenciaChoices.choices,
-                                        default=choices.UrgenciaChoices.BLANK) 
+    urgencia_trabajo = models.CharField (max_length=10, verbose_name="Urgencia", choices=UrgenciaChoices,
+                                        default='') 
     justificacion = models.CharField(max_length=50, verbose_name="Justificacion")	
     inspector = models.ForeignKey(Usuario,verbose_name=("inspector"),on_delete=models.CASCADE,default="") 	
     fecha_carga_inspeccion=	models.DateField(auto_now_add=False, verbose_name="Fecha_carga_inspeccion")

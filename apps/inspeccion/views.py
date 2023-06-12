@@ -5,7 +5,7 @@ from django.http import HttpResponse
 # from django.template import loader
 from django.shortcuts import render,redirect
 from django.http import HttpResponseNotAllowed
-from .forms import ContactoForm, NuevaInspeccion, NuevaCertificacion
+from .forms import ContactoForm, NuevaInspeccion
 
 from django.http import HttpResponseNotAllowed, HttpResponseRedirect
 from django.views.generic import ListView
@@ -22,15 +22,15 @@ from django.contrib.auth.decorators import login_required
 
 @login_required
 def db_inspeccion(request):
-    inspeccionesRealizadas = Inspeccion.objects.all()
+    inspeccionesRealizadas = inspecciones.objects.all()
     return render (request, 'inspeccion/inspecciones.html',{'inspecciones':inspeccionesRealizadas  })
 
 @login_required    
 def carga_inspeccion(request):
-    inspeccionesRealizadas = Inspeccion.objects.all()
+    inspeccionesRealizadas = inspecciones.objects.all()
     return render (request, 'inspeccion/inspecciones.html',{'inspecciones':inspeccionesRealizadas  })
     
- @login_required
+@login_required
 def inspeccion(request):
     mensaje = None
     if request.method == 'POST':
@@ -207,25 +207,25 @@ def mostrar_reclamo(request, pk):
 
     # return render(request, 'inspeccion/nueva_inspeccion.html', context)
 
-@login_required
-def carga_certificacion(request):
-    mensaje = None
-    if request.method == 'POST':
-        nueva_certificacion = NuevaCertificacion(request.POST)
-        mensaje = 'Hemos recibido tus datos'
-        # acción para tomar los datos del formulario
-    elif request.method == 'GET':
-        nueva_certificacion = NuevaCertificacion()
-    else:
-        return HttpResponseNotAllowed(f"Método {request.method} no soportado")
+# @login_required
+# def carga_certificacion(request):
+    # mensaje = None
+    # if request.method == 'POST':
+        # nueva_certificacion = NuevaCertificacion(request.POST)
+        # mensaje = 'Hemos recibido tus datos'
+        # # acción para tomar los datos del formulario
+    # elif request.method == 'GET':
+        # nueva_certificacion = NuevaCertificacion()
+    # else:
+        # return HttpResponseNotAllowed(f"Método {request.method} no soportado")
 
-    context = {
-        # 'cursos': listado_cursos,
-        'mensaje': mensaje,
-        'nueva_certificacion': nueva_certificacion
-    }
+    # context = {
+        # # 'cursos': listado_cursos,
+        # 'mensaje': mensaje,
+        # 'nueva_certificacion': nueva_certificacion
+    # }
 
-    return render(request, 'inspeccion/nueva_certificacion.html', context)
+    # return render(request, 'inspeccion/nueva_certificacion.html', context)
 
 
 
