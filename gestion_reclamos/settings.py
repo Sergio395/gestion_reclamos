@@ -31,19 +31,25 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+
+    # Django internal apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Django external apps
+    'django_filters',
+
+    # Django custom apps
     'apps.base.apps.BaseConfig',
     'apps.relevamiento.apps.RelevamientoConfig',
     'apps.reclamos.apps.ReclamosConfig',
     'apps.inspeccion.apps.InspeccionConfig',
     'apps.gestion.apps.GestionConfig',
     'apps.administracion.apps.AdministracionConfig',
-    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -149,8 +155,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Media files
 # https://docs.djangoproject.com/en/3.2/topics/files/
 
-MEDIA_URL = '/media/' # Base url to serve media files
-MEDIA_ROOT = BASE_DIR / 'media' # Path where media is stored
+# Base url to serve media files
+MEDIA_URL = '/media/'
+
+# Path where media is stored
+MEDIA_ROOT = BASE_DIR / 'media'
 
 
 # Send email

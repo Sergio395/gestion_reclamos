@@ -109,7 +109,7 @@ gestion_reclamos/
 │   │   │   └── choices.py
 │   │   ├── decorators/
 │   │   │   ├── __init__.py
-│   │   │   ├── decorators.py
+│   │   │   └── decorators.py
 │   │   ├── migrations/
 │   │   ├── __init__.py
 │   │   ├── admin.py
@@ -203,6 +203,7 @@ gestion_reclamos/
 │   │   └── usuarios.html
 │   ├── base/
 │   │   ├── base_admin.html
+│   │   ├── base_filters.html
 │   │   ├── base.html
 │   │   ├── footer.html
 │   │   └── index.html

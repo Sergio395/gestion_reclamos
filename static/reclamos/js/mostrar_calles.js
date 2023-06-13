@@ -55,8 +55,3 @@ function inicializarFiltradoCalles() {
 
 // Llamar a la función para inicializar el filtrado de calles
 inicializarFiltradoCalles();
-
-// Establecer el valor seleccionado en los elementos select de calles
-document.querySelector('#id_calle').value = calle0;
-document.querySelector('#id_entre_calle_1').value = calle1;
-document.querySelector('#id_entre_calle_2').value = calle2;

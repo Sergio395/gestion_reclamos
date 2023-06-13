@@ -18,6 +18,7 @@ class Styles:
     @staticmethod
     def input_styles(attrs):
         """Devuelve un diccionario de atributos con valores por defecto.
+
         Recibe un diccionario con los atributos y valores personalizados del campo y actualiza los valores por defecto del diccionario 'default_attrs' para devolverlos como un diccionario único.
         """
         default_attrs = {

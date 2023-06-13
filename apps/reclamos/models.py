@@ -91,7 +91,7 @@ class ReclamoModel(models.Model):
         verbose_name="Fecha del reclamo"
     )
     repitancia = models.IntegerField(
-        verbose_name="Repitancia del reclamo",
+        verbose_name="Repitancia",
         default=1
         )
     denunciantes = models.ManyToManyField(

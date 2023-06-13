@@ -18,10 +18,7 @@
 <!-- End Breadcrumbs -->
 
 {% block contenido %}
-  <form method="get">
-    {{ reclamo_filter.form.as_p }}
-    <button type="submit">Filtrar</button>
-  </form>
+  {% include 'base/base_filters.html' %}
   <div class="table-responsive">
     {% if messages %}
       {% for message in messages %}

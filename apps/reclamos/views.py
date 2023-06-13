@@ -1,5 +1,5 @@
-import django_filters
-# from datetime import datetime
+# import django_filters
+from datetime import datetime
 from django.views.generic import edit, ListView, UpdateView
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
@@ -20,6 +20,9 @@ from ..base.utils.decorators import group_required
 
 
 AUTORIZED_GROUPS = 'operador', 'inspector', 'gestor', 'administrador'
+
+
+# * ==================== RECLAMO CREATE VIEW ====================
 
 @method_decorator([login_required, group_required(*AUTORIZED_GROUPS)], name='dispatch')
 class ReclamoCreateView(edit.CreateView):
@@ -133,6 +136,8 @@ class ReclamoCreateView(edit.CreateView):
             'reclamo_form': reclamo_form, 'denunciante_form': denunciante_form})
 
 
+# * ==================== RECLAMO LIST VIEW ====================
+
 @method_decorator([login_required, group_required(*AUTORIZED_GROUPS)], name='dispatch')
 class ReclamoListView(ListView):
     """Vista para mostrar una lista de reclamos.
@@ -147,9 +152,33 @@ class ReclamoListView(ListView):
     ordering = ['numero', '-repitancia']
 
     def get_queryset(self):
+        """Obtiene el conjunto de consultas (queryset) para la vista.
+
+        Filtra los reclamos según los parámetros proporcionados en el formulario, incluyendo la fecha de inicio y fecha de fin, si están presentes y retorna un queryset filtrado de reclamos.
+        """
+        print(self.request.GET)
+
         queryset = super().get_queryset()
         reclamo_filter = ReclamoFilter(self.request.GET, queryset=queryset)
-        return reclamo_filter.qs
+
+        # Obtener los valores de fecha_inicio y fecha_fin del formulario
+        fecha_inicio = self.request.GET.get('fecha_inicio')
+        fecha_fin = self.request.GET.get('fecha_fin')
+
+        # Obtener los valores de repitancia_operador y repitancia del formulario
+        repitancia_operador = reclamo_filter.form.data.get('repitancia_operador')
+        repitancia = reclamo_filter.form.data.get('repitancia')
+
+        if fecha_inicio:
+            queryset = queryset.filter(fecha__gte=fecha_inicio)
+
+        if fecha_fin:
+            queryset = queryset.filter(fecha__lte=fecha_fin)
+
+        if repitancia and repitancia_operador:
+            queryset = reclamo_filter.filters['repitancia'].filter(queryset, repitancia)
+
+        return queryset
 
     def get_context_data(self, **kwargs):
         """Obtiene los datos del contexto para la vista.
@@ -175,6 +204,8 @@ class ReclamoListView(ListView):
         context['reclamo_filter'] = ReclamoFilter(self.request.GET, queryset=self.get_queryset())
         return context
 
+
+# * ==================== RECLAMO UPDATE VIEW ====================
 
 @method_decorator([login_required, group_required(*AUTORIZED_GROUPS)], name='dispatch')
 class ReclamoUpdateView(UpdateView):
@@ -242,6 +273,8 @@ class ReclamoUpdateView(UpdateView):
         return self.render_to_response(self.get_context_data(
             reclamo_form=reclamo_form, denunciante_form=denunciante_form))
 
+
+# * ==================== RECLAMO DELETE ====================
 
 @login_required
 @group_required(*AUTORIZED_GROUPS)

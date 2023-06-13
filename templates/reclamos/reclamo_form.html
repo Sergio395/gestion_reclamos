@@ -175,23 +175,15 @@
   </section><!-- End Claim Section -->
 
   {% load static %}
-    {% comment %} <script>
-      const CALLES_DATA = [
-        {% for calle in calles_data %}
-            {
-                {% for key, value in calle.items %}
-                    '{{ key }}': '{{ value }}'{% if not forloop.last %},{% endif %}
-                {% endfor %}
-            }{% if not forloop.last %},{% endif %}
-        {% endfor %}
-      ];
-    </script> {% endcomment %}
   {% if accion == 'actualizar' %}
     <script>
       var accion = 'actualizar';
       var calle0 = '{{ calle0 }}';
       var calle1 = '{{ calle1 }}';
       var calle2 = '{{ calle2 }}';
+      document.querySelector('#id_calle').value = calle0;
+      document.querySelector('#id_entre_calle_1').value = calle1;
+      document.querySelector('#id_entre_calle_2').value = calle2;
     </script>
   {% else %}
     <script>
