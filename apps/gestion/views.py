@@ -110,22 +110,31 @@ def preparar_filtro(criterio):
 
 # Lo mismo pero con CBV
 #---------------------------
-
 class GestionListView(ListView):
+    '''
+    Muestra una lista de inspecciones
+    '''
+    model = GestionModel
+    paginate_by = 10
+    template_name = 'gestion/gestioncbv_lista.html'
+    # queryset = inspecciones.objects.filter(eliminado=False).all()
+    ordering = ['id']
+
+class InspeccionListView(ListView):
     '''
     Muestra una lista de inspecciones
     '''
     model = inspecciones
     paginate_by = 10
-    template_name = 'gestion/gestioncbv_lista.html'
-    queryset = inspecciones.objects.filter(eliminado=False).all()
+    template_name = 'gestion/inspeccioncbv_lista.html'
+    queryset = inspecciones.objects.select_related().filter(eliminado=False)
     ordering = ['id']
     
     def get_context_data(self, **kwargs):
         '''
         Agrega el formulario de busqueda al contexto
         '''
-        context = super(GestionListView, self).get_context_data(**kwargs)
+        context = super(InspeccionListView, self).get_context_data(**kwargs)
         context['form_busqueda'] = BusquedaForm()
         return context
 

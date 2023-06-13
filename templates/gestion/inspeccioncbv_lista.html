@@ -161,7 +161,7 @@
             </script>
             {% endif %}
 
-            {% if gestionmodel_list.len < 1 %}
+            {% if inspecciones_list.len < 1 %}
               <div class="messages alert" role="alert">
                 <p>No hay inspecciones con esas características</p>
               </div>
@@ -174,27 +174,26 @@
                 <thead>
                   <tr>
                     <th class="acciones-celda">Acciones</th>
-                    <th class="ancho-celda">Gestión nro</th>
-                    <th class="ancho-celda">Estado</th>
-                    <th class="ancho-celda">Fecha programada</th>
-                    <th class="ancho-celda">Fecha solución</th>
-                    <th class="ancho-celda">Equipo de trabajo</th>
-                    <th class="ancho-celda">Árbol</th>
-                    <th class="ancho-celda">Detalle de gestión</th>
-                    <th class="ancho-celda">Inspección nro<th>
+                    <th class="ancho-celda">Inspeccion Nro</th>
+                    <th class="ancho-celda">Fecha carga de inspeccion</th>
+                    <th class="ancho-celda">Fecha de inspeccion</th>
+                    <th class="ancho-celda">Inspector</th>
+                    <th class="ancho-celda">Reclamo</th>
+                    <th class="ancho-celda">Trabajo a realizar</th>
                     <th class="ancho-celda">Urgencia trabajo</th>
-                    <th class="ancho-celda">Fecha inspección</th>
-                    <th class="ancho-celda">Reclamo Nro</th>
-                    <th class="ancho-celda">Medio</th>
-                    <th class="ancho-celda">Fecha de creación</th>
-                    <th class="ancho-celda">Urgencia</th> 
+                    <th class="ancho-celda">Arbol</th>
+                    <th class="ancho-celda">Especie</th>
+                    <th class="ancho-celda">Especie Altura</th>
+                    <th class="ancho-celda">Justificación</th>
+                    <th class="ancho-celda">No Requiere Inspeccion</th>
+                    <th class="ancho-celda">Observaciones sitio</th> 
                   </tr>
                 </thead>
                 
                 <!-- Datos de tabla   -->
                 <tbody>
                     <!-- Por cada reclamo en la lista reclamos -->
-                    {% for item in gestionmodel_list %}
+                    {% for item in inspecciones_list %}
                       <tr>
                         <!-- Datos de item -->
                         <!-- Empiezan las CBV -->
@@ -205,19 +204,18 @@
                           <a href="{% url 'gestioncbv_detalle' item.id %}" class="btn btn-sm btn-outline-success" role="button">Ver</a>
                         </td>
                         <td class="ancho-celda">{{ item.id }}</td>
-                        <td class="ancho-celda">{{ item.estado }}</td>
-                        <td class="ancho-celda">{{ item.fecha_programada }}</td>
-                        <td class="ancho-celda">{{ item.fecha_solucion }}</td>
-                        <td class="ancho-celda">{{ item.equipo_trabajo }}</td>
+                        <td class="ancho-celda">{{ item.fecha_carga_inspeccion }}</td>
+                        <td class="ancho-celda">{{ item.fecha_de_inspeccion }}</td>
+                        <td class="ancho-celda">{{ item.inspector }}</td>
+                        <td class="ancho-celda">{{ item.reclamo }}</td>
+                        <td class="ancho-celda">{{ item.trabajo_a_realizar }}</td>
+                        <td class="ancho-celda">{{ item.urgencia_trabajo }}</td>
                         <td class="ancho-celda">{{ item.arbol }}</td>
-                        <td class="ancho-celda">{{ item.detalle_gestion }}</td>
-                        <td class="ancho-celda">{{ item.inspecciones.id }}</td>
-                        <td class="ancho-celda">{{ item.inspecciones.urgencia_trabajo }}</td>
-                        <td class="ancho-celda">{{ item.inspecciones.fecha_de_inspeccion }}</td>
-                        <td class="ancho-celda">{{ item.inspecciones.reclamo.id }}</td>
-                        <td class="ancho-celda">{{ item.inspecciones.reclamo.medio }}</td>
-                        <td class="ancho-celda">{{ item.inspecciones.reclamo.fecha_creacion }}</td>
-                        <td class="ancho-celda">{{ item.inspecciones.reclamo.urgencia }}</td>             
+                        <td class="ancho-celda">{{ item.especie }}</td> 
+                        <td class="ancho-celda">{{ item.especie_altura }}</td>
+                        <td class="ancho-celda">{{ item.justificacion }}</td>
+                        <td class="ancho-celda">{{ item.no_requiere_inspeccion }}</td>
+                        <td class="ancho-celda">{{ item.observaciones_sitio }}</td>                       
                       </tr>
                     {% endfor %} 
                     <!-- fin de recorrer cada reclamo -->
