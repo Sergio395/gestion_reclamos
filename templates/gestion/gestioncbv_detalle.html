@@ -10,7 +10,11 @@
 {% block css %}
   <style>
     label {
+      min-width: 15rem;
       color: #008375;
+    }
+    td {
+      min-width: 20rem;
     }
     div.text-center button {
       width: 180px;
@@ -37,6 +41,14 @@
     button#btn-button:hover {
       background: Red;
     }
+    .contact .php-email-form button[type=submit] {
+    background: var(--color-primary);
+    border: 0;
+    padding: 6px 12px;
+    color: #fff;
+    transition: 0.4s;
+    border-radius: 0.375rem;
+}
   </style>
 {% endblock css %}
 
@@ -54,7 +66,7 @@
       <div class="container">   
         <ol>
           <li><a href="{% url 'index' %}">Inicio</a></li>
-          <li><a href="{% url 'seguimiento' %}">Seguimiento</a></li>
+          <li><a href="{% url 'gestion' %}">Gestion</a></li>
           <li>{{ numero_reclamo }}</li>
         </ol>
       </div>
@@ -64,7 +76,7 @@
       <div class="container">   
         <ol>
           <li><a href="{% url 'index' %}">Inicio</a></li>
-          <li>Gestion Edición</li>
+          <li><a href="{% url 'gestioncbv_detalle' %}"></a>Gestion Edición</li>
         </ol>
       </div>
     </nav>
@@ -78,10 +90,15 @@
   <!-- ======= Claim Section ======= -->
   <section id="contact" class="contact">
     <div class="container" data-aos="fade-up">
+      <div class="mb-3">
+        <h2>Detalle de gestion Nro: {{ numero_gestion }}</h2>
+        <br>
+        <br>
+      </div>
       <div class="row gx-lg-0 gy-4">
-        <div class="col-lg-2"></div>
+        <div class="col-lg-2">
+        </div>
         <div class="col-lg-8">
-
           {% if messages %}
             {% for message in messages %}
               <div class="messages alert alert-{% if message.tags == 'error' %}warning{% else %}{{ message.tags }}{% endif %}" role="alert">
@@ -108,9 +125,11 @@
               {{ denunciante_form.as_table }}
               </table>
             </div>
+            <br>
             <div class="input-group-append">
+              <button class="btn btn-primary" type="button" onclick="history.back()">Volver</button>
               <button class="btn btn-warning" type="reset">Limpiar</button>
-              <button class="btn btn-primary" type="submit" onclick="{{ url_denunciante }}">Editar</button>
+              <button class="btn btn-danger" type="submit" onclick="{% url 'gestion' %}">Editar</button>
             </div>
             <!-- Reclamo formulario -->
             <br>
@@ -121,9 +140,11 @@
               {{ reclamo_form.as_table }}
               </table>
             </div>
+            <br>
             <div class="input-group-append">
+              <button class="btn btn-primary" type="button" onclick="history.back()">Volver</button>
               <button class="btn btn-warning" type="reset">Limpiar</button>
-              <button class="btn btn-primary" type="submit" onclick="{{ url_reclamo }}">Editar</button>
+              <button class="btn btn-danger" type="submit" onclick="{% url 'gestion' %}">Editar</button>
             </div>
             
             <!-- Inspeccion Formulario -->
@@ -134,10 +155,12 @@
               <table>
               {{ inspeccion_form.as_table }}
               </table>
+            <br>
             </div>
             <div class="input-group-append">
+              <button class="btn btn-primary" type="button" onclick="history.back()">Volver</button>
               <button class="btn btn-warning" type="reset">Limpiar</button>
-              <button class="btn btn-primary" type="submit" onclick="{{ url_inspeccion }}">Editar</button>
+              <button class="btn btn-danger" type="submit" onclick="{% url 'gestion' %}">Editar</button>
             </div>
 
             <!-- Gestion formulario -->
@@ -149,9 +172,11 @@
               {{ gestion_form.as_table }}
               </table>
             </div>
+            <br>
             <div class="input-group-append">
+              <button class="btn btn-primary" type="button" onclick="history.back()">Volver</button>
               <button class="btn btn-warning" type="reset">Limpiar</button>
-              <button class="btn btn-primary" type="submit" onclick="{{ url_gestion }}">Editar</button>
+              <button class="btn btn-danger" type="submit" onclick="{% url 'gestion' %}">Editar</button>
             </div>
           </form>
         </div>

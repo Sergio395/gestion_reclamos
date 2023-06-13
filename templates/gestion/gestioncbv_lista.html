@@ -67,7 +67,7 @@
     <div class="container">
       <ol>
         <li><a href="{% url 'index' %}">Inicio</a></li>
-        <li>Gestión</li>
+        <li><a href="{% url 'gestion' %}">Gestión</a></li>
       </ol>
     </div>
   </nav>
@@ -186,8 +186,7 @@
                     <th class="ancho-celda">Especie Altura</th>
                     <th class="ancho-celda">Justificación</th>
                     <th class="ancho-celda">No Requiere Inspeccion</th>
-                    <th class="ancho-celda">Observaciones sitio</th>
-                    
+                    <th class="ancho-celda">Observaciones sitio</th> 
                   </tr>
                 </thead>
                 
@@ -199,43 +198,24 @@
                         <!-- Datos de item -->
                         <!-- Empiezan las CBV -->
                         <td>
-                          <a href="{% url 'gestioncbv_nuevo' item.id %}" class="btn btn-sm btn-outline-success" role="button">
-                            Asociar</a>
-                          <a href="{% url 'gestioncbv_detalle' item.id %}" class="btn btn-sm btn-outline-success" role="button">
-                            Editar</a>
-                          <a href="" class="btn btn-sm btn-outline-warning" role="button">
-                            Borrar</a>
-                          <a href="{% url 'gestioncbv_detalle' item.id %}" class="btn btn-sm btn-outline-success" role="button">
-                            Ver</a>
+                          <a href="{% url 'gestioncbv_nuevo' %}" class="btn btn-sm btn-outline-success" role="button">Asociar</a>
+                          <a href="{% url 'gestioncbv_detalle' item.id %}" class="btn btn-sm btn-outline-success" role="button">Editar</a>
+                          <a href="" class="btn btn-sm btn-outline-warning" role="button">Borrar</a>
+                          <a href="{% url 'gestioncbv_detalle' item.id %}" class="btn btn-sm btn-outline-success" role="button">Ver</a>
                         </td>
-                        <td class="ancho-celda">
-                          {{ item.id }}</td>
-                        <td class="ancho-celda">
-                          {{ item.fecha_carga_inspeccion }}</td>
-                        <td class="ancho-celda">
-                          {{ item.fecha_de_inspeccion }}</td>
-                        <td class="ancho-celda">
-                          {{ item.inspector }}</td>
-                        <td class="ancho-celda">
-                          {{ item.reclamo }}</td>
-                        <td class="ancho-celda">
-                          {{ item.trabajo_a_realizar }}</td>
-                        <td class="ancho-celda">
-                          {{ item.urgencia_trabajo }}</td>
-                        <td class="ancho-celda">
-                          {{ item.arbol }}</td>
-                        <td class="ancho-celda">
-                          {{ item.especie }}</td> 
-                        <td class="ancho-celda">
-                          {{ item.especie_altura }}</td>
-                        <td class="ancho-celda">
-                          {{ item.inspector }}</td>
-                        <td class="ancho-celda">
-                          {{ item.justificacion }}</td>
-                        <td class="ancho-celda">
-                          {{ item.no_requiere_inspeccion }}</td>
-                        <td class="ancho-celda">
-                          {{ item.observaciones_sitio }}</td>                       
+                        <td class="ancho-celda">{{ item.id }}</td>
+                        <td class="ancho-celda">{{ item.fecha_carga_inspeccion }}</td>
+                        <td class="ancho-celda">{{ item.fecha_de_inspeccion }}</td>
+                        <td class="ancho-celda">{{ item.inspector }}</td>
+                        <td class="ancho-celda">{{ item.reclamo }}</td>
+                        <td class="ancho-celda">{{ item.trabajo_a_realizar }}</td>
+                        <td class="ancho-celda">{{ item.urgencia_trabajo }}</td>
+                        <td class="ancho-celda">{{ item.arbol }}</td>
+                        <td class="ancho-celda">{{ item.especie }}</td> 
+                        <td class="ancho-celda">{{ item.especie_altura }}</td>
+                        <td class="ancho-celda">{{ item.justificacion }}</td>
+                        <td class="ancho-celda">{{ item.no_requiere_inspeccion }}</td>
+                        <td class="ancho-celda">{{ item.observaciones_sitio }}</td>                       
                       </tr>
                     {% endfor %} 
                     <!-- fin de recorrer cada reclamo -->
