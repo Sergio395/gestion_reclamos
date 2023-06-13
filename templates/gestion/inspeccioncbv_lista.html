@@ -187,6 +187,7 @@
                     <th class="ancho-celda">Justificación</th>
                     <th class="ancho-celda">No Requiere Inspeccion</th>
                     <th class="ancho-celda">Observaciones sitio</th> 
+                    <th class="ancho-celda">Tiene Gestion</th> 
                   </tr>
                 </thead>
                 
@@ -215,7 +216,8 @@
                         <td class="ancho-celda">{{ item.especie_altura }}</td>
                         <td class="ancho-celda">{{ item.justificacion }}</td>
                         <td class="ancho-celda">{{ item.no_requiere_inspeccion }}</td>
-                        <td class="ancho-celda">{{ item.observaciones_sitio }}</td>                       
+                        <td class="ancho-celda">{{ item.observaciones_sitio }}</td>
+                        <td class="ancho-celda">{{ item.gestionmodel_set.id }}</td>                    
                       </tr>
                     {% endfor %} 
                     <!-- fin de recorrer cada reclamo -->

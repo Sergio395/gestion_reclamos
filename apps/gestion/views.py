@@ -117,8 +117,13 @@ class GestionListView(ListView):
     model = GestionModel
     paginate_by = 10
     template_name = 'gestion/gestioncbv_lista.html'
-    # queryset = inspecciones.objects.filter(eliminado=False).all()
     ordering = ['id']
+
+class GestionCreateView(CreateView):
+    model = GestionModel
+    form_class = GestionForm
+    template_name = 'gestion/gestioncbv_nuevo.html'
+    success_url = reverse_lazy('gestioncbv_lista')
 
 class InspeccionListView(ListView):
     '''
@@ -159,7 +164,7 @@ class InspeccionListView(ListView):
         messages.success(self.request, 'Resultados de la busqueda')
         filtro = preparar_filtro(busqueda_form.cleaned_data)
         inspeccion = inspecciones.objects.filter(**filtro)
-        self.success_url = reverse_lazy('gestioncbv_lista')
+        self.success_url = reverse_lazy('inspeccioncbv_lista')
         return redirect(self.success_url, inspecciones=inspeccion)
 
     def form_invalid(self, busqueda_form):
@@ -170,20 +175,14 @@ class InspeccionListView(ListView):
         messages.error(self.request, 'Revisa los campos del formulario')
         return self.render_to_response(self.get_context_data(busqueda_form))
 
-class GestionCreateView(CreateView):
-    model = GestionModel
-    form_class = GestionForm
-    template_name = 'gestion/gestioncbv_nuevo.html'
-    success_url = reverse_lazy('gestioncbv_lista')
-
 class GestionDetailView(DetailView):
     '''
     Muestra una detalles de gestion
     '''
     model = GestionModel
     template_name = 'gestion/gestioncbv_detalle.html'
-    queryset = GestionModel.objects.select_related().filter(eliminado=False)
-    ordering = ['id']
+    # queryset = GestionModel.objects.filter(eliminado=False)
+    # ordering = ['id']
     
     def get_context_data(self, **kwargs):
         '''
@@ -191,7 +190,7 @@ class GestionDetailView(DetailView):
         '''
         context = super(GestionDetailView, self).get_context_data(**kwargs)
         # obtengo instancia de los distintos modelos
-        denunciante = self.object.inspecciones.reclamo.denunciantes.first()
+        denunciante = self.object.inspecciones.reclamo.denunciantes.instance
         reclamo = self.object.inspecciones.reclamo
         inspeccion = self.object.inspecciones
         gestion = self.object
@@ -201,17 +200,16 @@ class GestionDetailView(DetailView):
         context['inspeccion_form'] = NuevaInspeccion(instance=inspeccion)
         context['gestion_form'] = GestionForm(instance=gestion)
         # Paso las rutas de edición y sus id
-        context['url_denunciante'] = f"'editar_reclamo' {denunciante.id}"
-        context['url_reclamo'] = f"'editar_reclamo'{reclamo.id}"
-        context['url_inspeccion'] = f"'inspeccion' {inspeccion.id}"
-        context['url_gestion'] = f"'gestioncbv_editar' {gestion.id}"
+        context['url_denunciante'] = f"'editar_reclamo' {denunciante}"
+        context['url_reclamo'] = f"'editar_reclamo'{reclamo}"
+        context['url_inspeccion'] = f"'inspeccion' {inspeccion}"
+        context['url_gestion'] = f"'gestioncbv_editar' {gestion}"
         # el reto de variables de contexto
         context['calle0'] = reclamo.calle
         context['calle1'] = reclamo.entre_calle_1
         context['calle2'] = reclamo.entre_calle_2
         context['action_url'] = 'gestioncbv_detalle'
         context['accion'] = 'actualizar'
-
         return context
 
 class GestionUpdateView(UpdateView):

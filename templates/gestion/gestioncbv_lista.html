@@ -143,7 +143,7 @@
           <br>
           <!--- Tabla con los datos-->
           <div class="mb-3">
-            <h2>Resultados de Inspecciones</h2>
+            <h2>Resultados de Gestión</h2>
             <hr>
           </div>
           <div class="table-responsive">
@@ -199,10 +199,14 @@
                         <!-- Datos de item -->
                         <!-- Empiezan las CBV -->
                         <td>
-                          <a href="{% url 'gestioncbv_nuevo' %}" class="btn btn-sm btn-outline-success" role="button">Asociar</a>
+                          <a href="{% url 'gestioncbv_detalle' item.id %}" class="btn btn-sm btn-outline-success" role="button">Ver</a>
                           <a href="{% url 'gestioncbv_detalle' item.id %}" class="btn btn-sm btn-outline-success" role="button">Editar</a>
                           <a href="" class="btn btn-sm btn-outline-warning" role="button">Borrar</a>
-                          <a href="{% url 'gestioncbv_detalle' item.id %}" class="btn btn-sm btn-outline-success" role="button">Ver</a>
+                          {% if item.inspecciones.id %}
+                          <a href="{% url 'gestioncbv_nuevo' %}" class="btn btn-sm btn-outline-success disabled" role="button" aria-disabled="true">Asociar</a>
+                          {% else %}
+                          <a href="{% url 'gestioncbv_nuevo' %}" class="btn btn-sm btn-outline-success" role="button">Asociar</a>
+                          {% endif %}
                         </td>
                         <td class="ancho-celda">{{ item.id }}</td>
                         <td class="ancho-celda">{{ item.estado }}</td>
