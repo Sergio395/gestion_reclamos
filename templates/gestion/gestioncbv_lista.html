@@ -79,14 +79,44 @@
     <section id="contact" class="contact">
       <div class="container" data-aos="fade-up">
         <!-- <div class="row gx-lg-0 gy-4"> -->
-
-          <!--filtros-->
+          <!-- <div class="mb-3">
+            <h2>Título</h2>
+            <hr>
+          </div> -->
+          <button class="btn btn-primary" href="{% url 'gestioncbv_nuevo'}" onclick="{% url 'gestioncbv_nuevo'}" type="link">Nueva Gestion</button>
+          <button class="btn btn-primary" href="{% url 'inspeccioncbv_lista'}" onclick="{% url 'inspeccioncbv_lista'}" type="link">Inspecciones</button>
+          <br>
+                     
+        <!-- </div> -->
+          <!--fin filtros-->
+          <br>
+          <!--- Tabla con los datos-->
           <div class="mb-3">
-            <h2>Buscar</h2>
+            <h2>Buscar en Gestión</h2>
             <hr>
           </div>
+          <div class="table-responsive">
+            
+            {% if messages %}
+            {% for message in messages %}
+              <div class="messages alert alert-{% if message.tags == 'error' %}warning{% else %}{{ message.tags }}{% endif %}" role="alert">
+                {{message}}
+              </div>
+            {% endfor %}
+            <script>
+              setTimeout(function() {
+                  var messages = document.getElementsByClassName('messages')[0];
+                  messages.style.display = 'none';}, 5000); // Oculta el mensaje después de 5 segundos
+            </script>
+            {% endif %}
+
+            {% if inspecciones_list.len < 1 %}
+              <div class="messages alert" role="alert">
+                <p>No hay inspecciones con esas características</p>
+              </div>
+            {% endif %}
           
-          
+          <!--Fin filtros -->
           <!-- Marco de busqueda -->
           <div class="mb-3"> 
             
@@ -134,7 +164,6 @@
         </div>
         <br>
         <div class="input-group-append espacio-botones">
-          <button class="btn btn-primary" type="button">Nueva Gestion</button>
           <button class="btn btn-warning" type="reset" onclick="window.history.go(-1); return false;">Limpiar</button>
           <button class="btn btn-success" type="submit">Buscar</button>
         </div>
