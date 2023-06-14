@@ -13,7 +13,9 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from apps.inspeccion.models import inspecciones
 from apps.inspeccion.forms import NuevaInspeccion
+from apps.reclamos.models import DenuncianteModel, ReclamoModel
 from apps.reclamos.forms import DenuncianteForm, ReclamoForm
+from django.http import HttpResponseRedirect
 
 # # Create your views here.    
 def gestion_index(request):
@@ -115,6 +117,7 @@ class GestionListView(ListView):
     Muestra una lista de inspecciones
     '''
     model = GestionModel
+    queryset = GestionModel.objects.filter(eliminado=False)
     paginate_by = 10
     template_name = 'gestion/gestioncbv_lista.html'
     ordering = ['id']
@@ -124,6 +127,76 @@ class GestionCreateView(CreateView):
     form_class = GestionForm
     template_name = 'gestion/gestioncbv_nuevo.html'
     success_url = reverse_lazy('gestioncbv_lista')
+
+class GestionSoloUpdateView(UpdateView):
+    model = GestionModel
+    fields = '__all__'
+    # template_name_suffix = "_update_form"
+    template_name = 'gestion/gestionsolocbv_detalle.html'
+    success_url = reverse_lazy("gestioncbv_lista")
+
+class ReclamoGestionCreateView(edit.CreateView):
+    """Vista para crear un reclamo.
+    """
+    model = GestionModel
+    form_class = GestionForm
+    inspeccion_form_class = NuevaInspeccion
+    template_name = 'gestion/gestioncbv_nuevo.html'
+    success_url = reverse_lazy('gestioncbv_nuevo')
+
+    def get_context_data(self, **kwargs):
+        """Obtiene los datos del contexto para la vista.
+
+        Retorna el contexto actualizado con la acción "crear" y la URL de acción.
+        """
+        context = super().get_context_data(**kwargs)
+        context['accion'] = 'crear'
+        context['action_url'] = reverse_lazy('gestioncbv_nuevo')
+        return context
+
+    def get(self, request, *args, **kwargs):
+        """Maneja la solicitud GET para la vista.
+
+        Retorna la página de creación de reclamo con los campos de formulario vacíos.
+        """
+        gestion_form = self.form_class()
+        inspeccion_form = self.inspeccion_form_class()
+        return render(request, self.template_name, {
+            'gestion_form': gestion_form, 'inspeccion_form': inspeccion_form})
+
+    def post(self, request, *args, **kwargs):
+        """Maneja la solicitud POST para la vista.
+
+        Valida los formularios de reclamo y denunciante. Si son válidos, llama a form_valid(). De lo contrario, llama a form_invalid().
+        """
+        gestion_form = self.form_class(request.POST)
+        inspeccion_form = self.inspeccion_form_class(request.POST)
+
+        if gestion_form.is_valid() and inspeccion_form.is_valid():
+            return self.form_valid(gestion_form, inspeccion_form)
+        else:
+            return self.form_invalid(gestion_form, inspeccion_form)
+
+    def form_valid(self, gestion_form, inspeccion_form):
+        """Guarda el reclamo y el denunciante en la base de datos.
+
+        Muestra un mensaje de éxito y redirige a la URL de creación de reclamo con los campos vacíos.
+        """
+        messages.success(self.request, 'Gestion creado con éxito')
+        gestion = gestion_form.save(commit=False)
+        inspeccion = inspeccion_form.save()
+        gestion.save()
+        # reclamo.denunciantes.add(denunciante)
+        return redirect(self.success_url)
+
+    def form_invalid(self, gestion_form, inspeccion_form):
+        """Maneja el caso en que los formularios son inválidos.
+
+        Muestra un mensaje de error y vuelve a renderizar la página de creación de reclamo.
+        """
+        messages.error(self.request, 'Revisa los campos del formulario')
+        return render(self.request, self.template_name, {
+            'gestion_form': gestion_form, 'inspeccion_form': inspeccion_form})
 
 class InspeccionListView(ListView):
     '''
@@ -293,39 +366,15 @@ class GestionUpdateView(UpdateView):
 
 class GestionDeleteView(DeleteView):
     model = GestionModel
-    success_url = reverse_lazy("gestioncbv_lista")
+    template_name = 'gestion/gestioncbv_borrar.html'
+    success_url = reverse_lazy('gestioncbv_lista')
 
-    def post(self, request, *args, **kwargs):
-        """Procesa el formulario enviado por POST.
-
-        Si el formulario de reclamo y el formulario de denunciante son válidos, se guarda la información actualizada y se redirige a la página de seguimiento.
-        """
-        # carga las instancias de los formularios
+    # se puede sobreescribir el metodo delete por defecto de la VBC, para que no se realice una baja fisica
+    def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
-        gestion_form = self.get_form()
-        # consulta si son validos
-        if gestion_form.is_valid():
-            return self.form_valid(gestion_form)
-        else:
-            return self.form_invalid(gestion_form)
+        self.object.soft_delete()
+        return HttpResponseRedirect(self.get_success_url())
 
-    def form_valid(self, gestion_form):
-        """Guarda los datos actualizados del reclamo y denunciante.
-
-        Redirige a la página de seguimiento después de guardar los cambios y muestra un mensaje de éxito.
-        """
-        messages.success(self.request, 'Información actualizado con éxito')
-        gestion = gestion_form.save(commit=False)
-        gestion.soft_delete()
-        return redirect(self.success_url)
-
-    def form_invalid(self, gestion_form):
-        """Maneja el caso cuando el formulario es inválido.
-
-        Muestra un mensaje de error y renderiza nuevamente el formulario con los datos ingresados.
-        """
-        messages.error(self.request, 'Revisa los campos del formulario')
-        return self.render_to_response(self.get_context_data(gestion_form=gestion_form))
 
 
 #-------------------------------

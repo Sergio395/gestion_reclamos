@@ -134,6 +134,7 @@
         </div>
         <br>
         <div class="input-group-append espacio-botones">
+          <button class="btn btn-primary" type="button">Nueva Gestion</button>
           <button class="btn btn-warning" type="reset" onclick="window.history.go(-1); return false;">Limpiar</button>
           <button class="btn btn-success" type="submit">Buscar</button>
         </div>
@@ -199,9 +200,9 @@
                         <!-- Datos de item -->
                         <!-- Empiezan las CBV -->
                         <td>
-                          <a href="{% url 'gestioncbv_detalle' item.id %}" class="btn btn-sm btn-outline-success" role="button">Ver</a>
-                          <a href="{% url 'gestioncbv_detalle' item.id %}" class="btn btn-sm btn-outline-success" role="button">Editar</a>
-                          <a href="" class="btn btn-sm btn-outline-warning" role="button">Borrar</a>
+                          <a href="{% url 'gestioncbv_detalle' item.id %}" class="btn btn-sm btn-outline-success" role="button">Detalle</a>
+                          <a href="{% url 'gestioncbv_editar' item.id %}" class="btn btn-sm btn-outline-success" role="button">Editar</a>
+                          <a href="{% url 'gestioncbv_borrar' item.id %}" class="btn btn-sm btn-outline-danger" role="button">Borrar</a>
                           {% if item.inspecciones.id %}
                           <a href="{% url 'gestioncbv_nuevo' %}" class="btn btn-sm btn-outline-success disabled" role="button" aria-disabled="true">Asociar</a>
                           {% else %}
@@ -215,7 +216,7 @@
                         <td class="ancho-celda">{{ item.equipo_trabajo }}</td>
                         <td class="ancho-celda">{{ item.arbol }}</td>
                         <td class="ancho-celda">{{ item.detalle_gestion }}</td>
-                        <td class="ancho-celda">{{ item.inspecciones.id }}</td>
+                        <td class="ancho-celda">{{ item.inspecciones_id }}</td>
                         <td class="ancho-celda">{{ item.inspecciones.urgencia_trabajo }}</td>
                         <td class="ancho-celda">{{ item.inspecciones.fecha_de_inspeccion }}</td>
                         <td class="ancho-celda">{{ item.inspecciones.reclamo.id }}</td>

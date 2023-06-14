@@ -34,8 +34,8 @@ class GestionModel(models.Model):
     inspecciones = models.ForeignKey(inspecciones, null=True, blank=True, on_delete=models.CASCADE)
     eliminado = models.BooleanField(default=False)
 
-    # def __str__(self):
-    #     return self
+    def __str__(self):
+        return self
 
     def soft_delete(self):
         self.eliminado = True

@@ -1,0 +1,138 @@
+{% extends 'base/base.html' %}
+{% block titulo %}
+  {% if accion == 'actualizar' %}
+    Inspecciones: {{ pk }}
+  {% else %}
+    Edición Gestion
+  {% endif %}
+{% endblock titulo %}
+
+{% block css %}
+  <style>
+    label {
+      min-width: 15rem;
+      color: #008375;
+    }
+    td {
+      min-width: 20rem;
+    }
+    div.text-center button {
+      width: 180px;
+    }
+    button#btn-reset {
+      background: DarkTurquoise;
+      border: 0;
+      padding: 14px 45px;
+      color: #fff;
+      transition: 0.4s;
+      border-radius: 50px;
+    }
+    button#btn-reset:hover {
+      background: Turquoise;
+    }
+    button#btn-button {
+      background: Crimson;
+      border: 0;
+      padding: 14px 45px;
+      color: #fff;
+      transition: 0.4s;
+      border-radius: 50px;
+    }
+    button#btn-button:hover {
+      background: Red;
+    }
+    .contact .php-email-form button[type=submit] {
+    background: var(--color-primary);
+    border: 0;
+    padding: 6px 12px;
+    color: #fff;
+    transition: 0.4s;
+    border-radius: 0.375rem;
+}
+  </style>
+{% endblock css %}
+
+<!-- ======= Breadcrumbs ======= -->
+{% block etiqueta %}
+  {% if accion == 'actualizar' %}
+    Editar Gestion
+  {% else %}
+    Nuevo Gestion
+  {% endif %}
+{% endblock etiqueta %}
+{% block nav %}
+  {% if accion == 'actualizar' %}
+    <nav>
+      <div class="container">   
+        <ol>
+          <li><a href="{% url 'index' %}">Inicio</a></li>
+          <li><a href="{% url 'gestion' %}">Gestion</a></li>
+          <li>{{ numero_reclamo }}</li>
+        </ol>
+      </div>
+    </nav>
+  {% else %}
+    <nav>
+      <div class="container">   
+        <ol>
+          <li><a href="{% url 'index' %}">Inicio</a></li>
+          <li><a href="{% url 'gestioncbv_lista' %}"></a>Gestion Lista</li>
+        </ol>
+      </div>
+    </nav>
+  {% endif %}
+{% endblock nav %}
+
+<!-- End Breadcrumbs -->
+
+{% block contenido %}
+  {% load custom_filters %}
+  <!-- ======= Claim Section ======= -->
+  <section id="contact" class="contact">
+    <div class="container" data-aos="fade-up">
+      <div class="mb-3">
+        <h2>Detalle de gestion Nro: {{ gestionmodel.gestion }}</h2>
+        <br>
+        <br>
+      </div>
+      <div class="row gx-lg-0 gy-4">
+        <div class="col-lg-2">
+        </div>
+        <div class="col-lg-8">
+          {% if messages %}
+            {% for message in messages %}
+              <div class="messages alert alert-{% if message.tags == 'error' %}warning{% else %}{{ message.tags }}{% endif %}" role="alert">
+                {{message}}
+              </div>
+            {% endfor %}
+            <script>
+              setTimeout(function() {
+                  var messages = document.getElementsByClassName('messages')[0];
+                  messages.style.display = 'none';
+              }, 5000); // Oculta el mensaje después de 5 segundos
+            </script>
+          {% endif %}
+
+          <form class="php-email-form" id="reclamo_form" name="gestion_form" action="{{ action_url }}" method="POST" enctype="multipart/form-data" novalidate>
+            {% csrf_token %}
+            <!-- Gestion formulario -->
+            <br>
+            <h4>Datos de Gestión</h4>
+            <hr>
+            <div class="input-group mb-3">
+              <table>
+              {{ form.as_table }}
+              </table>
+            </div>
+            <br>
+            <div class="input-group-append">
+              <button class="btn btn-primary" type="button" onclick="history.back()">Volver</button>
+              <button class="btn btn-warning" type="reset">Limpiar</button>
+              <button class="btn btn-danger" type="submit" value="Update" >Guardar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section><!-- End Claim Section -->
+{% endblock contenido %}
