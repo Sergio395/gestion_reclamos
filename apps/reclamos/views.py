@@ -156,8 +156,6 @@ class ReclamoListView(ListView):
 
         Filtra los reclamos según los parámetros proporcionados en el formulario, incluyendo la fecha de inicio y fecha de fin, si están presentes y retorna un queryset filtrado de reclamos.
         """
-        print(self.request.GET)
-
         queryset = super().get_queryset()
         reclamo_filter = ReclamoFilter(self.request.GET, queryset=queryset)
 
@@ -169,6 +167,15 @@ class ReclamoListView(ListView):
         repitancia_operador = reclamo_filter.form.data.get('repitancia_operador')
         repitancia = reclamo_filter.form.data.get('repitancia')
 
+        # Obtener los valores del resto de filtros
+        medio = reclamo_filter.form.data.get('medio')
+        fuente = reclamo_filter.form.data.get('fuente')
+        localidad = reclamo_filter.form.data.get('localidad')
+        calle = reclamo_filter.form.data.get('calle')
+        altura = reclamo_filter.form.data.get('altura')
+        reclamo = reclamo_filter.form.data.get('reclamo')
+        urgencia = reclamo_filter.form.data.get('urgencia')
+
         if fecha_inicio:
             queryset = queryset.filter(fecha__gte=fecha_inicio)
 
@@ -177,6 +184,27 @@ class ReclamoListView(ListView):
 
         if repitancia and repitancia_operador:
             queryset = reclamo_filter.filters['repitancia'].filter(queryset, repitancia)
+
+        if medio:
+            queryset = queryset.filter(medio=medio)
+
+        if fuente:
+            queryset = queryset.filter(fuente=fuente)
+
+        if localidad:
+            queryset = queryset.filter(localidad=localidad)
+
+        if calle:
+            queryset = queryset.filter(calle=calle)
+
+        if altura:
+            queryset = queryset.filter(altura=altura)
+
+        if reclamo:
+            queryset = queryset.filter(reclamo=reclamo)
+
+        if urgencia:
+            queryset = queryset.filter(urgencia=urgencia)
 
         return queryset
 

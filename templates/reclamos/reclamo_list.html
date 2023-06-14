@@ -12,6 +12,7 @@
         <li><a href="{% url 'index' %}">Inicio</a></li>
         <li>Seguimiento</li>
       </ol>
+      <a href="{% url 'reclamo_form' %}" class="btn btn-success" style="float: right;" title="Agregar reclamo"><i class="bi bi-file-earmark-plus"></i></a>
     </div>
   </nav>
 {% endblock nav %}
@@ -51,10 +52,10 @@
         {% for registro in relaciones %}
           <tr>
             <td class="text-center">
-              <a href="{% url 'editar_reclamo' registro.reclamo.id %}" title="Editar">
+              <a href="{% url 'editar_reclamo' registro.reclamo.id %}" title="Editar reclamo">
                 <i class="fas fa-edit"></i>
               </a>
-              <a onclick="if(!confirm('¿Desea borrar el reclamo {{ registro.reclamo.fuente }} - {{ registro.reclamo.numero|stringformat:'05d' }} - {{ registro.reclamo.repitancia|stringformat:'02d' }}?')) event.preventDefault()" href="{% url 'borrar_reclamo' registro.reclamo.id %}" title="Eliminar">
+              <a onclick="if(!confirm('¿Desea borrar el reclamo {{ registro.reclamo.fuente }} - {{ registro.reclamo.numero|stringformat:'05d' }} - {{ registro.reclamo.repitancia|stringformat:'02d' }}?')) event.preventDefault()" href="{% url 'borrar_reclamo' registro.reclamo.id %}" title="Eliminar reclamo">
                 <i class="far fa-trash-alt"></i>
               </a>
             </td>
