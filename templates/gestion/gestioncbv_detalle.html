@@ -67,7 +67,7 @@
         <ol>
           <li><a href="{% url 'index' %}">Inicio</a></li>
           <li><a href="{% url 'gestion' %}">Gestion</a></li>
-          <li>{{ numero_reclamo }}</li>
+          <li>{{ gestionmodel.gestion }}</li>
         </ol>
       </div>
     </nav>
@@ -91,7 +91,7 @@
   <section id="contact" class="contact">
     <div class="container" data-aos="fade-up">
       <div class="mb-3">
-        <h2>Detalle de gestion Nro: {{ numero_gestion }}</h2>
+        <h2>Detalle de gestion Nro: {{ gestionmodel.gestion }}</h2>
         <br>
         <br>
       </div>
@@ -113,25 +113,9 @@
             </script>
           {% endif %}
 
-          <form class="php-email-form" id="reclamo_form" name="gestion_form" action="{{ action_url }}" method="POST" enctype="multipart/form-data" novalidate>
+          <form class="php-email-form" id="reclamo_form" name="gestion_form" method="POST" enctype="multipart/form-data" novalidate>
             {% csrf_token %}
 
-            <!-- Denunciante Formularios -->
-            <br>
-            <h4>Datos de Denunciante</h4>
-            <hr>
-            <div class="input-group mb-3">
-              <table>
-              {{ denunciante_form.as_table }}
-              </table>
-            </div>
-            <br>
-            <div class="input-group-append">
-              <button class="btn btn-secondary" type="button" onclick="history.back()">Volver</button>
-              <button class="btn btn-danger" type="submit" onclick="{% url 'gestion' %}">Editar</button>
-            </div>
-            <br>
-            <br>
             <!-- Reclamo formulario -->
             <br>
             <h4>Datos de Reclamo</h4>
@@ -143,9 +127,8 @@
             </div>
             <br>
             <div class="input-group-append">
-              <button class="btn btn-primary" type="button" onclick="history.back()">Volver</button>
-              <button class="btn btn-warning" type="reset">Limpiar</button>
-              <button class="btn btn-danger" type="submit" onclick="{% url 'gestion' %}">Editar</button>
+              <a class="btn btn-secondary" type="button" href="javascript:history.back()">Volver</a>
+              <a class="btn btn-danger" type="button" href="{{ url_reclamo }}">Editar</a>
             </div>
             <br>
             <br>
@@ -161,9 +144,8 @@
             <br>
             </div>
             <div class="input-group-append">
-              <button class="btn btn-primary" type="button" onclick="history.back()">Volver</button>
-              <button class="btn btn-warning" type="reset">Limpiar</button>
-              <button class="btn btn-danger" type="submit" onclick="{% url 'gestion' %}">Editar</button>
+              <a class="btn btn-secondary" type="button" href="javascript:history.back()">Volver</a>
+              <a class="btn btn-danger" type="button" href="{{ url_inspeccion }}">Editar</a>
             </div>
             <br>
             <br>
@@ -179,9 +161,8 @@
             </div>
             <br>
             <div class="input-group-append">
-              <button class="btn btn-primary" type="button" onclick="history.back()">Volver</button>
-              <button class="btn btn-warning" type="reset">Limpiar</button>
-              <button class="btn btn-danger" type="submit" onclick="{% url 'gestion' %}">Editar</button>
+              <a class="btn btn-secondary" type="button" href="javascript:history.back()">Volver</a>
+              <a class="btn btn-danger" type="button" href="{{ 'url_gestion' }}">Editar</a>
             </div>
           </form>
         </div>

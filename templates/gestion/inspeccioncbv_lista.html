@@ -68,6 +68,7 @@
       <ol>
         <li><a href="{% url 'index' %}">Inicio</a></li>
         <li><a href="{% url 'gestion' %}">Gestión</a></li>
+        <li><a href="{% url 'inspeccioncbv_lista' %}">Lista Inspecciones</a></li>
       </ol>
     </div>
   </nav>
@@ -200,9 +201,8 @@
                         <!-- Empiezan las CBV -->
                         <td>
                           <a href="{% url 'gestioncbv_nuevo' %}" class="btn btn-sm btn-outline-success" role="button">Asociar</a>
-                          <a href="{% url 'gestioncbv_detalle' item.id %}" class="btn btn-sm btn-outline-success" role="button">Editar</a>
-                          <a href="" class="btn btn-sm btn-outline-warning" role="button">Borrar</a>
-                          <a href="{% url 'gestioncbv_detalle' item.id %}" class="btn btn-sm btn-outline-success" role="button">Ver</a>
+                          <a href="{% url 'gestioncbv_detalle' item.id %}" class="btn btn-sm btn-outline-success" role="button">Detalles</a>
+                          <a href="" class="btn btn-sm btn-outline-danger" role="button">Borrar</a>
                         </td>
                         <td class="ancho-celda">{{ item.id }}</td>
                         <td class="ancho-celda">{{ item.fecha_carga_inspeccion }}</td>

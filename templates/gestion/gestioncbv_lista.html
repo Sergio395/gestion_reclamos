@@ -83,8 +83,9 @@
             <h2>Título</h2>
             <hr>
           </div> -->
-          <button class="btn btn-primary" href="{% url 'gestioncbv_nuevo'}" onclick="{% url 'gestioncbv_nuevo'}" type="link">Nueva Gestion</button>
-          <button class="btn btn-primary" href="{% url 'inspeccioncbv_lista'}" onclick="{% url 'inspeccioncbv_lista'}" type="link">Inspecciones</button>
+          <a href="{% url 'gestioncbv_nuevo' %}" class="btn btn-primary" role="button">Nueva Gestión</a>
+          <a href="{% url 'inspeccioncbv_lista'%}" class="btn btn-primary" role="button">Inspecciones</a>
+          <br>
           <br>
                      
         <!-- </div> -->
@@ -112,7 +113,7 @@
 
             {% if inspecciones_list.len < 1 %}
               <div class="messages alert" role="alert">
-                <p>No hay inspecciones con esas características</p>
+                <p>No hay números de gestión con esas características</p>
               </div>
             {% endif %}
           
@@ -169,6 +170,7 @@
         </div>
         </form>           
         </div>
+        <br>
           <!--fin filtros-->
           <br>
           <!--- Tabla con los datos-->
@@ -214,7 +216,7 @@
                     <th class="ancho-celda">Inspección nro<th>
                     <th class="ancho-celda">Urgencia trabajo</th>
                     <th class="ancho-celda">Fecha inspección</th>
-                    <th class="ancho-celda">Reclamo Nro</th>
+                    <th class="ancho-celda">Reclamo</th>
                     <th class="ancho-celda">Medio</th>
                     <th class="ancho-celda">Fecha de creación</th>
                     <th class="ancho-celda">Urgencia</th> 
@@ -232,11 +234,6 @@
                           <a href="{% url 'gestioncbv_detalle' item.id %}" class="btn btn-sm btn-outline-success" role="button">Detalle</a>
                           <a href="{% url 'gestioncbv_editar' item.id %}" class="btn btn-sm btn-outline-success" role="button">Editar</a>
                           <a href="{% url 'gestioncbv_borrar' item.id %}" class="btn btn-sm btn-outline-danger" role="button">Borrar</a>
-                          {% if item.inspecciones.id %}
-                          <a href="{% url 'gestioncbv_nuevo' %}" class="btn btn-sm btn-outline-success disabled" role="button" aria-disabled="true">Asociar</a>
-                          {% else %}
-                          <a href="{% url 'gestioncbv_nuevo' %}" class="btn btn-sm btn-outline-success" role="button">Asociar</a>
-                          {% endif %}
                         </td>
                         <td class="ancho-celda">{{ item.id }}</td>
                         <td class="ancho-celda">{{ item.estado }}</td>
@@ -248,11 +245,11 @@
                         <td class="ancho-celda">{{ item.inspecciones_id }}</td>
                         <td class="ancho-celda">{{ item.inspecciones.urgencia_trabajo }}</td>
                         <td class="ancho-celda">{{ item.inspecciones.fecha_de_inspeccion }}</td>
-                        <td class="ancho-celda">{{ item.inspecciones.reclamo.id }}</td>
+                        <td class="ancho-celda">{{ item.inspecciones.reclamo_id }}</td>
                         <td class="ancho-celda">{{ item.inspecciones.reclamo.medio }}</td>
                         <td class="ancho-celda">{{ item.inspecciones.reclamo.fecha_creacion }}</td>
-                        <td class="ancho-celda">{{ item.inspecciones.reclamo.urgencia }}</td>             
-                      </tr>
+                        <td class="ancho-celda">{{ item.inspecciones.reclamo.urgencia }}</td>
+                        </tr>
                     {% endfor %} 
                     <!-- fin de recorrer cada reclamo -->
                 </tbody>

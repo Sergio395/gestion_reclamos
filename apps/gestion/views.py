@@ -122,18 +122,93 @@ class GestionListView(ListView):
     template_name = 'gestion/gestioncbv_lista.html'
     ordering = ['id']
 
+    def get_context_data(self, **kwargs):
+        '''
+        Agrega el formulario de busqueda al contexto
+        '''
+        context = super(GestionListView, self).get_context_data(**kwargs)
+        context['form_busqueda'] = BusquedaForm()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        """Procesa el formulario enviado por POST.
+
+        Si el formulario de busqueda es validos, se filtran las inspecciones y se devuelve a la lista.
+        """
+        busqueda_form = BusquedaForm(request.POST)
+        if busqueda_form.is_valid():
+            return self.form_valid(busqueda_form)
+        else:
+            return self.form_invalid(busqueda_form)
+        
+# ------------ voy x aca -----------
+
+    def form_valid(self, busqueda_form):
+        """Guarda los datos actualizados del reclamo y denunciante.
+
+        Redirige a la página de seguimiento después de guardar los cambios y muestra un mensaje de éxito.
+        """
+        messages.success(self.request, 'Resultados de la busqueda')
+        filtro = preparar_filtro(busqueda_form.cleaned_data)
+        gestion = GestionModel.objects.filter(**filtro)
+        self.success_url = reverse_lazy('gestioncbv_lista')
+        return redirect(self.success_url)
+
+    def form_invalid(self, busqueda_form):
+        """Maneja el caso cuando el formulario es inválido.
+
+        Muestra un mensaje de error y renderiza nuevamente el formulario con los datos ingresados.
+        """
+        messages.error(self.request, 'Revisa los campos del formulario')
+        return self.render_to_response(self.get_context_data(busqueda_form)) 
+
+class InspeccionListView(ListView):
+    '''
+    Muestra una lista de inspecciones
+    '''
+    model = inspecciones
+    paginate_by = 10
+    template_name = 'gestion/inspeccioncbv_lista.html'
+    queryset = inspecciones.objects.filter(eliminado=False)
+    ordering = ['id']
+    
+    def get_context_data(self, **kwargs):
+        '''
+        Agrega el formulario de busqueda al contexto
+        '''
+        context = super(InspeccionListView, self).get_context_data(**kwargs)
+        context['form_busqueda'] = BusquedaForm()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        """Procesa el formulario enviado por POST.
+
+        Si el formulario de busqueda es validos, se filtran las inspecciones y se devuelve a la lista.
+        """
+        busqueda_form = BusquedaForm(request.POST)
+        if busqueda_form.is_valid():
+            return self.form_valid(busqueda_form)
+        else:
+            return self.form_invalid(busqueda_form)
+        
+# ------------ voy x aca -----------
+
+    def form_valid(self, busqueda_form):
+        """Guarda los datos actualizados del reclamo y denunciante.
+
+        Redirige a la página de seguimiento después de guardar los cambios y muestra un mensaje de éxito.
+        """
+        messages.success(self.request, 'Resultados de la busqueda')
+        filtro = preparar_filtro(busqueda_form.cleaned_data)
+        inspeccion = inspecciones.objects.filter(**filtro)
+        self.success_url = reverse_lazy('inspeccioncbv_lista')
+        return redirect(self.success_url, inspecciones=inspeccion)
+
 class GestionCreateView(CreateView):
     model = GestionModel
     form_class = GestionForm
     template_name = 'gestion/gestioncbv_nuevo.html'
     success_url = reverse_lazy('gestioncbv_lista')
-
-class GestionSoloUpdateView(UpdateView):
-    model = GestionModel
-    fields = '__all__'
-    # template_name_suffix = "_update_form"
-    template_name = 'gestion/gestionsolocbv_detalle.html'
-    success_url = reverse_lazy("gestioncbv_lista")
 
 class ReclamoGestionCreateView(edit.CreateView):
     """Vista para crear un reclamo.
@@ -198,47 +273,12 @@ class ReclamoGestionCreateView(edit.CreateView):
         return render(self.request, self.template_name, {
             'gestion_form': gestion_form, 'inspeccion_form': inspeccion_form})
 
-class InspeccionListView(ListView):
-    '''
-    Muestra una lista de inspecciones
-    '''
-    model = inspecciones
-    paginate_by = 10
-    template_name = 'gestion/inspeccioncbv_lista.html'
-    queryset = inspecciones.objects.select_related().filter(eliminado=False)
-    ordering = ['id']
-    
-    def get_context_data(self, **kwargs):
-        '''
-        Agrega el formulario de busqueda al contexto
-        '''
-        context = super(InspeccionListView, self).get_context_data(**kwargs)
-        context['form_busqueda'] = BusquedaForm()
-        return context
-
-    def post(self, request, *args, **kwargs):
-        """Procesa el formulario enviado por POST.
-
-        Si el formulario de busqueda es validos, se filtran las inspecciones y se devuelve a la lista.
-        """
-        busqueda_form = BusquedaForm(request.POST)
-        if busqueda_form.is_valid():
-            return self.form_valid(busqueda_form)
-        else:
-            return self.form_invalid(busqueda_form)
-        
-# ------------ voy x aca -----------
-
-    def form_valid(self, busqueda_form):
-        """Guarda los datos actualizados del reclamo y denunciante.
-
-        Redirige a la página de seguimiento después de guardar los cambios y muestra un mensaje de éxito.
-        """
-        messages.success(self.request, 'Resultados de la busqueda')
-        filtro = preparar_filtro(busqueda_form.cleaned_data)
-        inspeccion = inspecciones.objects.filter(**filtro)
-        self.success_url = reverse_lazy('inspeccioncbv_lista')
-        return redirect(self.success_url, inspecciones=inspeccion)
+class GestionSoloUpdateView(UpdateView):
+    model = GestionModel
+    fields = '__all__'
+    # template_name_suffix = "_update_form"
+    template_name = 'gestion/gestionsolocbv_detalle.html'
+    success_url = reverse_lazy("gestioncbv_lista")
 
     def form_invalid(self, busqueda_form):
         """Maneja el caso cuando el formulario es inválido.
@@ -254,8 +294,8 @@ class GestionDetailView(DetailView):
     '''
     model = GestionModel
     template_name = 'gestion/gestioncbv_detalle.html'
-    # queryset = GestionModel.objects.filter(eliminado=False)
-    # ordering = ['id']
+    queryset = GestionModel.objects.select_related().filter(eliminado=False)
+    ordering = ['id']
     
     def get_context_data(self, **kwargs):
         '''
@@ -263,25 +303,22 @@ class GestionDetailView(DetailView):
         '''
         context = super(GestionDetailView, self).get_context_data(**kwargs)
         # obtengo instancia de los distintos modelos
-        denunciante = self.object.inspecciones.reclamo.denunciantes.instance
         reclamo = self.object.inspecciones.reclamo
         inspeccion = self.object.inspecciones
         gestion = self.object
         # Paso instancias
-        context['denunciante_form'] = DenuncianteForm(instance=denunciante)
         context['reclamo_form'] = ReclamoForm(instance=reclamo)
         context['inspeccion_form'] = NuevaInspeccion(instance=inspeccion)
         context['gestion_form'] = GestionForm(instance=gestion)
         # Paso las rutas de edición y sus id
-        context['url_denunciante'] = f"'editar_reclamo' {denunciante}"
-        context['url_reclamo'] = f"'editar_reclamo'{reclamo}"
-        context['url_inspeccion'] = f"'inspeccion' {inspeccion}"
-        context['url_gestion'] = f"'gestioncbv_editar' {gestion}"
+        context['url_reclamo'] = "{% url'editar_reclamo'{reclamo.id } %}"
+        context['url_inspeccion'] = "{% url'inspeccion' {inspeccion.id} %}"
+        context['url_gestion'] = "{% url'gestioncbv_editar' {gestion.id} %}"
         # el reto de variables de contexto
         context['calle0'] = reclamo.calle
         context['calle1'] = reclamo.entre_calle_1
         context['calle2'] = reclamo.entre_calle_2
-        context['action_url'] = 'gestioncbv_detalle'
+        # context['action_url'] = 'gestioncbv_detalle'
         context['accion'] = 'actualizar'
         return context
 
