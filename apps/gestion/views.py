@@ -17,7 +17,26 @@ from apps.reclamos.models import DenuncianteModel, ReclamoModel
 from apps.reclamos.forms import DenuncianteForm, ReclamoForm
 from django.http import HttpResponseRedirect
 
-# # Create your views here.    
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
+from ..base.utils.decorators import group_required
+
+AUTORIZED_GROUPS = 'gestor', 'administrador'
+
+# Authenticación
+# AUTORIZED_GROUPS = 'operador', 'inspector', 'gestor', 'administrador'
+#
+#CBV
+# @method_decorator([login_required, group_required(*AUTORIZED_GROUPS)], name='dispatch')
+# 
+#FVB
+# @login_required
+# @group_required(*AUTORIZED_GROUPS)
+
+# Create your views here.
+
+@login_required
+@group_required(*AUTORIZED_GROUPS)
 def gestion_index(request):
     '''
     Por ahora trae los valores de la tabla Gestion, pero deberiamos definir en grupo que datos va a mostrar 
@@ -35,6 +54,8 @@ def gestion_index(request):
         return render(request, 'gestion/gestion_prueba.html')
     return render(request, 'gestion/gestion_prueba.html', {'gestion': gestion, 'form_busqueda': form_busqueda, 'campos': fields})
 
+@login_required
+@group_required(*AUTORIZED_GROUPS)
 def gestion_buscar(request):
     '''
     Tomar los valores del formulario busqueda, y va a realizar la consulta a la DB, para traer y mostrar los resultados
@@ -53,6 +74,8 @@ def gestion_buscar(request):
     fields = GestionModel.objects.model._meta.get_fields()
     return render(request, 'gestion/gestion_prueba.html', {'gestion': gestion, 'form_busqueda': formulario, 'campos': fields})
 
+@login_required
+@group_required(*AUTORIZED_GROUPS)
 def gestion_nuevo(request):
     # forma de resumida de instanciar un formulario basado en model con los
     # datos recibidos por POST si la petición es por POST o bien vacio(None)
@@ -65,6 +88,8 @@ def gestion_nuevo(request):
         return redirect('gestion_index')
     return render(request, 'gestion/gestion_nuevo.html', {'gestion_form': formulario, 'accion': titulo_accion})
 
+@login_required
+@group_required(*AUTORIZED_GROUPS)
 def gestion_editar(request, id):
     titulo_accion = 'Edición de registro'
     try:
@@ -78,6 +103,8 @@ def gestion_editar(request, id):
         return redirect('gestion_index')
     return render(request, 'gestion/gestion_editar.html', {'gestion_form': formulario, 'accion':titulo_accion, 'id':id})
 
+@login_required
+@group_required(*AUTORIZED_GROUPS)
 def gestion_eliminar(request, id_registro):
     try:
         gestion = GestionModel.objects.get(id=id_registro)
@@ -87,6 +114,8 @@ def gestion_eliminar(request, id_registro):
     gestion.soft_delete()
     return redirect('gestion_index')
 
+@login_required
+@group_required(*AUTORIZED_GROUPS)
 def preparar_filtro(criterio):
     '''
     Recibe los criterios y compaa si son distintos de 'none', y los agrega al diccionario que luego se pasará como filtro por los parametros **kwargs
@@ -112,6 +141,8 @@ def preparar_filtro(criterio):
 
 # Lo mismo pero con CBV
 #---------------------------
+
+@method_decorator([login_required, group_required(*AUTORIZED_GROUPS)], name='dispatch')
 class GestionListView(ListView):
     '''
     Muestra una lista de inspecciones
@@ -162,6 +193,7 @@ class GestionListView(ListView):
         messages.error(self.request, 'Revisa los campos del formulario')
         return self.render_to_response(self.get_context_data(busqueda_form)) 
 
+@method_decorator([login_required, group_required(*AUTORIZED_GROUPS)], name='dispatch')
 class InspeccionListView(ListView):
     '''
     Muestra una lista de inspecciones
@@ -204,6 +236,7 @@ class InspeccionListView(ListView):
         self.success_url = reverse_lazy('inspeccioncbv_lista')
         return redirect(self.success_url, inspecciones=inspeccion)
 
+@method_decorator([login_required, group_required(*AUTORIZED_GROUPS)], name='dispatch')
 class GestionDetailView(DetailView):
     '''
     Muestra una detalles de gestion
@@ -250,12 +283,14 @@ class GestionDetailView(DetailView):
         context['accion'] = 'actualizar'
         return context
 
+@method_decorator([login_required, group_required(*AUTORIZED_GROUPS)], name='dispatch')
 class GestionCreateView(CreateView):
     model = GestionModel
     form_class = GestionForm
     template_name = 'gestion/gestioncbv_nuevo.html'
     success_url = reverse_lazy('gestioncbv_lista')
 
+@method_decorator([login_required, group_required(*AUTORIZED_GROUPS)], name='dispatch')
 class GestionSoloUpdateView(UpdateView):
     model = GestionModel
     fields = '__all__'
@@ -271,6 +306,7 @@ class GestionSoloUpdateView(UpdateView):
         messages.error(self.request, 'Revisa los campos del formulario')
         return self.render_to_response(self.get_context_data(busqueda_form))
 
+@method_decorator([login_required, group_required(*AUTORIZED_GROUPS)], name='dispatch')
 class GestionCompletoUpdateView(UpdateView):
     model = GestionModel
     # fields = '__all__'
@@ -350,6 +386,7 @@ class GestionCompletoUpdateView(UpdateView):
         return self.render_to_response(self.get_context_data(
             reclamo_form=reclamo_form, denunciante_form=denunciante_form, inspeccion_form=inspeccion_form, gestion_form=gestion_form))
 
+@method_decorator([login_required, group_required(*AUTORIZED_GROUPS)], name='dispatch')
 class GestionDeleteView(DeleteView):
     model = GestionModel
     template_name = 'gestion/gestioncbv_borrar.html'
