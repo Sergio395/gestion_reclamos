@@ -2,7 +2,7 @@
 const LOCALIDAD_SELECT = document.querySelector('#localidad-select');
 
 // Acceder al elemento select de calles
-const CALLE_SELECTS = document.querySelectorAll('.calle-select');
+let CALLE_SELECTS = [];
 
 // Función para ocultar las opciones de calles que no comiencen con el valor de la localidad seleccionada
 function filtrarCalles() {
@@ -33,17 +33,24 @@ function filtrarCalles() {
             }
         });
     });
-    // Restablecer la opción seleccionada del select de calles
-    // CALLE_SELECTS.selectedIndex = 0;
+
     // Restablecer la opción seleccionada de los select de calles
     CALLE_SELECTS.forEach(calleSelect => {
         calleSelect.selectedIndex = 0;
     });
 }
 
-// Agregar el evento de cambio de localidad a todos los campos de selección de calles
-LOCALIDAD_SELECT.addEventListener('change', filtrarCalles);
+// Función para inicializar el filtrado de calles
+function inicializarFiltradoCalles() {
+    // Acceder al elemento select de calles después de que se hayan cargado en el DOM
+    CALLE_SELECTS = document.querySelectorAll('.calle-select');
 
+    // Agregar el evento de cambio de localidad a todos los campos de selección de calles
+    LOCALIDAD_SELECT.addEventListener('change', filtrarCalles);
 
-// Llamar a la función para filtrar las calles iniciales al cargar la página
-filtrarCalles();
+    // Llamar a la función para filtrar las calles iniciales
+    filtrarCalles();
+}
+
+// Llamar a la función para inicializar el filtrado de calles
+inicializarFiltradoCalles();

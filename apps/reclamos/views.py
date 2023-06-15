@@ -1,22 +1,33 @@
+# import django_filters
 # from datetime import datetime
-# from django.conf import settings
-# from django.views import View
 from django.views.generic import edit, ListView, UpdateView
-
+from django.http import HttpResponseRedirect
 from django.contrib import messages
-# from django.core.mail import send_mail
-# from django.conf import settings
+
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
+from django.utils.html import format_html
+from django.core.mail import send_mail
+from django.urls import reverse
+
+from decouple import config
+from django.urls import reverse_lazy
 
 from django.shortcuts import render, redirect, get_object_or_404
 # from django.utils.text import get_valid_filename
 
-from django.urls import reverse_lazy
-
 from .models import ReclamoModel
 from .forms import ReclamoForm, DenuncianteForm
+from .utils.log_filters import ReclamoFilter
+from ..base.utils.decorators import group_required
 
 
-# Create your views here.
+AUTORIZED_GROUPS = 'operador', 'inspector', 'gestor', 'administrador'
+
+
+# * ==================== RECLAMO CREATE VIEW ====================
+
+@method_decorator([login_required, group_required(*AUTORIZED_GROUPS)], name='dispatch')
 class ReclamoCreateView(edit.CreateView):
     """Vista para crear un reclamo.
     """
@@ -62,7 +73,7 @@ class ReclamoCreateView(edit.CreateView):
     def form_valid(self, reclamo_form, denunciante_form):
         """Guarda el reclamo y el denunciante en la base de datos.
 
-        Muestra un mensaje de éxito y redirige a la URL de creación de reclamo con los campos vacíos.
+        Muestra un mensaje de éxito, envía un correo electrónico al denunciante con información sobre el reclamo y redirige a la URL de creación de reclamo con los campos vacíos.
         """
         messages.success(self.request, 'Reclamo creado con éxito')
         reclamo = reclamo_form.save(commit=False)
@@ -89,6 +100,33 @@ class ReclamoCreateView(edit.CreateView):
 # -----------------------------------------------------------------------
         reclamo.save()
         reclamo.denunciantes.add(denunciante)
+
+        email = denunciante_form.cleaned_data['correo_electronico']
+
+        if email:
+            # Envío de correo electrónico con texto plano.
+            subject = f"{denunciante_form.cleaned_data['nombre']} hemos registrado su reclamo"
+            message = f'''
+                Su número de reclamo es {reclamo_form.cleaned_data['numero']}.
+                Para realizar el seguimiento del mismo, por favor comunicarse con el municipio.
+            '''
+            from_email = config("EMAIL_HOST_USER")
+            to_email = email
+            send_mail(subject, message, from_email, [to_email])
+
+# ? EMAIL CON TEMPLATE PRESONALIZADO (EN COSNTRUCCIÓN)---------------------
+            # # Envío de correo electrónico con template personalizado
+            # subject = 'Su reclamo ha sido registrado con éxito'
+            # from_email = config("EMAIL_HOST_USER")
+            # to_email = email
+
+            # # Renderizar el contenido del template con los datos relevantes
+            # context = {'reclamo': reclamo, 'denunciante': denunciante}
+            # message = render_to_string('reclamos/email_template.html', context)
+
+            # # Enviar el correo electrónico
+            # send_mail(subject, message, from_email, [to_email], html_message=message)
+# --------------------------------------------------------------------------
         return redirect(self.success_url)
 
     def form_invalid(self, reclamo_form, denunciante_form):
@@ -101,6 +139,9 @@ class ReclamoCreateView(edit.CreateView):
             'reclamo_form': reclamo_form, 'denunciante_form': denunciante_form})
 
 
+# * ==================== RECLAMO LIST VIEW ====================
+
+@method_decorator([login_required, group_required(*AUTORIZED_GROUPS)], name='dispatch')
 class ReclamoListView(ListView):
     """Vista para mostrar una lista de reclamos.
 
@@ -111,7 +152,68 @@ class ReclamoListView(ListView):
     template_name = 'reclamos/reclamo_list.html'
     context_object_name = 'reclamos'
     queryset = ReclamoModel.objects.filter(eliminado=False)
-    ordering = ['numero']
+    ordering = ['numero', '-repitancia']
+
+    def get_queryset(self):
+        """Obtiene el conjunto de consultas (queryset) para la vista.
+
+        Filtra los reclamos según los parámetros proporcionados en el formulario, incluyendo la fecha de inicio y fecha de fin, si están presentes y retorna un queryset filtrado de reclamos.
+        """
+        queryset = super().get_queryset()
+        reclamo_filter = ReclamoFilter(self.request.GET, queryset=queryset)
+
+        # Borramos los filtros
+        # if 'reset_filters' in self.request.GET:
+        #     reclamo_filter.form.data = {}
+
+        # Obtener los valores de fecha_inicio y fecha_fin del formulario
+        fecha_inicio = self.request.GET.get('fecha_inicio')
+        fecha_fin = self.request.GET.get('fecha_fin')
+
+        # Obtener los valores de repitancia_operador y repitancia del formulario
+        repitancia_operador = reclamo_filter.form.data.get('repitancia_operador')
+        repitancia = reclamo_filter.form.data.get('repitancia')
+
+        # Obtener los valores del resto de filtros
+        medio = reclamo_filter.form.data.get('medio')
+        fuente = reclamo_filter.form.data.get('fuente')
+        localidad = reclamo_filter.form.data.get('localidad')
+        calle = reclamo_filter.form.data.get('calle')
+        altura = reclamo_filter.form.data.get('altura')
+        reclamo = reclamo_filter.form.data.get('reclamo')
+        urgencia = reclamo_filter.form.data.get('urgencia')
+
+        if fecha_inicio:
+            queryset = queryset.filter(fecha__gte=fecha_inicio)
+
+        if fecha_fin:
+            queryset = queryset.filter(fecha__lte=fecha_fin)
+
+        if repitancia and repitancia_operador:
+            queryset = reclamo_filter.filters['repitancia'].filter(queryset, repitancia)
+
+        if medio:
+            queryset = queryset.filter(medio=medio)
+
+        if fuente:
+            queryset = queryset.filter(fuente=fuente)
+
+        if localidad:
+            queryset = queryset.filter(localidad=localidad)
+
+        if calle:
+            queryset = queryset.filter(calle=calle)
+
+        if altura:
+            queryset = queryset.filter(altura=altura)
+
+        if reclamo:
+            queryset = queryset.filter(reclamo=reclamo)
+
+        if urgencia:
+            queryset = queryset.filter(urgencia=urgencia)
+
+        return queryset
 
     def get_context_data(self, **kwargs):
         """Obtiene los datos del contexto para la vista.
@@ -134,9 +236,19 @@ class ReclamoListView(ListView):
             relaciones.append(relacion)
 
         context['relaciones'] = relaciones
+        context['reclamo_filter'] = ReclamoFilter(self.request.GET, queryset=self.get_queryset())
         return context
 
+    def get(self, request, *args, **kwargs):
+        if 'reset_filters' in request.GET:
+            # Redireccionar a la URL de la vista sin los parámetros de filtro
+            return HttpResponseRedirect(reverse('seguimiento'))
+        return super().get(request, *args, **kwargs)
 
+
+# * ==================== RECLAMO UPDATE VIEW ====================
+
+@method_decorator([login_required, group_required(*AUTORIZED_GROUPS)], name='dispatch')
 class ReclamoUpdateView(UpdateView):
     """Vista para editar un reclamo existente.
 
@@ -203,6 +315,10 @@ class ReclamoUpdateView(UpdateView):
             reclamo_form=reclamo_form, denunciante_form=denunciante_form))
 
 
+# * ==================== RECLAMO DELETE ====================
+
+@login_required
+@group_required(*AUTORIZED_GROUPS)
 def reclamo_delete(request, id_reclamo):
     """Vista para la eliminación lógica de un reclamo.
 
@@ -213,50 +329,9 @@ def reclamo_delete(request, id_reclamo):
 
     try:
         reclamo.soft_delete()
-        messages.success(request, f'El reclamo {reclamo.numero} se ha eliminado exitosamente.')
+        mensaje_exito = format_html('El reclamo <strong>{}</strong> se ha eliminado exitosamente.', reclamo.numero)
+        messages.success(request, mensaje_exito)
     except Exception as e:
-        messages.error(request, f'Error al eliminar el reclamo {reclamo.numero}: {str(e)}')
+        mensaje_error = format_html('Error al eliminar el reclamo <strong>{}</strong>: {}', reclamo.numero, str(e))
+        messages.error(request, mensaje_error)
     return redirect('seguimiento')
-
-# * ENVIO DE EMAIL (EN CONSTRUCCION) --------------------------------------------------
-#             # if nuevo.correo_electronico:
-#             #     mensaje = f"""
-#             #         De : {nuevo.cleaned_data['nombre']} <{nuevo.cleaned_data['correo_electronico']}>
-#             #         Asunto: {nuevo.cleaned_data['asunto']}
-#             #         Mensaje: {nuevo.cleaned_data['mensaje']}
-#             #     """
-#             #     mensaje_html = f"""
-#             #         <p>De: {nuevo.cleaned_data['nombre']} <a href="mailto:{nuevo.cleaned_data['correo_electronico']}">{nuevo.cleaned_data['email']}</a></p>
-#             #         <p>Asunto:  {nuevo.cleaned_data['asunto']}</p>
-#             #         <p>Mensaje: {nuevo.cleaned_data['mensaje']}</p>
-#             #     """
-#             #     asunto = "CONSULTA DESDE LA PAGINA - " + \
-#             #         nuevo.cleaned_data['asunto']
-#             #     send_mail(
-#             #         asunto, mensaje, settings.EMAIL_HOST_USER,
-#             #         [settings.RECIPIENT_ADDRESS],
-#             #         fail_silently=False,
-#             #         html_message=mensaje_html
-#             #     )
-
-#         # acción para mostrar los datos del formulario
-#         else:
-#             messages.error(
-#                 request,
-#                 'Revisa los errores en el formulario'
-#             )
-
-#     elif request.method == 'GET':
-#         nuevo = ReclamoForm()
-
-#     else:
-#         return HttpResponseNotAllowed(
-#             f"Método {request.method} no soportado"
-#         )
-
-#     context = {
-#         'reclamo_form': nuevo
-#     }
-
-#     return render(request, 'reclamos/reclamo_form.html', context)
-# --------------------------------------------------------------------

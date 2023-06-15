@@ -1,0 +1,114 @@
+{% block css %}
+  <style>
+    label {
+      color: #008375;
+    }
+    div.text-center button {
+      width: 180px;
+    }
+    button#btn-reset {
+      background: DarkTurquoise;
+      border: 0;
+      padding: 14px 45px;
+      color: #fff;
+      transition: 0.4s;
+      border-radius: 50px;
+    }
+    button#btn-reset:hover {
+      background: Turquoise;
+    }
+    button#btn-button {
+      background: Crimson;
+      border: 0;
+      padding: 14px 45px;
+      color: #fff;
+      transition: 0.4s;
+      border-radius: 50px;
+    }
+    button#btn-button:hover {
+      background: Red;
+    }
+  </style>
+{% endblock css %}
+
+<section id="contact" class="contact" style="padding: 10px 0;">
+  <div class="container">
+    <div class="row gx-lg-0 gy-4">
+      <form id="reclamo_filter_form" method="get" class="d-flex justify-content-between">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="row">
+              <div class="col-md-3 form-group mb-2" >
+                <label class="form-label" for="{{ reclamo_filter.form.numero.name }}">{{ reclamo_filter.form.numero.label }}</label>
+                {{ reclamo_filter.form.numero }}
+              </div>
+              <div class="col-md-3 form-group mb-2" >
+                <label class="form-label" for="rango_fechas">Rango de fechas</label>
+                <div class="row">
+                  <div class="col-md-6">
+                    {{ reclamo_filter.form.fecha_inicio }}
+                  </div>
+                  <div class="col-md-6">
+                    {{ reclamo_filter.form.fecha_fin }}
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3 form-group mb-2" >
+                <label class="form-label" for="{{ reclamo_filter.form.medio.name }}">{{ reclamo_filter.form.medio.label }}</label>
+                {{ reclamo_filter.form.medio }}
+              </div>
+              <div class="col-md-3 form-group mb-2" >
+                <label class="form-label" for="{{ reclamo_filter.form.fuente.name }}">{{ reclamo_filter.form.fuente.label }}</label>
+                {{ reclamo_filter.form.fuente }}
+              </div>
+              <div class="col-md-3 form-group mb-2" >
+                <label class="form-label" for="{{ reclamo_filter.form.repitancia.name }}">{{ reclamo_filter.form.repitancia.label }}</label>
+                <div class="row">
+                  <div class="col-md-6">
+                    {{ reclamo_filter.form.repitancia_operador }}
+                  </div>
+                  <div class="col-md-6">
+                    {{ reclamo_filter.form.repitancia }}
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3 form-group mb-2" >
+                <label class="form-label" for="{{ reclamo_filter.form.localidad.name }}">{{ reclamo_filter.form.localidad.label }}</label>
+                {{ reclamo_filter.form.localidad }}
+              </div>
+              <div class="col-md-3 form-group mb-2" >
+                <label class="form-label" for="{{ reclamo_filter.form.calle.name }}">{{ reclamo_filter.form.calle.label }}</label>
+                {{ reclamo_filter.form.calle }}
+              </div>
+              <div class="col-md-3 form-group mb-2" >
+                <label class="form-label" for="{{ reclamo_filter.form.altura.name }}">{{ reclamo_filter.form.altura.label }}</label>
+                {{ reclamo_filter.form.altura }}
+              </div>
+              <div class="col-md-3 form-group mb-2" >
+                <label class="form-label" for="{{ reclamo_filter.form.reclamo.name }}">{{ reclamo_filter.form.reclamo.label }}</label>
+                {{ reclamo_filter.form.reclamo }}
+              </div>
+              <div class="col-md-3 form-group mb-2" >
+                <label class="form-label" for="{{ reclamo_filter.form.urgencia.name }}">{{ reclamo_filter.form.urgencia.label }}</label>
+                {{ reclamo_filter.form.urgencia }}
+              </div>
+              <div class="col-md-3 form-group mb-2" ></div>
+              <div class="col-md-3 form-group mb-2" >
+                <div class="row" style="position: relative; top: 30px;">
+                  <div class="col-md-3"></div>
+                  <div class="col-md-3"></div>
+                  <div class="col-md-3">
+                    <button type="submit" class="btn btn-success" title="Filtrar"><i class="bi bi-funnel"></i></button>
+                  </div>
+                  <div class="col-md-3">
+                    <button id="reset_filters_btn" class="btn btn-info" type="submit" name="reset_filters" title="Borrar filtros"><i class="bi bi-arrow-counterclockwise"></i></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>

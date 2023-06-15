@@ -1,8 +1,8 @@
 from django.db import models
-from ..base.constants import choices
+from django.utils.translation import gettext_lazy as _
+from ..base.constants import choices, calles_choices
 
 
-# Create your models here.
 class DenuncianteModel(models.Model):
     """Modelo que representa a la persona que realizó un reclamo.
 
@@ -44,13 +44,15 @@ class DenuncianteModel(models.Model):
     )
 
     class Meta:
-        verbose_name = "Denunciante"
-        verbose_name_plural = "Denunciantes"
+        """Clase Meta para la configuración de la clase DenuncianteModel.
+        """
+        verbose_name = _("Denunciante")
+        verbose_name_plural = _("Denunciantes")
 
     def __str__(self):
         """ Devuelve una representación en forma de cadena del denunciante.
         """
-        return f"{self.apellido}, {self.nombre} DNI: {self.dni}"
+        return f"{self.dni} - {self.apellido}, {self.nombre}"
 
 
 class ReclamoModel(models.Model):
@@ -88,7 +90,10 @@ class ReclamoModel(models.Model):
     fecha = models.DateField(
         verbose_name="Fecha del reclamo"
     )
-    repitancia = models.IntegerField(default=1)
+    repitancia = models.IntegerField(
+        verbose_name="Repitancia",
+        default=1
+        )
     denunciantes = models.ManyToManyField(
         DenuncianteModel,
         verbose_name="Denunciante"
@@ -101,19 +106,25 @@ class ReclamoModel(models.Model):
     )
     calle = models.CharField(
         max_length=100,
-        verbose_name="Calle"
+        verbose_name="Calle",
+        choices=calles_choices.Calles.choices,
+        default=calles_choices.Calles.BLANK
     )
     entre_calle_1 = models.CharField(
         max_length=100,
         blank=True,
         null=True,
-        verbose_name="Entre calle 1"
+        verbose_name="Entre calle 1",
+        choices=calles_choices.Calles.choices,
+        default=calles_choices.Calles.BLANK
     )
     entre_calle_2 = models.CharField(
         max_length=100,
         blank=True,
         null=True,
-        verbose_name="Entre calle 2"
+        verbose_name="Entre calle 2",
+        choices=calles_choices.Calles.choices,
+        default=calles_choices.Calles.BLANK
     )
     altura = models.IntegerField(
         verbose_name="Altura"
@@ -159,8 +170,10 @@ class ReclamoModel(models.Model):
     )
 
     class Meta:
-        verbose_name = "Reclamo"
-        verbose_name_plural = "Reclamos"
+        """Clase Meta para la configuración de la clase ReclamoModel.
+        """
+        verbose_name = _("Reclamo")
+        verbose_name_plural = _("Reclamos")
 
     def soft_delete(self):
         """ Realiza una eliminación lógica del reclamo.

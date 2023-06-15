@@ -27,24 +27,30 @@
               <h4 class="title"><a href="{% url 'seguimiento' %}" class="stretched-link">SEGUIMIENTO</a></h4>
             </div>
           </div><!--End Icon Box -->
-          <div class="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay="150">
-            <div class="icon-box">
-              <div class="icon"><i class="bi bi-search"></i></div>
-              <h4 class="title"><a href="{% url 'inspeccion' %}" class="stretched-link">INSPECCIÓN</a></h4>
-            </div>
-          </div><!--End Icon Box -->
-          <div class="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
-            <div class="icon-box">
-              <div class="icon"><i class="bi bi-person-gear"></i></div>
-              <h4 class="title"><a href="{% url 'gestion' %}" class="stretched-link">GESTIÓN</a></h4>
-            </div>
-          </div><!--End Icon Box -->
-          <div class="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay="200" hidden>
-            <div class="icon-box">
-              <div class="icon"><i class="bi bi-person-gear"></i></div>
-              <h4 class="title"><a href="{% url 'admin' %}" class="stretched-link">ADMINISTRACIÓN</a></h4>
-            </div>
-          </div><!--End Icon Box -->
+          {% if perms.inspeccion %}
+            {% comment %} <div class="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay="150">
+              <div class="icon-box">
+                <div class="icon"><i class="bi bi-search"></i></div>
+                <h4 class="title"><a href="{% url 'inspeccion' %}" class="stretched-link">INSPECCIÓN</a></h4>
+              </div>
+            </div><!--End Icon Box --> {% endcomment %}
+          {% if perms.gestion %}
+            <div class="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
+              <div class="icon-box">
+                <div class="icon"><i class="bi bi-person-gear"></i></div>
+                <h4 class="title"><a href="{% url 'gestion' %}" class="stretched-link">GESTIÓN</a></h4>
+              </div>
+            </div><!--End Icon Box -->
+          {% if perms.administracion %}
+            <div class="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
+              <div class="icon-box">
+                <div class="icon"><i class="bi bi-person-gear"></i></div>
+                <h4 class="title"><a href="{% url 'admin' %}" class="stretched-link">ADMINISTRACIÓN</a></h4>
+              </div>
+            </div><!--End Icon Box -->
+          {% endif %}
+          {% endif %}
+          {% endif %}
         </div>
       </div>
     </div><!-- End Icons Section -->

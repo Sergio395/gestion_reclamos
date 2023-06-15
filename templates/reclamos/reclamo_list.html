@@ -12,13 +12,15 @@
         <li><a href="{% url 'index' %}">Inicio</a></li>
         <li>Seguimiento</li>
       </ol>
+      <a href="{% url 'reclamo_form' %}" class="btn btn-success" style="float: right;" title="Agregar reclamo"><i class="bi bi-file-earmark-plus"></i></a>
     </div>
   </nav>
 {% endblock nav %}
 <!-- End Breadcrumbs -->
 
 {% block contenido %}
-  <div class="table-responsive">
+  {% include 'base/base_filters.html' %}
+  <div class="table-responsive" style="margin: 0 20px;">
     {% if messages %}
       {% for message in messages %}
         <div class="messages alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %}" role="alert">
@@ -40,7 +42,7 @@
           <th scope="col">Medio</th>
           <th scope="col">Fecha</th>
           <th scope="col">Denunciante</th>
-          <th scope="col">Localidad</th>
+          <th scope="col">Ubicación</th>
           <th scope="col">Reclamo</th>
           <th scope="col">Urgencia</th>
           <th scope="col">Detalles</th>
@@ -49,15 +51,15 @@
       <tbody>
         {% for registro in relaciones %}
           <tr>
-            <td class="text-center">
-              <a href="{% url 'editar_reclamo' registro.reclamo.id %}" title="Editar">
-                <i class="fas fa-edit"></i>
-              </a>
-              <a onclick="if(!confirm('¿Desea borrar el reclamo {{ registro.reclamo.fuente }}-{{ registro.reclamo.numero }}-00-01?')) event.preventDefault()" href="{% url 'borrar_reclamo' registro.reclamo.id %}" title="Eliminar">
-                <i class="far fa-trash-alt"></i>
-              </a>
-            </td>
-            <td>{{ registro.reclamo.fuente }}-{{ registro.reclamo.numero|stringformat:'07d' }}-{{ registro.reclamo.repitancia|stringformat:'02d' }}-01</td>
+              <td class="text-center">
+                <a href="{% url 'editar_reclamo' registro.reclamo.id %}" title="Editar reclamo">
+                  <i class="fas fa-edit"></i>
+                </a>
+                <a onclick="if(!confirm('¿Desea borrar el reclamo {{ registro.reclamo.fuente }} - {{ registro.reclamo.numero|stringformat:'05d' }} - {{ registro.reclamo.repitancia|stringformat:'02d' }}?')) event.preventDefault()" href="{% url 'borrar_reclamo' registro.reclamo.id %}" title="Eliminar reclamo">
+                  <i class="far fa-trash-alt"></i>
+                </a>
+              </td>
+            <td>{{ registro.reclamo.fuente }} - {{ registro.reclamo.numero|stringformat:'05d' }} - {{ registro.reclamo.repitancia|stringformat:'02d' }}</td>
             <td>{{ registro.reclamo.get_medio_display }}</td>
             <td>{{ registro.reclamo.fecha }}</td>
             <td><a style="cursor: pointer;" class="" data-bs-toggle="collapse" data-bs-target="#contenido{{ registro.reclamo.pk }}-d">{{ registro.denunciante.dni }}</a></td>
@@ -68,7 +70,7 @@
           </tr>
           <tr class="collapse" id="contenido{{ registro.reclamo.pk }}-d">
             <td></td>
-            <td colspan="8">
+            <td colspan="7">
               <table class="table table-striped table-hover">
                 <tr>
                   <th scope="col">Apellido</th>
@@ -91,7 +93,7 @@
           </tr>
           <tr class="collapse" id="contenido{{ registro.reclamo.pk }}-l">
             <td></td>
-            <td colspan="8">
+            <td colspan="7">
               <table class="table table-striped table-hover">
                 <tr>
                   <th scope="col">Calle</th>
@@ -102,10 +104,10 @@
                   <th scope="col">Departamento</th>
                 </tr>
                 <tr>
-                  <td>{{ registro.reclamo.calle }}</td>
+                  <td>{{ registro.reclamo.get_calle_display }}</td>
                   <td>{{ registro.reclamo.altura }}</td>
-                  <td>{{ registro.reclamo.entre_calle_1 }}</td>
-                  <td>{{ registro.reclamo.entre_calle_2 }}</td>
+                  <td>{{ registro.reclamo.get_entre_calle_1_display }}</td>
+                  <td>{{ registro.reclamo.get_entre_calle_2_display }}</td>
                   <td>{{ registro.reclamo.edificio }}</td>
                   <td>{{ registro.reclamo.departamento }}</td>
                 </tr>

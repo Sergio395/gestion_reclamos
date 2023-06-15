@@ -29,15 +29,15 @@ class FuenteChoices(TextChoices):
     ReclamoModel.
     """
     BLANK = "", _("")
-    ARQ = "1", _("Arquitectura")
-    CAV = "2", _("CAV")
-    CERE = "3", _("Ceremonial")
-    COM = "4", _("COM")
-    CDEL = "5", _("Consejo Deliberante")
-    CESC = "6", _("Consejo Escolar")
-    CULT = "7", _("Cultura")
-    DEFC = "8", _("Defensa Civil")
-    D9DA = "9", _("Delegación 9 de Julio")
+    ARQ = "01", _("Arquitectura")
+    CAV = "02", _("CAV")
+    CERE = "03", _("Ceremonial")
+    COM = "04", _("COM")
+    CDEL = "05", _("Consejo Deliberante")
+    CESC = "06", _("Consejo Escolar")
+    CULT = "07", _("Cultura")
+    DEFC = "08", _("Defensa Civil")
+    D9DA = "09", _("Delegación 9 de Julio")
     DCAN = "10", _("Delegación Canning")
     DEJ = "11", _("Delegación El Jagüel")
     DLG = "12", _("Delegación Luis Guillón")
@@ -67,11 +67,11 @@ class LocalidadChoices(TextChoices):
     ReclamoModel.
     """
     BLANK = "", _("")
-    NDAB = "R2546787", _("9 de Abril")
-    CANN = "R2546804", _("Canning")
-    EJAG = "R2546834", _("El Jagüel")
-    LGUI = "R2546803", _("Luis Guillón")
-    MGRA = "R2546842", _("Monte Grande")
+    NDAB = "9A", _("9 de Abril")
+    CANN = "CA", _("Canning")
+    EJAG = "EJ", _("El Jagüel")
+    LGUI = "LG", _("Luis Guillón")
+    MGRA = "MG", _("Monte Grande")
 
 
 class ReclamoChoices(TextChoices):
@@ -124,11 +124,11 @@ class TrabajoChoices(TextChoices):
     """
     BLANK = "", _("")
     PODI = "PI", _("Poda Integral")
-    PODR = "PR", _("Poda Integral")
-    PODD = "PD", _("Poda Integral")
-    TALA = "T", _("Poda Integral")
-    COR = "CR", _("Poda Integral")
-    EXT = "E", _("Poda Integral")
+    PODR = "PR", _("Poda Reductiva")
+    PODD = "PD", _("Poda de Despeje")
+    TALA = "T", _("Tala")
+    COR = "CR", _("Corte de Raíces")
+    EXT = "E", _("Extracción")
 
 
 class AlturaChoices(TextChoices):
@@ -154,9 +154,8 @@ class DisposicionChoices(TextChoices):
     restringir los valores permitidos en el campo 'disposición' del modelo
     TrabajoModel.
     """
-    BLANK = "", _("")
-    LINE = "1", _("Lineal")
-    POINT = "2", _("Puntual")
+    LINE = "", _("Lineal")
+    POINT = "*", _("Puntual")
 
 
 class RiesgoChoices(TextChoices):
@@ -171,3 +170,30 @@ class RiesgoChoices(TextChoices):
     BAJO = "1", _("Bajo")
     MEDIO = "2", _("Medio")
     ALTO = "3", _("Alto")
+    
+class EfectivaChoices(TextChoices):
+    
+    BLANK='',_('')  
+    ESTE='1',_('Zona Este')
+    OESTE='2', _('Zona Oeste')
+    NORTE='3', _('Zona Norte')
+    SUR='4', _('Zona Sur')
+        
+class InspectorChoices(TextChoices):
+    
+    BLANK='',_('')  
+    UNO='1',_('Pepe Guardiola')
+    DOS='2', _('Miguel conejito Alejandro')
+    TRES='3', _('Angela Merkel')
+
+class EspecieChoices(TextChoices):
+    BLANK='',_('')  
+    J = '1',_('Jacarandá')
+    C = '2', _('Ceibo')
+    L = '3', _('Lapacho')
+    
+    
+
+    
+
+    

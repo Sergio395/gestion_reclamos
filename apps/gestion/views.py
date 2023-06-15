@@ -11,6 +11,7 @@ from django.views.generic.list import ListView
 from django.views.generic import DetailView, edit
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+
 from apps.inspeccion.models import inspecciones
 from apps.inspeccion.forms import NuevaInspeccion
 from apps.reclamos.models import DenuncianteModel, ReclamoModel
@@ -36,7 +37,6 @@ AUTORIZED_GROUPS = 'gestor', 'administrador'
 # Create your views here.
 
 @login_required
-@group_required(*AUTORIZED_GROUPS)
 def gestion_index(request):
     '''
     Por ahora trae los valores de la tabla Gestion, pero deberiamos definir en grupo que datos va a mostrar 
@@ -215,7 +215,7 @@ class InspeccionListView(ListView):
     def post(self, request, *args, **kwargs):
         """Procesa el formulario enviado por POST.
 
-        Si el formulario de busqueda es validos, se filtran las inspecciones y se devuelve a la lista.
+        Si el formulario de busqueda es valido, se filtran las inspecciones y se devuelve a la lista.
         """
         busqueda_form = BusquedaForm(request.POST)
         if busqueda_form.is_valid():
@@ -251,10 +251,6 @@ class GestionDetailView(DetailView):
         Agrego informacion al contexto
         '''
         context = super(GestionDetailView, self).get_context_data(**kwargs)
-        # if hasattr ( obj , "attr1" ):
-        #     print ( "obj tiene el atributo 'attr1'" ) 
-        # else : print ( "obj no tiene el atributo 'attr1'" )
-        
         # obtengo instancia de los distintos modelos
         if hasattr ( self.object.inspecciones , "reclamo" ): 
             reclamo = self.object.inspecciones.reclamo 
@@ -399,7 +395,7 @@ class GestionDeleteView(DeleteView):
         return HttpResponseRedirect(self.get_success_url())
 
 
-#-------------------------------
+#------------------ Código anterior e inspiraciones-------------
 
 # class GestionCreateView(edit.CreateView):
 #     """Vista para crear un numero de gestion asociada a un reclamo(inspeccion).

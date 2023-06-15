@@ -31,12 +31,19 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+
+    # Django internal apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Django external apps
+    'django_filters',
+
+    # Django custom apps
     'apps.base.apps.BaseConfig',
     'apps.relevamiento.apps.RelevamientoConfig',
     'apps.reclamos.apps.ReclamosConfig',
@@ -132,6 +139,13 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
 
+
+# Deploying static files
+# https://docs.djangoproject.com/en/3.2/howto/static-files/deployment/
+
+STATIC_ROOT = BASE_DIR / 'static_root'
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
@@ -141,17 +155,34 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Media files
 # https://docs.djangoproject.com/en/3.2/topics/files/
 
-MEDIA_URL = '/media/' # Base url to serve media files
-MEDIA_ROOT = BASE_DIR / 'media' # Path where media is stored
+# Base url to serve media files
+MEDIA_URL = '/media/'
+
+# Path where media is stored
+MEDIA_ROOT = BASE_DIR / 'media'
 
 
 # Send email
 # https://docs.djangoproject.com/en/3.2/topics/email/
 
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = config("EMAIL_HOST")
-# EMAIL_PORT = config("EMAIL_PORT")
-# EMAIL_USE_TLS = config("EMAIL_USE_TLS")
-# EMAIL_HOST_USER = config("EMAIL_HOST_USER")
-# EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
-# RECIPIENT_ADDRESS = config("RECIPIENT_ADDRESS")
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = config("EMAIL_HOST")
+EMAIL_PORT = config("EMAIL_PORT")
+EMAIL_USE_TLS = config("EMAIL_USE_TLS")
+EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+RECIPIENT_ADDRESS = config("RECIPIENT_ADDRESS")
+
+
+# Substituting a custom User model
+# https://docs.djangoproject.com/en/3.2/topics/auth/customizing/#substituting-a-custom-user-model
+
+# AUTH_USER_MODEL = 'administracion.Usuario'
+
+
+# Settings for django.contrib.auth
+# https://docs.djangoproject.com/en/3.2/ref/settings/#auth
+
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = "index"
+LOGOUT_REDIRECT_URL = "index"

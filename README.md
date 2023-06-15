@@ -71,7 +71,7 @@ El Sistema de Gestión de Reclamos de arbolado público es una aplicación web q
         L -.-> S{Fin}
 ```
 
-### UX-UI (preliminar)
+<!-- ### UX-UI (preliminar)
 
 ![Imagen de UX-UI preliminar](diagrams/Gestión_reclamos-UX-UI_Preliminar.png)
 
@@ -85,15 +85,15 @@ El Sistema de Gestión de Reclamos de arbolado público es una aplicación web q
 
 ### Diagrama Entidad-Relación (DER)
 
-![DER](diagrams/Gestión_reclamos-DER_DB.png)
+![DER](diagrams/Gestión_reclamos-DER_DB.png) -->
 
 ### Estructura del proyecto
 
 ```text
-gestion_recla
-├── apps
-│   ├── administracion
-│   │   ├── migrations
+gestion_reclamos/
+├── apps/
+│   ├── administracion/
+│   │   ├── migrations/
 │   │   ├── __init__.py
 │   │   ├── admin.py
 │   │   ├── apps.py
@@ -102,8 +102,15 @@ gestion_recla
 │   │   ├── tests.py
 │   │   ├── urls.py
 │   │   └── views.py
-│   ├── base
-│   │   ├── migrations
+│   ├── base/
+│   │   ├── constants/
+│   │   │   ├── __init__.py
+│   │   │   ├── calles_choices.py
+│   │   │   └── choices.py
+│   │   ├── decorators/
+│   │   │   ├── __init__.py
+│   │   │   └── decorators.py
+│   │   ├── migrations/
 │   │   ├── __init__.py
 │   │   ├── admin.py
 │   │   ├── apps.py
@@ -111,20 +118,8 @@ gestion_recla
 │   │   ├── tests.py
 │   │   ├── urls.py
 │   │   └── views.py
-│   ├── gestion
-│   │   ├── migrations
-│   │   ├── __init__.py
-│   │   ├── admin.py
-│   │   ├── apps.py
-│   │   ├── datos_reclamos.json
-│   │   ├── forms.py
-│   │   ├── models.py
-│   │   ├── pruebas.py
-│   │   ├── tests.py
-│   │   ├── urls.py
-│   │   └── views.py
-│   ├── inspeccion
-│   │   ├── migrations
+│   ├── gestion/
+│   │   ├── migrations/
 │   │   ├── __init__.py
 │   │   ├── admin.py
 │   │   ├── apps.py
@@ -133,11 +128,34 @@ gestion_recla
 │   │   ├── tests.py
 │   │   ├── urls.py
 │   │   └── views.py
-│   ├── reclamos
-│   │   ├── migrations
-│   │   ├── templatetags
+│   ├── inspeccion/
+│   │   ├── migrations/
+│   │   ├── __init__.py
+│   │   ├── admin.py
+│   │   ├── apps.py
+│   │   ├── forms.py
+│   │   ├── models.py
+│   │   ├── tests.py
+│   │   ├── urls.py
+│   │   └── views.py
+│   ├── reclamos/
+│   │   ├── migrations/
+│   │   ├── templatetags/
 │   │   │   ├── __init__.py
 │   │   │   └── custom_filters.py
+│   │   ├── utils/
+│   │   │   ├── __init__.py
+│   │   │   └── signals.py
+│   │   ├── __init__.py
+│   │   ├── admin.py
+│   │   ├── apps.py
+│   │   ├── forms.py
+│   │   ├── models.py
+│   │   ├── tests.py
+│   │   ├── urls.py
+│   │   └── views.py
+│   ├── relevamiento/
+│   │   ├── migrations/
 │   │   ├── __init__.py
 │   │   ├── admin.py
 │   │   ├── apps.py
@@ -147,50 +165,70 @@ gestion_recla
 │   │   ├── urls.py
 │   │   └── views.py
 │   └── __init__.py
-├── diagrams
-├── gestion_reclamos
+├── db-definition/
+│   └── create-database.sql
+├── diagrams/
+├── gestion_reclamos/
 │   ├── __init__.py
 │   ├── .env
 │   ├── asgi.py
 │   ├── settings.py
 │   ├── urls.py
 │   └── wsgi.py
-├── static
-│   ├── administracion
-│   │   ├── css
-│   │   └── js
-│   └── assets
-│       ├── css
-│       ├── img
-│       ├── js
-│       └── vendor
-├── templates
-│   ├── administracion
+├── static/
+│   ├── administracion/
+│   │   ├── css/
+│   │   └── js/
+│   ├── assets/
+│   │   ├── css/
+│   │   ├── img/
+│   │   ├── js/
+│   │   └── vendor/
+│   ├── inspeccion/
+│   │   └── js/
+│   └── reclamos/
+│       └── js/
+├── templates/
+│   ├── administracion/
+│   │   ├── 404_admin.html
 │   │   ├── admin_index.html
 │   │   ├── edit_empresa.html
 │   │   ├── edit_usuario.html
+│   │   ├── ediar_oc.html
 │   │   ├── empresas.html
 │   │   ├── nueva_empresa.html
+│   │   ├── nueva_oc.html
 │   │   ├── nuevo_usuario.html
+│   │   ├── ordenes_compra.html
 │   │   └── usuarios.html
-│   ├── base
+│   ├── base/
 │   │   ├── base_admin.html
+│   │   ├── base_filters.html
 │   │   ├── base.html
 │   │   ├── footer.html
 │   │   └── index.html
-│   ├── gestion
+│   ├── gestion/
 │   │   ├── gestion_editar_reclamo.html
+│   │   ├── gestion_editar.html
 │   │   ├── gestion_index.html
 │   │   ├── gestion_inicio.html
+│   │   ├── gestion_nuevo.html
 │   │   └── gestion_prueba.html
-│   ├── inspeccion
+│   ├── inspeccion/
+│   │   ├── inspeccion_editar.html
 │   │   ├── inspeccion_index.html
+│   │   ├── inspeccion_listar.html
+│   │   ├── inspeccion_mostrar.html
+│   │   ├── inspecciones.html
 │   │   ├── nueva_certificacion.html
 │   │   └── nueva_inspeccion.html
-│   └── reclamos
-│       ├── nuevo_reclamo.html
-│       ├── seguimiento.html
-│       └── ver_reclamo.html
+│   ├── reclamos/
+│   │   ├── reclamo_form_validaciones.html
+│   │   ├── reclamo_form.html
+│   │   └── reclamo_list.html
+│   └── registracion/
+│       ├── change_password.html
+│       └── login.html
 ├── .gitignore
 ├── manage.py
 ├── README.md
@@ -254,7 +292,7 @@ gestion_recla
     >```text
     >SECRET_KEY = 'clave_del_entorno'
     >DEBUG = True
-    >DATABASE_NAME = 'nombre_de_tu_base_de_datos'
+    >DATABASE_NAME = 'gestion_reclamos_db'
     >DATABASE_HOST = 'localhost'
     >DATABASE_PORT = ''
     >DATABASE_USER = 'nombre_de_usuario'

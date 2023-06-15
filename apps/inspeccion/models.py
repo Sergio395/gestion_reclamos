@@ -1,17 +1,52 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
+from ..base.constants import choices, calles_choices
+# Create your models here.
 
-from .choices import lugares, reclamo, trabajos, inspectores,especies,urgencias
-
+import datetime
 class Inspeccion(models.Model):
-        
-    fecha_inspeccion = models.DateField(verbose_name='Fecha de inspección')
-    reclamo = models.CharField(max_length=100, verbose_name="Reclamo a inspeccionar",choices=reclamo, default='01')
-    inspector = models.CharField(max_length=100, verbose_name="Inspector",choices=inspectores,default='01')
-    lugar = models.CharField(max_length=100, choices=lugares,default='ZN')
-    nota = models.CharField(max_length=300, verbose_name="nota",null=False,blank=True)
-    foto = models.ImageField(upload_to='img_reclamos', null=True, blank=True, verbose_name="Fotos")
-    especie=models.CharField(max_length=100, verbose_name="Especie",choices=especies,default='1')
-    trabajo = models.CharField(max_length=100, choices=trabajos,default='1')
+
+    fecha_inspeccion = models.DateField(
+        verbose_name='Fecha de inspección'
+        )
+    reclamo = models.CharField(
+        max_length=100, 
+        verbose_name="Reclamo a inspeccionar",
+        choices=choices.ReclamoChoices.choices, 
+        default=choices.ReclamoChoices.BLANK
+        )
+    inspector = models.CharField(
+        max_length=100, 
+        verbose_name="Inspector",
+        choices=choices.InspectorChoices.choices, 
+        default=choices.InspectorChoices.BLANK
+        )
+    lugar = models.CharField(
+        max_length=100, 
+        choices=choices.EfectivaChoices.choices,
+        default=choices.EfectivaChoices.BLANK
+        )
+    nota = models.CharField(
+        max_length=300, 
+        verbose_name="nota",
+        null=False,blank=True
+        )
+    foto = models.ImageField(
+        upload_to='img_reclamos', 
+        null=True, blank=True, 
+        verbose_name="Fotos"
+        )
+    especie=models.CharField(
+        max_length=100, 
+        verbose_name="Especie",
+        choices=choices.EspecieChoices.choices,
+        default=choices.EspecieChoices.BLANK
+        )
+    trabajo = models.CharField(
+        max_length=100,
+        choices=choices.TrabajoChoices.choices,
+        default=choices.TrabajoChoices.BLANK
+        )
     def __str__(self):
         return "{} - {}, {} // {} ".format(self.reclamo, self.inspector, self.lugar,self.fecha_inspeccion)
     
@@ -23,13 +58,23 @@ class Inspeccion(models.Model):
     
 class Arbol(models.Model):
     
-    inspeccion = models.ForeignKey(Inspeccion, null=True, blank=True, on_delete=models.CASCADE)
-    
-    
-    urgencia=models.CharField(max_length=100,choices=urgencias,default='1')
+    inspeccion = models.ForeignKey(
+        Inspeccion, null=True, 
+        blank=True, 
+        on_delete=models.CASCADE
+        )
+    urgencia=models.CharField(
+        max_length=100,
+        choices=choices.UrgenciaChoices.choices,
+        default=choices.UrgenciaChoices.BLANK
+        )
     def __str__(self):
         texto= '{} '
         return texto.format(self.inspeccion)
+    
+    class Meta:
+        verbose_name = "Árbol"
+        verbose_name_plural = "Árboles"
     
 
 from apps.reclamos.models import ReclamoModel

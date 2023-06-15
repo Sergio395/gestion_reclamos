@@ -44,62 +44,78 @@
 </head>
 
 <body>
+  {% if user.is_active %}
+    <!-- ======= Header ======= -->
+    <header id="header" class="header d-flex align-items-center">
+      <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+        <a href="{% url 'index' %}" class="logo d-flex align-items-center">
+          <h1>SGR<span>.</span></h1>
+        </a>
+        <nav id="navbar" class="navbar">
+          <ul>
+            <li><a href="{% url 'index' %}">Inicio</a></li>
+            <li><a href="{% url 'reclamo_form' %}">Nuevo Reclamo</a></li>
+            <li><a href="{% url 'seguimiento' %}">Seguimiento</a></li>
+            {% if perms.inspeccion %}
+              <li class="dropdown">
+                <a href="{% url 'inspeccion' %}"><span>Inspección</span></a>
+                <ul>
+                  {% comment %} <li><a href=" url 'carga_inspeccion' ">Cargar de Inspección</a></li> {% endcomment %}
 
-  <!-- ======= Header ======= -->
-  <header id="header" class="header d-flex align-items-center">
-    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
-      <a href="{% url 'index' %}" class="logo d-flex align-items-center">
-        <h1>SGR<span>.</span></h1>
-      </a>
-      <nav id="navbar" class="navbar">
-        <ul>
-          <li><a href="{% url 'index' %}">Inicio</a></li>
-          <li><a href="{% url 'reclamo_form' %}">Nuevo Reclamo</a></li>
-          <li><a href="{% url 'seguimiento' %}">Seguimiento</a></li>
-          <li class="dropdown">
-            <a href="{% url 'inspeccion' %}"><span>Inspección</span></a>
-            <ul>
-              {% comment %} <li><a href=" url 'carga_inspeccion' ">Cargar de Inspección</a></li> {% endcomment %}
+                  {% comment %} <li><a href=" url 'carga_certificacion' ">Cargar de Certificación</a></li> {% endcomment %}
+                  <li><a href="{% url 'db_inspeccion' %}">Inspecciones realizadas db</a></li>
+                  
 
-              {% comment %} <li><a href=" url 'carga_certificacion' ">Cargar de Certificación</a></li> {% endcomment %}
-              {% comment %} <li><a href=" url 'db_inspeccion' ">Inspecciones realizadas db</a></li> {% endcomment %}
-              
+                </ul>
+              </li>
+            {% if perms.gestion %}
+              <li><a href="{% url 'gestion' %}">Gestión</a></li>
+            {% if perms.administracion %}
+              <li><a href="{% url 'admin' %}">Administración</a></li>
+            {% endif %}
+            {% endif %}
+            {% endif %}
+              <li class="dropdown">
+                {% block welcome-msg %}
+                  <a href="#"><strong>{% firstof user.get_short_name user.get_username %}</strong><i class="bi bi-person-circle dropdown-indicator"></i></a>
+                {% endblock %}
+                  
+                <ul>
 
-            </ul>
-          </li>
-          <li><a href="{% url 'gestion' %}">Gestión</a></li>
-          <li><a href="{% url 'admin' %}">Administración</a></li>
-          <li class="dropdown">
-            <a href="#"><span>Fulano</span>
-              <i class="bi bi-person-circle dropdown-indicator"></i></a>
-            <ul>
-              <li><a href="#">Configuración</a></li>
-              <li><a href="#">Cerrar sesión</a></li>
-            </ul>
-          </li>
-        </ul>
-      </nav>
-      <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
-      <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
-    </div>
-  </header><!-- End Header -->
+                  {% block userlinks %}
+                    
+                    {% if user.has_usable_password %}
+                      <li><a href="{% url 'admin:password_change' %}">Cambiar contraseña</a></li>
+                    {% endif %}
+                    <li><a href="{% url 'logout' %}">Cerrar sesión</a></li>
+                  {% endblock %}
 
-<!-- ======= Breadcrumbs ======= -->
-{% if request.path != "/" %}
-  <div class="breadcrumbs">
-    <div class="page-header d-flex align-items-center" style="background-image: url('')">
-      <div class="container position-relative">
-        <div class="row d-flex justify-content-center">
-          <div class="col-lg-6 text-center">
-            <h2>{% block etiqueta %}{% endblock etiqueta %}</h2>
+                </ul>
+              </li>
+          </ul>
+        </nav>
+        <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
+        <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
+      </div>
+    </header><!-- End Header -->
+
+    <!-- ======= Breadcrumbs ======= -->
+    {% if request.path != "/" %}
+      <div class="breadcrumbs">
+        <div class="page-header d-flex align-items-center" style="background-image: url('')">
+          <div class="container position-relative">
+            <div class="row d-flex justify-content-center">
+              <div class="col-lg-6 text-center">
+                <h2>{% block etiqueta %}{% endblock etiqueta %}</h2>
+              </div>
+            </div>
           </div>
         </div>
+        {%block nav%}{%endblock nav%}
       </div>
-    </div>
-    {%block nav%}{%endblock nav%}
-  </div>
-{% endif %}
-<!-- End Breadcrumbs -->
+    {% endif %}
+    <!-- End Breadcrumbs -->
+  {% endif %}
 
   <main id="main">
     {% block contenido %}{% endblock contenido %}
