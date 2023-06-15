@@ -2,9 +2,10 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from typing import Iterable, Optional
 from django.contrib.auth.models import User
+from apps.inspeccion.models import inspecciones
 
 # Create your models here.
-class Gestion(models.Model):
+class GestionModel(models.Model):
     """
     Modelo para la tabla gestion.
     Se relaciona con Arbol en una relación muchos a muchos, porque un arbol puede estar en solo una orden de trabajo, pero una orden de trabajo puede contener muchos árboles
@@ -30,18 +31,19 @@ class Gestion(models.Model):
     fecha_solucion = models.DateField(auto_now_add=False, verbose_name="Fecha de solución")
     orden_trabajo = models.CharField(max_length=30, verbose_name="Orden de trabajo")
     arbol = models.CharField(max_length=30, verbose_name="Arbol")
-    baja = models.BooleanField(default=False)
+    inspecciones = models.ForeignKey(inspecciones, null=True, blank=True, on_delete=models.CASCADE)
+    eliminado = models.BooleanField(default=False)
 
-    # def __str__(self):
-    #     return self
+    def __str__(self):
+        return self
 
     def soft_delete(self):
-        self.baja = True
+        self.eliminado = True
         super().save()
 
     def restore(self):
-        self.baja = False
+        self.eliminado = False
         super().save()
 
-    # class Meta:
-    #     abstract = False
+    class Meta:
+        abstract = False

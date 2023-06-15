@@ -4,6 +4,10 @@
   <style>
     label {
       color: #008375;
+      min-width: 15rem;
+    }
+    td {
+      min-width: 20rem;
     }
     div.text-center button {
       width: 180px;
@@ -30,17 +34,24 @@
     button#btn-button:hover {
       background: Red;
     }
-  </style>
-{% endblock css %}
+    .contact .php-email-form button[type=submit] {
+    background: var(--color-primary);
+    border: 0;
+    padding: 6px 12px;
+    color: #fff;
+    transition: 0.4s;
+    border-radius: 0.375rem;
+}
+    </style>
+  {% endblock css %}
 <!-- ======= Breadcrumbs ======= -->
-{% block etiqueta %}Gestión{% endblock etiqueta %}
+{% block etiqueta %}Gestión Nuevo{% endblock etiqueta %}
 {% block nav %}
   <nav>
     <div class="container">
       <ol>
         <li><a href="{% url 'index' %}">Inicio</a></li>
         <li><a href="{% url 'gestion' %}">Gestión</a></li>
-        <li>Gestión Nuevo</li>
       </ol>
     </div>
   </nav>
@@ -51,20 +62,19 @@
   
     <section id="contact" class="contact">
       <div class="container" data-aos="fade-up">
-        <!-- <div class="row gx-lg-0 gy-4"> -->
+        <div class="mb-3">
+          <h2>Gestion Nuevo</h2>
+          <br>
+          <br>
+        </div>
+        <div class="row gx-lg-0 gy-4">
 
-          <!--filtros-->
+          <!-- Comienza form -->
           <div class="input-group mb-3">
-            <h2>Gestión nuevo</h2>
-            <hr>
-          </div>
-          
-          <!-- Empieza el Form -->
-          <div class="input-group mb-3">
-            <form class="php-email-form" id="" name="gestion_form" method="POST" >
+            <form class="php-email-form" id="" name="gestion_form" action="{% url 'gestioncbv_nuevo' %}" method="POST" >
               {% csrf_token %}
 
-          <!-- Formulario  -->
+          <!-- Formulario -->
             <div class="input-group mb-3">
                 <table>
                 {{ form.as_table }}
@@ -82,22 +92,5 @@
     </div>
     </section>
   </main>
-  {% load static %}
-  {% if accion == 'actualizar' %}
-  <script>
-    // Asignar el valor de las calles seleccionadas a una variable JavaScript
-    var accion = 'actualizar';
-    var calle0 = {{ calle0 }};
-    var calle1 = {{ calle1 }};
-    var calle2 = {{ calle2 }};
-  </script>
-  {% else %}
-  <script>
-    var accion = 'crear';
-  </script>
-  {% endif %}
-
-
-  <script src="{% static 'reclamos/js/mostrar_calles.js' %}"></script>
   
 {% endblock contenido %}

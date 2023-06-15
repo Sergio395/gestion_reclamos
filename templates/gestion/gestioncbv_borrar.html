@@ -1,0 +1,45 @@
+{% extends 'base/base.html' %}
+{% block titulo %}Gestión{% endblock titulo %}
+
+<!-- ======= Breadcrumbs ======= -->
+{% block etiqueta %}Gestión{% endblock etiqueta %}
+{% block nav %}
+  <nav>
+    <div class="container">
+      <ol>
+        <li><a href="{% url 'index' %}">Inicio</a></li>
+        <li><a href="{% url 'gestion' %}">Gestión</a></li>
+      </ol>
+    </div>
+  </nav>
+  {% endblock nav %}
+<!-- End Breadcrumbs -->
+    
+  {% block contenido %}
+  
+    <section id="contact" class="contact">
+      <div class="container" data-aos="fade-up">
+        <!-- <div class="row gx-lg-0 gy-4"> -->
+
+          <!--filtros-->
+          <div class="input-group mb-3">
+            <h2>Eliminar Gestión Nro: {{ object.id }} </h2>
+            <hr>
+          </div>
+          
+          <!-- Segunda propuesta -->
+          <div class="input-group mb-3">
+            <form class="php-email-form" id="" name="gestion_form"  method="POST" >
+              {% csrf_token %}
+              <p>Esta seguro que quiere eliminar la Gestión número "{{ object.id }}"?</p>
+              <input type="submit" value="Confirm" class="btn btn-danger">
+            </form>           
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </section>
+  </main>
+  
+{% endblock contenido %}
