@@ -4,7 +4,7 @@ from django.http import HttpResponseNotAllowed
 from datetime import datetime
 from django.conf import settings
 from django.contrib import messages
-from .forms import GestionForm, BusquedaForm
+from .forms import GestionForm, BusquedaForm, BusquedaGestionForm
 from .models import GestionModel
 
 from django.views.generic.list import ListView
@@ -127,7 +127,7 @@ class GestionListView(ListView):
         Agrega el formulario de busqueda al contexto
         '''
         context = super(GestionListView, self).get_context_data(**kwargs)
-        context['form_busqueda'] = BusquedaForm()
+        context['form_busqueda'] = BusquedaGestionForm()
         return context
 
     def post(self, request, *args, **kwargs):
@@ -204,74 +204,57 @@ class InspeccionListView(ListView):
         self.success_url = reverse_lazy('inspeccioncbv_lista')
         return redirect(self.success_url, inspecciones=inspeccion)
 
+class GestionDetailView(DetailView):
+    '''
+    Muestra una detalles de gestion
+    '''
+    model = GestionModel
+    template_name = 'gestion/gestioncbv_detalle.html'
+    queryset = GestionModel.objects.select_related().filter(eliminado=False)
+    ordering = ['id']
+    
+    def get_context_data(self, **kwargs):
+        '''
+        Agrego informacion al contexto
+        '''
+        context = super(GestionDetailView, self).get_context_data(**kwargs)
+        # if hasattr ( obj , "attr1" ):
+        #     print ( "obj tiene el atributo 'attr1'" ) 
+        # else : print ( "obj no tiene el atributo 'attr1'" )
+        
+        # obtengo instancia de los distintos modelos
+        if hasattr ( self.object.inspecciones , "reclamo" ): 
+            reclamo = self.object.inspecciones.reclamo 
+        else :
+            reclamo = None
+        if hasattr ( self.object , "inspecciones" ): 
+            inspecciones = self.object.inspecciones 
+        else :
+            inspecciones = None
+        # reclamo = self.object.inspecciones.reclamo 
+        # inspeccion = self.object.inspecciones
+        gestion = self.object
+        # Paso instancias
+        context['reclamo_form'] = ReclamoForm(instance=reclamo)
+        context['inspeccion_form'] = NuevaInspeccion(instance=inspecciones)
+        context['gestion_form'] = GestionForm(instance=gestion)
+        # Paso las rutas de edición y sus id
+        context['url_reclamo'] = "{% url'editar_reclamo'{reclamo.id } %}"
+        context['url_inspeccion'] = "{% url'inspeccion' {inspeccion.id} %}"
+        context['url_gestion'] = "{% url'gestioncbv_editar' {gestion.id} %}"
+        # el reto de variables de contexto
+        # context['calle0'] = reclamo.calle
+        # context['calle1'] = reclamo.entre_calle_1
+        # context['calle2'] = reclamo.entre_calle_2
+        # context['action_url'] = 'gestioncbv_detalle'
+        context['accion'] = 'actualizar'
+        return context
+
 class GestionCreateView(CreateView):
     model = GestionModel
     form_class = GestionForm
     template_name = 'gestion/gestioncbv_nuevo.html'
     success_url = reverse_lazy('gestioncbv_lista')
-
-class ReclamoGestionCreateView(edit.CreateView):
-    """Vista para crear un reclamo.
-    """
-    model = GestionModel
-    form_class = GestionForm
-    inspeccion_form_class = NuevaInspeccion
-    template_name = 'gestion/gestioncbv_nuevo.html'
-    success_url = reverse_lazy('gestioncbv_nuevo')
-
-    def get_context_data(self, **kwargs):
-        """Obtiene los datos del contexto para la vista.
-
-        Retorna el contexto actualizado con la acción "crear" y la URL de acción.
-        """
-        context = super().get_context_data(**kwargs)
-        context['accion'] = 'crear'
-        context['action_url'] = reverse_lazy('gestioncbv_nuevo')
-        return context
-
-    def get(self, request, *args, **kwargs):
-        """Maneja la solicitud GET para la vista.
-
-        Retorna la página de creación de reclamo con los campos de formulario vacíos.
-        """
-        gestion_form = self.form_class()
-        inspeccion_form = self.inspeccion_form_class()
-        return render(request, self.template_name, {
-            'gestion_form': gestion_form, 'inspeccion_form': inspeccion_form})
-
-    def post(self, request, *args, **kwargs):
-        """Maneja la solicitud POST para la vista.
-
-        Valida los formularios de reclamo y denunciante. Si son válidos, llama a form_valid(). De lo contrario, llama a form_invalid().
-        """
-        gestion_form = self.form_class(request.POST)
-        inspeccion_form = self.inspeccion_form_class(request.POST)
-
-        if gestion_form.is_valid() and inspeccion_form.is_valid():
-            return self.form_valid(gestion_form, inspeccion_form)
-        else:
-            return self.form_invalid(gestion_form, inspeccion_form)
-
-    def form_valid(self, gestion_form, inspeccion_form):
-        """Guarda el reclamo y el denunciante en la base de datos.
-
-        Muestra un mensaje de éxito y redirige a la URL de creación de reclamo con los campos vacíos.
-        """
-        messages.success(self.request, 'Gestion creado con éxito')
-        gestion = gestion_form.save(commit=False)
-        inspeccion = inspeccion_form.save()
-        gestion.save()
-        # reclamo.denunciantes.add(denunciante)
-        return redirect(self.success_url)
-
-    def form_invalid(self, gestion_form, inspeccion_form):
-        """Maneja el caso en que los formularios son inválidos.
-
-        Muestra un mensaje de error y vuelve a renderizar la página de creación de reclamo.
-        """
-        messages.error(self.request, 'Revisa los campos del formulario')
-        return render(self.request, self.template_name, {
-            'gestion_form': gestion_form, 'inspeccion_form': inspeccion_form})
 
 class GestionSoloUpdateView(UpdateView):
     model = GestionModel
@@ -288,41 +271,7 @@ class GestionSoloUpdateView(UpdateView):
         messages.error(self.request, 'Revisa los campos del formulario')
         return self.render_to_response(self.get_context_data(busqueda_form))
 
-class GestionDetailView(DetailView):
-    '''
-    Muestra una detalles de gestion
-    '''
-    model = GestionModel
-    template_name = 'gestion/gestioncbv_detalle.html'
-    queryset = GestionModel.objects.select_related().filter(eliminado=False)
-    ordering = ['id']
-    
-    def get_context_data(self, **kwargs):
-        '''
-        Agrego informacion al contexto
-        '''
-        context = super(GestionDetailView, self).get_context_data(**kwargs)
-        # obtengo instancia de los distintos modelos
-        reclamo = self.object.inspecciones.reclamo
-        inspeccion = self.object.inspecciones
-        gestion = self.object
-        # Paso instancias
-        context['reclamo_form'] = ReclamoForm(instance=reclamo)
-        context['inspeccion_form'] = NuevaInspeccion(instance=inspeccion)
-        context['gestion_form'] = GestionForm(instance=gestion)
-        # Paso las rutas de edición y sus id
-        context['url_reclamo'] = "{% url'editar_reclamo'{reclamo.id } %}"
-        context['url_inspeccion'] = "{% url'inspeccion' {inspeccion.id} %}"
-        context['url_gestion'] = "{% url'gestioncbv_editar' {gestion.id} %}"
-        # el reto de variables de contexto
-        context['calle0'] = reclamo.calle
-        context['calle1'] = reclamo.entre_calle_1
-        context['calle2'] = reclamo.entre_calle_2
-        # context['action_url'] = 'gestioncbv_detalle'
-        context['accion'] = 'actualizar'
-        return context
-
-class GestionUpdateView(UpdateView):
+class GestionCompletoUpdateView(UpdateView):
     model = GestionModel
     # fields = '__all__'
     # form_class = NuevaInspeccion
@@ -411,7 +360,6 @@ class GestionDeleteView(DeleteView):
         self.object = self.get_object()
         self.object.soft_delete()
         return HttpResponseRedirect(self.get_success_url())
-
 
 
 #-------------------------------

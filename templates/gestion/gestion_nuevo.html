@@ -1,6 +1,37 @@
 {% extends 'base/base.html' %}
-{% block titulo %}Gestión{% endblock titulo %}
-
+{% block titulo %}Gestión Nuevo{% endblock titulo %}
+{% block css %}
+  <style>
+    label {
+      color: #008375;
+    }
+    div.text-center button {
+      width: 180px;
+    }
+    button#btn-reset {
+      background: DarkTurquoise;
+      border: 0;
+      padding: 14px 45px;
+      color: #fff;
+      transition: 0.4s;
+      border-radius: 50px;
+    }
+    button#btn-reset:hover {
+      background: Turquoise;
+    }
+    button#btn-button {
+      background: Crimson;
+      border: 0;
+      padding: 14px 45px;
+      color: #fff;
+      transition: 0.4s;
+      border-radius: 50px;
+    }
+    button#btn-button:hover {
+      background: Red;
+    }
+  </style>
+{% endblock css %}
 <!-- ======= Breadcrumbs ======= -->
 {% block etiqueta %}Gestión{% endblock etiqueta %}
 {% block nav %}
@@ -8,7 +39,8 @@
     <div class="container">
       <ol>
         <li><a href="{% url 'index' %}">Inicio</a></li>
-        <li>Gestión</li>
+        <li><a href="{% url 'gestion' %}">Gestión</a></li>
+        <li>Gestión Nuevo</li>
       </ol>
     </div>
   </nav>
@@ -23,16 +55,16 @@
 
           <!--filtros-->
           <div class="input-group mb-3">
-            <h2>{{ accion }}</h2>
+            <h2>Gestión nuevo</h2>
             <hr>
           </div>
           
-          <!-- Segunda propuesta -->
+          <!-- Empieza el Form -->
           <div class="input-group mb-3">
             <form class="php-email-form" id="" name="gestion_form" method="POST" >
               {% csrf_token %}
 
-          <!-- Formulario Busqueda -->
+          <!-- Formulario  -->
             <div class="input-group mb-3">
                 <table>
                 {{ form.as_table }}

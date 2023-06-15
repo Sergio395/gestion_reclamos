@@ -1,8 +1,51 @@
 {% extends 'base/base.html' %}
-{% block titulo %}Gestión{% endblock titulo %}
-
+{% block titulo %}Gestión Nuevo{% endblock titulo %}
+{% block css %}
+  <style>
+    label {
+      color: #008375;
+      min-width: 15rem;
+    }
+    td {
+      min-width: 20rem;
+    }
+    div.text-center button {
+      width: 180px;
+    }
+    button#btn-reset {
+      background: DarkTurquoise;
+      border: 0;
+      padding: 14px 45px;
+      color: #fff;
+      transition: 0.4s;
+      border-radius: 50px;
+    }
+    button#btn-reset:hover {
+      background: Turquoise;
+    }
+    button#btn-button {
+      background: Crimson;
+      border: 0;
+      padding: 14px 45px;
+      color: #fff;
+      transition: 0.4s;
+      border-radius: 50px;
+    }
+    button#btn-button:hover {
+      background: Red;
+    }
+    .contact .php-email-form button[type=submit] {
+    background: var(--color-primary);
+    border: 0;
+    padding: 6px 12px;
+    color: #fff;
+    transition: 0.4s;
+    border-radius: 0.375rem;
+}
+    </style>
+  {% endblock css %}
 <!-- ======= Breadcrumbs ======= -->
-{% block etiqueta %}Gestión{% endblock etiqueta %}
+{% block etiqueta %}Gestión Nuevo{% endblock etiqueta %}
 {% block nav %}
   <nav>
     <div class="container">
@@ -19,20 +62,19 @@
   
     <section id="contact" class="contact">
       <div class="container" data-aos="fade-up">
-        <!-- <div class="row gx-lg-0 gy-4"> -->
+        <div class="mb-3">
+          <h2>Gestion Nuevo</h2>
+          <br>
+          <br>
+        </div>
+        <div class="row gx-lg-0 gy-4">
 
-          <!--filtros-->
-          <div class="input-group mb-3">
-            <h2>{{ accion }}</h2>
-            <hr>
-          </div>
-          
-          <!-- Segunda propuesta -->
+          <!-- Comienza form -->
           <div class="input-group mb-3">
             <form class="php-email-form" id="" name="gestion_form" action="{% url 'gestioncbv_nuevo' %}" method="POST" >
               {% csrf_token %}
 
-          <!-- Formulario Busqueda -->
+          <!-- Formulario -->
             <div class="input-group mb-3">
                 <table>
                 {{ form.as_table }}

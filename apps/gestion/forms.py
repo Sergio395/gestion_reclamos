@@ -177,6 +177,96 @@ class BusquedaForm(forms.Form):
                 'class': 'form-control-desplegable mx-auto', 
                 'style': 'height: 2.5em'}), 
             choices=fechas)
+    
+class BusquedaGestionForm(forms.Form):
+    campos = (
+        ('none',' --- '),
+        ('id','Gestión nro'),
+        ('estado','Estado'),
+        ('equipo_de_trabajo','Equipo de trabajo'),
+        ('arbol','Árbol'),
+        ('detalle_de_gestion','Detalle de gestión'),
+        ('inspeccion_id','Inspección nro'),
+        ('urgencia_de_trabajo','Urgencia trabajo'),
+        ('reclamo','Reclamo'),
+        ('medio','Medio'),
+        ('urgencia','Urgencia'),
+    )
+
+    fechas = (
+        ('none', ' --- '),
+        ('fecha_programada','Fecha programada'),
+        ('fecha_solucion','Fecha solución'),
+        ('fecha_inspeccion','Fecha inspección'),
+        ('fecha_creacion','Fecha de creación'),
+    )
+    
+    criterio1_valor = forms.CharField( 
+        label='Criterio 1', 
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Texto a buscar en criterio 1',
+                'class': 'form-control', 
+                'style': 'height: 2.5em'}),
+            required=False)
+    criterio1_campo = forms.ChoiceField(
+        label='Campo', 
+        widget=forms.Select(
+            attrs={
+                'placeholder': 'Campo a filtrar', 
+                'class': 'form-control-desplegable mx-auto', 
+                'style': 'height: 2.5em'}), 
+            choices=campos)
+    
+    criterio2_valor = forms.CharField( 
+        label='Criterio 2', 
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Texto a buscar en criterio 2',
+                'class': 'form-control mx-auto', 
+                'style': 'height: 2.5em'}),
+                required=False)
+    criterio2_campo = forms.ChoiceField(
+        label='Campo', 
+        widget=forms.Select(
+            attrs={
+                'placeholder': 'Campo a filtrar', 
+                'class': 'form-control-desplegable mx-auto', 
+                'style': 'height: 2.5em'}), 
+            choices=campos)
+    
+    criterio3_valor = forms.CharField( 
+        label='Criterio 3', 
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Texto a buscar en criterio 3',
+                'class': 'form-control mx-auto', 
+                'style': 'height: 2.5em'}),
+                required=False)
+    criterio3_campo = forms.ChoiceField(
+        label='Campo', 
+        widget=forms.Select(
+            attrs={
+                'placeholder': 'Campo a filtrar', 
+                'class': 'form-control-desplegable mx-auto', 
+                'style': 'height: 2.5em'}), 
+            choices=campos)
+
+    criterio4_valor = forms.DateField(
+        widget=forms.DateInput(
+            attrs={
+                'type': 'date', 
+                'class': 'form-control mx-auto', 
+                'style': 'height: 2.5em'}),
+                required=False)
+    criterio4_campo = forms.ChoiceField(
+        label='Fecha a buscar', 
+        widget=forms.Select(
+            attrs={
+                'placeholder': 'Fecha a filtrar', 
+                'class': 'form-control-desplegable mx-auto', 
+                'style': 'height: 2.5em'}), 
+            choices=fechas)
 
 # class GesContacto(forms.Form):
 #     medio = forms.CharField(

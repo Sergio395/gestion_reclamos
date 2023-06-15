@@ -16,10 +16,9 @@ urlpatterns = [
     path('cbvlista/', views.GestionListView.as_view(), name='gestioncbv_lista'),
     path('cbvinspeccionlista/', views.InspeccionListView.as_view(), name='inspeccioncbv_lista'),
     path('cbvnuevo/', views.GestionCreateView.as_view(), name='gestioncbv_nuevo'),
-    # path('cbvnuevo/', views.ReclamoGestionCreateView.as_view(), name='gestioncbv_nuevo'),
     path('cbvdetalle/<int:pk>/', views.GestionDetailView.as_view(), name='gestioncbv_detalle'),
-    # path('cbveditar/<int:pk>/', views.GestionUpdateView.as_view(), name='gestioncbv_editar'),
     path('cbveditar/<int:pk>/', views.GestionSoloUpdateView.as_view(), name='gestioncbv_editar'),
+    # path('cbvcompletoeditar/<int:pk>/', views.GestionCompletoUpdateView.as_view(), name='gestioncompletocbv_editar'),
     path('cbvborrar/<int:pk>/', views.GestionDeleteView.as_view(), name='gestioncbv_borrar'),
     
     # path('nuevo/', views.ReclamoCreateView.as_view(), name='reclamo_form'),

@@ -5,10 +5,13 @@
 {% block css %}
   <style>
     .ancho-celda {
-      min-width: 14em;
+      min-width: 12em;
     }
     .acciones-celda {
-      min-width: 20em;
+      min-width: 16em;
+    }
+    .ancho-chica {
+      min-width: 8em;
     }
     .form-control-desplegable {
       display: block;
@@ -178,8 +181,8 @@
             <h2>Resultados de Gestión</h2>
             <hr>
           </div>
-          <div class="table-responsive">
-            
+          <!-- prueba -->
+          <div class="table-responsive">         
             {% if messages %}
             {% for message in messages %}
               <div class="messages alert alert-{% if message.tags == 'error' %}warning{% else %}{{ message.tags }}{% endif %}" role="alert">
@@ -206,17 +209,17 @@
                 <thead>
                   <tr>
                     <th class="acciones-celda">Acciones</th>
-                    <th class="ancho-celda">Gestión nro</th>
-                    <th class="ancho-celda">Estado</th>
+                    <th class="ancho-chica">Gestión nro</th>
+                    <th class="ancho-chica">Estado</th>
                     <th class="ancho-celda">Fecha programada</th>
                     <th class="ancho-celda">Fecha solución</th>
                     <th class="ancho-celda">Equipo de trabajo</th>
                     <th class="ancho-celda">Árbol</th>
                     <th class="ancho-celda">Detalle de gestión</th>
-                    <th class="ancho-celda">Inspección nro<th>
+                    <th class="ancho-celda">Inspección nro</th>
                     <th class="ancho-celda">Urgencia trabajo</th>
                     <th class="ancho-celda">Fecha inspección</th>
-                    <th class="ancho-celda">Reclamo</th>
+                    <th class="ancho-chica">Reclamo</th>
                     <th class="ancho-celda">Medio</th>
                     <th class="ancho-celda">Fecha de creación</th>
                     <th class="ancho-celda">Urgencia</th> 
@@ -235,8 +238,8 @@
                           <a href="{% url 'gestioncbv_editar' item.id %}" class="btn btn-sm btn-outline-success" role="button">Editar</a>
                           <a href="{% url 'gestioncbv_borrar' item.id %}" class="btn btn-sm btn-outline-danger" role="button">Borrar</a>
                         </td>
-                        <td class="ancho-celda">{{ item.id }}</td>
-                        <td class="ancho-celda">{{ item.estado }}</td>
+                        <td class="ancho-chica">{{ item.id }}</td>
+                        <td class="ancho-chica">{{ item.estado }}</td>
                         <td class="ancho-celda">{{ item.fecha_programada }}</td>
                         <td class="ancho-celda">{{ item.fecha_solucion }}</td>
                         <td class="ancho-celda">{{ item.equipo_trabajo }}</td>
@@ -245,7 +248,7 @@
                         <td class="ancho-celda">{{ item.inspecciones_id }}</td>
                         <td class="ancho-celda">{{ item.inspecciones.urgencia_trabajo }}</td>
                         <td class="ancho-celda">{{ item.inspecciones.fecha_de_inspeccion }}</td>
-                        <td class="ancho-celda">{{ item.inspecciones.reclamo_id }}</td>
+                        <td class="ancho-chica">{{ item.inspecciones.reclamo_id }}</td>
                         <td class="ancho-celda">{{ item.inspecciones.reclamo.medio }}</td>
                         <td class="ancho-celda">{{ item.inspecciones.reclamo.fecha_creacion }}</td>
                         <td class="ancho-celda">{{ item.inspecciones.reclamo.urgencia }}</td>
@@ -258,25 +261,11 @@
         </div>
       </div>
     </div>
+    <br>
+    <br>
 
-      <!-- pagination -->
-      <!-- <div class="pagination">
-        <span class="step-links">
-            {% if page_obj.has_previous %}
-                <a href="?page=1">&laquo; first</a>
-                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-            {% endif %}
-    
-            <span class="current">
-                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-            </span>
-    
-            {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}">next</a>
-                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-            {% endif %}
-        </span>
-    </div> -->
+      <!-- paginacion -->
+      
       <!-- Ejemplo-->
       <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
@@ -299,7 +288,7 @@
         </ul>
       </nav>
 
-      <!-- fin pagination-->
+      <!-- fin paginacion-->
     </section>
   </main>
   
