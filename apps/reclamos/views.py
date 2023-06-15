@@ -1,12 +1,15 @@
 # import django_filters
-from datetime import datetime
+# from datetime import datetime
 from django.views.generic import edit, ListView, UpdateView
+from django.http import HttpResponseRedirect
+from django.contrib import messages
+
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-
-from django.contrib import messages
 from django.utils.html import format_html
 from django.core.mail import send_mail
+from django.urls import reverse
+
 from decouple import config
 from django.urls import reverse_lazy
 
@@ -159,6 +162,10 @@ class ReclamoListView(ListView):
         queryset = super().get_queryset()
         reclamo_filter = ReclamoFilter(self.request.GET, queryset=queryset)
 
+        # Borramos los filtros
+        # if 'reset_filters' in self.request.GET:
+        #     reclamo_filter.form.data = {}
+
         # Obtener los valores de fecha_inicio y fecha_fin del formulario
         fecha_inicio = self.request.GET.get('fecha_inicio')
         fecha_fin = self.request.GET.get('fecha_fin')
@@ -231,6 +238,12 @@ class ReclamoListView(ListView):
         context['relaciones'] = relaciones
         context['reclamo_filter'] = ReclamoFilter(self.request.GET, queryset=self.get_queryset())
         return context
+
+    def get(self, request, *args, **kwargs):
+        if 'reset_filters' in request.GET:
+            # Redireccionar a la URL de la vista sin los parámetros de filtro
+            return HttpResponseRedirect(reverse('seguimiento'))
+        return super().get(request, *args, **kwargs)
 
 
 # * ==================== RECLAMO UPDATE VIEW ====================

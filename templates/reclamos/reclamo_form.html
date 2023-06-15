@@ -54,7 +54,8 @@
       <div class="container">   
         <ol>
           <li><a href="{% url 'index' %}">Inicio</a></li>
-          <li><a href="{% url 'seguimiento' %}">Seguimiento</a></li>
+          <li>Reclamo</li>
+          <li>Editar</li>
           <li>{{ numero_reclamo }}</li>
         </ol>
       </div>
@@ -64,7 +65,8 @@
       <div class="container">   
         <ol>
           <li><a href="{% url 'index' %}">Inicio</a></li>
-          <li>Nuevo reclamo</li>
+          <li>Reclamo</li>
+          <li>Nuevo</li>
         </ol>
       </div>
     </nav>
@@ -177,13 +179,19 @@
   {% load static %}
   {% if accion == 'actualizar' %}
     <script>
-      var accion = 'actualizar';
-      var calle0 = '{{ calle0 }}';
-      var calle1 = '{{ calle1 }}';
-      var calle2 = '{{ calle2 }}';
-      document.querySelector('#id_calle').value = calle0;
-      document.querySelector('#id_entre_calle_1').value = calle1;
-      document.querySelector('#id_entre_calle_2').value = calle2;
+      document.addEventListener('DOMContentLoaded', function() {
+        var accion = 'actualizar';
+        var calle0 = '{{ calle0 }}';
+        var calle1 = '{{ calle1 }}';
+        var calle2 = '{{ calle2 }}';
+        // Esperar a que se cargue el formulario
+        setTimeout(function() {
+          // Asignar los valores de las calles a los campos correspondientes
+          document.querySelector('#id_calle').value = calle0;
+          document.querySelector('#id_entre_calle_1').value = calle1;
+          document.querySelector('#id_entre_calle_2').value = calle2;
+        }, 0);
+      });
     </script>
   {% else %}
     <script>

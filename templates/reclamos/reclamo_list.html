@@ -20,7 +20,7 @@
 
 {% block contenido %}
   {% include 'base/base_filters.html' %}
-  <div class="table-responsive">
+  <div class="table-responsive" style="margin: 0 20px;">
     {% if messages %}
       {% for message in messages %}
         <div class="messages alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %}" role="alert">
@@ -51,14 +51,14 @@
       <tbody>
         {% for registro in relaciones %}
           <tr>
-            <td class="text-center">
-              <a href="{% url 'editar_reclamo' registro.reclamo.id %}" title="Editar reclamo">
-                <i class="fas fa-edit"></i>
-              </a>
-              <a onclick="if(!confirm('¿Desea borrar el reclamo {{ registro.reclamo.fuente }} - {{ registro.reclamo.numero|stringformat:'05d' }} - {{ registro.reclamo.repitancia|stringformat:'02d' }}?')) event.preventDefault()" href="{% url 'borrar_reclamo' registro.reclamo.id %}" title="Eliminar reclamo">
-                <i class="far fa-trash-alt"></i>
-              </a>
-            </td>
+              <td class="text-center">
+                <a href="{% url 'editar_reclamo' registro.reclamo.id %}" title="Editar reclamo">
+                  <i class="fas fa-edit"></i>
+                </a>
+                <a onclick="if(!confirm('¿Desea borrar el reclamo {{ registro.reclamo.fuente }} - {{ registro.reclamo.numero|stringformat:'05d' }} - {{ registro.reclamo.repitancia|stringformat:'02d' }}?')) event.preventDefault()" href="{% url 'borrar_reclamo' registro.reclamo.id %}" title="Eliminar reclamo">
+                  <i class="far fa-trash-alt"></i>
+                </a>
+              </td>
             <td>{{ registro.reclamo.fuente }} - {{ registro.reclamo.numero|stringformat:'05d' }} - {{ registro.reclamo.repitancia|stringformat:'02d' }}</td>
             <td>{{ registro.reclamo.get_medio_display }}</td>
             <td>{{ registro.reclamo.fecha }}</td>

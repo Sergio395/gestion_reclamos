@@ -33,8 +33,7 @@ function filtrarCalles() {
             }
         });
     });
-    // Restablecer la opción seleccionada del select de calles
-    // CALLE_SELECTS.selectedIndex = 0;
+
     // Restablecer la opción seleccionada de los select de calles
     CALLE_SELECTS.forEach(calleSelect => {
         calleSelect.selectedIndex = 0;
