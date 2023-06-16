@@ -1,6 +1,7 @@
 import django_filters
 from django import forms
 from django.db.models import Q
+
 from ..models import ReclamoModel
 from ..forms import Styles
 from ...base.constants import choices, calles_choices
@@ -130,7 +131,8 @@ class ReclamoFilter(django_filters.FilterSet):
     # eliminado
 
     class Meta:
-        """Metadatos para el conjunto de filtros ReclamoFilter.
+        """
+        Metadatos para el conjunto de filtros ReclamoFilter.
         """
         model = ReclamoModel
         fields = ['numero', 'fecha', 'medio', 'fuente', 'repitancia_operador', 'repitancia', 'localidad', 'calle', 'altura', 'reclamo', 'urgencia']

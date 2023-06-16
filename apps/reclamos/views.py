@@ -1,7 +1,7 @@
-# import django_filters
 # from datetime import datetime
 from django.views.generic import edit, ListView, UpdateView
 from django.http import HttpResponseRedirect
+from django.core.paginator import Paginator
 from django.contrib import messages
 
 from django.utils.decorators import method_decorator
@@ -29,7 +29,8 @@ AUTORIZED_GROUPS = 'operador', 'inspector', 'gestor', 'administrador'
 
 @method_decorator([login_required, group_required(*AUTORIZED_GROUPS)], name='dispatch')
 class ReclamoCreateView(edit.CreateView):
-    """Vista para crear un reclamo.
+    """
+    Vista para crear un reclamo.
     """
     model = ReclamoModel
     form_class = ReclamoForm
@@ -150,8 +151,9 @@ class ReclamoListView(ListView):
     """
     model = ReclamoModel
     template_name = 'reclamos/reclamo_list.html'
-    context_object_name = 'reclamos'
+    context_object_name = 'relaciones'
     queryset = ReclamoModel.objects.filter(eliminado=False)
+    paginate_by = 10
     ordering = ['numero', '-repitancia']
 
     def get_queryset(self):
@@ -161,10 +163,6 @@ class ReclamoListView(ListView):
         """
         queryset = super().get_queryset()
         reclamo_filter = ReclamoFilter(self.request.GET, queryset=queryset)
-
-        # Borramos los filtros
-        # if 'reset_filters' in self.request.GET:
-        #     reclamo_filter.form.data = {}
 
         # Obtener los valores de fecha_inicio y fecha_fin del formulario
         fecha_inicio = self.request.GET.get('fecha_inicio')
@@ -222,9 +220,14 @@ class ReclamoListView(ListView):
         """
         context = super().get_context_data(**kwargs)
         reclamos = self.get_queryset()
+        reclamo_filter = ReclamoFilter(self.request.GET, queryset=reclamos)
+        paginator = Paginator(reclamo_filter.qs, self.paginate_by)
+        page_number = self.request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        
         relaciones = []
 
-        for reclamo in reclamos:
+        for reclamo in page_obj:
             # Obtener el primer denunciante del reclamo
             denunciante = reclamo.denunciantes.first()
 
@@ -240,6 +243,11 @@ class ReclamoListView(ListView):
         return context
 
     def get(self, request, *args, **kwargs):
+        """Maneja la solicitud GET para la vista.
+
+        Si se proporciona el parámetro 'reset_filters' en la URL, redirecciona a la URL de la vista sin los parámetros de filtro.
+        De lo contrario, retorna la página de creación de reclamo con los campos de formulario vacíos.
+        """
         if 'reset_filters' in request.GET:
             # Redireccionar a la URL de la vista sin los parámetros de filtro
             return HttpResponseRedirect(reverse('seguimiento'))

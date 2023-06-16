@@ -27,11 +27,12 @@ urlpatterns = [
     path('inspeccion/',include('apps.inspeccion.urls')),
     path('gestion/', include('apps.gestion.urls')),
     path('admin/', include('apps.administracion.urls')),
-    #path('gestion-inspeccion/',include('apps.inspeccion.urls'))
+    #path('gestion-inspeccion/',include('apps.inspeccion.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/login/', auth_views.LoginView.as_view(), name='login'),
     path('accounts/logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
-    path('accounts/change-password/', auth_views.PasswordChangeView.as_view(
-        template_name='change-password.html')),
+    # path('accounts/password-change/', auth_views.PasswordChangeView.as_view(
+    #     template_name='password_change.html')),
 ]
 
 if settings.DEBUG:
