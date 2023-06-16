@@ -63,6 +63,7 @@ class OrdencompraForm(forms.ModelForm):
     class Meta:
         model = OrdenCompra
         fields = '__all__'
+        exclude = ('eliminado',)
 
 
 

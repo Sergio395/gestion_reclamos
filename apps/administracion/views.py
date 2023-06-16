@@ -157,8 +157,8 @@ class OrdencompraListView(mixins.LoginRequiredMixin, ListView):
 
 class OrdencompraCreateView(mixins.LoginRequiredMixin, CreateView):
     model = OrdenCompra
-    fields = '__all__'
-    #form_class = OrdencompraForm
+    #fields = '__all__'
+    form_class = OrdencompraForm
     template_name = 'administracion/nueva_oc.html'
     success_url = reverse_lazy('orden_compra')
     
