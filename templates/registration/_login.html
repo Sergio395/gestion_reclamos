@@ -1,6 +1,21 @@
 {% extends 'base/base.html' %}
 {% block titulo %}Login{% endblock titulo %}
-
+{% block css %}
+  <style>
+    label {
+      color: #008375;
+      min-width: 15rem;
+    }
+    .btn-login {
+      background: #008374;
+      border: 0;
+      padding: 14px 3px;
+      color: #fff;
+      transition: 0.4s;
+      border-radius: 0.375rem;
+    }
+  </style>
+{% endblock css %}
 {% block contenido %}
   <main id="main">
     <!-- ======= Claim Section ======= -->
@@ -53,9 +68,14 @@
               <br />
               <div class="row">
                 <div class="text-center col-md-4 form-group mt-3 mt-md-0">
-                  <button style="background-color: rgb(46, 71, 236)" type="submit">
+                  <button class="btn-login" style="border-radius: 0.375rem" type="submit">
                     Iniciar sesión
                   </button>
+                </div>
+                <div class="text-center col-md-4 form-group mt-3 mt-md-0">
+                  <a class="btn-login" type="button" rol="link" href="{% url 'password_reset' %}">
+                    Recuperar contraseña
+                  </a>
                 </div>
               </div>
             </form>
