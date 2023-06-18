@@ -26,10 +26,10 @@ class Arbol(models.Model):
     inspeccion = models.ForeignKey(Inspeccion, null=True, blank=True, on_delete=models.CASCADE)
     
     
-    urgencia=models.CharField(max_length=100,choices=urgencias,default='1')
-    def __str__(self):
-        texto= '{} '
-        return texto.format(self.inspeccion)
+    # urgencia=models.CharField(max_length=100,choices=urgencias,default='1')
+    # def __str__(self):
+        # texto= '{} '
+        # return texto.format(self.inspeccion)
     
 
 from apps.reclamos.models import ReclamoModel
