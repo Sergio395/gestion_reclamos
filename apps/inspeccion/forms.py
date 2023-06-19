@@ -6,17 +6,15 @@ from django.forms import ValidationError, ModelForm, DateField, RadioSelect
 from .models import inspecciones, Inspeccion
 
 
-class FotoPesoMaxValido:
-    def __init__(self, foto_max_peso=5):
-        self.foto_max_peso = foto_max_peso
-
-    def __call__(self, value):
-        peso = value.peso_max_peso * 1048576
-        max_peso = self.foto_max_peso
-
+class MaxPesoArchivo:
+    def __init__(self, max=5): # Flexible ya que cambio el parámetro
+        self.max = max
+    def __call__(self,value): #Trae valor que pesa la foto
+        peso= value.size
+        max_peso = self.max * 1048576
+        
         if peso > max_peso:
-            raise ValidationError(
-                f"El peso máximo de la foto es de {self.foto_max_peso}MB")
+            raise ValidationError(f'El máximo tamaño de archivo es de {self.max}MB')
         return value
 
 
@@ -24,12 +22,17 @@ class FotoPesoMaxValido:
 
 
 class InspeccionForm(forms.ModelForm):
+    # Validaciones extras no integrado al formulario - Puedo reutilizar código
+    foto = forms.ImageField(required=False, validators=[MaxPesoArchivo(max=2)]) #sobreescribo los 5 MB 
+    
+    
     
     
     class Meta:
         model = Inspeccion
         fields = '__all__'
         nota = forms.CharField(max_length=100, required=False)
+        
        
 
 
@@ -49,8 +52,8 @@ class ContactoForm(forms.Form):
     reclamo = forms.ChoiceField(label='Decide el reclamo ID', choices=reclamo)
     nota = forms.CharField(label='Observaciones', widget=forms.Textarea(
         attrs={'placeholder': 'Ingrese comentarios si son necesarios', 'class': 'form-control', 'style': 'height: 5em;'}), required=False)
-    foto = forms.ImageField(
-        validators=[FotoPesoMaxValido(foto_max_peso=2)], required=False)
+    # foto = forms.ImageField(
+    #     validators=[FotoPesoMaxValido(foto_max_peso=2)], required=False)
 
 
 class NuevaInspeccion(forms.ModelForm):
