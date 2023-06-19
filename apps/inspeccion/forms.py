@@ -23,7 +23,11 @@ class MaxPesoArchivo:
 
 class InspeccionForm(forms.ModelForm):
     # Validaciones extras no integrado al formulario - Puedo reutilizar código
-    foto = forms.ImageField(required=False, validators=[MaxPesoArchivo(max=2)]) #sobreescribo los 5 MB 
+    foto = forms.ImageField(
+        required=False,
+        validators=[MaxPesoArchivo(max=2)],
+        
+        ) #sobreescribo los 5 MB 
     
     
     
@@ -32,6 +36,7 @@ class InspeccionForm(forms.ModelForm):
         model = Inspeccion
         fields = '__all__'
         nota = forms.CharField(max_length=100, required=False)
+        
         
        
 

@@ -11,30 +11,30 @@ class Inspeccion(models.Model):
         )
     reclamo = models.CharField(
         max_length=100, 
-        verbose_name="Reclamo a inspeccionar",
+        verbose_name="Reclamo inspección",
         choices=choices.ReclamoChoices.choices, 
         default=choices.ReclamoChoices.BLANK
         )
     inspector = models.CharField(
         max_length=100, 
-        verbose_name="Inspector",
+        verbose_name="Inspector designado",
         choices=choices.InspectorChoices.choices, 
         default=choices.InspectorChoices.BLANK
         )
     lugar = models.CharField(
         max_length=100, 
+        verbose_name="Lugar geográfico de la inspección",
         choices=choices.EfectivaChoices.choices,
         default=choices.EfectivaChoices.BLANK
         )
     nota = models.CharField(
         max_length=300, 
-        verbose_name="nota",
+        verbose_name="Nota (opcional)",
         null=False,blank=True
         )
-    foto = models.ImageField(
+    foto= models.ImageField(
         upload_to='img_inspeccion', 
         null=True, blank=True, 
-        verbose_name="Fotos"
         )
     especie=models.CharField(
         max_length=100, 
