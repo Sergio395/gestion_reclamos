@@ -3,7 +3,7 @@
 from django import forms
 
 from django.forms import ValidationError, ModelForm, DateField, RadioSelect 
-from .models import inspecciones
+from .models import inspecciones, Inspeccion
 
 
 class FotoPesoMaxValido:
@@ -18,6 +18,22 @@ class FotoPesoMaxValido:
             raise ValidationError(
                 f"El peso máximo de la foto es de {self.foto_max_peso}MB")
         return value
+
+
+
+
+
+class InspeccionForm(forms.ModelForm):
+    #nota = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control'}))
+    nota = forms.CharField(max_length=300)
+    class Meta:
+        model = Inspeccion
+        fields = '__all__'
+        foto 
+       
+
+
+
 
 
 class ContactoForm(forms.Form):
@@ -148,3 +164,4 @@ class NuevaInspeccion(forms.ModelForm):
 
 class NuevaCertificacion(forms.Form):
     nombre = forms.CharField(label='')
+

@@ -1,0 +1,103 @@
+
+{% extends 'base/base.html' %}
+{% block titulo %}Inspección{% endblock titulo %}
+
+<!-- ======= Breadcrumbs ======= -->
+{% block etiqueta %}Inspección{% endblock etiqueta %}
+{% block nav %}
+  <nav>
+      <div class="container">      
+      <ol>     
+        <li><a href="{% url 'index' %}">Inicio</a></li>
+        <li>Inspección</li>
+      </ol>      
+    </div>
+  </nav>
+{% endblock nav %}
+<!-- End Breadcrumbs -->
+
+{% block contenido %}
+
+
+        <div class="row">
+            <div class="col-10 col-md-8 offset-md--3">
+                <div class="card">
+                    <div class="card-body">
+                <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    {{form}}
+                    <!-- <div class="d-flex justify-content-end">
+                    <input type="reset" value="Cancelar" class="btn btn-secondary"  >
+                    <input type="submit" value="Guardar" class="btn btn-primary">
+                    </div>
+                </form> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <!-- <table>
+              {{ contacto_form.as_table }}
+            </table>
+  
+            <div class="text-center text-md-left mt-3">
+              <label ><em> <b>N° de cuadrícula</b> </em>
+              <input  type="text" name="txtName" id="txtName" placeholder="Si queda vacío - Alert JS" >
+              </label> -->
+              <button class="btn btn-primary" type="submit">Generar planilla de inspección</button>
+            </div>
+          </form>
+          {{mensaje}}
+          <!-- <table>   -->
+            <!-- <thead>
+                <tr>
+                    <th>Inspecciones realizadas</th>
+                </tr>
+            </thead>
+            <tbody>
+                    {% for i in inspecciones %}
+                    <tr>
+                        <td>{{i.reclamo}}</td>
+                    </tr>
+                    {% endfor %}
+            </tbody>
+          </table> -->
+
+
+          <div class="text-center text-md-left mt-3">
+            <a href="{% url 'carga_inspeccion' %}"><button class="btn btn-primary" type="submit">Cargar inspección</button></a>
+            <a href=""><button class="btn btn-primary" type="submit">Cargar certificacion</button></a>
+            <a href="{% url 'inspeccion' %}"><button class="btn btn-primary" type="submit">Listar Inspecciones</button></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+  <!-- End Claim Section -->
+  {% load static %}
+  {% block javascript %}<script src="{% static 'inspeccion/js/script.js' %}"></script>{% endblock javascript %}
+{% endblock contenido %}
+
