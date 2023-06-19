@@ -5,7 +5,7 @@ from django.http import HttpResponse
 # from django.template import loader
 from django.shortcuts import render,redirect
 from django.http import HttpResponseNotAllowed
-from .forms import ContactoForm, NuevaInspeccion, NuevaCertificacion
+from .forms import ContactoForm, NuevaInspeccion, NuevaCertificacion, InspeccionForm
 
 from django.http import HttpResponseNotAllowed, HttpResponseRedirect
 from django.views.generic import ListView
@@ -100,8 +100,22 @@ def mostrar_reclamo(request, pk):
 
 
     return render(request, 'inspeccion/inspeccion_mostrar.html', {'form': reclamo})
- 
- 
+
+
+@login_required 
+def inspeccion_form(request):
+    data = {
+        'form': InspeccionForm()
+    }
+    if request.method == 'POST':
+        formulario = InspeccionForm(data=request.POST, files=request.FILES)
+        if formulario.is_valid():
+            formulario.save()
+            data['mensaje'] = "guardado correctamente"
+        else:
+            data['form'] = formulario
+        
+    return render(request,'inspeccion/inspeccion_form.html',data)
  
  
  
