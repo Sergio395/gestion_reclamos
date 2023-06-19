@@ -32,7 +32,7 @@ class Inspeccion(models.Model):
         null=False,blank=True
         )
     foto = models.ImageField(
-        upload_to='img_reclamos', 
+        upload_to='img_inspeccion', 
         null=True, blank=True, 
         verbose_name="Fotos"
         )

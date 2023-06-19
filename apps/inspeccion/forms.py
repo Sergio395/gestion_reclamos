@@ -29,7 +29,7 @@ class InspeccionForm(forms.ModelForm):
     class Meta:
         model = Inspeccion
         fields = '__all__'
-        foto 
+        
        
 
 
