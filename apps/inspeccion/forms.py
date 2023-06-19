@@ -24,8 +24,8 @@ class FotoPesoMaxValido:
 
 
 class InspeccionForm(forms.ModelForm):
-    #nota = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control'}))
-    nota = forms.CharField(max_length=300)
+    
+    nota = forms.CharField(max_length=100, required=False)
     class Meta:
         model = Inspeccion
         fields = '__all__'

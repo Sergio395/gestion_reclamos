@@ -107,14 +107,17 @@ def inspeccion_form(request):
     data = {
         'form': InspeccionForm()
     }
+    
     if request.method == 'POST':
         formulario = InspeccionForm(data=request.POST, files=request.FILES)
+        data['mensaje']=""
         if formulario.is_valid():
             formulario.save()
-            data['mensaje'] = "guardado correctamente"
+            data['mensaje'] = "Envío exitoso, ingrese otra inspección"
         else:
             data['form'] = formulario
-        
+            data['mensaje'] = "Envío inválido, revisar"
+    
     return render(request,'inspeccion/inspeccion_form.html',data)
  
  
