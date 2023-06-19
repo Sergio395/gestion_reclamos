@@ -41,7 +41,7 @@
             <tbody>
                     {% for i in inspecciones %}
                     <tr>
-                        <td>{{forloop.counter}}</td>
+                        <td>{{forloop.revcounter}}</td>
                         <td>{{i.get_reclamo_display}}</td>
                         <td>{{i.get_inspector_display}}</td>
                         <td>{{i.get_lugar_display}}</td>
