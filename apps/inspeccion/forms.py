@@ -25,11 +25,11 @@ class FotoPesoMaxValido:
 
 class InspeccionForm(forms.ModelForm):
     
-    nota = forms.CharField(max_length=100, required=False)
+    
     class Meta:
         model = Inspeccion
         fields = '__all__'
-        
+        nota = forms.CharField(max_length=100, required=False)
        
 
 
