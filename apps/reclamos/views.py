@@ -153,7 +153,7 @@ class ReclamoListView(ListView):
     template_name = 'reclamos/reclamo_list.html'
     context_object_name = 'relaciones'
     queryset = ReclamoModel.objects.filter(eliminado=False)
-    paginate_by = 10
+    paginate_by = 6
     ordering = ['numero', '-repitancia']
 
     def get_queryset(self):
