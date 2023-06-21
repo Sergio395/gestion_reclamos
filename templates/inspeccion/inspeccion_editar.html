@@ -43,6 +43,8 @@
   }
 </style>
 {%endblock%}
+
+
 <!-- ======= Breadcrumbs ======= -->
 {% block etiqueta %}Editar Inspección{% endblock etiqueta %}
 {% block nav %}
@@ -58,6 +60,7 @@
 {% endblock nav %}
 <!-- End Breadcrumbs -->
 
+
 {% block contenido %}
   <section id="contact" class="contact">
     <div class="container" data-aos="fade-up">
@@ -72,18 +75,6 @@
               {{ form.as_table }}
             </table>
 
-            <div class="row mb-5 mt-4">
-              <div class="col-md-3 mt-3 form-group"  >
-                <label for="" class=""><b>Código de trabajo: </b></label>
-              </div>
-              <div class="col-6 mt-2 form-group"  >
-                <input type="text" style = 'height: 3em;' class="form-control ml-2" id="" placeholder="Genere código de Trabajo" readonly>
-              </div>
-              <div class="col-3 mb-0 form-group ">
-              <button type="submit" id="btn-codigo">Generar</button>
-              </div>             
-            </div>
-        
 
             <div class="row">
               <div class="text-center col-md-4 form-group mt-3 mt-md-0">
@@ -92,7 +83,7 @@
               <div class="text-center col-md-4 form-group mt-5 mt-md-0"><button id="btn-reset"
                 type="reset">Limpiar</button></div>
               <div class="text-center col-md-4 form-group mt-5 mt-md-0"><button type="submit"
-                  class="btn btn-success">Cargar</button></div>
+                  class="btn btn-success">Actualizar</button></div>
             </div>
           </form>
         </div>

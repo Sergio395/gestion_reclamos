@@ -4,12 +4,17 @@ from apps.inspeccion.views import InspeccionListView
 from .views import *
 
 urlpatterns = [
-    path('', views.inspeccion, name='inspeccion' ),
-    path('carga-inspeccion/', views.carga_inspeccion, name='carga_inspeccion' ),
-    path('carga-certificacion/', views.carga_certificacion, name='carga_certificacion' ),
-    path('db_inspeccion/', views.db_inspeccion, name='db_inspeccion' ),
+    path('', views.inspeccion, name='index_inspeccion' ),
+    path('inspeccion/', views.inspeccion, name='inspeccion' ),
+    path('listar_inspeccion', views.InspeccionListView.as_view(), name='inspecciones' ),
+    path('carga_inspeccion/', views.InspeccionesCreateView.as_view(), name='carga_inspeccion' ),
+    path('editar_inspeccion/<int:pk>/', views.InspeccionesUpdateView.as_view(), name='editar_inspeccion' ),
+    path('eliminar_inspeccion/<int:pk>//', views.delete_inspeccion, name='eliminar_inspeccion'),  
+    path('ver_reclamo/<int:pk>/', views.mostrar_reclamo, name='mostrar_reclamo'),
+    
+    
     path('inspeccion-form/', inspeccion_form, name='inspeccion_form')
     
-   
+       
 
 ]

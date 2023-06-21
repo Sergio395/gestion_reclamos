@@ -50,7 +50,8 @@
     <div class="container">
       <ol>
         <li><a href="{% url 'index' %}">Inicio</a></li>
-        <li><a href="{% url 'inspeccion' %}">Inspección</a></li>
+        <li><a href="{% url 'inspeccion' %}">Inspeccion</a></li>
+        <li><a href="{% url 'inspecciones' %}">Listar inspecciones</a></li>
         <li>Consulta reclamo</li>
       </ol>
     </div>
@@ -67,20 +68,19 @@
            <table class="table  table-hover  ">
               <thead class="thead-light  ">
                 <tr>
-                  <th scope="col">No requiere</th>
-                  <th scope="col">Fecha inspección</th>
-                  <th scope="col">Especie</th>
-                  <th scope="col">Altura (m)</th>
-                  <th scope="col">Dap (cm)</th>
-                  <th scope="col">Reclamo codigo</th>
-                  <th scope="col">Trabajo</th>
-                  <th scope="col">Codigo árbol</th>
-                  <th scope="col">Cableado cercano</th>
-                  <th scope="col">Constuction cercana</th>
-                  <th scope="col">Observaciones del sitio</th>
+                  <th scope="col">Fecha</th>
+                  <th scope="col">Medio</th>
+                  <th scope="col">Fuente</th>
+                  <th scope="col">Fecha</th>
+                  <th scope="col">Calle</th>
+                  <th scope="col">Número</th>
+                  <th scope="col">Edificio</th>
+                  <th scope="col">Depto</th>
+                  <th scope="col">Entrecalle_1</th>
+                  <th scope="col">Entrecalle_2</th>
+                  <th scope="col">Localidad</th>
+                  <th scope="col">Reclamo</th>
                   <th scope="col">Urgencia</th>
-                  <th scope="col">Justificación</th>
-                  <th scope="col">Inspecctor</th>
                   <th scope="col">Foto</th>
                   <th scope="col">Detalle</th>
                         
@@ -109,7 +109,7 @@
 
             <div class="row">
               <div class="text-center col-md-4 form-group mt-3 mt-md-0">
-                <button id="" type="button" onclick= "window.history.go(-1); return false;"
+                <button class="btn btn-primary" id="" type="button" onclick= "window.history.go(-1); return false;"
                 >Volver</button></div>
             </div>
           </div>
