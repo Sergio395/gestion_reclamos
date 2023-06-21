@@ -187,4 +187,4 @@ RECIPIENT_ADDRESS = config("RECIPIENT_ADDRESS")
 
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = "index"
-LOGOUT_REDIRECT_URL = "index"
+LOGOUT_REDIRECT_URL = 'logout-page'

@@ -18,7 +18,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
-
+from . import views 
 
 urlpatterns = [
 
@@ -31,6 +31,8 @@ urlpatterns = [
     path('inspeccion/',include('apps.inspeccion.urls')),
     path('gestion/', include('apps.gestion.urls')),
     path('admin/', include('apps.administracion.urls')),
+
+    path('logout/', views.logout_page.as_view(), name='logout-page'),
 
     # Django Accounts Paths
     path('accounts/login/', auth_views.LoginView.as_view(
