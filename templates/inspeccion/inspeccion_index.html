@@ -16,7 +16,14 @@
 {% endblock nav %}
 <!-- End Breadcrumbs -->
 
+
 {% block contenido %}
+
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }}" role="alert">
+    {{message}}
+</div>
+{% endfor %}
 
   {% comment %} <section id="contact" class="contact"> {% endcomment %}
     {% comment %} <div class="container" data-aos="fade-up"> {% endcomment %}

@@ -30,9 +30,9 @@ class Arbol(models.Model):
     
     
     # urgencia=models.CharField(max_length=100,choices=urgencias,default='1')
-    # def __str__(self):
-        # texto= '{} '
-        # return texto.format(self.inspeccion)
+    def __str__(self):
+        texto= '{} '
+        return texto.format(self.inspeccion)
     
 
 from apps.reclamos.models import ReclamoModel
@@ -101,13 +101,14 @@ class inspecciones(models.Model):
     urgencia_trabajo = models.CharField (max_length=10, verbose_name="Urgencia", choices=UrgenciaChoices,
                                         default='') 
     justificacion = models.CharField(max_length=50, verbose_name="Justificacion")	
-    inspector = models.ForeignKey(Usuario,verbose_name=("inspector"),on_delete=models.CASCADE,default="",null=True) 	
+    inspector = models.ForeignKey(Usuario,verbose_name=("inspector"),on_delete=models.CASCADE,null=True,blank="") 	
     fecha_carga_inspeccion=	models.DateField(auto_now_add=False, verbose_name="Fecha_carga_inspeccion")
     codigo_trabajo = models.CharField(max_length=50, verbose_name="Codigo_trabajo")
     arbol = models.ForeignKey(Arbol,verbose_name=("arbol"), on_delete=models.CASCADE,null=True,blank="")
-    foto = models.ImageField(upload_to='img_reclamos', null=True,
+    foto = models.ImageField(upload_to='imagenes/', null=True,
                             blank=True, verbose_name="Fotos") # img_reclamos define la ruta donde se almacenan las fotos
     eliminado=models.BooleanField(default=False)
+    repitancia=models.CharField( verbose_name="repitancia",null=True,default='',max_length=5)
 
     def __str__(self):
         return f"{self.reclamo} {self.codigo_trabajo} {self.arbol}"
