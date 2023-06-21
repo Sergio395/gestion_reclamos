@@ -1,6 +1,19 @@
 {%extends 'base/base.html'%}
 {% block titulo %}Sistema de Gestión de Reclamos{% endblock titulo %}
-
+<!-- ======= Breadcrumbs ======= -->
+{% block etiqueta %}Inspecciones{% endblock etiqueta %}
+{% block nav %}
+  <nav>
+    <div class="container">
+      <ol>
+        <li><a href="{% url 'index' %}">Inicio</a></li>
+        <li><a href="{% url 'inspeccion' %}">Inspeccion</a></li>
+        <li>Listar Inspecciones</li>
+      </ol>
+    </div>
+  </nav>
+{% endblock nav %}
+<!-- End Breadcrumbs -->
 {% block contenido %}
 <div class="container-fluid mt-5">
   <hr>
@@ -23,7 +36,6 @@
           <th scope="col">Dap (cm)</th>
           <th scope="col">Reclamo codigo</th>
           <th scope="col">Trabajo</th>
-          <th scope="col">Codigo árbol</th>
           <th scope="col">Cableado cercano</th>
           <th scope="col">Constuction cercana</th>
           <th scope="col">Observaciones del sitio</th>
@@ -37,30 +49,29 @@
       </thead>
 
       <tbody>
-        {% for data in inspeccion %}
+        {% for data in relaciones %}
         <tr>          
-          <td>{{data.no_requiere_inspeccion}}</td>
-          <td>{{data.fecha_de_inspeccion}}</td>
-          <td>{{data.especie_id}}</td>
-          <td>{{data.especie_altura}}</td>
-          <td>{{data.dap}}</td>
-          <td>{{data.reclamo_id}}</td>
-          <td>{{data.trabajo_a_realizar_id}}</td>
-          <td>{{data.arbol_id}}</td>
-          <td>{{data.cableado_cercano}}</td>
-          <td>{{data.construccion_cercana}}</td>
-          <td>{{data.observaciones_sitio}}</td>
-          <td>{{data.urgencia_trabajo}}</td>
-          <td>{{data.justificacion}}</td>
-          <td>{{data.inspector_id}}</td>
-          <td>{{data.foto}}</td>
+          <td>{{data.inspeccion.codigo_trabajo}}</td>
+          <td>{{data.inspeccion.fecha_de_inspeccion}}</td>
+          <td>{{data.arbol}}</td>
+          <td>{{data.inspeccion.especie_altura}}</td>
+          <td>{{data.inspeccion.dap}}</td>
+          <td>{{data.num_reclamo}}</td>
+          <td>{{data.trabajo}}</td>
+          <td>{{data.inspeccion.cableado_cercano}}</td>
+          <td>{{data.inspeccion.construccion_cercana}}</td>
+          <td>{{data.inspeccion.observaciones_sitio}}</td>
+          <td>{{data.inspeccion.urgencia_trabajo}}</td>
+          <td>{{data.inspeccion.justificacion}}</td>
+          <td>{{data.inspector}}</td>
+          <td>{{data.inspeccion.foto}}</td>
 
 
     
           <td class="text-center">
-            <a href="{% url 'mostrar_reclamo' data.reclamo_id %}" title="ver"><i class="fas fa-eye"></i></a>
-            <a href="{% url 'editar_inspeccion' data.id %}" title="Editar"><i class="fas fa-edit"></i></a>
-            <a href="{% url 'eliminar_inspeccion' data.id %}" onclick="return confirmacion()" title="Eliminar" value="Confirmar" type="submit"><i class="far fa-trash-alt"></i></a>
+            <a href="{% url 'mostrar_reclamo' data.inspeccion.reclamo_id %}" title="ver"><i class="fas fa-eye"></i></a>
+            <a href="{% url 'editar_inspeccion' data.inspeccion.id %}" title="Editar"><i class="fas fa-edit"></i></a>
+            <a href="{% url 'eliminar_inspeccion' data.inspeccion.id %}" onclick="return confirmacion()" title="Eliminar" value="Confirmar" type="submit"><i class="far fa-trash-alt"></i></a>
           </td>
         </tr>
         <script>
@@ -79,10 +90,11 @@
       </tbody>
     </table>
     <div class="row mt-5">
-      <div class="text-center col-md-4 form-group mt-5 mt-md-0"><a href=""><button type="button"
+      <div class="text-center col-md-4 form-group mt-5 mt-md-0"><a href="{% url 'carga_inspeccion' %}"><button type="button"
             class="btn btn-success">Nueva</button></a></div>
-      <div class="text-center col-md-4 form-group mt-5 mt-md-0"><a href=""><button type="button"
-            class="btn btn-primary">Volver</button></a></div>
+      <div class="text-center col-md-4 form-group mt-5 mt-md-0"> 
+        <button id="btn btn-success" type="button" onclick= "window.history.go(-1); return false;">Volver</button></div>
+
     </div>
   </form>
 </div>

@@ -21,8 +21,18 @@ class Usuario(models.Model):
     clave = models.CharField(max_length=20, verbose_name="Clave")
     permiso = models.CharField(max_length=20, verbose_name="Permiso")
     eliminado=models.BooleanField(default=False)
+    legajo=models.CharField(max_length=10, verbose_name="Legajo")
+    
     def __str__(self):
         return f"{self.usuario}"
+    
+    def soft_delete(self):
+        self.eliminado = True
+        super().save()
+    
+    def restore(self):
+        self.eliminado = False
+        super().save()
 
     class Meta:
         abstract = False
