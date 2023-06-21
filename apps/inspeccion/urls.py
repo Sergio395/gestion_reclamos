@@ -11,8 +11,7 @@ urlpatterns = [
     path('editar_inspeccion/<int:pk>/', views.InspeccionesUpdateView.as_view(), name='editar_inspeccion' ),
     path('eliminar_inspeccion/<int:pk>//', views.delete_inspeccion, name='eliminar_inspeccion'),  
     path('ver_reclamo/<int:pk>/', views.mostrar_reclamo, name='mostrar_reclamo'),
-    
-    
+    path('db_inspeccion/', db_inspeccion, name='db_inspeccion'),
     path('inspeccion-form/', inspeccion_form, name='inspeccion_form')
     
        

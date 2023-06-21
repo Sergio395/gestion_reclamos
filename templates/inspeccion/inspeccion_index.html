@@ -3,7 +3,7 @@
 {% block titulo %}Inspección{% endblock titulo %}
 
 <!-- ======= Breadcrumbs ======= -->
-{% block etiqueta %}Inspección{% endblock etiqueta %}
+{% block etiqueta %}Inspeccion-Denunciante{% endblock etiqueta %}
 {% block nav %}
   <nav>
       <div class="container">      
@@ -59,40 +59,40 @@
                   <!--Grid column-->
               {% endfor %}  {% endcomment %} 
             <div class="text-center text-md-left mt-3">
-              <label ><em> <b>N° de cuadrícula</b> </em>
+              <!-- <label ><em> <b>N° de cuadrícula</b> </em>
               <input  type="text" name="txtName" id="txtName" placeholder="Si queda vacío - Alert JS" >
-              </label>
-              <button class="btn btn-primary" type="submit">Generar planilla de inspección</button>
+              </label> -->
+              <button class="btn btn-primary" type="submit">Enviar correo </button>
             </div>
           </form>
-          {{mensaje}}
-          <table>  
+          
+          <!-- <table>  
             <thead>
                 <tr>
                     <th>Inspecciones realizadas</th>
                 </tr>
-            </thead>
-            <tbody>
+            </thead> -->
+            <!-- <tbody>
                     {% for i in inspecciones %}
                     <tr>
                         <td>{{i.reclamo}}</td>
                     </tr>
                     {% endfor %}
             </tbody>
-          </table>
+          </table> -->
 
-
+<!-- 
           <div class="text-center text-md-left mt-3">
             <a href="{% url 'carga_inspeccion' %}"><button class="btn btn-primary" type="submit">Cargar inspección</button></a>
             <a href=""><button class="btn btn-primary" type="submit">Cargar certificacion</button></a>
             <a href="{% url 'inspecciones' %}"><button class="btn btn-primary" type="submit">Listar Inspecciones</button></a>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
 
-  </section>End Claim Section
+  </section>
   {% load static %}
-  {% block javascript %}<script src="{% static 'inspeccion/js/script.js' %}"></script>{% endblock javascript %}
+  <!-- {% block javascript %}<script src="{% static 'inspeccion/js/script.js' %}"></script>{% endblock javascript %} -->
 {% endblock contenido %}
 

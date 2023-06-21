@@ -24,13 +24,15 @@ from django.dispatch import receiver
 
 @login_required
 def db_inspeccion(request):
-    inspeccionesRealizadas = inspecciones.objects.all()
+    inspeccionesRealizadas = Inspeccion.objects.all()
     return render (request, 'inspeccion/inspecciones.html',{'inspecciones':inspeccionesRealizadas  })
 
 @login_required    
 def carga_inspeccion(request):
-    inspeccionesRealizadas = inspecciones.objects.all()
-    return render (request, 'inspeccion/inspecciones.html',{'inspecciones':inspeccionesRealizadas  })
+    pass
+
+    # inspeccionesRealizadas = inspecciones.objects.all()
+    # return render (request, 'inspeccion/inspecciones.html',{'inspecciones':inspeccionesRealizadas  })
     
 @login_required
 @login_required
