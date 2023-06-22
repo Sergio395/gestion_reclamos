@@ -20,6 +20,7 @@
 
 {% block contenido %}
   {% include 'base/base_filters.html' %}
+  {% load custom_filters %}
   <div class="table-responsive" style="margin: 0 20px;">
     {% if messages %}
       {% for message in messages %}
@@ -31,7 +32,7 @@
         setTimeout(function() {
             var messages = document.getElementsByClassName('messages')[0];
             messages.style.display = 'none';
-        }, 5000); // Oculta el mensaje después de 5 segundos
+        }, 10000); // Oculta el mensaje después de 10 segundos
       </script>
     {% endif %}
     <table class="table table-hover">
@@ -59,7 +60,7 @@
                   <i class="far fa-trash-alt"></i>
                 </a>
               </td>
-            <td>{{ registro.reclamo.fuente }} - {{ registro.reclamo.numero|stringformat:'05d' }} - {{ registro.reclamo.repitancia|stringformat:'02d' }}</td>
+            <td>{{ registro.reclamo.fuente|to_int|stringformat:'02d' }} - {{ registro.reclamo.numero|stringformat:'05d' }} - {{ registro.reclamo.repitancia|stringformat:'02d' }}</td>
             <td>{{ registro.reclamo.get_medio_display }}</td>
             <td>{{ registro.reclamo.fecha }}</td>
             <td><a style="cursor: pointer;" class="" data-bs-toggle="collapse" data-bs-target="#contenido{{ registro.reclamo.pk }}-d">{{ registro.denunciante.dni }}</a></td>

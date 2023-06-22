@@ -98,7 +98,7 @@ class ReclamoCreateView(edit.CreateView):
 
         #     # Guardar el reclamo de la foto
         #     reclamo.foto.save(foto_filename, pic)
-# -----------------------------------------------------------------------
+# ? -----------------------------------------------------------------------
         reclamo.save()
         reclamo.denunciantes.add(denunciante)
 
@@ -127,7 +127,7 @@ class ReclamoCreateView(edit.CreateView):
 
             # # Enviar el correo electrónico
             # send_mail(subject, message, from_email, [to_email], html_message=message)
-# --------------------------------------------------------------------------
+# ? --------------------------------------------------------------------------
         return redirect(self.success_url)
 
     def form_invalid(self, reclamo_form, denunciante_form):

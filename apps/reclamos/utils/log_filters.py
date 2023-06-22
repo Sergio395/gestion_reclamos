@@ -68,7 +68,8 @@ class RepitanciaFilter(django_filters.NumberFilter):
 
 
 class ReclamoFilter(django_filters.FilterSet):
-    """Conjunto de filtros personalizados para el modelo ReclamoModel.
+    """
+    Conjunto de filtros personalizados para el modelo ReclamoModel.
     """
     # fecha_creacion = django_filters.DateFilter(
         # widget=forms.DateInput(attrs=Styles.input_styles({'type': 'date'})))
