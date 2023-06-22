@@ -167,7 +167,6 @@ gestion_reclamos/
 │   └── __init__.py
 ├── db-definition/
 │   └── create-database.sql
-├── diagrams/
 ├── gestion_reclamos/
 │   ├── __init__.py
 │   ├── .env
@@ -208,14 +207,25 @@ gestion_reclamos/
 │   │   ├── footer.html
 │   │   └── index.html
 │   ├── gestion/
+│   │   ├── editar_prueba.html
 │   │   ├── gestion_editar_reclamo.html
 │   │   ├── gestion_editar.html
+│   │   ├── gestion_form.html
 │   │   ├── gestion_index.html
 │   │   ├── gestion_inicio.html
+│   │   ├── gestion_lista.html
 │   │   ├── gestion_nuevo.html
-│   │   └── gestion_prueba.html
+│   │   ├── gestion_prueba.html
+│   │   ├── gestioncbv_borrar.html
+│   │   ├── gestioncbv_detalle.html
+│   │   ├── gestioncbv_editar.html
+│   │   ├── gestioncbv_lista.html
+│   │   ├── gestioncbv_nuevo.html
+│   │   ├── gestionsolocbv_detalle.html
+│   │   └── inspeccioncbv_lista.html
 │   ├── inspeccion/
 │   │   ├── inspeccion_editar.html
+│   │   ├── inspeccion_form.html
 │   │   ├── inspeccion_index.html
 │   │   ├── inspeccion_listar.html
 │   │   ├── inspeccion_mostrar.html
@@ -227,8 +237,18 @@ gestion_reclamos/
 │   │   ├── reclamo_form.html
 │   │   └── reclamo_list.html
 │   └── registracion/
-│       ├── change_password.html
-│       └── login.html
+│       ├── _base_site.html
+│       ├── _base.html
+│       ├── _logged_out.html
+│       ├── _login.html
+│       ├── password_change_done.html
+│       ├── password_change_form.html
+│       ├── password_change.html
+│       ├── password_reset_complete.html
+│       ├── password_reset_confirm.html
+│       ├── password_reset_done.html
+│       ├── password_reset_email.html
+│       └── password_reset_form.html
 ├── .gitignore
 ├── manage.py
 ├── README.md
@@ -292,11 +312,19 @@ gestion_reclamos/
     >```text
     >SECRET_KEY = 'clave_del_entorno'
     >DEBUG = True
+    >
     >DATABASE_NAME = 'gestion_reclamos_db'
     >DATABASE_HOST = 'localhost'
     >DATABASE_PORT = ''
     >DATABASE_USER = 'nombre_de_usuario'
     >DATABASE_PASSWORD = 'password'
+    >
+    >EMAIL_HOST = 'smtp-relay.sendinblue.com'
+    >EMAIL_PORT = '587'
+    >EMAIL_USE_TLS = True
+    >EMAIL_HOST_USER = 'email'
+    >EMAIL_HOST_PASSWORD = 'password'
+    >RECIPIENT_ADDRESS = ''
     >````
 
 8. Crear las tablas de la base de datos
@@ -305,19 +333,19 @@ gestion_reclamos/
     >python manage.py migrate
     >````
 
-<!-- 9. Crear un usuario administrador
+9. Crear un usuario administrador
 
     >```bash
     >python manage.py createsuperuser
-    >```` -->
+    >````
 
-9. Ejecutar el servidor local
+10. Ejecutar el servidor local
 
     >```bash
     >python manage.py runserver
     >````
 
-10.  Acceder a <http://localhost:8000/> en el navegador
+11. Acceder a <http://localhost:8000/> en el navegador
 
 <!-- ## Ejecutando las pruebas
 
