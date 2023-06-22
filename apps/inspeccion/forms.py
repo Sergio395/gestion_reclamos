@@ -45,21 +45,22 @@ class InspeccionForm(forms.ModelForm):
 
 
 class ContactoForm(forms.Form):
-    # reclamo = (
-    #     (22, "00-283706-01 Arbol caido"),
-    #     (21, "01-293934-02 Arbol poda"),
-    #     (19, "00-297349-01 Arbol enfermo"),
-    #)
-    Denunciante = forms.CharField(label='Denunciante', max_length=50, widget=forms.TextInput(
+
+    asunto = forms.CharField()
+    denunciante = forms.CharField(label='Denunciante', max_length=50, widget=forms.TextInput(
         attrs={'placeholder': 'Ingrese su Apellido y Nombre', 'class': 'form-control', 'style': 'height: 2.5em;'}))
-    direccion = forms.CharField(label='Dirección', max_length=25, widget=forms.TextInput(
-        attrs={'placeholder': '¿Dónde vive?', 'class': 'form-control', 'style': 'height: 2.5em;'}))
-    reclamo = forms.ChoiceField(label='N°de Documento (DNI,CI,LE,Pasaporte)', widget=forms.TextInput(
+    # direccion = forms.CharField(label='Dirección', max_length=25, widget=forms.TextInput(
+    #     attrs={'placeholder': '¿Dónde vive?', 'class': 'form-control', 'style': 'height: 2.5em;'}))
+    documento = forms.CharField(label='N°de Documento (DNI,CI,LE,Pasaporte)', max_length=8, widget=forms.TextInput(
         attrs={'placeholder': 'Ingrese su Documento', 'class': 'form-control', 'style': 'height: 2.5em;'}))
-    nota = forms.CharField(label='Observaciones', widget=forms.Textarea(
+    email = forms.EmailField()
+    mensaje = forms.CharField(label='Mensaje', widget=forms.Textarea(
         attrs={'placeholder': 'Detalle el motivo de su denuncia', 'class': 'form-control', 'style': 'height: 5em;'}), required=False)
-    correo = forms.EmailField()
-    #     validators=[FotoPesoMaxValido(foto_max_peso=2)], required=False)
+    
+    
+    
+   
+    
 
 
 class NuevaInspeccion(forms.ModelForm):

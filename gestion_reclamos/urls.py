@@ -26,6 +26,7 @@ urlpatterns = [
     path('admin-django/', admin.site.urls),
 
     # Django Custom App Paths
+   
     path('', include('apps.base.urls')),
     path('reclamos/', include('apps.reclamos.urls')),
     path('inspeccion/',include('apps.inspeccion.urls')),

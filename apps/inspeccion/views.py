@@ -6,7 +6,8 @@ from django.http import HttpResponse
 from django.shortcuts import render,redirect
 from django.http import HttpResponseNotAllowed
 from .forms import ContactoForm, NuevaInspeccion, NuevaCertificacion, InspeccionForm
-
+from django.core.mail import send_mail
+from django.conf import settings
 from django.http import HttpResponseNotAllowed, HttpResponseRedirect
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -21,12 +22,25 @@ from django.contrib.auth.decorators import login_required
 from apps.inspeccion.models import Inspeccion 
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
+from django.core.mail import EmailMessage
 
 @login_required
 def db_inspeccion(request):
     inspeccionesRealizadas = Inspeccion.objects.all()
     return render (request, 'inspeccion/inspecciones.html',{'inspecciones':inspeccionesRealizadas  })
 
+
+@login_required 
+def correos(request):
+    if request.method=="POST":
+        subject=request.POST["asunto"]
+        message=request.POST["email"]
+        email_from=settings.EMAIL_HOST_USER
+        recipient_list=["sertol2019@gmail.com"]
+        send_mail(subject,message,email_from,recipient_list)
+        return render(request,"inspeccion/gracias.html")
+    return render(request, 'inspeccion/correos.html')
+ 
 @login_required    
 def carga_inspeccion(request):
     pass
@@ -34,25 +48,63 @@ def carga_inspeccion(request):
     # inspeccionesRealizadas = inspecciones.objects.all()
     # return render (request, 'inspeccion/inspecciones.html',{'inspecciones':inspeccionesRealizadas  })
     
-@login_required
+
 @login_required
 def inspeccion(request):
-    mensaje = None
-    if request.method == 'POST':
-        contacto_form = ContactoForm(request.POST)
-        mensaje = 'Tus datos están Ok'
-    # acción para tomar los datos del formulario
-    elif request.method == 'GET':
-        contacto_form = ContactoForm()
-    else:
-        return HttpResponseNotAllowed(f"Método {request.method} no soportado")
+    contacto_form =ContactoForm()
+    if request.method == "POST":
+        contacto_form =ContactoForm(data=request.POST)
+        if contacto_form.is_valid():
+            asunto=request.POST.get("asunto")
+            denunciante=request.POST.get("denunciante")
+            documento=request.POST.get("documento")
+            email=request.POST.get("email")
+            mensaje=request.POST.get("mensaje")
+            email=EmailMessage("Municipalidad Django Gestion Reclamos",
+            "Asunto: {} ,el denunciante: {} con documento: {}, su correo: {}. El mensaje es: {}".format(asunto,denunciante,documento,email,mensaje),
+            '',
+            ['tolser2019@gmail.com'],
+            reply_to=[email])
+            try:
+                email.send()
+                return redirect("/inspeccion/inspeccion/?valido")
+            
+                print("Reclamo enviado con éxito")
+            except:
+                return redirect("/inspeccion/inspeccion/?novalido")
+                messages.warning(request, 'Reclamo no enviado: Enviar nuevamnete')
+        #     infFormi = contacto_form .cleaned_data
+        #     send_mail(infFormi['asunto'], infFormi['denunciante'],
+        #     infFormi['direccion'],infFormi['mensaje'],
+        #     infFormi.get('email',''),['tolser2019@gmail.com'],)
+    #         return render(request, 'inspeccion/Gracias.html')
+    # else:
+    #     contacto_form =ContactoForm()
+    
+    return render(request, 'inspeccion/inspeccion_index.html',{'formic':contacto_form }) 
+ 
 
-    context = {
-        'mensaje': mensaje,
-        'contacto_form': contacto_form
-    }
 
-    return render(request, 'inspeccion/inspeccion_index.html', context)
+
+
+
+     
+    # mensaje = None
+    # if request.method == 'POST':
+    #     contacto_form = ContactoForm(request.POST)
+    #     mensaje = 'Tus datos están Ok'
+    # # acción para tomar los datos del formulario
+    # elif request.method == 'GET':
+    #     contacto_form = ContactoForm()
+    # else:
+    #     return HttpResponseNotAllowed(f"Método {request.method} no soportado")
+
+    # context = {
+    #     'mensaje': mensaje,
+    #     'contacto_form': contacto_form
+    # }
+
+    # return render(request, 'inspeccion/inspeccion_index.html', context)
 
 
 
@@ -191,9 +243,7 @@ def inspeccion_form(request):
             data['mensaje'] = "Envío inválido, revisar"
     
     return render(request,'inspeccion/inspeccion_form.html',data)
- 
- 
- 
+
  
  
  

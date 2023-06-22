@@ -32,12 +32,12 @@
         {% comment %} <div class="col-lg-2"> {% endcomment %}
 
 
-          {% comment %} <form id="formi" name="formi" action="{% url 'index_inspeccion' %}" method="POST"> {% endcomment %}
-            {% comment %} {% csrf_token %} {% endcomment %}
+            <form id="formic" name="formic" action="{% url 'inspeccion_index' %}" method="POST">
+            {% csrf_token %}
 
 
             <table>
-              {{ contacto_form.as_table }}
+              {{ formic.as_table }}
             </table>
             {% comment %} <div class="row">
               {% for campo in contacto_form %}
