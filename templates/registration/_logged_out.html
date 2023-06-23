@@ -10,7 +10,8 @@
     .btn-login {
       background: #008374;
       border: 0;
-      padding: 14px 45px;
+      margin-top: 50px;
+      padding: 15px 50px;
       color: #fff;
       transition: 0.4s;
       border-radius: 0.375rem;
@@ -25,9 +26,11 @@
       <div class="container" data-aos="fade-up">
         <div class="row gx-lg-0 gy-4">
           <div class="col-lg-2"></div>
-          <h2>Sesión cerrada exitosamente</h2>
+          <h4>Sesión cerrada exitosamente</h4>
+          <hr>
+          <h2>Gracias por utilizar Sistema Gestion de Reclamos</h2>
           <div class="col-lg-8">
-            <div class="col-md-12">
+            
               {% for message in messages %}
                   <div class="alert alert-{{ message.tags }}" role="alert">
                       {{message}}
@@ -40,47 +43,15 @@
                       </div>
                   {% endfor %}
               {% endif %}
+              <br>
+              <div class="php-email-form">
+              <div class="text-center col-md-12 form-group mt-3 mt-md-0">
+                <h4>Volver a ingresar</h4>
+                <a class="btn-login" type="button" rol="link" href="{% url 'login' %}">
+                  Inicio
+                </a>
+              </div>
             </div>
-            <form action="" method="post" role="form" class="php-email-form" >
-              {% csrf_token %}
-
-              <h4>Login</h4>
-              <hr />
-              <div class="row">
-                <div class="col-md-6 form-group mb-1">
-                  <label class="form-label" for="form3Example3">Nombre de usuario</label>
-                  <input type="text" id="{{ form.username.auto_id }}" name="{{ form.username.name }}" class="form-control" value="{{ form.username.value | default:'' }}" placeholder="Ingresa el nombre de usuario"
-                    required />
-                </div>
-              </div>
-              <div class="error">{{form.username.errors}}</div>
-              <div class="row">
-                <div class="col-md-6 form-group mb-1">
-                  <label class="form-label" for="form3Example4">Contraseña</label>
-                  <input type="password" class="form-control" id="{{ form.password.auto_id }}" name="{{ form.password.name }}" placeholder="Ingresa la contraseña" value="{{ form.password.value | default:'' }}"
-                    required />
-                </div>
-              </div>
-              <div class="error">{{form.password.errors}}</div>
-              <!-- <div class="row">
-                <div class="col-md-6 form-group mb-1">
-                  <input type="check" class="form-control" name="session" id="check" />
-                </div>
-              </div> -->
-              <br />
-              <div class="row">
-                <div class="text-center col-md-4 form-group mt-3 mt-md-0">
-                  <button class="btn-login" style="border-radius: 0.375rem" type="submit">
-                    Iniciar sesión
-                  </button>
-                </div>
-                <div class="text-center col-md-4 form-group mt-3 mt-md-0">
-                  <a class="btn-login" type="button" rol="link" href="{% url 'password_reset' %}">
-                    Recuperar contraseña
-                  </a>
-                </div>
-              </div>
-            </form>
           </div>
         </div>
       </div>

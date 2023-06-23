@@ -207,7 +207,8 @@ class BusquedaGestionForm(forms.Form):
             attrs={
                 'placeholder': 'Texto a buscar en criterio 1',
                 'class': 'form-control', 
-                'style': 'height: 2.5em'}),
+                'style': 'height: 2.5em',
+                'name': 'c1_v'}),
             required=False)
     criterio1_campo = forms.ChoiceField(
         label='Campo', 
@@ -215,7 +216,8 @@ class BusquedaGestionForm(forms.Form):
             attrs={
                 'placeholder': 'Campo a filtrar', 
                 'class': 'form-control-desplegable mx-auto', 
-                'style': 'height: 2.5em'}), 
+                'style': 'height: 2.5em',
+                'name': 'c1_c'}), 
             choices=campos)
     
     criterio2_valor = forms.CharField( 
@@ -224,7 +226,8 @@ class BusquedaGestionForm(forms.Form):
             attrs={
                 'placeholder': 'Texto a buscar en criterio 2',
                 'class': 'form-control mx-auto', 
-                'style': 'height: 2.5em'}),
+                'style': 'height: 2.5em',
+                'name': 'c2_v'}),
                 required=False)
     criterio2_campo = forms.ChoiceField(
         label='Campo', 
@@ -232,7 +235,8 @@ class BusquedaGestionForm(forms.Form):
             attrs={
                 'placeholder': 'Campo a filtrar', 
                 'class': 'form-control-desplegable mx-auto', 
-                'style': 'height: 2.5em'}), 
+                'style': 'height: 2.5em',
+                'name': 'c2_c'}), 
             choices=campos)
     
     criterio3_valor = forms.CharField( 
@@ -241,7 +245,8 @@ class BusquedaGestionForm(forms.Form):
             attrs={
                 'placeholder': 'Texto a buscar en criterio 3',
                 'class': 'form-control mx-auto', 
-                'style': 'height: 2.5em'}),
+                'style': 'height: 2.5em',
+                'name': 'c3_v'}),
                 required=False)
     criterio3_campo = forms.ChoiceField(
         label='Campo', 
@@ -249,7 +254,8 @@ class BusquedaGestionForm(forms.Form):
             attrs={
                 'placeholder': 'Campo a filtrar', 
                 'class': 'form-control-desplegable mx-auto', 
-                'style': 'height: 2.5em'}), 
+                'style': 'height: 2.5em',
+                'name': 'c3_c'}), 
             choices=campos)
 
     criterio4_valor = forms.DateField(
@@ -257,7 +263,8 @@ class BusquedaGestionForm(forms.Form):
             attrs={
                 'type': 'date', 
                 'class': 'form-control mx-auto', 
-                'style': 'height: 2.5em'}),
+                'style': 'height: 2.5em',
+                'name': 'c4_v'}),
                 required=False)
     criterio4_campo = forms.ChoiceField(
         label='Fecha a buscar', 
@@ -265,7 +272,8 @@ class BusquedaGestionForm(forms.Form):
             attrs={
                 'placeholder': 'Fecha a filtrar', 
                 'class': 'form-control-desplegable mx-auto', 
-                'style': 'height: 2.5em'}), 
+                'style': 'height: 2.5em',
+                'name': 'c4_c'}), 
             choices=fechas)
 
 # class GesContacto(forms.Form):

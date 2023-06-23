@@ -31,7 +31,7 @@
       background: Turquoise;
     }
     button#btn-button {
-      background: Crimson;
+      background: #008375;
       border: 0;
       padding: 14px 45px;
       color: #fff;
@@ -128,7 +128,7 @@
             <br>
             <div class="input-group-append">
               <a class="btn btn-secondary" type="button" href="javascript:history.back()">Volver</a>
-              <a class="btn btn-danger" type="button" href="{{ url_reclamo }}">Editar</a>
+              <a class="btn btn-success" type="button" href="#">Editar</a>
             </div>
             <br>
             <br>
@@ -141,11 +141,11 @@
               <table>
               {{ inspeccion_form.as_table }}
               </table>
-            <br>
             </div>
+            <br>
             <div class="input-group-append">
               <a class="btn btn-secondary" type="button" href="javascript:history.back()">Volver</a>
-              <a class="btn btn-danger" type="button" href="{{ url_inspeccion }}">Editar</a>
+              <a class="btn btn-success" type="button" href="#">Editar</a>
             </div>
             <br>
             <br>
@@ -162,7 +162,7 @@
             <br>
             <div class="input-group-append">
               <a class="btn btn-secondary" type="button" href="javascript:history.back()">Volver</a>
-              <a class="btn btn-danger" type="button" href="{{ 'url_gestion' }}">Editar</a>
+              <a href="{% url 'gestioncbv_editar' object.id %}" class="btn btn-success" role="button">Editar</a>
             </div>
           </form>
         </div>
