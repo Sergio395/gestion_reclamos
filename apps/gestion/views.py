@@ -267,15 +267,6 @@ class GestionDetailView(DetailView):
         context['reclamo_form'] = ReclamoForm(instance=reclamo)
         context['inspeccion_form'] = NuevaInspeccion(instance=inspecciones)
         context['gestion_form'] = GestionForm(instance=gestion)
-        # Paso las rutas de edición y sus id
-        context['url_reclamo'] = "{% url'editar_reclamo'{reclamo.id } %}"
-        context['url_inspeccion'] = "{% url'inspeccion' {inspeccion.id} %}"
-        context['url_gestion'] = "{% url'gestioncbv_editar' {gestion.id} %}"
-        # el reto de variables de contexto
-        # context['calle0'] = reclamo.calle
-        # context['calle1'] = reclamo.entre_calle_1
-        # context['calle2'] = reclamo.entre_calle_2
-        # context['action_url'] = 'gestioncbv_detalle'
         context['accion'] = 'actualizar'
         return context
 
