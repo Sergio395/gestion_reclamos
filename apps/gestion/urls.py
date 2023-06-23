@@ -14,7 +14,7 @@ urlpatterns = [
     
     # -- CBV --
     path('', views.GestionListView.as_view(), name='gestion'),
-    path('cbvlista/', views.GestionListView.as_view(), name='gestioncbv_lista'),
+    path('cbvlista/', views.GestionListView2.as_view(), name='gestioncbv_lista'),
     path('cbvinspeccionlista/', views.InspeccionListView.as_view(), name='inspeccioncbv_lista'),
     path('cbvnuevo/', views.GestionCreateView.as_view(), name='gestioncbv_nuevo'),
     path('cbvdetalle/<int:pk>/', views.GestionDetailView.as_view(), name='gestioncbv_detalle'),

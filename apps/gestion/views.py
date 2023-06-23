@@ -193,6 +193,71 @@ class GestionListView(ListView):
         messages.error(self.request, 'Revisa los campos del formulario')
         return self.render_to_response(self.get_context_data(busqueda_form)) 
 
+#------------Robandole a Cristian (Gracias!!)-----
+
+class GestionListView2(ListView):
+    """Vista para mostrar una lista de Gestion.
+
+    Muestra una lista de gestion que no han sido eliminados.
+    """
+    model = GestionModel
+    template_name = 'gestion/gestioncbv_lista.html'
+    # context_object_name = 'relaciones'
+    queryset = GestionModel.objects.filter(eliminado=False)
+    paginate_by = 10
+    ordering = ['id']
+
+    def get_queryset(self):
+        """Obtiene el conjunto de consultas (queryset) para la vista.
+
+        Recupera los datos del filtro pasados por contexto.
+        """
+        queryset = super().get_queryset()
+        c1_c = self.request.GET.get('criterio1_campo', 'none')
+        c1_v = self.request.GET.get('criterio1_valor', 'none')
+        c2_c = self.request.GET.get('criterio2_campo', 'none')
+        c2_v = self.request.GET.get('criterio2_valor', 'none')
+        c3_c = self.request.GET.get('criterio3_campo', 'none')
+        c3_v = self.request.GET.get('criterio3_valor', 'none')
+        c4_c = self.request.GET.get('criterio4_campo', 'none')
+        c4_v = self.request.GET.get('criterio4_valor', 'none')
+
+        # verifico si existen y arma el diccionario de fitro
+        filtro = {'eliminado':False}
+    
+        if c1_c != 'none':
+            filtro[c1_c] = c1_v
+        if c2_c != 'none':
+            filtro[c2_c] = c2_v
+        if c3_c != 'none':
+            filtro[c3_c] = c3_v
+        if c4_c != 'none':
+            filtro[c4_c] = c4_v.strftime('%Y-%m-%d')
+        return queryset.filter(**filtro)
+
+    def get_context_data(self, **kwargs):
+        """Obtiene los datos del contexto para la vista.
+
+        Retorna el contexto actualizado con las relaciones reclamo-denunciante.
+        """
+        context = super().get_context_data(**kwargs)
+        context['form_busqueda'] = BusquedaGestionForm(self.request.GET or None)
+        
+        return context
+
+    # def get(self, request, *args, **kwargs):
+    #     """Maneja la solicitud GET para la vista.
+
+    #     Si se proporciona el parámetro 'reset_filters' en la URL, redirecciona a la URL de la vista sin los parámetros de filtro.
+    #     De lo contrario, retorna la página de creación de reclamo con los campos de formulario vacíos.
+    #     """
+    #     # if 'reset_filters' in request.GET:
+    #     #     # Redireccionar a la URL de la vista sin los parámetros de filtro
+    #     #     return HttpResponseRedirect(reverse('gestion'))
+    #     return super().get(request, *args, **kwargs)
+    
+#---------------- Fin de Robo --------
+
 @method_decorator([login_required, group_required(*AUTORIZED_GROUPS)], name='dispatch')
 class InspeccionListView(ListView):
     '''
