@@ -3,9 +3,7 @@ from . import views
 
 
 urlpatterns = [
-    # path('', views.gestion_index, name='gestion'),
-    # path('', views.gestion_index, name='gestion_index'),
-
+   
     # -- FBV --
     path('nuevo/', views.gestion_nuevo, name='gestion_nuevo'),
     path('buscar/', views.gestion_buscar, name='gestion_buscar'),
@@ -19,7 +17,5 @@ urlpatterns = [
     path('cbvnuevo/', views.GestionCreateView.as_view(), name='gestioncbv_nuevo'),
     path('cbvdetalle/<int:pk>/', views.GestionDetailView.as_view(), name='gestioncbv_detalle'),
     path('cbveditar/<int:pk>/', views.GestionSoloUpdateView.as_view(), name='gestioncbv_editar'),
-    # path('cbvcompletoeditar/<int:pk>/', views.GestionCompletoUpdateView.as_view(), name='gestioncompletocbv_editar'),
     path('cbvborrar/<int:pk>/', views.GestionDeleteView.as_view(), name='gestioncbv_borrar'),
-    
 ]
