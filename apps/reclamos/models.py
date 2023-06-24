@@ -4,6 +4,8 @@ from django.utils.translation import gettext_lazy as _
 from ..base.constants import choices, calles_choices
 
 
+# * ==================== DENUNCIANTE MODEL ==================== *
+
 class DenuncianteModel(models.Model):
     """Modelo que representa a la persona que realizó un reclamo.
 
@@ -57,6 +59,8 @@ class DenuncianteModel(models.Model):
         """
         return f"{self.dni} - {self.apellido}, {self.nombre}"
 
+
+# * ==================== RECLAMO MODEL ==================== *
 
 class ReclamoModel(models.Model):
     """ Modelo que representa un reclamo realizado por un denunciante.

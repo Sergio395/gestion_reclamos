@@ -3,34 +3,12 @@ from django import forms
 from django.core import validators
 
 from .models import ReclamoModel, DenuncianteModel
+from .utils.styles_input import Styles
 from ..base.constants import choices, calles_choices
+from .utils.validations import validate_only_alphabetic
 
 
-def validate_only_alphabetic(value):
-    """
-    Valida que el valor recibido contenga solo letras del alfabeto.
-    """
-    if not value.isalpha():
-        raise forms.ValidationError('Este campo solo debe contener letras.')
-
-
-class Styles:
-    """
-    Clase de utilidad para personalizar los atributos de widget para el formulario.
-    """
-    @staticmethod
-    def input_styles(attrs):
-        """Devuelve un diccionario de atributos con valores por defecto.
-
-        Recibe un diccionario con los atributos y valores personalizados del campo y actualiza los valores por defecto del diccionario 'default_attrs' para devolverlos como un diccionario único.
-        """
-        default_attrs = {
-            'class': 'form-control',
-            'style': 'border-radius: .375rem; height: 35px;'
-        }
-        default_attrs.update(attrs)
-        return default_attrs
-
+# * ==================== RECLAMO FORM ==================== *
 
 class ReclamoForm(forms.ModelForm):
     """
@@ -91,6 +69,8 @@ class ReclamoForm(forms.ModelForm):
         }))
         self.fields['detalle'].validators.append(validators.MinLengthValidator(10))
 
+
+# * ==================== DENUNCIANTE FORM ==================== *
 
 class DenuncianteForm(forms.ModelForm):
     """

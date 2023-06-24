@@ -3,7 +3,7 @@ from django import forms
 from django.db.models import Q
 
 from ..models import ReclamoModel
-from ..forms import Styles
+from .styles_input import Styles
 from ...base.constants import choices, calles_choices
 
 

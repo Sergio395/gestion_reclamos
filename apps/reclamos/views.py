@@ -1,6 +1,5 @@
 # from datetime import datetime
 from django.views.generic import edit, ListView, UpdateView
-from django.http import HttpResponseRedirect
 from django.core.paginator import Paginator
 from django.contrib import messages
 
@@ -8,7 +7,6 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.utils.html import format_html
 from django.core.mail import send_mail
-from django.urls import reverse
 
 from decouple import config
 from django.urls import reverse_lazy
@@ -25,7 +23,7 @@ from ..base.utils.decorators import group_required
 AUTORIZED_GROUPS = 'operador', 'inspector', 'gestor', 'administrador'
 
 
-# * ==================== RECLAMO CREATE VIEW ====================
+# * ==================== RECLAMO CREATE VIEW ==================== *
 
 @method_decorator([login_required, group_required(*AUTORIZED_GROUPS)], name='dispatch')
 class ReclamoCreateView(edit.CreateView):
@@ -140,7 +138,7 @@ class ReclamoCreateView(edit.CreateView):
             'reclamo_form': reclamo_form, 'denunciante_form': denunciante_form})
 
 
-# * ==================== RECLAMO LIST VIEW ====================
+# * ==================== RECLAMO LIST VIEW ==================== *
 
 @method_decorator([login_required, group_required(*AUTORIZED_GROUPS)], name='dispatch')
 class ReclamoListView(ListView):
@@ -153,7 +151,7 @@ class ReclamoListView(ListView):
     template_name = 'reclamos/reclamo_list.html'
     context_object_name = 'relaciones'
     queryset = ReclamoModel.objects.filter(eliminado=False)
-    paginate_by = 6
+    paginate_by = 10
     ordering = ['numero', '-repitancia']
 
     def get_queryset(self):
@@ -250,11 +248,11 @@ class ReclamoListView(ListView):
         """
         if 'reset_filters' in request.GET:
             # Redireccionar a la URL de la vista sin los parámetros de filtro
-            return HttpResponseRedirect(reverse('seguimiento'))
+            return reverse_lazy('seguimiento')
         return super().get(request, *args, **kwargs)
 
 
-# * ==================== RECLAMO UPDATE VIEW ====================
+# * ==================== RECLAMO UPDATE VIEW ==================== *
 
 @method_decorator([login_required, group_required(*AUTORIZED_GROUPS)], name='dispatch')
 class ReclamoUpdateView(UpdateView):
@@ -323,7 +321,7 @@ class ReclamoUpdateView(UpdateView):
             reclamo_form=reclamo_form, denunciante_form=denunciante_form))
 
 
-# * ==================== RECLAMO DELETE ====================
+# * ==================== RECLAMO DELETE ==================== *
 
 @login_required
 @group_required(*AUTORIZED_GROUPS)
