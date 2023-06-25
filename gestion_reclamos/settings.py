@@ -159,9 +159,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = '/media/'
 
 # Path where media is stored
-#MEDIA_ROOT = BASE_DIR / 'media'
-import os
-MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+MEDIA_ROOT = BASE_DIR / 'media'
 
 
 # Send email
@@ -187,4 +185,4 @@ RECIPIENT_ADDRESS = config("RECIPIENT_ADDRESS")
 
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = "index"
-LOGOUT_REDIRECT_URL = 'logout-page'
+# LOGOUT_REDIRECT_URL = 'logout'

@@ -19,7 +19,7 @@
 <!-- End Breadcrumbs -->
 
 {% block contenido %}
-  {% include 'base/base_filters.html' %}
+  {% comment %} {% include 'base/base_filters.html' %} {% endcomment %}
   {% load custom_filters %}
   <div class="table-responsive" style="margin: 0 20px;">
     {% if messages %}

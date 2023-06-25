@@ -145,7 +145,10 @@ gestion_reclamos/
 │   │   │   └── custom_filters.py
 │   │   ├── utils/
 │   │   │   ├── __init__.py
-│   │   │   └── signals.py
+│   │   │   ├── log_filters.py
+│   │   │   ├── signals.py
+│   │   │   ├── styles_input.py
+│   │   │   └── validators.py
 │   │   ├── __init__.py
 │   │   ├── admin.py
 │   │   ├── apps.py
@@ -241,14 +244,14 @@ gestion_reclamos/
 │       ├── _base.html
 │       ├── _logged_out.html
 │       ├── _login.html
-│       ├── password_change_done.html
-│       ├── password_change_form.html
-│       ├── password_change.html
-│       ├── password_reset_complete.html
-│       ├── password_reset_confirm.html
-│       ├── password_reset_done.html
-│       ├── password_reset_email.html
-│       └── password_reset_form.html
+│       ├── _password_change_done.html
+│       ├── _password_change_form.html
+│       ├── _password_change.html
+│       ├── _password_reset_complete.html
+│       ├── _password_reset_confirm.html
+│       ├── _password_reset_done.html
+│       ├── _password_reset_email.html
+│       └── _password_reset_form.html
 ├── .gitignore
 ├── manage.py
 ├── README.md
