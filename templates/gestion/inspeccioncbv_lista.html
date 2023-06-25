@@ -63,7 +63,7 @@
           <div class="mb-3">
             <div class="contenedor-titulos">
             <h2>Buscar en Inspección</h2>
-            <a href="{% url 'gestion' %}" class="btn btn-outline-success btn-lg" role="button">Gestion</a>
+            <a href="{% url 'gestion' %}" class="btn btn-outline-success btn-lg" role="button">Gestión</a>
             </div>
             <hr>
           </div>
@@ -209,33 +209,12 @@
     </div>
 
       <!-- pagination -->
-      <!-- <div class="pagination">
-        <span class="step-links">
-            {% if page_obj.has_previous %}
-                <a href="?page=1">&laquo; first</a>
-                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-            {% endif %}
-    
-            <span class="current">
-                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-            </span>
-    
-            {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}">next</a>
-                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-            {% endif %}
-        </span>
-    </div> -->
-      <!-- Ejemplo-->
+      <br>
       <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
-          <li class="page-item disabled">
-            <a class="page-link" href="#" tabindex="-1">Anterior</a></li>
             {% if page_obj.has_previous %}
               <li class="page-item">
-                <a class="page-link" tabindex="-1" href="?page=1"> 1</a></li>
-              <li class="page-item">
-                <a href="?page={{ page_obj.previous_page_number }}">Anterior</a></li>
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Anterior</a></li>
             {% endif %}
               <li class="page-item">
                 <a class="page-link" href="#">{{ page_obj.number }}</a></li>
